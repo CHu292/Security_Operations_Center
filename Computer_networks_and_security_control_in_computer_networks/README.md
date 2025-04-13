@@ -10,7 +10,7 @@
 - Lab1: Quét và phân tích lưu lượng mạng
 - Lab2: Bảo mật lớp liên kết
 - Lab3: Thiết lập tường lửa
-- [Lab4: Tunneling protocols (Giao thức tầng hầm)]()
+- [Lab4: Tunneling protocols (Giao thức tầng hầm)](./Lab_4_Tunneling_protocols/)
 - Lab5: 
 
 
