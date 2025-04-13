@@ -24,6 +24,11 @@ pip3 install gns3-gui
 -  [IOS và IOU](https://github.com/obscur95/gns3-server/tree/master/IOS)
 -  [pfSense](https://github.com/CloudSentralDotNet/iso_pfsense/releases)
 
+---
+
+- [Mạng cho người mới](https://linkmeup.gitbook.io/sdsm)
+- [Tài liệu hướng dẫn GNS3](https://docs.gns3.com/docs/)
+
 # Phần 2: Lab
 - Lab1: Quét và phân tích lưu lượng mạng
 - Lab2: Bảo mật lớp liên kết
