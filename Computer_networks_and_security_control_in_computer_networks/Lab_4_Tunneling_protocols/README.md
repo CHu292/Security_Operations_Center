@@ -18,11 +18,7 @@ Tìm hiểu các giao thức tạo đường hầm chính thông qua ví dụ c�
 
 ## Các tham số cấu hình đường hầm (được giảng viên phân công riêng)
 
-### IPSEC
-- AH + ESP
-- Key exchange protocol – IKE v2
-- Mode of operation – Tunneling
-- Authentication – Preshared key
+-  Sử dung Cisco và  Pfsense
 
 ### Phase 1 (ISAKMP)  
 - Exchange type  Main mode
