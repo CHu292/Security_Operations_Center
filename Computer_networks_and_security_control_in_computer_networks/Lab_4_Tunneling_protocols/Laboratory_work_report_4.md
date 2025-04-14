@@ -1,6 +1,4 @@
-# 🧱 PHẦN 1 – CHUẨN BỊ
-
-# Cài đặt pfSense 
+# 🧱 PHẦN 1 –  Cài đặt pfSense 
 
 - Tải file iso của pfSense [tại đây](https://github.com/CloudSentralDotNet/iso_pfsense/releases)
 
@@ -140,20 +138,24 @@ Available interfaces:
 
 → Nhập: `2` → nhấn `Enter`
 
----
 
-### 🟢 **Bước 3:** Nhập IP cho LAN
+ 🟢 **Bước 3:** Nhập IP cho LAN
 
 - **IP address:** `10.10.10.1`
 - **Subnet bit count:** `24`
+
+![](./img/huongdancaidat_pfSense/9.png)
+
 - **Upstream Gateway:** để trống → nhấn `Enter`
 - **IPv6:** chọn `n`
 - **Enable DHCP server on LAN?** chọn `n` (sẽ cấu hình sau trên GUI)
 - **Do you want to revert to HTTP?** chọn `n` (giữ HTTPS)
 
----
+Sau khi thiết lập thành công nó sẽ như sau:
 
-## ✅ Sau khi hoàn tất:
+![](./img/huongdancaidat_pfSense/10.png)
+
+
 - Bạn sẽ thấy địa chỉ LAN đã là: `10.10.10.1/24`
 - Từ bây giờ, có thể dùng trình duyệt ở máy `ClientVM` (trong mạng LAN) để truy cập:
 
