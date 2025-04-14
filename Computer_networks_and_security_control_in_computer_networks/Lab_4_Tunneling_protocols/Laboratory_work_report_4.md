@@ -118,6 +118,55 @@ Sau đó mở lại :
 
 Sau khi reboot, pfSense sẽ khởi động vào hệ thống thật → bạn có thể bắt đầu thiết lập địa chỉ IP và giao diện WAN/LAN như mình đã hướng dẫn ở phần đầu.
 
+## ✅ **Bước 4: Đặt lại địa chỉ IP LAN**'
+
+![](./img/huongdancaidat_pfSense/8.png)
+
+Hiện tại LAN đang là: `192.168.1.1/24`  
+→ Bạn nên **đổi thành `10.10.10.1/24`** để dễ thiết lập mô hình sau này 
+
+🟢 **Bước 1:** Nhập số `2` (Set interface(s) IP address) → nhấn `Enter`
+
+🟢 **Bước 2:** Chọn interface LAN
+
+Ở màn hình tiếp theo, pfSense sẽ hỏi bạn chọn giao diện để cấu hình IP.
+
+Bạn sẽ thấy:
+```
+Available interfaces:
+ 1 - em0 (WAN)
+ 2 - em1 (LAN)
+```
+
+→ Nhập: `2` → nhấn `Enter`
+
+---
+
+### 🟢 **Bước 3:** Nhập IP cho LAN
+
+- **IP address:** `10.10.10.1`
+- **Subnet bit count:** `24`
+- **Upstream Gateway:** để trống → nhấn `Enter`
+- **IPv6:** chọn `n`
+- **Enable DHCP server on LAN?** chọn `n` (sẽ cấu hình sau trên GUI)
+- **Do you want to revert to HTTP?** chọn `n` (giữ HTTPS)
+
+---
+
+## ✅ Sau khi hoàn tất:
+- Bạn sẽ thấy địa chỉ LAN đã là: `10.10.10.1/24`
+- Từ bây giờ, có thể dùng trình duyệt ở máy `ClientVM` (trong mạng LAN) để truy cập:
+
+```
+https://10.10.10.1
+```
+
+> Tên đăng nhập mặc định:
+> - **Username:** `admin`
+> - **Password:** `pfsense`
+
+---
+
 
 # 🏗️ PHẦN 2 – TẠO MÔ HÌNH TRONG GNS3
 
