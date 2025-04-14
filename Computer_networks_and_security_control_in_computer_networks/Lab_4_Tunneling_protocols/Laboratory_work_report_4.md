@@ -86,6 +86,38 @@
 
 - sau đó nhấn ok để cài đặt
 
+5. Reboot
+
+⚠️ Trước khi reboot:
+
+**Phải tháo file ISO cài đặt ra khỏi máy ảo** nếu không nó sẽ khởi động lại vào trình cài đặt!
+
+**Cách tháo ISO:**
+
+1. Tắt máy ảo nếu đang chạy
+2. Vào **Settings > Storage**
+3. Chọn dòng chứa file `.iso` dưới `Controller: IDE`
+4. Nhấn biểu tượng đĩa CD bên phải → Chọn **Remove Disk from Virtual Drive**
+5. Bấm OK
+
+🔴 KHÔNG được xóa file .vdi!
+
+File .vdi là ổ cứng ảo chính của máy pfSense (nơi chứa toàn bộ hệ điều hành bạn vừa cài).
+
+Nếu bạn xóa nó, pfSense sẽ không còn hệ điều hành để khởi động → bạn sẽ phải cài lại từ đầu.
+
+Sau đó mở lại :
+
+- **Gõ:** `exit`
+- Sau đó nhấn **Enter**
+
+💡 Sau khi bạn gõ `exit`:
+1. Bạn sẽ quay về menu chính
+2. Chọn **`Reboot`** để khởi động lại hệ thống
+
+
+Sau khi reboot, pfSense sẽ khởi động vào hệ thống thật → bạn có thể bắt đầu thiết lập địa chỉ IP và giao diện WAN/LAN như mình đã hướng dẫn ở phần đầu.
+
 
 # 🏗️ PHẦN 2 – TẠO MÔ HÌNH TRONG GNS3
 
