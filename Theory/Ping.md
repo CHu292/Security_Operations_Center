@@ -7,9 +7,7 @@
 
 Ví dụ:
 
-<p align="center">
-  <img src="https://github.com/CHu292/SOC/blob/main/Terminology/img/Ping/ping.png" alt="Ping" width="1000">
-</p>
+![ping](./img/Ping/ping.png)
 
 ```64 bytes from lt-in-f102.1e100.net (108.177.14.102): icmp_seq=1 ttl=109 time=6.17 ms```
 
@@ -28,8 +26,7 @@ Ví dụ:
 - Ping có thể được thực hiện với các thiết bị trên mạng, chẳng hạn như mạng gia đình của bạn hoặc các tài nguyên như trang web. Công cụ này có thể dễ dàng sử dụng và được cài đặt trên  Operating Systems  (OSs) như Linux và Windows
 - Cú pháp: ```ping IP address or website URL```
 
-<p align="center">
-  <img src="https://github.com/CHu292/SOC/blob/main/Terminology/img/Ping/Ping_2.png" alt="Ping" width="1000">
-</p>
+[](./img/Ping/Ping_2.png)
 
 - Ở đây chúng ta đang ping một thiết bị có địa chỉ riêng là 192.168.1.254. Ping thông báo cho chúng tôi rằng chúng tôi đã gửi sáu gói ICMP, tất cả đều được nhận với thời gian trung bình là 4,16 mili giây
+

@@ -3,16 +3,12 @@
 - User Agent là một phần quan trọng của giao thức HTTP mà trình duyệt gửi đến máy chủ web khi bạn truy cập vào một trang web. Được coi như một “bản thông tin cá nhân” của trình duyệt và thiết bị, User Agent cung cấp cho máy chủ web thông tin cụ thể về môi trường truy cập của người dùng.
 - Ngoài tên và phiên bản của trình duyệt, hệ điều hành và loại thiết bị, User Agent cũng có thể bao gồm thông tin về các tính năng hỗ trợ như ngôn ngữ ưa thích, độ phân giải màn hình hay các plugin được cài đặt trên trình duyệt. Nhờ vào thông tin này, máy chủ web có thể tùy chỉnh trải nghiệm trực tuyến cho từng người dùng, cung cấp nội dung cùng giao diện phù hợp với thiết bị và trình duyệt của họ.
 
-<p align="center">
-  <img src="https://github.com/CHu292/SOC/blob/main/Terminology/img/User_Agent/1.png" alt="1" width="1000">
-</p>
+[](./img/User_Agent/1.png)
 
 - Một ví dụ điển hình của việc sử dụng User Agent là khi một trang web hiển thị một phiên bản tối ưu hóa cho điện thoại di động, khi bạn truy cập từ một điện thoại thông minh, nhưng sẽ hiển thị một giao diện máy tính để bàn khi bạn truy cập từ máy tính.
 - Ngoài ra, thông tin từ User Agent cũng có thể được sử dụng cho mục đích phân tích thống kê truy cập, đánh giá hiệu suất và tương thích của trang web trên các trình duyệt hay thiết bị khác nhau. Điều này sẽ giúp các nhà phát triển web hiểu rõ hơn về người dùng của họ, từ đó cung cấp trải nghiệm trực tuyến tốt nhất cho mọi người.
 
-<p align="center">
-  <img src="https://github.com/CHu292/SOC/blob/main/Terminology/img/User_Agent/2.png" alt="2" width="1000">
-</p>
+[](./img/User_Agent/2.png)
 
 # Ví dụ về chuỗi User Agent
 
@@ -61,24 +57,18 @@
   - Bước 3: Trong menu xuất hiện, di chuột xuống More Tools và chọn Developer Tools.
   - Bước 4: Hoặc bạn cũng có thể nhấn tổ hợp phím Ctrl + Shift + I trên bàn phím của bạn để mở Developer Tools.
 
-<p align="center">
-  <img src="https://github.com/CHu292/SOC/blob/main/Terminology/img/User_Agent/3.jpg" alt="3" width="1000">
-</p>
+[](./img/User_Agent/3.jpg)
 
   - Bước 5: Trong Developer Tools, di chuột đến tab Console ở phía trên của cửa sổ.
   - Bước 6: Nếu bạn không thấy tab Console, hãy nhấp vào biểu tượng menu ở góc trên bên phải của Developer Tools và chọn Show Console.
   - Bước 7: Trên tab Console, di chuột xuống và chọn Network Conditions.
 
-<p align="center">
-  <img src="https://github.com/CHu292/SOC/blob/main/Terminology/img/User_Agent/4.jpg" alt="4" width="1000">
-</p>
+[](./img/User_Agent/4.jpg)
 
   - Bước 8: Trong phần User Agent, bạn sẽ thấy một ô chọn có chữ Select automatically. Bỏ chọn ô này.
   - Bước 9: Bạn có thể chọn một User Agent từ danh sách có sẵn hoặc sao chép và dán một User Agent tùy chỉnh vào ô.
 
-<p align="center">
-  <img src="https://github.com/CHu292/SOC/blob/main/Terminology/img/User_Agent/5.jpg" alt="5" width="1000">
-</p>
+[](./img/User_Agent/5.jpg)
 
 - Lưu ý rằng cài đặt này chỉ tạm thời và chỉ áp dụng cho tab hiện tại của trình duyệt.
 
@@ -88,34 +78,24 @@
   - Bước 1: Mở trình duyệt Mozilla Firefox trên máy tính của bạn.
   - Bước 2: Gõ about:config vào thanh địa chỉ của Firefox và nhấn Enter. Bạn sẽ thấy một cảnh báo cẩn thận khi thay đổi cài đặt, vì bạn có thể làm rối tung thiết lập Firefox.
 
-<p align="center">
-  <img src="https://github.com/CHu292/SOC/blob/main/Terminology/img/User_Agent/6.jpg" alt="6" width="1000">
-</p>
+[](./img/User_Agent/6.jpg)
 
   - Bước 3: Trong trang about:config, bạn có thể sử dụng hộp tìm kiếm để tìm kiếm useragent.
   - Bước 4: Tìm kiếm mục general.useragent.override. Nếu nó không tồn tại trong hệ thống của bạn, bạn có thể tạo nó.
 
-<p align="center">
-  <img src="https://github.com/CHu292/SOC/blob/main/Terminology/img/User_Agent/7.jpg" alt="7" width="1000">
-</p>
+[](./img/User_Agent/7.jpg)
 
   - Bước 5: Nhấp chuột phải vào trang about:config, di chuột tới New và chọn String.
 
-<p align="center">
-  <img src="https://github.com/CHu292/SOC/blob/main/Terminology/img/User_Agent/8.jpg" alt="8" width="1000">
-</p>
+[](./img/User_Agent/8.jpg)
 
   - Bước 6: Đặt tên cho tùy chọn mới là general.useragent.override.
 
-<p align="center">
-  <img src="https://github.com/CHu292/SOC/blob/main/Terminology/img/User_Agent/9.jpg" alt="9" width="1000">
-</p>
+[](./img/User_Agent/9.jpg)
 
   - Bước 7: Nhập User Agent mong muốn của bạn vào ô giá trị của tùy chọn. Bạn có thể tìm User Agent trên các trang web hoặc sử dụng một User Agent chuẩn.
 
-<p align="center">
-  <img src="https://github.com/CHu292/SOC/blob/main/Terminology/img/User_Agent/10.jpg" alt="10" width="1000">
-</p>
+[](./img/User_Agent/10.jpg)
 
 - Lưu ý rằng cài đặt này sẽ áp dụng cho tất cả các tab đang mở và vẫn tồn tại cho đến khi bạn thay đổi nó, ngay cả khi bạn đóng và mở lại Firefox. Để trở lại với User Agent mặc định trên Firefox, bạn chỉ cần nhấp chuột phải vào tùy chọn general.useragent.override và chọn Reset.
 
@@ -125,24 +105,18 @@
   - Bước 1: Mở trình duyệt Microsoft Edge hoặc Internet Explorer trên máy tính của bạn.
   - Bước 2: Nhấp vào trình đơn cài đặt bằng cách nhấp vào biểu tượng ba chấm ở góc trên bên phải của trình duyệt và chọn F12 Developer Tools. Hoặc bạn có thể chỉ cần nhấn phím F12 trên bàn phím của bạn.
 
-<p align="center">
-  <img src="https://github.com/CHu292/SOC/blob/main/Terminology/img/User_Agent/11.jpg" alt="11" width="1000">
-</p>
+[](./img/User_Agent/11.jpg)
 
   - Bước 3: Cửa sổ Developer Tools sẽ mở ra ở cuối cửa sổ trình duyệt web. Di chuột và chọn tab Emulation.
 
-<p align="center">
-  <img src="https://github.com/CHu292/SOC/blob/main/Terminology/img/User_Agent/12.jpg" alt="12" width="1000">
-</p>
+[](./img/User_Agent/12.jpg)
 
   - Bước 4: Trong tab Emulation, bạn sẽ thấy một hộp có tiêu đề User agent string. Nhấp vào hộp này để mở danh sách các User Agent có sẵn.
   - Bước 5: Chọn một User Agent từ danh sách có sẵn nếu bạn muốn sử dụng một trong số các tùy chọn có sẵn.
   - Bước 6: Nếu bạn muốn sử dụng một User Agent tùy chỉnh, bạn có thể chọn tùy chọn Custom trong danh sách chuỗi User Agent, và nhập một User Agent tùy chỉnh vào ô văn bản.
   - Bước 7: Bạn cũng có thể tìm thấy danh sách các User Agent trên các trang web khác nhau nếu bạn cần một User Agent cụ thể.
 
-<p align="center">
-  <img src="https://github.com/CHu292/SOC/blob/main/Terminology/img/User_Agent/13.jpg" alt="13" width="1000">
-</p>
+[](./img/User_Agent/13.jpg)
 
 - Lưu ý cài đặt này chỉ áp dụng cho tab hiện tại và chỉ trong khi cửa sổ F12 Developer Tools đang mở.
 
@@ -152,18 +126,14 @@
   
   - Bước 1: Kích hoạt tùy chọn Develop ẩn trong trình đơn Safari bằng cách nhấp vào Safari rồi chọn Preferences.
  
-<p align="center">
-  <img src="https://github.com/CHu292/SOC/blob/main/Terminology/img/User_Agent/14.jpg" alt="14" width="1000">
-</p>
+[](./img/User_Agent/14.jpg)
 
   - Bước 2: Chọn tab Advanced và đảm bảo rằng tùy chọn Show Develop menu in menu bar ở cuối cửa sổ được bật.
   - Bước 3: Nhấp vào Develop trong thanh menu chính của Safari, sau đó chọn User Agent.
   - Bước 4: Trong danh sách hiển thị, chọn User Agent bạn muốn sử dụng. Nếu User Agent mong muốn không có trong danh sách, chọn Other và nhập User Agent tùy chỉnh của bạn.
   - Bước 5: Bạn có thể tìm thấy danh sách các User Agent trên các trang web khác nhau nếu cần.
 
-<p align="center">
-  <img src="https://github.com/CHu292/SOC/blob/main/Terminology/img/User_Agent/15.jpg" alt="15" width="1000">
-</p>
+[](./img/User_Agent/15.jpg)
 
 - Lưu ý tùy chọn này chỉ áp dụng cho tab hiện tại. Các tab mở hoặc sẽ mở trong tương lai sẽ sử dụng User Agent mặc định.
 
