@@ -1,10 +1,8 @@
-- Cấu hình trong virtualbox:
+## Cấu hình trong virtualbox:
 
 ![PC1](../img/Lab_4_setup/PC_1_1.png)
 
-- Các công cụ cần tải:
-
-
+## Các công cụ cần tải:
 
 ```bash
 # Cập nhật danh sách gói
@@ -24,7 +22,7 @@ sudo apt install -y openssh-server
 
 ```
 
-- IP configuration for PC1:
+## IP configuration for PC1:
 
 - Cấu hình trong file ```/etc/netplan/*.yaml```
 
