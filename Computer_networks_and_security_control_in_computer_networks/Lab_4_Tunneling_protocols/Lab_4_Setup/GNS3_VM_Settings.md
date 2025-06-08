@@ -6,6 +6,8 @@
 
 ![Card mạng 1](../img/Lab_4_setup/GNS3_VM_2.png)
 
+- Card mạng 2: NAT
+
 ![Card mạng 2](../img/Lab_4_setup/GNS3_VM_3.png)
 
 - Giao diện GNS3 khi được cấu hình thành công:
