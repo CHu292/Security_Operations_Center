@@ -83,6 +83,6 @@
 ---
 ## Network diagram:
 
-![Network diagram](../img/Lab_4_setup/overview.png)
+![Network diagram](../img/Lab_4_setup/diagram.png)
 
 
