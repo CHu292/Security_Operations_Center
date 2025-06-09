@@ -1,7 +1,3 @@
-## Cấu hình pfSense trong virtualbox
-
-![Cấu hình](../img/Lab_4_setup/pfSense_1.png)
-
 # PHẦN 1 –  Cài đặt pfSense 
 
 - Tải file iso của pfSense [tại đây](https://github.com/CloudSentralDotNet/iso_pfsense/releases)
@@ -119,3 +115,7 @@ Sau khi bạn gõ `exit`:
 
 
 Sau khi reboot, pfSense sẽ khởi động vào hệ thống thật → bạn có thể bắt đầu thiết lập địa chỉ IP và giao diện WAN/LAN như mình đã hướng dẫn ở phần đầu.
+
+## Cấu hình pfSense trong virtualbox
+
+![Cấu hình](../img/Lab_4_setup/pfSense.png)
