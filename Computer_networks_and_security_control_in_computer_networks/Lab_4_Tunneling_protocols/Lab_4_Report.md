@@ -229,4 +229,16 @@ write memory
 
 ![PC1-R1](./img/Lab_4_Report_Imgs/PC_1_ping_to_R1.png)
 
+- Từ PC1 ping về pfSense
+
+![PC1-pfSense](./img/Lab_4_Report_Imgs/PC_1_ping_to_pfSense.png)
+
+- Từ PC1 ping đến PC2
+
+![PC1-PC2](./img/Lab_4_Report_Imgs/PC_1_ping_to_PC_2.png)
+
+- Từ PC2 ping ngược về PC1
+
+![PC2-PC1](./img/Lab_4_Report_Imgs/PC_2_ping_to_PC_1.png)
+
 
