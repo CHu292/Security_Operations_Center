@@ -1,0 +1,7 @@
+user_name: chu
+computer_name: chu-Latitude-5510
+cpu_usage_percent: 2.1
+ram_total_gb: 15.13644790649414
+os_version: Linux-6.8.0-47-generic-x86_64-with-glibc2.35
+ip_address: 127.0.0.1
+

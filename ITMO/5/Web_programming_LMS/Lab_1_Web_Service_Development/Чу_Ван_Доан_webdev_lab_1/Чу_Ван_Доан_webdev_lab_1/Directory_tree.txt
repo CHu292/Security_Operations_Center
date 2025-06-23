@@ -1,0 +1,42 @@
+project-root/
+├── .gitignore                  # Исключение файлов/папок, которые не нужно отправлять в репозиторий Git
+├── .dockerignore               # Исключение файлов/папок, которые не нужны для сборки Docker-образа
+├── docker-compose.yml          # Конфигурация Docker Compose для всего проекта
+│
+├── website/                    # Микросервис для управления пользователями и чат-комнатами
+│   ├── app/
+│   │   ├── main.py             # Точка входа для приложения website
+│   │   ├── database.py         # Настройка подключения к PostgreSQL и ORM
+│   │   ├── models.py           # Модели для пользователей и чат-комнат
+│   │   ├── schemas.py          # Схемы для ввода/вывода данных
+│   │   ├── routers/            # Роуты для сайта
+│   │   │   ├── auth.py         # Регистрация и аутентификация пользователей
+│   │   │   ├── chat.py         # Управление чат-комнатами (создание, поиск)
+|   |   |   └── websocket_handler.py # Обработчик для WebSocket-соединений
+│   │   ├── templates/          # HTML-шаблоны, использующие Jinja2
+│   │   │   ├── index.html      # Шаблон для главной страницы
+|   |   |   ├── chat.html       # Шаблон для списка комнат
+|   |   |   ├── login.html      # Шаблон для страницы входа
+|   |   |   ├── register.html   # Шаблон для страницы регистрации
+|   |   |   └── room_chat.html  # Шаблон для страницы комнаты чата
+│   │   └── static/             
+|   |       └── favicon.ico     # Иконка для сайта
+│   ├── Dockerfile              # Dockerfile для сервиса website
+│   ├── requirements.txt        # Список зависимостей для сервиса website
+|   └── .gitignore              # Исключение файлов для сервиса website
+│
+├── chat/                       # Микросервис WebSocket для работы с чатами
+│   ├── app/
+│   │   ├── main.py             # Точка входа для WebSocket-сервера
+│   │   └── websocket_handler.py # Обработчик событий WebSocket
+│   ├── Dockerfile              # Dockerfile для сервиса chat
+│   └── requirements.txt        # Список зависимостей для сервиса chat
+│
+├── db/                         # Конфигурация для базы данных PostgreSQL
+|   ├── dump/                   # Каталог для сохранения данных
+│   ├── Dockerfile              # Dockerfile для PostgreSQL
+│   └── init.sql                # Структура таблиц и начальные данные
+│
+└── nginx/                      # Конфигурация для Nginx
+    ├── nginx.conf              # Конфигурация для reverse proxy для website и chat
+    └── Dockerfile              # Dockerfile для Nginx

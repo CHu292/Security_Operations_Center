@@ -1,0 +1,43 @@
+<mxfile host="app.diagrams.net" modified="2024-03-15T20:37:12.248Z" agent="Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36" etag="oUe3P-q2X5EvpZtWUzGy" version="24.0.6" type="google">
+  <diagram id="C5RBs43oDa-KdzZeNtuy" name="Page-1">
+    <mxGraphModel grid="0" page="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="WIyWlLk6GJQsqaUBKTNV-0" />
+        <mxCell id="WIyWlLk6GJQsqaUBKTNV-1" parent="WIyWlLk6GJQsqaUBKTNV-0" />
+        <mxCell id="aQAQDcoEkcecmSwPqDBX-5" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="WIyWlLk6GJQsqaUBKTNV-1" source="aQAQDcoEkcecmSwPqDBX-0" target="aQAQDcoEkcecmSwPqDBX-4">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="aQAQDcoEkcecmSwPqDBX-0" value="Начано" style="ellipse;whiteSpace=wrap;html=1;" vertex="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
+          <mxGeometry x="187" y="4" width="82" height="47" as="geometry" />
+        </mxCell>
+        <mxCell id="aQAQDcoEkcecmSwPqDBX-8" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;" edge="1" parent="WIyWlLk6GJQsqaUBKTNV-1" source="aQAQDcoEkcecmSwPqDBX-2" target="aQAQDcoEkcecmSwPqDBX-7">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="aQAQDcoEkcecmSwPqDBX-2" value="&lt;span style=&quot;font-size: 12px;&quot;&gt;Запись массива чисел из файла в массив.&lt;/span&gt;" style="shape=parallelogram;perimeter=parallelogramPerimeter;whiteSpace=wrap;html=1;fixedSize=1;" vertex="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
+          <mxGeometry x="144" y="172" width="168" height="46" as="geometry" />
+        </mxCell>
+        <mxCell id="aQAQDcoEkcecmSwPqDBX-6" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="WIyWlLk6GJQsqaUBKTNV-1" source="aQAQDcoEkcecmSwPqDBX-4" target="aQAQDcoEkcecmSwPqDBX-2">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="aQAQDcoEkcecmSwPqDBX-4" value="&lt;span style=&quot;font-size: 12px;&quot;&gt;vector&amp;lt;int&amp;gt; dataArray&lt;/span&gt;" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
+          <mxGeometry x="162" y="97" width="132" height="25" as="geometry" />
+        </mxCell>
+        <mxCell id="aQAQDcoEkcecmSwPqDBX-10" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="WIyWlLk6GJQsqaUBKTNV-1" source="aQAQDcoEkcecmSwPqDBX-7" target="aQAQDcoEkcecmSwPqDBX-9">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="aQAQDcoEkcecmSwPqDBX-7" value="&lt;span style=&quot;font-size: 12px;&quot;&gt;Сортировка массива по алгоритму Timsort&lt;/span&gt;" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
+          <mxGeometry x="164.5" y="271" width="127" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="aQAQDcoEkcecmSwPqDBX-12" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="WIyWlLk6GJQsqaUBKTNV-1" source="aQAQDcoEkcecmSwPqDBX-9" target="aQAQDcoEkcecmSwPqDBX-11">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="aQAQDcoEkcecmSwPqDBX-9" value="&lt;span style=&quot;font-size: 12px;&quot;&gt;Запись отсортированного массива чисел из массива в файл.&lt;/span&gt;" style="shape=parallelogram;perimeter=parallelogramPerimeter;whiteSpace=wrap;html=1;fixedSize=1;" vertex="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
+          <mxGeometry x="131" y="371" width="194" height="54" as="geometry" />
+        </mxCell>
+        <mxCell id="aQAQDcoEkcecmSwPqDBX-11" value="Конец" style="ellipse;whiteSpace=wrap;html=1;" vertex="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
+          <mxGeometry x="183.5" y="476" width="89" height="45" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
