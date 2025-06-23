@@ -13,9 +13,7 @@
 
 ---
 
-## 1. Viết Fork Bomb
-
-### Linux – Fork Bomb bằng Bash (dạng đơn giản, có kiểm soát):
+## 1. Viết Fork Bomb cho Linux – Fork Bomb bằng Bash (dạng đơn giản, có kiểm soát):
 
 Tạo file `safe_forkbomb.sh`:
 
@@ -40,7 +38,7 @@ Chương trình trên là một **phiên bản an toàn của fork bomb** viết
 
 ---
 
-#### Giải thích
+### Giải thích
 
 ```bash
 #!/bin/bash
@@ -109,7 +107,7 @@ forkbomb
 * Fork bomb thật sẽ không có giới hạn và sẽ khiến hệ thống **hết PID/process**, dẫn đến treo máy.
 
 ---
-#### Linux: Sử dụng script ghi log:
+### Sử dụng script ghi log:
 
 ```bash
 #!/bin/bash
@@ -123,7 +121,7 @@ done
 
 ---
 
-###### **Giải thích**
+### **Giải thích**
 
 ```bash
 > process_log.txt
@@ -163,7 +161,7 @@ done
 
 ---
 
-#### Thực thi:
+### Thực thi:
 
 Cấp quyền:
 
@@ -189,7 +187,7 @@ Chúng ta tiến hành chạy song song 2 chương trình
 
 ---
 
-#### Vẽ biểu đồ tiến trình:
+### Vẽ biểu đồ tiến trình:
 
 ```python
 import matplotlib.pyplot as plt
@@ -221,11 +219,9 @@ plt.show()
 ---
 ![](./imgs/graphiclinux.png)
 
-**Nhận xét về biểu đồ "Số lượng tiến trình theo thời gian":**
+![](./imgs/system_monitor.png)
 
----
-
-#### **Phân tích diễn biến**
+### **Nhận xét về biểu đồ "Số lượng tiến trình theo thời gian":**
 
 * **Từ giây 0 đến \~3 giây:**
   Số lượng tiến trình ổn định quanh mức **200** → Hệ thống đang ở trạng thái bình thường, chưa có tác động mạnh từ fork bomb.
@@ -244,7 +240,7 @@ plt.show()
 
 ---
 
-#### **Kết luận**
+> **Kết luận**
 
 * **Hiệu ứng fork bomb rõ rệt và nguy hiểm**:
 
@@ -254,7 +250,7 @@ plt.show()
 ---
 
 
-### Windows – Fork Bomb bằng Python:
+## 2. Windows – Fork Bomb bằng Python:
 
 Tạo file `safe_forkbomb_win.py`:
 
