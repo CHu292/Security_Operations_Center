@@ -36,14 +36,6 @@ forkbomb() {
 forkbomb
 ```
 
-Cấp quyền:
-
-```bash
-chmod +x safe_forkbomb.sh
-```
-
-> Dừng bằng: `killall bash` hoặc `pkill -f safe_forkbomb.sh`
-
 Chương trình trên là một **phiên bản an toàn của fork bomb** viết bằng Bash, có **giới hạn số lần fork** để tránh làm sập hệ thống.
 
 ---
@@ -117,6 +109,149 @@ forkbomb
 * Fork bomb thật sẽ không có giới hạn và sẽ khiến hệ thống **hết PID/process**, dẫn đến treo máy.
 
 ---
+### Linux: Sử dụng script ghi log:
+
+```bash
+#!/bin/bash
+> process_log.txt
+for i in {1..60}; do
+    echo "$(date +%s) $(ps -e | wc -l)" >> process_log.txt
+    sleep 1
+done
+```
+Đoạn script Bash này có nhiệm vụ **ghi lại số lượng tiến trình đang chạy trong hệ thống mỗi giây** trong vòng **60 giây**.
+
+---
+
+### **Giải thích**
+
+```bash
+> process_log.txt
+```
+
+* Xóa nội dung cũ (nếu có) của file `process_log.txt` bằng cách ghi đè một dòng rỗng.
+* Nếu file chưa tồn tại, nó sẽ được tạo.
+
+---
+
+```bash
+for i in {1..60}; do
+```
+
+* Vòng lặp `for` chạy **60 lần**, tương ứng với **60 giây**.
+
+---
+
+```bash
+    echo "$(date +%s) $(ps -e | wc -l)" >> process_log.txt
+```
+
+* `date +%s`: lấy **timestamp hiện tại** (số giây từ 01/01/1970).
+* `ps -e`: liệt kê tất cả các tiến trình hiện tại.
+* `wc -l`: đếm số dòng, tức là **số tiến trình hiện có**.
+* Kết quả ví dụ: `1719150000 378` → vào thời điểm đó, có 378 tiến trình.
+* Dữ liệu được **ghi vào cuối** file `process_log.txt`.
+
+---
+
+```bash
+    sleep 1
+done
+```
+
+* Dừng 1 giây trước khi lặp lại → ghi log **mỗi giây**.
+
+---
+
+### Thực thi:
+
+Cấp quyền:
+
+```bash
+chmod +x safe_forkbomb.sh
+```
+> Dừng bằng: `killall bash` hoặc `pkill -f safe_forkbomb.sh`
+
+```bash
+chmod +x log_processes.sh
+```
+
+Chúng ta tiến hành chạy song song 2 chương trình
+
+```bash
+./safe_forkbomb.sh
+./log_processes.sh
+```
+
+![](./imgs/Linux_fork_bomb.png)
+
+![](./imgs/log_linux_fork_bomb.png)
+
+---
+
+### Vẽ biểu đồ tiến trình:
+
+```python
+import matplotlib.pyplot as plt
+
+# Đọc dữ liệu từ file
+timestamps = []
+process_counts = []
+
+with open("process_log.txt", "r") as f:
+    for line in f:
+        ts, count = line.strip().split()
+        timestamps.append(int(ts))
+        process_counts.append(int(count))
+
+# Chuyển timestamp về dạng thời gian tương đối (giây từ thời điểm đầu tiên)
+t0 = timestamps[0]
+relative_time = [t - t0 for t in timestamps]
+
+# Vẽ đồ thị
+plt.plot(relative_time, process_counts, marker='o')
+plt.title("Số lượng tiến trình theo thời gian")
+plt.xlabel("Thời gian (giây)")
+plt.ylabel("Số lượng tiến trình")
+plt.grid(True)
+plt.tight_layout()
+plt.show()
+```
+
+---
+![](./imgs/graphiclinux.png)
+
+**Nhận xét về biểu đồ "Số lượng tiến trình theo thời gian":**
+
+---
+
+### **Phân tích diễn biến**
+
+* **Từ giây 0 đến \~3 giây:**
+  Số lượng tiến trình ổn định quanh mức **200** → Hệ thống đang ở trạng thái bình thường, chưa có tác động mạnh từ fork bomb.
+
+* **Từ giây 3 đến giây 4:**
+  Số tiến trình tăng **vọt** từ khoảng **\~200 lên \~1600** → Đây là thời điểm **fork bomb bắt đầu lan rộng**, tiến trình tự nhân bản song song (fork & fork).
+
+* **Từ giây 4 đến giây 8:**
+  Số tiến trình tiếp tục tăng nhanh:
+
+  * Giây 6: \~3400
+  * Giây 8: \~3500
+    → Hệ thống bị **ngập lệnh fork**, nhưng tốc độ tăng bắt đầu chậm lại do:
+  * Đã gần chạm giới hạn `limit=50`
+  * Hệ thống bắt đầu phản ứng bằng cách **chặn fork** hoặc tiến trình cạn tài nguyên (PID, RAM).
+
+---
+
+### **Kết luận**
+
+* **Hiệu ứng fork bomb rõ rệt và nguy hiểm**:
+
+  * Số tiến trình tăng cấp số nhân trong vài giây.
+  * Nếu không có giới hạn, hệ thống sẽ **đóng băng hoàn toàn**.
+
+---
 
 
 ### Windows – Fork Bomb bằng Python:
@@ -147,18 +282,10 @@ python safe_forkbomb_win.py
 
 ---
 
-## 📈 2. Ghi lại và vẽ biểu đồ số tiến trình
+## 2. Ghi lại và vẽ biểu đồ số tiến trình
 
-### Linux: Sử dụng script ghi log:
 
-```bash
-#!/bin/bash
-> process_log.txt
-for i in {1..60}; do
-    echo "$(date +%s) $(ps -e | wc -l)" >> process_log.txt
-    sleep 1
-done
-```
+
 
 Sau đó vẽ bằng Python:
 
