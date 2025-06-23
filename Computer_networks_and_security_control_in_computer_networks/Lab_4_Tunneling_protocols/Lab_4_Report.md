@@ -241,4 +241,76 @@ write memory
 
 ![PC2-PC1](./img/Lab_4_Report_Imgs/PC_2_ping_to_PC_1.png)
 
+# 10. Cấu hình VPN
 
+## Cấu hình Phase 1 trên pfSense
+
+![Phase1](./img/Lab_4_Report_Imgs/pfSense_VPN_Phase_1_1.png)
+
+![Phase1](./img/Lab_4_Report_Imgs/pfSense_VPN_Phase_1_2.png)
+
+![Phase1](./img/Lab_4_Report_Imgs/pfSense_VPN_Phase_1_3.png)
+
+## Cấu hình Phase 2 trên pfSense
+
+![Phase2](./img/Lab_4_Report_Imgs/pfSense_VPN_Phase_2_1.png)
+
+![Phase2](./img/Lab_4_Report_Imgs/pfSense_VPN_Phase_2_2.png)
+
+![Phase2](./img/Lab_4_Report_Imgs/pfSense_VPN_Phase_2_3.png)
+
+## Cấu hình VPN trên Cisco
+
+```bash
+! ===================================
+! PHASE 1 - ISAKMP POLICY (IKEv1)
+! ===================================
+crypto isakmp policy 10
+ encr aes 256              ! AES-256 encryption
+ hash sha                  ! SHA-1 authentication (vì không hỗ trợ sha256)
+ authentication pre-share
+ group 2                   ! Diffie-Hellman group 2
+ lifetime 86400            ! 1 ngày
+
+! ===================================
+! PRE-SHARED KEY (cho peer pfSense)
+! ===================================
+crypto isakmp key vpnkey123456 address 172.16.0.6
+
+! ===================================
+! PHASE 2 - TRANSFORM SET (IPSec)
+! ===================================
+crypto ipsec transform-set TS esp-aes 256 esp-sha-hmac
+ mode tunnel
+
+! ===================================
+! ACL CHỌN LƯU LƯỢNG ĐƯỢC MÃ HÓA
+! ===================================
+ip access-list extended VPN-ACL
+ permit ip 192.168.10.0 0.0.0.255 192.168.20.0 0.0.0.255
+
+! ===================================
+! CRYPTO MAP
+! ===================================
+crypto map VPN-MAP 10 ipsec-isakmp
+ set peer 172.16.0.6
+ set transform-set TS
+ match address VPN-ACL
+ set pfs group5
+ set security-association lifetime seconds 3600
+
+! ===================================
+! GẮN CRYPTO MAP VÀO CỔNG WAN
+! ===================================
+interface Ethernet1/0
+ description WAN to R1
+ crypto map VPN-MAP
+
+! ===================================
+! LƯU CẤU HÌNH
+! ===================================
+end
+write memory
+```
+
+![Cisco](./img/Lab_4_Report_Imgs/Cisco_VPN.png)
