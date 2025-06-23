@@ -219,8 +219,6 @@ plt.show()
 ---
 ![](./imgs/graphiclinux.png)
 
-![](./imgs/system_monitor.png)
-
 ### **Nhận xét về biểu đồ "Số lượng tiến trình theo thời gian":**
 
 * **Từ giây 0 đến \~3 giây:**
@@ -249,6 +247,7 @@ plt.show()
 
 ---
 
+![](./imgs/system_monitor.png)
 
 ## 2. Windows – Fork Bomb bằng Python:
 
