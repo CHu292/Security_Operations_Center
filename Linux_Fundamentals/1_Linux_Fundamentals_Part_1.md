@@ -370,10 +370,6 @@ Toán tử `>>` cho phép thêm kết quả đầu ra vào cuối tệp — thay
 
 # Task 8: Conclusions & Summaries
 
-Làm tốt lắm khi đã đến được giai đoạn này! Chúng ta đã bao quát khá nhiều nội dung trong lần đầu bạn làm quen với Linux. Tuy nhiên, đây là những chức năng/công cụ cơ bản nhất mà bạn sẽ sử dụng mỗi khi làm việc với một máy Linux.
-
-Hy vọng rằng căn phòng này không quá khó khăn để bạn vượt qua. Như tôi đã đề cập trước đó, bạn sẽ nhanh chóng làm quen với những điều này nhờ tần suất bạn sẽ sử dụng chúng.
-
 Hãy cùng nhanh chóng điểm lại, chúng ta đã học những nội dung sau:
 
 - Hiểu tại sao Linux lại phổ biến như ngày nay.  
@@ -382,4 +378,3 @@ Hãy cùng nhanh chóng điểm lại, chúng ta đã học những nội dung s
 - Giới thiệu cách điều hướng trong hệ thống tệp và cách sử dụng các lệnh như `find` và `grep` để tìm dữ liệu hiệu quả hơn!  
 - Tăng cường sức mạnh cho các lệnh của bạn bằng cách tìm hiểu một số toán tử shell quan trọng.  
 
-Hãy dành thời gian thực hành thêm trong căn phòng này. Khi bạn cảm thấy tự tin hơn, hãy tiếp tục với **Linux Fundamentals Part 2**.

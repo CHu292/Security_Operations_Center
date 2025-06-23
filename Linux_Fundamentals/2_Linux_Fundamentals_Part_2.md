@@ -364,13 +364,10 @@ Tuy nhiên, điều này đáng được đề cập vì giả định hợp lý
 
 **Kết luận và Tóm tắt**
 
-Làm tốt lắm! Phần này khá nặng về lý thuyết và bao quát khá nhiều khái niệm cơ bản để giúp bạn làm quen với **Linux**. Tóm tắt nhanh, phần này đã dạy bạn:
-
 - Cách kết nối từ xa với một máy Linux bằng **SSH**.
 - Cách nâng cao việc sử dụng các lệnh bằng cách sử dụng các cờ (flags), tùy chọn (switches) và nơi bạn có thể tìm hiểu thêm về các lệnh này (trang man - man pages).
 - Một số lệnh khác mà bạn sẽ thường xuyên sử dụng để tương tác với hệ thống tệp và nội dung của nó.
 - Giới thiệu ngắn gọn về quyền truy cập tệp và cách chuyển đổi giữa các người dùng.
 - Một đoạn tóm tắt về các thư mục gốc quan trọng trên một hệ thống Ubuntu Linux và cách chúng ta có thể sử dụng dữ liệu được lưu trữ trong đó.
 
-Tôi khuyến khích bạn nên xem lại phần này một hoặc hai lần nữa để làm quen với các khái niệm. Sau tất cả, thực hành sẽ tạo nên sự hoàn hảo!
 

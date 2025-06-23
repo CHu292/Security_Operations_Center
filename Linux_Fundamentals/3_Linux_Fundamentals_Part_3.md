@@ -506,10 +506,6 @@ Tất nhiên, có các bản ghi lưu trữ thông tin về cách hệ điều h
 
 # Task 9: Conclusions & Summaries
 
-Chào mừng bạn đã hoàn thành module Linux Fundamentals. Sự quen thuộc của bạn với Linux sẽ được cải thiện khi bạn tiếp tục tương tác với nó theo thời gian. Linux có tiềm năng thực hiện những việc rất mạnh mẽ một cách tương đối dễ dàng (như bạn hy vọng đã khám phá được trong suốt module này).
-
-Để tổng kết, phòng học này đã giới thiệu cho bạn các chủ đề sau:
-
 - Sử dụng các trình chỉnh sửa văn bản trong terminal
 - Các tiện ích chung như tải xuống và phục vụ nội dung bằng một máy chủ web Python
 - Tìm hiểu về các tiến trình
