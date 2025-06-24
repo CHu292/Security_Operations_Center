@@ -1,6 +1,4 @@
-# windows Setup
-
->Windows cannot read the <ProductKey> setting from the unattend answer file.
+# 1. windows Setup (Windows cannot read the <ProductKey> setting from the unattend answer file.)
 
 ![](./Windows/1.png)
 
