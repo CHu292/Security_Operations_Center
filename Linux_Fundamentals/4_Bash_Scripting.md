@@ -31,8 +31,6 @@ Dưới đây là một vài nội dung  sẽ học:
 * Arrays
 * Conditionals
 
-Trong suốt quá trình học, bạn có thể làm theo cùng với tôi! Bạn có thể thử các lệnh được trình bày hoặc tích hợp chúng vào các dự án riêng của mình, sau khi bạn học bằng cách thực hành và áp dụng những gì đã học vào các tình huống thực tế. Hãy chắc chắn rằng bạn đã khởi động "tryhackme attackbox" hoặc sử dụng terminal của riêng bạn.
-
 Trang web hữu ích học Bash: [https://devhints.io/bash](https://devhints.io/bash)
 
 Trang web tra cứu chức năng của các lệnh: [https://explainshell.com/](https://explainshell.com/)
@@ -289,3 +287,86 @@ country="France"
   <summary>Hiển thị đáp án</summary>
   Đáp án: echo $country
 </details>
+
+---
+
+# Task 4: Parameters
+
+Bây giờ chúng ta sẽ tìm hiểu một trong những tính năng chính của bash — đó là **sử dụng tham số (parameters)**.
+
+Trước tiên, ta sẽ xem xét các tham số được chỉ định thông qua dòng lệnh khi chạy file. Những tham số này có thể có nhiều dạng, nhưng thường có tiền tố `$` vì tham số cũng là một biến.
+
+Hãy bắt đầu bằng cách khai báo một tham số sẽ là đối số (argument) đầu tiên khi chạy bash script:
+
+```bash
+#!/bin/bash
+name=$1
+echo $name
+```
+
+Sau đó, ta chạy script với:
+
+```bash
+./parameters_1.sh Sun
+Sun
+```
+
+Và đúng như mong đợi, ta nhận được kết quả là `"Sun"`.
+
+Vậy nếu ta muốn sử dụng đối số thứ hai thì sao? Quá trình cũng rất đơn giản, chỉ cần thay `$1` thành `$2`, ví dụ:
+
+```bash
+#!/bin/bash
+name=$2
+echo $name
+```
+
+Sau đó chạy:
+
+```bash
+./parameters_2.sh Sun Moon
+Moon
+```
+
+Theo bạn, nó sẽ trả về gì? — Nó sẽ trả về `"Moon"`.
+
+---
+
+Nhưng nếu ta **không muốn truyền tham số từ dòng lệnh**, mà muốn cho người dùng **nhập tên tương tác trực tiếp**, ta có thể dùng lệnh `read`:
+
+```bash
+#!/bin/bash
+echo Enter your name
+read name
+echo "Your name is $name"
+```
+
+Khi chạy đoạn code này, chương trình sẽ tạm dừng để bạn nhập tên vào, ví dụ:
+
+```bash
+./parameters_3.sh 
+Enter your name:
+Sun
+Your name is Sun
+```
+
+Và ta thấy rằng nó hoạt động!
+
+Dưới đây là bản dịch tiếng Việt của bảng "Shell Parameters":
+
+---
+
+### **Tham số trong Shell**
+
+| **Tham số**    | **Chức năng**                                                             |
+| -------------- | ------------------------------------------------------------------------- |
+| `$1`–`$9`      | Đại diện cho các tham số vị trí (positional parameters) từ đối số 1 đến 9 |
+| `${10}`–`${n}` | Đại diện cho các tham số vị trí từ đối số thứ 10 trở đi                   |
+| `$0`           | Đại diện cho tên của script                                               |
+| `$*`           | Đại diện cho tất cả các đối số dưới dạng một chuỗi duy nhất               |
+| `$@`           | Tương tự như `$*`, nhưng khác biệt khi đặt trong dấu ngoặc kép `(")`      |
+| `$#`           | Đại diện cho tổng số đối số được truyền vào                               |
+| `$$`           | PID (Process ID) của script                                               |
+| `$?`           | Đại diện cho mã trả về (return code) cuối cùng của lệnh vừa thực hiện     |
+
+---
