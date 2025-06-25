@@ -116,3 +116,180 @@ uid=1000(chu) gid=1000(chu) groups=1000(chu),4(adm),24(cdrom),27(sudo),30(dip),4
 Ta có thể thấy script đã xuất ra kết quả của các lệnh `whoami` và `id`.
 
 ---
+
+**Hãy trả lời các câu hỏi bên dưới**
+
+**Câu hỏi: Dòng mã nào có thể được chèn vào đầu dòng để biến dòng đó thành chú thích trong code?**
+
+<details>
+  <summary>Hiển thị đáp án</summary>
+  Đáp án: `#`
+</details>
+
+---
+
+**Câu hỏi: Đoạn script sau sẽ in ra màn hình nội dung gì? Dòng lệnh: `echo "BishBashBosh"`**
+
+<details>
+  <summary>Hiển thị đáp án</summary>
+  Đáp án: `BishBashBosh`
+</details>
+
+# Task 3: Variables
+
+---
+
+Bây giờ chúng ta sẽ chuyển sang phần **Variables**,
+trong bash thì việc này khá đơn giản và chúng ta khai báo biến như sau:
+
+```bash
+name="Sun"
+```
+
+![](./img/4_Bash_Scripting/3.1.png)
+
+Ở đây, chúng ta gán giá trị `"Sun"` cho biến có tên là `name`.
+
+Lưu ý: để biến hoạt động đúng trong bash, bạn **không được để khoảng trắng** giữa tên biến, dấu `=` và giá trị. Biến không được chứa khoảng trắng.
+
+Vậy làm sao để sử dụng biến vừa tạo? Điều đó cũng rất đơn giản — ta sẽ xem ngay sau đây.
+
+Chúng ta cần thêm dấu **`$`** phía trước tên biến để sử dụng nó.
+
+```bash
+name="Sun"
+echo $name
+```
+![](./img/4_Bash_Scripting/3.2.png)
+
+Nếu chúng ta thử điều này trong terminal của mình, kết quả sẽ giống như sau:
+
+Lệnh này sẽ in ra chữ **Sun** trên màn hình.
+
+```bash
+ ./variables.sh
+Sun
+```
+
+---
+
+Biến giúp việc lưu trữ dữ liệu trở nên dễ dàng hơn rất nhiều. Thay vì phải gõ đi gõ lại cùng một nội dung ở nhiều nơi, chúng ta có thể đơn giản chèn biến với cú pháp `$var` và gán cho nó một giá trị cụ thể — điều này giúp dễ dàng thay đổi sau này nếu cần.
+Vậy làm thế nào để gỡ lỗi (debug) mã của chúng ta?
+
+---
+
+**Gỡ lỗi là một phần rất quan trọng trong lập trình**, vì vậy chúng ta nên làm quen với việc giải quyết vấn đề và sửa lỗi càng sớm càng tốt.
+Bash có một số tính năng tích hợp sẵn giúp việc này đơn giản hơn.
+
+Khi chạy lệnh trên dòng lệnh, bạn có thể dùng:
+
+```bash
+bash -x ./file.sh
+```
+
+Ví dụ:
+
+![](./img/4_Bash_Scripting/3.3.png)
+
+Bạn có thể tạo một bash script đơn giản (giờ bạn đã biết cú pháp cơ bản) và cố ý viết sai để kiểm tra.
+Sau đó chạy chương trình của bạn với chế độ gỡ lỗi (debug) và xem nó trông như thế nào khi xảy ra lỗi!
+
+
+---
+
+Lệnh này cho bạn biết dòng nào đang hoạt động và dòng nào không.
+Nếu bạn muốn gỡ lỗi tại một điểm cụ thể trong script, bạn có thể chèn lệnh `set -x` vào script, và dùng `set +x` để kết thúc phần đó, như sau:
+
+```bash
+echo "hi"
+
+set -x
+# đoạn này sẽ được gỡ lỗi
+set +x
+```
+
+![](./img/4_Bash_Scripting/3.4.png)
+
+---
+
+
+Với cách này, chỉ phần nằm giữa `set -x` và `set +x` sẽ được theo dõi chi tiết khi chạy.
+
+Dưới đây là bản dịch tiếng Việt của nội dung trong ảnh:
+
+---
+
+Hãy xem một ví dụ. Đây là script mà ta đã viết trước đó, được chạy bằng lệnh:
+
+```bash
+ bash -x ./first_bash_script.sh 
++ echo 'Hello World'
+Hello World
++ whoami
+chu
++ id
+uid=1000(chu) gid=1000(chu) groups=1000(chu),4(adm),24(cdrom),27(sudo),30(dip),46(plugdev),109(kvm),119(vboxusers),122(lpadmin),134(lxd),135(sambashare),139(wireshark),140(docker),143(ubridge),145(libvirt)
+```
+
+Bạn có thể thấy đầu ra có dấu `+` phía trước mỗi lệnh, sau đó là kết quả thực thi của lệnh đó.
+Nếu có lỗi xảy ra, dòng đó sẽ hiển thị với dấu `-`, điều này giúp bạn dễ dàng phát hiện chỗ sai để sửa lỗi.
+
+Dưới đây là bản dịch tiếng Việt của nội dung trong ảnh:
+
+---
+
+Chúng ta cũng có thể sử dụng **nhiều biến** trong một câu lệnh `echo`. Bạn không bị giới hạn chỉ dùng 1 biến đâu!
+
+```bash
+#!/bin/bash
+name="Sun"
+age=23
+
+echo "$name is $age years old"
+```
+Kết quả:
+
+```bash
+ ./print_name_age.bash 
+Sun is 23 years old
+```
+
+---
+
+**Trả lời các câu hỏi sau** và sử dụng đoạn mã dưới đây để hỗ trợ bạn:
+
+```bash
+name="Jammy"
+age=21
+echo "$name is $age years old"
+
+city="Paris"
+country="France"
+```
+
+---
+
+**Câu hỏi: Đoạn mã trên sẽ trả về gì?**
+
+<details>
+  <summary>Hiển thị đáp án</summary>
+  Đáp án: `Jammy is 21 years old`
+</details>
+
+---
+
+**Câu hỏi: Làm thế nào để in tên thành phố ra màn hình?**
+
+<details>
+  <summary>Hiển thị đáp án</summary>
+  Đáp án: `echo $city`
+</details>
+
+---
+
+**Câu hỏi: Làm thế nào để in tên quốc gia ra màn hình?**
+
+<details>
+  <summary>Hiển thị đáp án</summary>
+  Đáp án: `echo $country`
+</details>
