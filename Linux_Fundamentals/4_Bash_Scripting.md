@@ -16,3 +16,27 @@
 ## Nội dung
 
 # Task 1: Introduction
+
+Dưới đây là bản dịch tiếng Việt của nội dung trong ảnh:
+
+---
+
+### Bash là gì?
+
+Bash là một ngôn ngữ kịch bản (scripting language) chạy trong terminal trên hầu hết các bản phân phối Linux, cũng như trên MacOS. Shell script là một chuỗi các lệnh bash nằm trong một tệp, kết hợp lại với nhau để thực hiện các tác vụ phức tạp hơn so với các lệnh một dòng đơn giản, và đặc biệt hữu ích khi cần tự động hóa các tác vụ quản trị hệ thống như sao lưu dữ liệu.
+
+Dưới đây là một vài nội dung  sẽ học:
+
+* Bash syntax
+* Variables
+* Using parameters
+* Arrays
+* Conditionals
+
+Trong suốt quá trình học, bạn có thể làm theo cùng với tôi! Bạn có thể thử các lệnh được trình bày hoặc tích hợp chúng vào các dự án riêng của mình, sau khi bạn học bằng cách thực hành và áp dụng những gì đã học vào các tình huống thực tế. Hãy chắc chắn rằng bạn đã khởi động "tryhackme attackbox" hoặc sử dụng terminal của riêng bạn.
+
+Trang web hữu ích học Bash: [https://devhints.io/bash](https://devhints.io/bash)
+
+Trang web tra cứu chức năng của các lệnh: [https://explainshell.com/](https://explainshell.com/)
+---
+
