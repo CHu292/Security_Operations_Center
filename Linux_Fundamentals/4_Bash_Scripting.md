@@ -375,7 +375,7 @@ Và ta thấy rằng nó hoạt động!
 
 <details>
   <summary>Hiển thị đáp án</summary>
-  Đáp án: `$#`
+  Đáp án: $#
 </details>
 
 ---
@@ -384,7 +384,7 @@ Và ta thấy rằng nó hoạt động!
 
 <details>
   <summary>Hiển thị đáp án</summary>
-  Đáp án: `$0`
+  Đáp án: $0
 </details>
 
 ---
@@ -393,7 +393,7 @@ Và ta thấy rằng nó hoạt động!
 
 <details>
   <summary>Hiển thị đáp án</summary>
-  Đáp án: `$4`
+  Đáp án: $4
 </details>
 
 ---
@@ -402,7 +402,7 @@ Và ta thấy rằng nó hoạt động!
 
 <details>
   <summary>Hiển thị đáp án</summary>
-  Đáp án: `read test`
+  Đáp án: read test
 </details>
 
 ---
@@ -411,5 +411,112 @@ Và ta thấy rằng nó hoạt động!
 
 <details>
   <summary>Hiển thị đáp án</summary>
-  Đáp án: `hello aloha`
+  Đáp án: hello aloha
 </details>
+
+# Task 5: Arrays
+
+---
+
+**Mảng (Arrays)** được sử dụng để lưu trữ nhiều phần dữ liệu trong một biến, sau đó có thể truy xuất từng phần bằng **chỉ số (index)**.
+Cách viết phổ biến nhất là: `var[index_position]`.
+
+Mảng sử dụng đánh chỉ số, nghĩa là mỗi phần tử trong mảng tương ứng với một số.
+
+Ví dụ, trong mảng `['car', 'train', 'bike', 'bus']`, mỗi phần tử sẽ có chỉ số như sau:
+
+Tất cả chỉ số bắt đầu từ **0**.
+
+| item  | index |
+| ----- | ----- |
+| car   | 0     |
+| train | 1     |
+| bike  | 2     |
+| bus   | 3     |
+
+---
+
+Giờ chúng ta đã học xong phần lý thuyết, hãy cùng tạo một mảng trong Bash.
+
+**Cú pháp như sau:**
+
+Chúng ta có tên biến, ví dụ ở đây là `transport`.
+
+Sau đó ta đặt từng phần tử trong ngoặc đơn `()` và cách nhau bằng khoảng trắng:
+
+```bash
+#!/bin/bash
+transport=('car' 'train' 'bike' 'bus')
+```
+
+Chúng ta có thể in ra tất cả phần tử trong mảng bằng lệnh:
+
+```bash
+echo "${transport[@]}"
+```
+
+Bạn có thể thử lệnh này trong terminal của mình để xem kết quả.
+Dấu `@` có nghĩa là tất cả các phần tử, còn `[]` là để truy cập theo chỉ số.
+
+---
+
+Nếu ta muốn in ra phần tử `"train"` (ở vị trí thứ 1), ta chỉ cần viết:
+
+```bash
+echo "${transport[1]}"
+```
+
+```bash
+./array_1.sh 
+car train bike bus
+train
+```
+
+---
+
+Nếu muốn **xóa** một phần tử khỏi mảng, ta dùng lệnh `unset`, ví dụ:
+
+```bash
+unset transport[1]
+```
+
+Lệnh này sẽ xóa phần tử `"train"`. Nếu bạn thử in lại phần tử đó, sẽ thấy nó đã biến mất.
+
+---
+
+Nếu muốn **gán lại giá trị khác** cho một phần tử, bạn có thể làm như sau:
+
+```bash
+transport[1]='trainride'
+```
+
+Nếu in mảng ra:
+
+```bash
+echo "${transport[@]}"
+```
+
+Sẽ được:
+
+```
+car trainride bike bus
+```
+
+---
+
+Như vậy, bạn đã biết cách thay thế phần tử trong mảng thành công!
+
+---
+
+**Bài tập mở rộng:**
+Hãy xây dựng tiếp dự án tiểu sử (biography maker) đã làm trước đó, bổ sung thêm mảng để lưu trữ nhiều tên và thông tin khác nhau về một người. Ở module tiếp theo, chúng ta sẽ phát triển hơn nữa.
+
+---
+
+**Cho mảng sau:**
+
+```bash
+cars=('honda' 'audi' 'bmw' 'tesla')
+```
+
+Hãy trả lời các câu hỏi liên quan. (phần câu hỏi sẽ xuất hiện ở phần sau).
