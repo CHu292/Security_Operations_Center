@@ -41,11 +41,7 @@ Trang web tra cứu chức năng của các lệnh: [https://explainshell.com/](
 
 # Task 2: Our first simple bash scripts
 
-Dưới đây là bản dịch tiếng Việt của nội dung trong ảnh:
-
 ---
-
-### Task 2 – Những đoạn bash script đơn giản đầu tiên của chúng ta
 
 Một file bash script thường có đuôi `.sh`
 
@@ -93,8 +89,6 @@ Trong đoạn script trên:
 
 * `whoami` sẽ in ra tên người dùng hiện tại.
 * `id` sẽ hiển thị thông tin UID, GID, và nhóm của người dùng.
-
-Dưới đây là bản dịch tiếng Việt của nội dung trong ảnh:
 
 ---
 
