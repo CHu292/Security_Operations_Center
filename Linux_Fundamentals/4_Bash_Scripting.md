@@ -352,8 +352,6 @@ Your name is Sun
 
 Và ta thấy rằng nó hoạt động!
 
-Dưới đây là bản dịch tiếng Việt của bảng "Shell Parameters":
-
 ---
 
 ### **Tham số trong Shell**
@@ -370,3 +368,48 @@ Dưới đây là bản dịch tiếng Việt của bảng "Shell Parameters":
 | `$?`           | Đại diện cho mã trả về (return code) cuối cùng của lệnh vừa thực hiện     |
 
 ---
+
+**Hãy trả lời các câu hỏi bên dưới**
+
+**Câu hỏi: Làm thế nào để lấy số lượng đối số được truyền vào một script?**
+
+<details>
+  <summary>Hiển thị đáp án</summary>
+  Đáp án: `$#`
+</details>
+
+---
+
+**Câu hỏi: Làm thế nào để lấy tên file script hiện tại (tức là đối số đầu tiên)?**
+
+<details>
+  <summary>Hiển thị đáp án</summary>
+  Đáp án: `$0`
+</details>
+
+---
+
+**Câu hỏi: Làm thế nào để lấy đối số thứ 4 được truyền vào script?**
+
+<details>
+  <summary>Hiển thị đáp án</summary>
+  Đáp án: `$4`
+</details>
+
+---
+
+**Câu hỏi: Nếu script yêu cầu nhập dữ liệu, làm sao để lưu đầu vào đó vào biến có tên là `test` bằng lệnh `read`?**
+
+<details>
+  <summary>Hiển thị đáp án</summary>
+  Đáp án: `read test`
+</details>
+
+---
+
+**Câu hỏi: Lệnh `echo "$1 $3"` sẽ in ra gì nếu script được chạy với `./script.sh hello hola aloha`?**
+
+<details>
+  <summary>Hiển thị đáp án</summary>
+  Đáp án: `hello aloha`
+</details>
