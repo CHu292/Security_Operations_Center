@@ -194,7 +194,6 @@ Ví dụ:
 Bạn có thể tạo một bash script đơn giản (giờ bạn đã biết cú pháp cơ bản) và cố ý viết sai để kiểm tra.
 Sau đó chạy chương trình của bạn với chế độ gỡ lỗi (debug) và xem nó trông như thế nào khi xảy ra lỗi!
 
-
 ---
 
 Lệnh này cho bạn biết dòng nào đang hoạt động và dòng nào không.
@@ -212,10 +211,7 @@ set +x
 
 ---
 
-
 Với cách này, chỉ phần nằm giữa `set -x` và `set +x` sẽ được theo dõi chi tiết khi chạy.
-
-Dưới đây là bản dịch tiếng Việt của nội dung trong ảnh:
 
 ---
 
@@ -273,7 +269,7 @@ country="France"
 
 <details>
   <summary>Hiển thị đáp án</summary>
-  Đáp án: `Jammy is 21 years old`
+  Đáp án: Jammy is 21 years old
 </details>
 
 ---
@@ -282,7 +278,7 @@ country="France"
 
 <details>
   <summary>Hiển thị đáp án</summary>
-  Đáp án: `echo $city`
+  Đáp án: echo $city
 </details>
 
 ---
@@ -291,5 +287,5 @@ country="France"
 
 <details>
   <summary>Hiển thị đáp án</summary>
-  Đáp án: `echo $country`
+  Đáp án: echo $country
 </details>
