@@ -17,8 +17,6 @@
 
 # Task 1: Introduction
 
-Dưới đây là bản dịch tiếng Việt của nội dung trong ảnh:
-
 ---
 
 ### Bash là gì?
@@ -38,5 +36,89 @@ Trong suốt quá trình học, bạn có thể làm theo cùng với tôi! Bạ
 Trang web hữu ích học Bash: [https://devhints.io/bash](https://devhints.io/bash)
 
 Trang web tra cứu chức năng của các lệnh: [https://explainshell.com/](https://explainshell.com/)
+
 ---
 
+# Task 2: Our first simple bash scripts
+
+Dưới đây là bản dịch tiếng Việt của nội dung trong ảnh:
+
+---
+
+### Task 2 – Những đoạn bash script đơn giản đầu tiên của chúng ta
+
+Một file bash script thường có đuôi `.sh`
+
+Trước tiên, hãy trình bày cấu trúc của chúng ta.
+
+Một bash script luôn bắt đầu với dòng mã sau ở đầu tập tin:
+
+```
+#!/bin/bash
+```
+
+![](./img/4_Bash_Scripting/2.1.png)
+
+Dòng này giúp shell của bạn (bất kể loại shell nào) biết rằng nó cần phải chạy tập tin của bạn bằng bash trong terminal.
+
+---
+
+Hãy cùng bắt đầu với một vài ví dụ cơ bản.
+
+```bash
+#!/bin/bash
+echo "Hello World!"
+```
+![](./img/4_Bash_Scripting/2.2.png)
+
+Lệnh này sẽ in ra chuỗi “Hello World!”.
+Lệnh `echo` được dùng để xuất văn bản ra màn hình, tương tự như lệnh `print` trong Python.
+
+---
+
+Chúng cũng có thể thực thi các lệnh Linux thông thường bên trong bash script, và chúng sẽ được chạy nếu bạn định dạng đúng.
+Ví dụ, chúng ta có thể chạy lệnh `ls` bên trong bash script và sẽ thấy kết quả khi chạy file đó. 
+
+```bash
+#!/bin/bash
+echo "Hello World"
+whoami
+id
+```
+![](./img/4_Bash_Scripting/2.3.png)
+
+---
+
+Trong đoạn script trên:
+
+* `whoami` sẽ in ra tên người dùng hiện tại.
+* `id` sẽ hiển thị thông tin UID, GID, và nhóm của người dùng.
+
+Dưới đây là bản dịch tiếng Việt của nội dung trong ảnh:
+
+---
+
+Bây giờ để chạy một bash script, trước tiên ta cần cấp quyền thực thi cho nó:
+
+```
+chmod +x yourfile.sh
+```
+
+Sau đó ta chạy nó bằng cách sử dụng:
+
+```
+./
+```
+
+Ví dụ:
+
+```bash
+./first_bash_script.sh 
+Hello World
+chu
+uid=1000(chu) gid=1000(chu) groups=1000(chu),4(adm),24(cdrom),27(sudo),30(dip),46(plugdev),109(kvm),119(vboxusers),122(lpadmin),134(lxd),135(sambashare),139(wireshark),140(docker),143(ubridge),145(libvirt)
+```
+
+Ta có thể thấy script đã xuất ra kết quả của các lệnh `whoami` và `id`.
+
+---
