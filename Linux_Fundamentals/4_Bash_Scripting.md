@@ -482,6 +482,9 @@ unset transport[1]
 
 Lệnh này sẽ xóa phần tử `"train"`. Nếu bạn thử in lại phần tử đó, sẽ thấy nó đã biến mất.
 
+![](./img/4_Bash_Scripting/5.1.png)
+
+
 ---
 
 Nếu muốn **gán lại giá trị khác** cho một phần tử, bạn có thể làm như sau:
