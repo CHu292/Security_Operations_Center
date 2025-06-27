@@ -1,0 +1,32 @@
+| Lệnh       | Giải thích                                                                 | Ví dụ minh họa                                                                                                   |
+|------------|----------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------|
+| **sed**    | Công cụ xử lý văn bản, dùng để tìm kiếm, thay thế, chèn hoặc xóa văn bản. | `echo "Hello World" \| sed 's/World/Linux/'` sẽ thay "World" bằng "Linux".                                     |
+| **awk**    | Công cụ phân tích văn bản và trích xuất dữ liệu.                          | `echo "1 2 3" \| awk '{print $2}'` sẽ in ra cột thứ hai (2).                                                    |
+| **echo**   | In chuỗi ký tự hoặc dữ liệu ra terminal.                                  | `echo "Hello Linux"` sẽ in ra "Hello Linux".                                                                    |
+| **grep**   | Tìm kiếm văn bản dựa trên mẫu khớp biểu thức chính quy.                  | `grep "error" logfile.txt` sẽ tìm các dòng chứa từ "error" trong `logfile.txt`.                                 |
+| **ngrep**  | Tìm kiếm các mẫu văn bản trong lưu lượng mạng.                           | `sudo ngrep 'GET' tcp port 80` sẽ giám sát các yêu cầu HTTP GET trên cổng 80.                                   |
+| **ripgrep**| Công cụ tìm kiếm văn bản nhanh, hiệu quả.                                 | `rg "function"` sẽ tìm các dòng chứa "function" trong thư mục hiện tại.                                         |
+| **ag**     | Tương tự `ripgrep`, tối ưu hóa cho mã nguồn lớn.                         | `ag "main"` sẽ tìm từ "main" trong mã nguồn của dự án.                                                          |
+| **ack**    | Tìm kiếm văn bản với nhận diện tốt thư mục mã nguồn.                      | `ack "class"` sẽ tìm các dòng chứa từ "class".                                                                  |
+| **cut**    | Trích xuất các phần cụ thể từ dòng văn bản.                               | `echo "a,b,c" \| cut -d',' -f2` sẽ in ra "b".                                                                   |
+| **sort**   | Sắp xếp các dòng văn bản theo thứ tự tăng/giảm dần.                      | `sort file.txt` sẽ sắp xếp các dòng trong `file.txt`.                                                           |
+| **uniq**   | Loại bỏ các dòng trùng lặp trong tệp.                                    | `sort file.txt \| uniq` sẽ hiển thị các dòng không trùng lặp.                                                  |
+| **diff**   | So sánh sự khác biệt giữa hai tệp văn bản.                               | `diff file1.txt file2.txt` sẽ hiển thị sự khác biệt giữa hai tệp.                                              |
+| **tac**    | Hiển thị nội dung tệp theo thứ tự ngược.                                 | `tac file.txt` sẽ hiển thị dòng cuối lên đầu.                                                                   |
+| **cat**    | Kết hợp nội dung của nhiều tệp và in ra màn hình.                        | `cat file1.txt file2.txt` sẽ in nội dung của cả hai tệp.                                                       |
+| **printf** | In dữ liệu với định dạng cụ thể.                                         | `printf "Hello %s\n" "Linux"` sẽ in ra "Hello Linux".                                                          |
+| **comm**   | So sánh hai tệp đã được sắp xếp, hiển thị sự giống/khác.                 | `comm file1.txt file2.txt` sẽ so sánh dòng trong hai tệp.                                                      |
+| **less/more** | Hiển thị nội dung tệp theo dạng phân trang.                          | `less file.txt` sẽ cho phép xem nội dung tệp theo từng trang.                                                  |
+| **tail**   | Hiển thị các dòng cuối cùng của tệp.                                     | `tail -n 5 file.txt` sẽ hiển thị 5 dòng cuối của tệp.                                                          |
+| **head**   | Hiển thị các dòng đầu tiên của tệp.                                      | `head -n 5 file.txt` sẽ hiển thị 5 dòng đầu của tệp.                                                           |
+| **jq**     | Công cụ xử lý JSON.                                                     | `echo '{"key":"value"}' \| jq '.'` sẽ định dạng và hiển thị JSON.                                               |
+| **tr**     | Chuyển đổi/xóa ký tự trong văn bản.                                      | `echo "hello" \| tr 'a-z' 'A-Z'` sẽ chuyển "hello" thành "HELLO".                                              |
+| **ccze**   | Tô màu cho nhật ký (log).                                               | `tail -f logfile.txt \| ccze` sẽ hiển thị tệp log với màu sắc rõ ràng.                                         |
+| **csvcut** | Chọn các cột cụ thể từ tệp CSV.                                         | `csvcut -c 2,3 file.csv` sẽ hiển thị cột 2 và 3 từ file CSV.                                                   |
+| **nl**     | Đánh số dòng cho mỗi dòng trong tệp.                                    | `nl file.txt` sẽ hiển thị tệp với các dòng được đánh số.                                                       |
+| **rev**    | Đảo ngược ký tự trong mỗi dòng văn bản.                                 | `echo "hello" \| rev` sẽ hiển thị "olleh".                                                                     |
+| **wc**     | Đếm số dòng, từ và ký tự trong tệp.                                     | `wc file.txt` sẽ hiển thị số dòng, từ và ký tự trong tệp.                                                      |
+| **paste**  | Kết hợp các tệp theo từng dòng.                                         | `paste file1.txt file2.txt` sẽ ghép các dòng từ hai tệp lại.                                                   |
+| **vimdiff**| So sánh và chỉnh sửa tệp trong Vim.                                     | `vimdiff file1.txt file2.txt` sẽ mở cả hai tệp và hiển thị sự khác biệt.                                       |
+| **watch**  | Chạy lệnh liên tục theo chu kỳ.                                         | `watch -n 2 ls` sẽ chạy lệnh `ls` mỗi 2 giây.                                                                  |
+| **pt**     | Công cụ tìm kiếm mã nguồn nhanh.                                        | `pt "function_name"` sẽ tìm kiếm các dòng chứa "function_name" trong mã nguồn.                                 |
