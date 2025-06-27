@@ -19,20 +19,20 @@ Lộ trình này được thiết kế thân thiện với người mới bắt 
 
 ---
 
-## **Section 2: Linux Fundamentals**
+## [Section 2: Linux Fundamentals](/SOC/1_Pre_Security/4_Linux_Fundamentals/)
 
-- [Linux Fundamentals Part 1](https://github.com/CHu292/SOC/blob/main/Try_Hack_Me/Pre_Security/4_Linux_Fundamentals/1_Linux_Fundamentals_Part_1.md)  
-- [Linux Fundamentals Part 2](https://github.com/CHu292/SOC/blob/main/Try_Hack_Me/Pre_Security/4_Linux_Fundamentals/2_Linux_Fundamentals_Part_2.md)  
-- [Linux Fundamentals Part 3](https://github.com/CHu292/SOC/blob/main/Try_Hack_Me/Pre_Security/4_Linux_Fundamentals/3_Linux_Fundamentals_Part_3.md)  
+1. [Linux Fundamentals Part 1](/SOC/1_Pre_Security/4_Linux_Fundamentals/1_Linux_Fundamentals_Part_1.md)  
+2. [Linux Fundamentals Part 2](/SOC/1_Pre_Security/4_Linux_Fundamentals/2_Linux_Fundamentals_Part_2.md)  
+3. [Linux Fundamentals Part 3](/SOC/1_Pre_Security/4_Linux_Fundamentals/3_Linux_Fundamentals_Part_3.md)  
 
 ---
 
-## **Section 3: Windows and AD Fundamentals**
+## [Section 3: Windows and AD Fundamentals]
 
-- [Windows Fundamentals 1](https://github.com/CHu292/SOC/blob/main/Try_Hack_Me/Pre_Security/5_Windows_Fundamentals/1_Windows_Fundamentals_1.md)  
-- [Windows Fundamentals 2](https://github.com/CHu292/SOC/blob/main/Try_Hack_Me/Pre_Security/5_Windows_Fundamentals/2_Windows_Fundamentals_2.md)
-- [Windows Fundamentals 3](https://github.com/CHu292/SOC/blob/main/Try_Hack_Me/Pre_Security/5_Windows_Fundamentals/3_Windows_Fundamentals_3.md)  
-- [Active Directory Basics](https://github.com/CHu292/SOC/blob/main/Try_Hack_Me/Cyber_Security_101/3_Windows_and_AD_Fundamentals/4_Active_Directory_Basics.md)  
+1. [Windows Fundamentals 1](/SOC/1_Pre_Security/5_Windows_Fundamentals/1_Windows_Fundamentals_1.md)  
+2. [Windows Fundamentals 2](/SOC/1_Pre_Security/5_Windows_Fundamentals/2_Windows_Fundamentals_2.md)
+3. [Windows Fundamentals 3](/SOC/1_Pre_Security/5_Windows_Fundamentals/3_Windows_Fundamentals_3.md)  
+4. [Active Directory Basics](/SOC/1_Pre_Security/5_Windows_Fundamentals/4_Active_Directory_Basics.md)  
 
 ---
 
