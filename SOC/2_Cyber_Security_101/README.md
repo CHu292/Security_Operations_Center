@@ -27,7 +27,7 @@ Lộ trình này được thiết kế thân thiện với người mới bắt 
 
 ---
 
-## [Section 3: Windows and AD Fundamentals]
+## [Section 3: Windows and AD Fundamentals](/SOC/1_Pre_Security/5_Windows_Fundamentals/)
 
 1. [Windows Fundamentals 1](/SOC/1_Pre_Security/5_Windows_Fundamentals/1_Windows_Fundamentals_1.md)  
 2. [Windows Fundamentals 2](/SOC/1_Pre_Security/5_Windows_Fundamentals/2_Windows_Fundamentals_2.md)
@@ -36,9 +36,9 @@ Lộ trình này được thiết kế thân thiện với người mới bắt 
 
 ---
 
-## **Section 4: Command Line**
+## [Section 4: Command Line](./4_Command_Line/)
 
-- Windows Command Line  
+1. [Windows Command Line](./4_Command_Line/1_Windows_Command_Line/Windows_Command_Line.md)  
 - Windows PowerShell  
 - Linux Shells  
 
