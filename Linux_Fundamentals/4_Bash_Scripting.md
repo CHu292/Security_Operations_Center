@@ -521,3 +521,27 @@ Như vậy, bạn đã biết cách thay thế phần tử trong mảng thành c
 cars=('honda' 'audi' 'bmw' 'tesla')
 ```
 
+**Câu hỏi: Lệnh nào sẽ in `audi` ra màn hình bằng cách sử dụng chỉ số của mảng?**
+
+<details>
+  <summary>Hiển thị đáp án</summary>
+  Đáp án: `echo "${cars[1]}"`
+</details>
+
+---
+
+**Câu hỏi: Nếu muốn xóa `tesla` khỏi mảng, chúng ta cần làm gì?**
+
+<details>
+  <summary>Hiển thị đáp án</summary>
+  Đáp án: `unset cars[3]`
+</details>
+
+---
+
+**Câu hỏi: Làm thế nào để thêm giá trị mới `toyota` để thay thế `tesla`?**
+
+<details>
+  <summary>Hiển thị đáp án</summary>
+  Đáp án: `cars[3]='toyota'`
+</details>
