@@ -545,3 +545,141 @@ cars=('honda' 'audi' 'bmw' 'tesla')
   <summary>Hiển thị đáp án</summary>
   Đáp án: `cars[3]='toyota'`
 </details>
+
+# Task 6: Conditionals (Câu điều kiện)
+
+---
+
+```bash
+#!/bin/bash
+
+filename=$1
+
+if [ -f "${filename}" ] && [ -w "${filename}" ]
+then
+    echo "hello" > $filename
+else
+    touch "$filename"
+    echo "hello" > $filename
+fi
+```
+
+---
+
+Khi nói về **câu lệnh điều kiện (conditionals)**, điều đó có nghĩa là một đoạn mã chỉ được thực thi nếu một điều kiện nào đó được thỏa mãn. Điều kiện này thường được xác định bởi các **toán tử quan hệ** như bằng, lớn hơn, nhỏ hơn,...
+
+---
+
+Trong ví dụ này, ta sẽ tạo một câu lệnh `if` đơn giản để kiểm tra xem một biến có bằng một giá trị nào đó hay không. Đồng thời, chúng ta cũng viết một đoạn script để kiểm tra:
+
+* Nếu một **tệp tồn tại** và **có thể ghi (writeable)**, thì sẽ ghi dòng `"hello"` vào tệp đó.
+* Nếu tệp **không tồn tại hoặc không thể ghi**, nó sẽ **xóa hoặc tạo mới tệp đó**, rồi ghi `"hello"` vào.
+
+---
+
+Trước tiên, chúng ta sẽ tìm hiểu cú pháp cơ bản của một câu lệnh `if`.
+
+Tất cả các câu lệnh `if` đều có dạng như sau:
+
+```bash
+if [ điều_kiện_so_sánh ]
+then
+    thực hiện_nếu_đúng
+else
+    thực hiện_nếu_sai
+fi
+```
+
+Trong đó:
+
+* `if ... then ... else ... fi` là cấu trúc chuẩn.
+* `[]` là nơi bạn đặt điều kiện so sánh.
+* `fi` là từ khóa kết thúc khối `if`.
+
+---
+
+Hãy cùng xem một ví dụ:
+
+```bash
+count=10
+
+if [ $count -eq 10 ]
+then
+    echo "true"
+else
+    echo "false"
+fi
+```
+
+---
+
+Câu lệnh `if` luôn sử dụng một cặp dấu ngoặc vuông `[]` và trong trường hợp này, **phải có dấu cách** ở cả hai bên của biểu thức bên trong (đây là cú pháp Bash).
+Ngoài ra, luôn phải kết thúc khối `if` bằng từ khóa `fi`.
+
+---
+
+Trong ví dụ này, một biến `count` được khai báo bằng giá trị `10`, và dòng đầu tiên của câu lệnh `if` so sánh biến `$count` với số nguyên `10`.
+
+* Nếu hai giá trị **bằng nhau**, chương trình sẽ in ra `true`.
+* Nếu **không bằng**, chương trình sẽ in ra `false`.
+
+Vì 10 bằng 10 nên kết quả sẽ là `true`.
+
+Dấu `-eq` là một cách để kiểm tra sự bằng nhau. Bạn cũng có thể dùng dấu `=` để làm việc này.
+
+---
+
+Dưới đây là bảng tổng hợp **các toán tử phổ biến trong Bash**, được chia thành 3 nhóm chính: **so sánh số học**, **so sánh chuỗi**, và **kiểm tra tệp tin**.
+
+---
+
+###  Toán tử so sánh số học
+
+| Toán tử | Mô tả                   |
+| ------- | ----------------------- |
+| `-eq`   | Bằng (`=`)              |
+| `-ne`   | Khác (`≠`)              |
+| `-gt`   | Lớn hơn (`>`)           |
+| `-lt`   | Nhỏ hơn (`<`)           |
+| `-ge`   | Lớn hơn hoặc bằng (`≥`) |
+| `-lt`   | Nhỏ hơn hoặc bằng (`≤`) |
+
+> Ví dụ:
+> `[ "$a" -gt 10 ]` – đúng nếu `$a > 10`
+
+---
+
+### Toán tử so sánh chuỗi
+
+| Toán tử | Mô tả                                          |
+| ------- | ---------------------------------------------- |
+| `=`     | Bằng nhau                                      |
+| `!=`    | Khác nhau                                      |
+| `<`     | Nhỏ hơn theo thứ tự từ điển (cần dùng `[[ ]]`) |
+| `>`     | Lớn hơn theo thứ tự từ điển (cần dùng `[[ ]]`) |
+| `-z`    | Chuỗi rỗng                                     |
+| `-n`    | Chuỗi không rỗng                               |
+
+> Ví dụ:
+> `[ "$name" = "admin" ]` – đúng nếu `$name` bằng `"admin"`
+
+---
+
+### Toán tử kiểm tra tệp tin
+
+| Toán tử | Mô tả               |
+| ------- | ------------------- |
+| `-e`    | Tệp tồn tại         |
+| `-f`    | Là tệp thông thường |
+| `-d`    | Là thư mục          |
+| `-r`    | Có quyền đọc        |
+| `-w`    | Có quyền ghi        |
+| `-x`    | Có quyền thực thi   |
+| `-s`    | Tệp không rỗng      |
+| `!`     | Phủ định điều kiện  |
+
+> Ví dụ:
+> `[ -d "/etc" ]` – đúng nếu `/etc` là thư mục
+
+---
+
