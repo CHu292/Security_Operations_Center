@@ -11,11 +11,11 @@ Lộ trình này được thiết kế thân thiện với người mới bắt 
 
 ---
 
-## **Section 1: Start Your Cyber Security Journey**
+## [Section 1: Start Your Cyber Security Journey](./1_Start_Your_Cyber_Security_Journey/)
 
-- [Offensive Security Intro](https://github.com/CHu292/SOC/blob/main/Try_Hack_Me/Pre_Security/1_Introduction_to_Cyber_Security/1_Offensive_Security_Intro.md)  
-- [Defensive Security Intro](https://github.com/CHu292/SOC/blob/main/Try_Hack_Me/Pre_Security/1_Introduction_to_Cyber_Security/2_Defensive_Security_Intro.md)  
-- [Search Skills]()  
+1. [Offensive Security Intro](/SOC/1_Pre_Security/1_Introduction_to_Cyber_Security/1_Offensive_Security_Intro.md)  
+2. [Defensive Security Intro](/SOC/1_Pre_Security/1_Introduction_to_Cyber_Security/2_Defensive_Security_Intro.md)  
+3. [Search Skills](./1_Start_Your_Cyber_Security_Journey/Search_Skills.md)  
 
 ---
 
