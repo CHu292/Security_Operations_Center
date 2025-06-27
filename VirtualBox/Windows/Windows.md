@@ -59,19 +59,7 @@ VBoxWindowsAdditions.exe
 
 ---
 
-### ✅ BƯỚC 2: Chuyển sang chế độ toàn màn hình
-
-**2.1. Từ menu của VirtualBox**, nhấn:
-
-```
-View → Full-screen Mode (hoặc nhấn phím tắt: Host + F)
-```
-
-> *Phím “Host” mặc định là phím **Right Ctrl** (Ctrl bên phải bàn phím).*
-
----
-
-### 🔁 Nếu vẫn chưa full sau khi cài Guest Additions:
+### Bước 2: Tăng độ phân giải màn hình
 
 * Vào trong Windows 10 → **Settings → Display**
 
@@ -83,15 +71,76 @@ View → Full-screen Mode (hoặc nhấn phím tắt: Host + F)
     * Tăng **Video Memory** lên tối đa (128 MB)
     * Bật “Enable 3D Acceleration”
 
+![](./15.png)
+
+
+### BƯỚC 3: Chuyển sang chế độ toàn màn hình
+
+**2.1. Từ menu của VirtualBox**, nhấn:
+
+```
+View → Full-screen Mode (hoặc nhấn phím tắt: Host + F)
+```
+
+> *Phím “Host” mặc định là phím **Right Ctrl** (Ctrl bên phải bàn phím).*
+
 ---
 
-### 🛠 Nếu không thấy ổ đĩa Guest Additions:
 
-* Từ menu: **Devices → Optical Drives → Choose a disk file…**
-* Tải file ISO theo link (nếu chưa có):
-  [https://download.virtualbox.org/virtualbox/](https://download.virtualbox.org/virtualbox/)
-  → Chọn phiên bản bạn dùng → Tải file: `VBoxGuestAdditions.iso`
+# 3 Chia sẻ file giữa máy thật (host) và máy ảo (guest)** trong VirtualBox
 
 ---
 
-Nếu làm hết vẫn chưa được, bạn có thể gửi ảnh màn hình hoặc chi tiết lỗi, tôi sẽ hỗ trợ thêm.
+## CÁCH 1: Dùng thư mục chia sẻ (Shared Folder)
+
+### Bước 1: Cài Guest Additions (nếu chưa có)
+
+Trong máy ảo Windows:
+
+* Từ menu VirtualBox (ngoài): **Devices → Insert Guest Additions CD image...**
+* Mở file `VBoxWindowsAdditions.exe` và cài đặt → Khởi động lại máy ảo.
+
+---
+
+### Bước 2: Thiết lập thư mục chia sẻ
+
+1. **Tắt máy ảo**
+2. Trong VirtualBox Manager → chọn máy ảo → **Settings → Shared Folders**
+3. Nhấn dấu **+** bên phải để thêm thư mục:
+
+   * **Folder Path**: chọn thư mục trên máy thật
+   * **Folder Name**: đặt tên bất kỳ (VD: `Shared`)
+   * ✅ Check **Auto-mount**
+   * ✅ Check **Make Permanent**
+4. Bấm **OK**
+
+---
+
+### Bước 3: Truy cập trong Windows ảo
+
+1. Mở File Explorer trong máy ảo Windows
+2. Truy cập:
+
+   ```
+   This PC → Network Locations → \\VBOXSVR\Shared
+   ```
+
+   hoặc ổ đĩa mạng mới sẽ tự hiện trong “This PC” nếu Auto-mount bật.
+
+![](./16.png)
+
+---
+
+## Dùng Drag & Drop hoặc Clipboard
+
+Bạn có thể bật kéo-thả hoặc copy-paste nếu đã cài Guest Additions:
+
+* **Settings → General → Advanced**:
+
+  * **Shared Clipboard** → `Bidirectional`
+  * **Drag and Drop** → `Bidirectional`
+
+> Tuy nhiên, chức năng này đôi khi không ổn định bằng cách dùng thư mục chia sẻ.
+
+---
+
