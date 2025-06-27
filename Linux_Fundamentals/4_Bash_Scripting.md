@@ -1150,7 +1150,238 @@ Dưới đây là **bảng tổng hợp các flag (tùy chọn)** thường dùn
 | `-f`         | Theo dõi log theo thời gian thực (giống `tail -f`) | `journalctl -f`                   |
 | `--since`    | Lọc log theo thời gian                             | `journalctl --since "2024-01-01"` |
 
+
 ---
 
+### `systemctl` – Quản lý dịch vụ hệ thống (systemd)
+
+| Lệnh / Flag | Mô tả                                    | Ví dụ sử dụng             |
+| ----------- | ---------------------------------------- | ------------------------- |
+| `start`     | Bắt đầu dịch vụ                          | `systemctl start nginx`   |
+| `stop`      | Dừng dịch vụ                             | `systemctl stop apache2`  |
+| `restart`   | Khởi động lại dịch vụ                    | `systemctl restart sshd`  |
+| `status`    | Kiểm tra trạng thái dịch vụ              | `systemctl status docker` |
+| `enable`    | Bật dịch vụ khởi động cùng hệ thống      | `systemctl enable mysql`  |
+| `disable`   | Tắt dịch vụ khỏi khởi động cùng hệ thống | `systemctl disable cups`  |
+
+---
+
+### `iptables` – Cấu hình tường lửa
+
+| Lệnh / Flag | Mô tả                             | Ví dụ sử dụng                                   |
+| ----------- | --------------------------------- | ----------------------------------------------- |
+| `-L`        | Liệt kê các luật hiện có          | `iptables -L`                                   |
+| `-A`        | Thêm luật mới                     | `iptables -A INPUT -p tcp --dport 22 -j ACCEPT` |
+| `-D`        | Xoá luật                          | `iptables -D INPUT 1`                           |
+| `-F`        | Xoá tất cả luật                   | `iptables -F`                                   |
+| `-I`        | Chèn luật vào vị trí cụ thể       | `iptables -I INPUT 1 -p icmp -j DROP`           |
+| `-p`        | Chỉ định giao thức (tcp/udp/icmp) | `iptables -A INPUT -p tcp ...`                  |
+
+---
+
+### `cron` & `crontab` – Tác vụ định kỳ
+
+| Lệnh / Flag  | Mô tả                                 | Ví dụ sử dụng |
+| ------------ | ------------------------------------- | ------------- |
+| `crontab -e` | Mở file cấu hình tác vụ định kỳ       | `crontab -e`  |
+| `crontab -l` | Xem danh sách tác vụ định kỳ hiện tại | `crontab -l`  |
+| `crontab -r` | Xoá toàn bộ crontab                   | `crontab -r`  |
+
+> **Ví dụ dòng crontab**:
+> `0 2 * * * /usr/bin/backup.sh` – chạy lúc 2h sáng hàng ngày
+
+---
+
+### `kill` – Kết thúc tiến trình
+
+| Flag       | Mô tả                                  | Ví dụ sử dụng  |
+| ---------- | -------------------------------------- | -------------- |
+| `kill PID` | Gửi tín hiệu dừng mặc định (TERM)      | `kill 1234`    |
+| `-9`       | Gửi tín hiệu SIGKILL (mạnh nhất)       | `kill -9 5678` |
+| `-l`       | Liệt kê danh sách tín hiệu có thể dùng | `kill -l`      |
+
+---
+
+### `top` – Giám sát tiến trình theo thời gian thực
+
+| Flag       | Mô tả                                     | Ví dụ sử dụng |
+| ---------- | ----------------------------------------- | ------------- |
+| (mặc định) | Mở giao diện top                          | `top`         |
+| `-u`       | Chỉ hiển thị tiến trình của 1 user cụ thể | `top -u root` |
+
+---
+
+### `htop` – Giao diện tương tác quản lý tiến trình (cải tiến từ `top`)
+
+| Cú pháp | Mô tả                    | Ví dụ sử dụng |
+| ------- | ------------------------ | ------------- |
+| `htop`  | Khởi chạy giao diện htop | `htop`        |
+
+> (Nếu chưa có, cài bằng: `sudo apt install htop`)
+
+---
+
+### `ping` – Kiểm tra kết nối mạng
+
+| Flag | Mô tả                             | Ví dụ sử dụng          |
+| ---- | --------------------------------- | ---------------------- |
+| `-c` | Số lượng gói gửi                  | `ping -c 4 google.com` |
+| `-i` | Thời gian chờ giữa mỗi gói (giây) | `ping -i 2 8.8.8.8`    |
+| `-t` | TTL (Time to live)                | `ping -t 64 8.8.8.8`   |
+
+---
+
+### `ss` – Hiển thị kết nối mạng (thay thế `netstat`)
+
+| Flag | Mô tả                            | Ví dụ sử dụng |
+| ---- | -------------------------------- | ------------- |
+| `-t` | Chỉ hiển thị kết nối TCP         | `ss -t`       |
+| `-l` | Hiển thị cổng đang lắng nghe     | `ss -l`       |
+| `-n` | Không phân giải tên              | `ss -tunlp`   |
+| `-p` | Hiển thị tiến trình gắn với cổng | `ss -tulnp`   |
+
+---
+
+### `netstat` – Kiểm tra kết nối mạng (cũ, nhưng vẫn hữu ích)
+
+| Flag    | Mô tả                                       | Ví dụ sử dụng    |
+| ------- | ------------------------------------------- | ---------------- |
+| `-tuln` | Cổng TCP/UDP đang lắng nghe không phân giải | `netstat -tuln`  |
+| `-p`    | Hiển thị PID/Tên tiến trình                 | `netstat -tulnp` |
+| `-r`    | Hiển thị bảng định tuyến                    | `netstat -r`     |
+
+---
+
+### `mount` – Gắn kết hệ thống tệp
+
+| Flag       | Mô tả                        | Ví dụ sử dụng                   |
+| ---------- | ---------------------------- | ------------------------------- |
+| (mặc định) | Gắn một thiết bị vào thư mục | `mount /dev/sdb1 /mnt/usb`      |
+| `-t`       | Chỉ định hệ thống tệp        | `mount -t ext4 /dev/sda1 /data` |
+
+---
+
+### `df` – Xem dung lượng ổ đĩa
+
+| Flag | Mô tả                         | Ví dụ sử dụng |
+| ---- | ----------------------------- | ------------- |
+| `-h` | Dung lượng dễ đọc (KB, MB...) | `df -h`       |
+| `-T` | Hiển thị loại hệ thống tệp    | `df -T`       |
+
+---
+
+### `du` – Kiểm tra dung lượng thư mục
+
+| Flag | Mô tả                         | Ví dụ sử dụng    |
+| ---- | ----------------------------- | ---------------- |
+| `-h` | Hiển thị dễ đọc               | `du -h folder/`  |
+| `-s` | Chỉ tổng dung lượng thư mục   | `du -sh folder/` |
+| `-a` | Hiển thị dung lượng từng file | `du -ah folder/` |
+
+---
+
+### `docker` – Quản lý container Docker
+
+| Lệnh / Flag     | Mô tả                                    | Ví dụ sử dụng                       |
+| --------------- | ---------------------------------------- | ----------------------------------- |
+| `docker ps`     | Liệt kê container đang chạy              | `docker ps`                         |
+| `docker ps -a`  | Liệt kê tất cả container (kể cả đã dừng) | `docker ps -a`                      |
+| `docker images` | Liệt kê images đang có                   | `docker images`                     |
+| `docker run`    | Tạo và chạy container                    | `docker run -it ubuntu /bin/bash`   |
+| `docker exec`   | Thực thi lệnh trong container đang chạy  | `docker exec -it container_id bash` |
+| `docker stop`   | Dừng container                           | `docker stop container_id`          |
+| `docker rm`     | Xoá container                            | `docker rm container_id`            |
+
+---
+
+### `nmap` – Quét cổng và dịch vụ mạng
+
+| Flag  | Mô tả                                 | Ví dụ sử dụng              |
+| ----- | ------------------------------------- | -------------------------- |
+| `-sS` | Quét SYN (stealth scan)               | `nmap -sS 192.168.1.1`     |
+| `-sV` | Phát hiện phiên bản dịch vụ           | `nmap -sV scanme.nmap.org` |
+| `-p`  | Quét cổng cụ thể                      | `nmap -p 80,443 10.0.0.1`  |
+| `-O`  | Phát hiện hệ điều hành (OS detection) | `nmap -O 192.168.1.1`      |
+
+---
+
+### `tcpdump` – Phân tích gói tin mạng
+
+| Flag | Mô tả                             | Ví dụ sử dụng                 |
+| ---- | --------------------------------- | ----------------------------- |
+| `-i` | Chỉ định interface mạng           | `tcpdump -i eth0`             |
+| `-n` | Không phân giải tên hostname/port | `tcpdump -n port 80`          |
+| `-w` | Ghi dữ liệu vào file `.pcap`      | `tcpdump -i eth0 -w out.pcap` |
+| `-r` | Đọc dữ liệu từ file `.pcap`       | `tcpdump -r out.pcap`         |
+
+---
+
+### `ufw` – Tường lửa đơn giản (Uncomplicated Firewall)
+
+| Lệnh / Flag    | Mô tả            | Ví dụ sử dụng       |
+| -------------- | ---------------- | ------------------- |
+| `ufw enable`   | Bật tường lửa    | `sudo ufw enable`   |
+| `ufw disable`  | Tắt tường lửa    | `sudo ufw disable`  |
+| `ufw status`   | Xem trạng thái   | `sudo ufw status`   |
+| `ufw allow 22` | Cho phép cổng 22 | `sudo ufw allow 22` |
+| `ufw deny 80`  | Chặn cổng 80     | `sudo ufw deny 80`  |
+
+---
+
+### `watch` – Theo dõi lệnh theo thời gian thực
+
+| Flag       | Mô tả                                       | Ví dụ sử dụng      |
+| ---------- | ------------------------------------------- | ------------------ |
+| (mặc định) | Chạy lặp lại một lệnh mỗi 2 giây            | `watch ls -l`      |
+| `-n`       | Chỉ định khoảng thời gian giữa các lần chạy | `watch -n 5 df -h` |
+| `-d`       | Tô màu những phần thay đổi                  | `watch -d date`    |
+
+---
+
+### `time` – Đo thời gian thực thi lệnh
+
+| Cú pháp        | Mô tả                               | Ví dụ sử dụng  |
+| -------------- | ----------------------------------- | -------------- |
+| `time command` | Hiển thị thời gian user/system/real | `time sleep 1` |
+
+---
+
+### `yes` – Lặp lại chuỗi vô hạn (dùng test hoặc pipe)
+
+| Cú pháp  | Mô tả            | Ví dụ sử dụng |       |             |
+| -------- | ---------------- | ------------- | ----- | ----------- |
+| `yes`    | In “y” lặp lại   | `yes`         |       |             |
+| `yes No` | In “No” liên tục | `yes No`      |       |             |
+| \`yes    | head -n 3\`      | In 3 dòng “y” | \`yes | head -n 3\` |
+
+---
+
+### `cut` – Cắt trường từ dòng
+
+| Flag | Mô tả                    | Ví dụ sử dụng                |
+| ---- | ------------------------ | ---------------------------- |
+| `-d` | Chỉ định ký tự phân cách | `cut -d ':' -f1 /etc/passwd` |
+| `-f` | Chọn trường cụ thể       | `cut -f2 data.txt`           |
+| `-c` | Cắt theo vị trí ký tự    | `cut -c1-5 file.txt`         |
+
+---
+
+### `paste` – Ghép dòng file theo chiều ngang
+
+| Flag       | Mô tả                             | Ví dụ sử dụng              |
+| ---------- | --------------------------------- | -------------------------- |
+| (mặc định) | Ghép dòng tương ứng giữa các file | `paste file1 file2`        |
+| `-d`       | Đặt ký tự phân cách giữa cột      | `paste -d ',' a.txt b.txt` |
+
+---
+
+### `zcat`, `bzcat` – Xem nội dung file nén `.gz`, `.bz2`
+
+| Lệnh    | Mô tả                                      | Ví dụ sử dụng        |
+| ------- | ------------------------------------------ | -------------------- |
+| `zcat`  | Xem nội dung file `.gz` không cần giải nén | `zcat file.txt.gz`   |
+| `bzcat` | Xem nội dung file `.bz2`                   | `bzcat file.txt.bz2` |
+
+---
 
 
