@@ -11,7 +11,7 @@
 4. [Task 4: Parameters](#task-4-parameters)  
 5. [Task 5: Arrays](#task-5-arrays)  
 6. [Task 6: Conditionals](#task-6-conditionals)  
-7. [Task 7: Further reading](#task-7-further-reading)
+7. [Task 7: Flag](#task-7-Flag)
 
 ## Nội dung
 
@@ -682,4 +682,475 @@ Dưới đây là bảng tổng hợp **các toán tử phổ biến trong Bash*
 > `[ -d "/etc" ]` – đúng nếu `/etc` là thư mục
 
 ---
+
+Bây giờ hãy sử dụng những gì chúng ta đã học để tạo một đoạn script nhỏ, so sánh một đầu vào (tham số) với một giá trị cụ thể để kiểm tra xem nó có đúng hay không. Một kiểu trò chơi "đoán" đơn giản.
+
+```bash
+#!/bin/bash
+
+value="guessme"
+guess=$1
+
+if [ "$value" = "$guess" ]
+then
+    echo "They are equal"
+else
+    echo "They are not equal"
+fi
+```
+
+---
+
+Bây giờ hãy thử chạy đoạn script này trong terminal:
+
+![](./img/4_Bash_Scripting/6.1.png)
+
+Và chúng ta thấy rằng nó hoạt động như mong đợi!
+
+---
+
+Bây giờ chúng ta sẽ tạo một script khác, nơi chúng ta sẽ sử dụng **2 điều kiện đồng thời** và ôn lại một khái niệm đã học ở bài đầu tiên.
+
+Bắt đầu nhé!
+
+Chúng ta sẽ viết một script hoạt động với **tệp được truyền vào dưới dạng tham số**.
+
+Sau đó, chúng ta sẽ kiểm tra xem tệp đó có tồn tại hay không và nó có quyền **ghi (write)** hay không.
+
+* Nếu có quyền ghi, chúng ta sẽ ghi `"hello"` vào tệp đó.
+* Nếu không truy cập được hoặc tệp không tồn tại, ta sẽ **tạo tệp mới** rồi ghi `"hello"` vào đó.
+
+Bắt đầu thôi!
+
+```bash
+#!/bin/bash
+
+filename=$1
+
+if [ -f "$filename" ] && [ -w "$filename" ]
+then
+    echo "hello" > $filename
+else
+    touch "$filename"
+    echo "hello" > $filename
+fi
+```
+
+---
+
+Chạy thử trong terminal:
+
+```bash
+# ./Conditionals_check_exists_write_permissions.sh hello.txt
+# cat hello.txt
+hello
+```
+
+Và ta thấy rằng nó đã hoạt động!
+
+* `-f` kiểm tra xem tệp có tồn tại không
+* `-w` kiểm tra xem tệp có thể ghi được hay không
+  → Nếu không có quyền ghi, thì ta không thể ghi nội dung vào tệp đó.
+
+---
+
+Để hoàn thiện bài tập nhỏ từ phần trước, bạn có thể mở rộng script bằng cách thêm lệnh `if/else` để:
+
+* Kiểm tra xem tuổi có dưới 18 không → nếu có thì in tên + thông báo "Bạn không đủ điều kiện làm việc"
+* Nếu trên 18 thì yêu cầu nhập nghề nghiệp của họ.
+
+Bạn có thể dùng `read` để nhập tên, tuổi, nghề nghiệp.
+
+```bash
+#!/bin/bash
+echo "Enter your name:"
+read name
+echo "Enter your age:"
+read age
+if [ "$age" -ge 18 ]
+then
+	echo "$name can work"
+else
+	echo "$name is not eligible for work"
+fi
+```
+
+![](./img/4_Bash_Scripting/6.2.png)
+
+
+**Hãy trả lời các câu hỏi bên dưới**
+
+**Câu hỏi: Tham số nào dùng để kiểm tra xem ta có quyền đọc file không?**
+
+<details>
+  <summary>Hiển thị đáp án</summary>
+  Đáp án: -r
+</details>
+
+---
+
+**Câu hỏi: Tham số nào dùng để kiểm tra xem đối tượng có phải là thư mục không?**
+
+<details>
+  <summary>Hiển thị đáp án</summary>
+  Đáp án: -d
+</details>
+
+
+# Task 7 Flag
+
+Dưới đây là **bảng tổng hợp các flag (tùy chọn)** thường dùng trong các lệnh phổ biến của Bash/Linux, chia theo nhóm **lệnh** và **mục đích sử dụng**:
+
+---
+
+### `ls` – Liệt kê thư mục
+
+| Flag | Mô tả                              | Ví dụ sử dụng |
+| ---- | ---------------------------------- | ------------- |
+| `-l` | Hiển thị chi tiết (dạng danh sách) | `ls -l`       |
+| `-a` | Hiện cả file ẩn (bắt đầu bằng `.`) | `ls -a`       |
+| `-h` | Kích thước dễ đọc (KB, MB...)      | `ls -lh`      |
+| `-t` | Sắp xếp theo thời gian sửa đổi     | `ls -lt`      |
+| `-r` | Đảo ngược thứ tự hiển thị          | `ls -lr`      |
+
+---
+
+### `cp` – Sao chép file/thư mục
+
+| Flag | Mô tả                                | Ví dụ sử dụng       |
+| ---- | ------------------------------------ | ------------------- |
+| `-r` | Sao chép đệ quy (cả thư mục con)     | `cp -r dir1 dir2`   |
+| `-i` | Hỏi trước khi ghi đè                 | `cp -i file1 file2` |
+| `-u` | Chỉ sao chép nếu nguồn mới hơn đích  | `cp -u file1 file2` |
+| `-v` | Hiển thị chi tiết quá trình sao chép | `cp -v file1 file2` |
+
+---
+
+### `rm` – Xoá file/thư mục
+
+| Flag | Mô tả                                      | Ví dụ sử dụng    |
+| ---- | ------------------------------------------ | ---------------- |
+| `-r` | Xoá đệ quy (thư mục và nội dung bên trong) | `rm -r folder/`  |
+| `-f` | Bỏ qua cảnh báo, xoá thẳng tay             | `rm -f file.txt` |
+| `-i` | Hỏi trước khi xoá từng file                | `rm -i file.txt` |
+| `-v` | Hiển thị chi tiết quá trình xoá            | `rm -v file.txt` |
+
+---
+
+### `grep` – Tìm kiếm chuỗi trong văn bản
+
+| Flag | Mô tả                          | Ví dụ sử dụng              |
+| ---- | ------------------------------ | -------------------------- |
+| `-i` | Không phân biệt chữ hoa/thường | `grep -i hello file.txt`   |
+| `-r` | Tìm kiếm đệ quy trong thư mục  | `grep -r keyword ./`       |
+| `-n` | Hiển thị số dòng khớp          | `grep -n "error" file.log` |
+| `-v` | Hiển thị dòng **không khớp**   | `grep -v "skip" file.txt`  |
+
+---
+
+### `tar` – Nén/Giải nén file
+
+| Flag | Mô tả                                    | Ví dụ sử dụng                  |
+| ---- | ---------------------------------------- | ------------------------------ |
+| `-c` | Tạo file nén mới                         | `tar -cf archive.tar folder/`  |
+| `-x` | Giải nén                                 | `tar -xf archive.tar`          |
+| `-z` | Nén hoặc giải nén với gzip (.gz)         | `tar -czf file.tar.gz folder/` |
+| `-v` | Hiển thị chi tiết quá trình nén/giải nén | `tar -xvf file.tar`            |
+| `-f` | Chỉ định tên file nén                    | `tar -xf archive.tar`          |
+
+---
+
+### `chmod` – Cấp quyền truy cập
+
+| Flag  | Mô tả                            | Ví dụ sử dụng        |
+| ----- | -------------------------------- | -------------------- |
+| `+x`  | Thêm quyền thực thi              | `chmod +x script.sh` |
+| `-x`  | Gỡ quyền thực thi                | `chmod -x script.sh` |
+| `+r`  | Thêm quyền đọc                   | `chmod +r file.txt`  |
+| `u+x` | Chỉ thêm quyền thực thi cho user | `chmod u+x myapp`    |
+
+---
+
+### `test` – Kiểm tra điều kiện (được dùng trong `if`)
+
+| Flag | Mô tả                          | Ví dụ sử dụng         |
+| ---- | ------------------------------ | --------------------- |
+| `-e` | File hoặc thư mục tồn tại      | `[ -e "$file" ]`      |
+| `-f` | File thường tồn tại            | `[ -f "$file" ]`      |
+| `-d` | Thư mục tồn tại                | `[ -d "$folder" ]`    |
+| `-s` | File tồn tại và **không rỗng** | `[ -s "$file" ]`      |
+| `-r` | Có quyền đọc                   | `[ -r "$file" ]`      |
+| `-w` | Có quyền ghi                   | `[ -w "$file" ]`      |
+| `-x` | Có quyền thực thi              | `[ -x "$script.sh" ]` |
+| `!`  | Phủ định điều kiện             | `[ ! -d "$folder" ]`  |
+
+---
+
+### `find` – Tìm kiếm file và thư mục
+
+| Flag     | Mô tả                                    | Ví dụ sử dụng                         |
+| -------- | ---------------------------------------- | ------------------------------------- |
+| `-name`  | Tìm theo tên chính xác                   | `find . -name "file.txt"`             |
+| `-iname` | Tìm tên không phân biệt hoa/thường       | `find . -iname "*.jpg"`               |
+| `-type`  | Tìm theo loại (f: file, d: directory)    | `find . -type f`                      |
+| `-size`  | Tìm theo kích thước (e.g. `+1M`, `-10k`) | `find . -size +1M`                    |
+| `-exec`  | Thực thi lệnh trên mỗi file tìm thấy     | `find . -name "*.log" -exec rm {} \;` |
+| `-mtime` | Tìm file sửa đổi trong vòng `n` ngày     | `find . -mtime -7`                    |
+
+---
+
+### `ps` – Xem tiến trình đang chạy
+
+| Flag  | Mô tả                                    | Ví dụ sử dụng    |
+| ----- | ---------------------------------------- | ---------------- |
+| `aux` | Hiển thị toàn bộ tiến trình              | `ps aux`         |
+| `-u`  | Hiển thị tiến trình của user cụ thể      | `ps -u username` |
+| `-p`  | Hiển thị tiến trình theo PID             | `ps -p 1234`     |
+| `-ef` | Hiển thị tiến trình dưới dạng cây đầy đủ | `ps -ef`         |
+
+---
+
+### `awk` – Xử lý dòng và cột văn bản
+
+| Cú pháp                | Mô tả                          | Ví dụ sử dụng                      |
+| ---------------------- | ------------------------------ | ---------------------------------- |
+| `{print $1}`           | In ra cột đầu tiên             | `awk '{print $1}' file.txt`        |
+| `/pattern/ {print $0}` | In dòng chứa chuỗi khớp        | `awk '/error/ {print $0}' log.txt` |
+| `BEGIN {}`             | Thiết lập khởi tạo             | `awk 'BEGIN {print "Start"}'`      |
+| `END {}`               | Lệnh kết thúc sau khi đọc xong | `awk 'END {print "Done"}'`         |
+
+---
+
+### `curl` – Gửi yêu cầu HTTP
+
+| Flag | Mô tả                               | Ví dụ sử dụng                          |
+| ---- | ----------------------------------- | -------------------------------------- |
+| `-O` | Lưu file theo tên gốc               | `curl -O https://site.com/file.zip`    |
+| `-o` | Lưu file với tên chỉ định           | `curl -o abc.html https://site.com`    |
+| `-L` | Theo dõi chuyển hướng (redirect)    | `curl -L http://example.com`           |
+| `-I` | Hiển thị header của phản hồi        | `curl -I https://google.com`           |
+| `-X` | Chỉ định phương thức (GET, POST...) | `curl -X POST https://api.example.com` |
+| `-d` | Gửi dữ liệu POST                    | `curl -d "key=value" -X POST URL`      |
+| `-H` | Thêm header HTTP                    | `curl -H "Auth: token" URL`            |
+
+---
+
+### `wget` – Tải file qua HTTP/FTP
+
+| Flag | Mô tả                                  | Ví dụ sử dụng                       |
+| ---- | -------------------------------------- | ----------------------------------- |
+| `-O` | Ghi ra file theo tên chỉ định          | `wget -O abc.html https://site.com` |
+| `-c` | Tiếp tục tải file bị ngắt              | `wget -c file.zip`                  |
+| `-q` | Chế độ yên lặng (không in ra màn hình) | `wget -q https://site.com`          |
+| `-r` | Tải đệ quy (cả thư mục)                | `wget -r https://site.com/folder/`  |
+
+---
+
+### `head` và `tail` – Xem đầu/cuối file
+
+| Lệnh   | Flag | Mô tả                            | Ví dụ sử dụng             |
+| ------ | ---- | -------------------------------- | ------------------------- |
+| `head` | `-n` | In ra `n` dòng đầu của file      | `head -n 10 file.txt`     |
+| `tail` | `-n` | In ra `n` dòng cuối của file     | `tail -n 20 file.txt`     |
+| `tail` | `-f` | Theo dõi log theo thời gian thực | `tail -f /var/log/syslog` |
+
+---
+
+### `sort` – Sắp xếp dữ liệu
+
+| Flag | Mô tả                             | Ví dụ sử dụng        |
+| ---- | --------------------------------- | -------------------- |
+| `-n` | Sắp xếp theo số                   | `sort -n file.txt`   |
+| `-r` | Đảo ngược thứ tự                  | `sort -r file.txt`   |
+| `-k` | Sắp xếp theo cột cụ thể           | `sort -k 2 file.txt` |
+| `-u` | Bỏ dòng trùng lặp sau khi sắp xếp | `sort -u file.txt`   |
+
+---
+
+### `cut` – Cắt cột từ dòng
+
+| Flag | Mô tả                       | Ví dụ sử dụng                |
+| ---- | --------------------------- | ---------------------------- |
+| `-d` | Đặt ký tự phân tách         | `cut -d ':' -f1 /etc/passwd` |
+| `-f` | Chọn cột/fiels cần hiển thị | `cut -f2 data.txt`           |
+| `-c` | Cắt theo ký tự (vị trí)     | `cut -c 1-5 file.txt`        |
+
+---
+
+### `sed` – Trình biên tập dòng (stream editor)
+
+| Flag/Cú pháp         | Mô tả                                       | Ví dụ sử dụng                |
+| -------------------- | ------------------------------------------- | ---------------------------- |
+| `s/pattern/thaythế/` | Thay thế mẫu đầu tiên trong mỗi dòng        | `sed 's/cat/dog/' file.txt`  |
+| `s/pattern/thay/g`   | Thay tất cả mẫu trong dòng                  | `sed 's/foo/bar/g' file.txt` |
+| `-i`                 | Chỉnh sửa trực tiếp trong file (in-place)   | `sed -i 's/A/B/g' file.txt`  |
+| `-n '/pattern/p'`    | In ra dòng khớp mẫu, không in toàn bộ       | `sed -n '/error/p' log.txt`  |
+| `d`                  | Xoá dòng (khi kết hợp với số dòng hoặc mẫu) | `sed '2d' file.txt`          |
+
+---
+
+### `diff` – So sánh 2 file
+
+| Flag             | Mô tả                                       | Ví dụ sử dụng                     |
+| ---------------- | ------------------------------------------- | --------------------------------- |
+| `-u`             | Hiển thị khác biệt theo định dạng “unified” | `diff -u old.txt new.txt`         |
+| `-c`             | Hiển thị theo định dạng “context”           | `diff -c file1 file2`             |
+| `--side-by-side` | So sánh 2 file song song                    | `diff --side-by-side a.txt b.txt` |
+
+---
+
+### `xargs` – Thực thi lệnh với đầu vào
+
+| Flag/Cú pháp | Mô tả                                          | Ví dụ sử dụng    |                              |
+| ------------ | ---------------------------------------------- | ---------------- | ---------------------------- |
+| `xargs`      | Chuyển stdin thành đối số cho lệnh khác        | \`ls \*.txt      | xargs rm\`                   |
+| `-n`         | Chạy với n đối số mỗi lần                      | \`cat list.txt   | xargs -n 1 echo\`            |
+| `-I {}`      | Đặt vị trí thay thế                            | \`cat files      | xargs -I {} cp {} /backup/\` |
+| `-0`         | Xử lý với ký tự null (phối hợp `find -print0`) | \`find . -print0 | xargs -0 rm\`                |
+
+---
+
+### `tee` – Ghi đầu ra ra nhiều nơi
+
+| Flag       | Mô tả                              | Ví dụ sử dụng |                      |
+| ---------- | ---------------------------------- | ------------- | -------------------- |
+| (mặc định) | Ghi đồng thời ra màn hình và file  | \`ls          | tee output.txt\`     |
+| `-a`       | Ghi bổ sung vào cuối file (append) | \`echo "log"  | tee -a logfile.txt\` |
+
+---
+
+### `rsync` – Đồng bộ thư mục/file
+
+| Flag       | Mô tả                                     | Ví dụ sử dụng                        |
+| ---------- | ----------------------------------------- | ------------------------------------ |
+| `-a`       | Chế độ lưu toàn bộ thuộc tính (`archive`) | `rsync -a src/ dest/`                |
+| `-v`       | Hiển thị chi tiết quá trình               | `rsync -av src/ dest/`               |
+| `--delete` | Xoá file ở đích nếu không có ở nguồn      | `rsync -av --delete src/ dest/`      |
+| `-z`       | Nén khi truyền                            | `rsync -az src/ remote:/backup/`     |
+| `-e`       | Chỉ định chương trình truyền (như ssh)    | `rsync -e ssh file user@host:/path/` |
+
+---
+
+### `nc` (Netcat) – Công cụ mạng đa năng
+
+| Flag | Mô tả                                 | Ví dụ sử dụng             |
+| ---- | ------------------------------------- | ------------------------- |
+| `-l` | Nghe ở cổng (listen mode)             | `nc -l -p 1234`           |
+| `-p` | Chỉ định cổng lắng nghe               | `nc -l -p 8080`           |
+| `-v` | Verbose – hiển thị thông tin chi tiết | `nc -v host 80`           |
+| `-z` | Scan cổng không gửi dữ liệu           | `nc -zv 127.0.0.1 1-1000` |
+
+---
+
+### `tr` – Dịch/ký tự hóa văn bản (translate)
+
+| Cú pháp       | Mô tả                           | Ví dụ sử dụng  |               |
+| ------------- | ------------------------------- | -------------- | ------------- |
+| `tr a-z A-Z`  | Chuyển chữ thường thành chữ hoa | \`echo hello   | tr a-z A-Z\`  |
+| `tr -d 'a'`   | Xoá tất cả ký tự 'a'            | \`echo banana  | tr -d 'a'\`   |
+| `tr -s ' '`   | Rút gọn khoảng trắng dư         | \`echo "a   b" | tr -s ' '\`   |
+| `tr '\n' ' '` | Chuyển newline thành dấu cách   | \`cat file.txt | tr '\n' ' '\` |
+
+---
+
+### `basename` – Lấy tên file từ đường dẫn
+
+| Cú pháp / Flag       | Mô tả                                      | Ví dụ sử dụng                               |
+| -------------------- | ------------------------------------------ | ------------------------------------------- |
+| `basename path`      | Trả về tên file cuối cùng từ một đường dẫn | `basename /home/user/file.txt` → `file.txt` |
+| `basename path .ext` | Loại bỏ phần mở rộng                       | `basename file.txt .txt` → `file`           |
+
+---
+
+### `dirname` – Lấy đường dẫn thư mục từ file path
+
+| Cú pháp        | Mô tả                         | Ví dụ sử dụng                                |
+| -------------- | ----------------------------- | -------------------------------------------- |
+| `dirname path` | Trả về phần thư mục chứa file | `dirname /home/user/file.txt` → `/home/user` |
+
+---
+
+### `uniq` – Loại bỏ dòng trùng lặp (thường kết hợp với `sort`)
+
+| Flag       | Mô tả                             | Ví dụ sử dụng        |
+| ---------- | --------------------------------- | -------------------- |
+| (mặc định) | Loại bỏ các dòng trùng kề nhau    | `uniq file.txt`      |
+| `-c`       | Đếm số lần xuất hiện mỗi dòng     | `uniq -c sorted.txt` |
+| `-d`       | Chỉ hiển thị dòng bị trùng        | `uniq -d sorted.txt` |
+| `-u`       | Chỉ hiển thị dòng **không trùng** | `uniq -u sorted.txt` |
+
+---
+
+### `wc` – Đếm dòng, từ, byte
+
+| Flag | Mô tả        | Ví dụ sử dụng    |
+| ---- | ------------ | ---------------- |
+| `-l` | Đếm số dòng  | `wc -l file.txt` |
+| `-w` | Đếm số từ    | `wc -w file.txt` |
+| `-c` | Đếm số byte  | `wc -c file.txt` |
+| `-m` | Đếm số ký tự | `wc -m file.txt` |
+
+---
+
+### `date` – Xem hoặc định dạng ngày giờ
+
+| Flag        | Mô tả                                | Ví dụ sử dụng           |
+| ----------- | ------------------------------------ | ----------------------- |
+| (mặc định)  | Hiển thị ngày giờ hiện tại           | `date`                  |
+| `+%Y-%m-%d` | Định dạng theo năm-tháng-ngày        | `date "+%Y-%m-%d"`      |
+| `-d`        | Hiển thị thời gian tương lai/quá khứ | `date -d "next Friday"` |
+| `+%T`       | Hiển thị giờ/phút/giây               | `date "+%T"`            |
+
+---
+
+### `uptime` – Thời gian hệ thống đã chạy
+
+| Cú pháp  | Mô tả                                                   | Ví dụ sử dụng |
+| -------- | ------------------------------------------------------- | ------------- |
+| `uptime` | Hiển thị thời gian bật máy, số người dùng, tải hệ thống | `uptime`      |
+
+---
+
+### `env` – Biến môi trường
+
+| Cú pháp       | Mô tả                                       | Ví dụ sử dụng       |
+| ------------- | ------------------------------------------- | ------------------- |
+| `env`         | Hiển thị tất cả biến môi trường             | `env`               |
+| `env VAR=val` | Thiết lập biến môi trường tạm thời khi chạy | `env DEBUG=1 ./app` |
+
+---
+
+### `alias` – Định nghĩa lệnh tắt
+
+| Cú pháp            | Mô tả                         | Ví dụ sử dụng |
+| ------------------ | ----------------------------- | ------------- |
+| `alias`            | Hiển thị tất cả alias hiện có | `alias`       |
+| `alias ll='ls -l'` | Tạo alias cho `ls -l`         | `ll`          |
+| `unalias ll`       | Xoá alias                     | `unalias ll`  |
+
+---
+
+### `lsof` – Liệt kê file đang mở
+
+| Flag | Mô tả                                 | Ví dụ sử dụng      |
+| ---- | ------------------------------------- | ------------------ |
+| `-i` | Hiển thị kết nối mạng đang mở         | `lsof -i`          |
+| `-u` | Hiển thị file mở bởi user cụ thể      | `lsof -u username` |
+| `-p` | Hiển thị file mở bởi PID cụ thể       | `lsof -p 1234`     |
+| `+D` | Xem tất cả file được mở trong thư mục | `lsof +D /var/log` |
+
+---
+
+### `journalctl` – Xem log hệ thống (systemd)
+
+| Flag         | Mô tả                                              | Ví dụ sử dụng                     |
+| ------------ | -------------------------------------------------- | --------------------------------- |
+| `-b`         | Xem log từ lần khởi động gần nhất                  | `journalctl -b`                   |
+| `-u service` | Xem log của một service cụ thể                     | `journalctl -u ssh.service`       |
+| `-f`         | Theo dõi log theo thời gian thực (giống `tail -f`) | `journalctl -f`                   |
+| `--since`    | Lọc log theo thời gian                             | `journalctl --since "2024-01-01"` |
+
+---
+
+
 
