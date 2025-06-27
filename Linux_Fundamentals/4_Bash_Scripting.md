@@ -507,14 +507,13 @@ car trainride bike bus
 
 ---
 
+![](./img/4_Bash_Scripting/5.2.png)
+
 Như vậy, bạn đã biết cách thay thế phần tử trong mảng thành công!
 
 ---
 
 **Bài tập mở rộng:**
-Hãy xây dựng tiếp dự án tiểu sử (biography maker) đã làm trước đó, bổ sung thêm mảng để lưu trữ nhiều tên và thông tin khác nhau về một người. Ở module tiếp theo, chúng ta sẽ phát triển hơn nữa.
-
----
 
 **Cho mảng sau:**
 
@@ -522,4 +521,3 @@ Hãy xây dựng tiếp dự án tiểu sử (biography maker) đã làm trướ
 cars=('honda' 'audi' 'bmw' 'tesla')
 ```
 
-Hãy trả lời các câu hỏi liên quan. (phần câu hỏi sẽ xuất hiện ở phần sau).
