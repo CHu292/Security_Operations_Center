@@ -352,10 +352,68 @@ Chúng ta có thể sử dụng ký tự đại diện `*` để tham chiếu đ
 
 ```bash
 type C:\Treasure\Hunt\flag.txt
-````
+
+```
 
 ---
 
+# Task 5: Task and Process Management
+
+
+Chắc hẳn bạn đã quen thuộc với Trình quản lý tác vụ (Task Manager) của Windows và có thể cũng quen với việc kết thúc các tiến trình không phản hồi. Giờ hãy khám phá cách đạt được chức năng tương tự bằng dòng lệnh.
+
+Chúng ta có thể liệt kê các tiến trình đang chạy bằng lệnh `tasklist`.
+
+![](./img/6.1.png)
+
+---
+
+Một chút lọc dữ liệu là hữu ích vì đầu ra dự kiến sẽ rất dài. Bạn có thể kiểm tra tất cả các bộ lọc có sẵn bằng cách hiển thị trang trợ giúp với lệnh `tasklist /?`.
+Giả sử chúng ta muốn tìm các tác vụ liên quan đến `services.exe`, ta có thể thực hiện điều đó bằng lệnh:
+
+```
+tasklist /FI "imagename eq services.exe"
+```
+
+Lưu ý rằng `/FI` được dùng để đặt bộ lọc **tên ảnh bằng** `services.exe`.
+
+![](./img/6.2.png)
+
+---
+
+Khi đã biết ID tiến trình (PID), chúng ta có thể kết thúc bất kỳ tác vụ nào bằng lệnh:
+
+```
+taskkill /PID target_pid
+```
+
+Ví dụ, nếu chúng ta muốn dừng tiến trình có PID là `596`, ta sẽ sử dụng lệnh:
+
+```
+taskkill /PID 596
+```
+
+---
+
+**Hãy trả lời các câu hỏi bên dưới**
+
+**Câu hỏi: Lệnh nào bạn sẽ dùng để tìm các tiến trình đang chạy liên quan đến `notepad.exe`?**
+
+<details>
+  <summary>Hiển thị đáp án</summary>
+  Đáp án:  
+  `tasklist /FI "imagename eq notepad.exe"`
+</details>
+
+---
+
+**Câu hỏi: Lệnh nào có thể dùng để kết thúc tiến trình có PID là 1516?**
+
+<details>
+  <summary>Hiển thị đáp án</summary>
+  Đáp án:  
+  `taskkill /PID 1516`
+</details>
 
 
 
