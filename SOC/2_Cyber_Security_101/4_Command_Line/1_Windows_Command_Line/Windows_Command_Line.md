@@ -132,7 +132,7 @@ Trong lệnh thứ hai, bạn có thể hiển thị kết quả từng trang v�
 
 <details>
   <summary>Hiển thị đáp án</summary>
-  Đáp án: `10.0.20348.2655`
+  Đáp án: 10.0.20348.2655
 </details>
 
 ---
@@ -141,7 +141,7 @@ Trong lệnh thứ hai, bạn có thể hiển thị kết quả từng trang v�
 
 <details>
   <summary>Hiển thị đáp án</summary>
-  Đáp án: `WINSRV2022-CORE`
+  Đáp án: WINSRV2022-CORE
 </details>
 
 
@@ -274,6 +274,87 @@ Thay `<PID>` bằng mã tiến trình bạn nhận được từ lệnh trên đ
   Đáp án: 255.255.0.0
 </details>
 
+# Task 4: File and Disk Management
+
+### Làm việc với thư mục
+
+Bạn có thể sử dụng lệnh `cd` mà không có tham số để hiển thị ổ đĩa và thư mục hiện tại.
+Nó tương đương với việc hỏi hệ thống: *"Tôi đang ở đâu?"*
+
+Bạn có thể xem các thư mục con bằng cách sử dụng lệnh `dir`.
+
+![](./img/4.1.png)
+
+---
+
+
+Lưu ý rằng bạn có thể sử dụng các tùy chọn sau với lệnh `dir`:
+
+* `dir /a` – Hiển thị cả các tệp ẩn và tệp hệ thống.
+* `dir /s` – Hiển thị các tệp trong thư mục hiện tại và tất cả các thư mục con.
+
+Bạn có thể gõ `tree` để hiển thị trực quan cấu trúc các thư mục con và thư mục lồng nhau.
+
+![](./img/4.2.png)
+
+---
+
+Bạn có thể chuyển đến bất kỳ thư mục nào bằng cách sử dụng lệnh `cd target_directory`; lệnh này tương đương với việc nhấp đúp vào thư mục `target_directory` trên màn hình nền của bạn. Ngoài ra, bạn có thể dùng `cd ..` để quay lại một cấp thư mục. Một ví dụ được hiển thị trong đầu ra của terminal bên dưới.
+
+![](./img/4.3.png)
+
+---
+
+Để tạo một thư mục, hãy sử dụng `mkdir directory_name`; `mkdir` là viết tắt của *make directory* (tạo thư mục).
+Để xóa một thư mục, hãy dùng `rmdir directory_name`; `rmdir` là viết tắt của *remove directory* (xóa thư mục).
+Đầu ra của terminal bên dưới minh họa việc tạo và xóa một thư mục.
+
+![](./img/4.4.png)
+
+---
+
+### Làm việc với tập tin
+
+Bạn đang làm việc với dòng lệnh. Bạn tò mò về nội dung của một tập tin văn bản cụ thể. Bạn có thể dễ dàng xem nội dung của tập tin văn bản bằng lệnh `type`. Lệnh này sẽ hiển thị toàn bộ nội dung của tập tin văn bản lên màn hình; điều này thuận tiện cho những tập tin có nội dung ngắn, vừa với cửa sổ terminal của bạn.
+
+Bạn cũng có thể sử dụng `more` đối với các tập tin văn bản dài hơn. Lệnh này sẽ hiển thị nội dung vừa đủ để lấp đầy cửa sổ terminal. Nói cách khác, đối với các tập tin văn bản dài, `more` sẽ hiển thị từng trang và chờ bạn nhấn `Spacebar` để chuyển trang hoặc nhấn `Enter` để cuộn từng dòng.
+
+Lệnh `copy` cho phép bạn sao chép các tập tin từ vị trí này sang vị trí khác. Đầu ra của terminal dưới đây cung cấp một ví dụ minh họa.
+
+![](./img/5.5.png)
+
+---
+
+Tương tự, bạn có thể di chuyển các tập tin bằng lệnh `move`. Một ví dụ được hiển thị trong đầu ra của terminal bên dưới.
+
+![](./img/5.6.png)
+
+---
+
+Cuối cùng, chúng ta có thể xóa một tập tin bằng lệnh `del` hoặc `erase`.
+
+![](./img/5.7.png)
+
+---
+
+Chúng ta có thể sử dụng ký tự đại diện `*` để tham chiếu đến nhiều tệp. Ví dụ, `copy *.md C:\Markdown` sẽ sao chép tất cả các tệp có phần mở rộng là `.md` vào thư mục `C:\Markdown`.
+
+---
+
+**Hãy trả lời các câu hỏi bên dưới**
+
+**Câu hỏi: Nội dung của file trong thư mục `C:\Treasure\Hunt` là gì?**
+
+<details>
+  <summary>Hiển thị đáp án</summary>
+  Đáp án: `THM{CLI_POWER}`
+</details>
+
+```bash
+type C:\Treasure\Hunt\flag.txt
+````
+
+---
 
 
 
