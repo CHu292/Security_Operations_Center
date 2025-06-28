@@ -321,19 +321,19 @@ Bạn cũng có thể sử dụng `more` đối với các tập tin văn bản 
 
 Lệnh `copy` cho phép bạn sao chép các tập tin từ vị trí này sang vị trí khác. Đầu ra của terminal dưới đây cung cấp một ví dụ minh họa.
 
-![](./img/5.5.png)
+![](./img/4.5.png)
 
 ---
 
 Tương tự, bạn có thể di chuyển các tập tin bằng lệnh `move`. Một ví dụ được hiển thị trong đầu ra của terminal bên dưới.
 
-![](./img/5.6.png)
+![](./img/4.6.png)
 
 ---
 
 Cuối cùng, chúng ta có thể xóa một tập tin bằng lệnh `del` hoặc `erase`.
 
-![](./img/5.7.png)
+![](./img/4.7.png)
 
 ---
 
@@ -364,7 +364,7 @@ Chắc hẳn bạn đã quen thuộc với Trình quản lý tác vụ (Task Man
 
 Chúng ta có thể liệt kê các tiến trình đang chạy bằng lệnh `tasklist`.
 
-![](./img/6.1.png)
+![](./img/5.1.png)
 
 ---
 
@@ -377,7 +377,7 @@ tasklist /FI "imagename eq services.exe"
 
 Lưu ý rằng `/FI` được dùng để đặt bộ lọc **tên ảnh bằng** `services.exe`.
 
-![](./img/6.2.png)
+![](./img/5.2.png)
 
 ---
 
@@ -402,7 +402,7 @@ taskkill /PID 596
 <details>
   <summary>Hiển thị đáp án</summary>
   Đáp án:  
-  `tasklist /FI "imagename eq notepad.exe"`
+  tasklist /FI "imagename eq notepad.exe"
 </details>
 
 ---
@@ -412,9 +412,54 @@ taskkill /PID 596
 <details>
   <summary>Hiển thị đáp án</summary>
   Đáp án:  
-  `taskkill /PID 1516`
+  taskkill /PID 1516
 </details>
 
+# Task 6: Conclusion
+
+Trong phòng này, chúng ta đã tập trung vào các lệnh thực tiễn nhất để truy cập một hệ thống mạng thông qua dòng lệnh.
+
+Chúng ta cố ý bỏ qua một số lệnh phổ biến vì không thấy giá trị thực sự khi đưa chúng vào phần dành cho người mới bắt đầu. Tuy nhiên, chúng ta đề cập đến chúng dưới đây để bạn biết rằng dòng lệnh còn có thể dùng cho các tác vụ khác:
+
+* `chkdsk`: kiểm tra hệ thống tệp và ổ đĩa để phát hiện lỗi và vùng bị hỏng.
+* `driverquery`: hiển thị danh sách các trình điều khiển thiết bị đã cài đặt.
+* `sfc /scannow`: quét các tệp hệ thống để tìm lỗi và sửa chữa nếu có thể.
+
+Điều quan trọng là phải ghi nhớ tất cả các lệnh đã đề cập trong các nhiệm vụ trước; hơn nữa, cũng quan trọng không kém là biết rằng `/?` có thể được dùng với hầu hết các lệnh để hiển thị trang trợ giúp.
+
+Trong phòng này, chúng tôi đã sử dụng lệnh `more` theo hai cách:
+
+* Hiển thị nội dung tệp văn bản:
+
+  ```
+  more file.txt
+  ```
+
+* Chuyển kết quả dài sang xem từng trang:
+
+  ```
+  some_command | more
+  ```
 
 
+**Hãy trả lời các câu hỏi bên dưới**
 
+**Câu hỏi: Lệnh `shutdown /s` dùng để tắt hệ thống. Vậy lệnh nào dùng để khởi động lại hệ thống?**
+
+<details>
+  <summary>Hiển thị đáp án</summary>
+  Đáp án: shutdown /r
+</details>
+
+![](./img/6.1.png)
+
+---
+
+**Câu hỏi: Lệnh nào dùng để hủy việc tắt máy đã được lên lịch?**
+
+<details>
+  <summary>Hiển thị đáp án</summary>
+  Đáp án: `shutdown /a`
+</details>
+
+![](./img/6.2.png)
