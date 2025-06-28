@@ -103,3 +103,179 @@ Kết quả hiển thị từ terminal sẽ cho biết đường dẫn mà hệ 
 
 ---
 
+**Hãy sử dụng lệnh `ver` để xác định phiên bản của hệ điều hành (OS). Terminal bên dưới sẽ hiển thị một ví dụ về đầu ra.**
+
+![](./img/2.2.png)
+
+---
+
+Khởi động vậy là đủ rồi. Hãy khám phá thêm thông tin chuyên sâu hơn về hệ thống. Chúng ta có thể chạy lệnh `systeminfo` để liệt kê nhiều thông tin khác nhau về hệ thống như thông tin hệ điều hành (OS), chi tiết hệ thống, bộ xử lý và bộ nhớ. Terminal bên dưới sẽ hiển thị một đoạn kết quả được hiển thị.
+
+![](./img/2.3.png)
+
+---
+
+Trước khi tiếp tục, cũng đáng nhắc đến một vài mẹo nhỏ.
+
+Đầu tiên, bạn có thể dùng lệnh `more` để phân trang nếu đầu ra quá dài. Sau đó, bạn có thể xem từng trang một bằng cách nhấn phím cách.
+Để minh họa điều này, hãy thử chạy lệnh `driverquery` và so sánh với lệnh `driverquery | more`.
+Trong lệnh thứ hai, bạn có thể hiển thị kết quả từng trang và có thể thoát bằng cách nhấn tổ hợp `CTRL + C`.
+
+* `help` – Cung cấp thông tin trợ giúp cho một lệnh cụ thể
+* `cls` – Xóa màn hình Command Prompt
+
+---
+
+**Hãy trả lời các câu hỏi bên dưới**
+
+**Câu hỏi: Phiên bản hệ điều hành của máy ảo Windows là gì?**
+
+<details>
+  <summary>Hiển thị đáp án</summary>
+  Đáp án: `10.0.20348.2655`
+</details>
+
+---
+
+**Câu hỏi: Tên máy (hostname) của máy ảo Windows là gì?**
+
+<details>
+  <summary>Hiển thị đáp án</summary>
+  Đáp án: `WINSRV2022-CORE`
+</details>
+
+
+# Task 3: Network Troubleshooting
+
+---
+
+Hầu hết chúng ta đều quen với việc xem cấu hình mạng trong MS Windows thông qua giao diện đồ họa (GUI). Tuy nhiên, giao diện dòng lệnh (CLI) cung cấp rất nhiều lệnh liên quan đến mạng để kiểm tra cấu hình hiện tại, xem các kết nối đang hoạt động và khắc phục sự cố mạng.
+
+### Cấu hình mạng
+
+Bạn có thể kiểm tra thông tin mạng của mình bằng cách sử dụng lệnh `ipconfig`.
+Đầu ra của lệnh trên terminal sẽ hiển thị địa chỉ IP, subnet mask (mặt nạ mạng con) và default gateway (cổng mặc định) của bạn.
+
+![](./img/3.1.png)
+
+---
+
+Bạn cũng có thể sử dụng lệnh `ipconfig /all` để xem thêm thông tin về cấu hình mạng của bạn.
+Như hiển thị trong terminal bên dưới, chúng ta có thể xem các máy chủ DNS và xác nhận rằng DHCP đã được bật.
+
+![](./img/3.2.png)
+
+---
+
+### Khắc phục sự cố mạng
+
+Một tác vụ khắc phục sự cố phổ biến là kiểm tra xem máy chủ có thể truy cập một máy chủ cụ thể trên Internet hay không. Cú pháp lệnh là `ping target_name`.
+Lấy cảm hứng từ trò chơi ping-pong, chúng ta gửi một gói ICMP cụ thể và chờ phản hồi. Nếu nhận được phản hồi, chúng ta biết rằng có thể liên lạc với máy đích và máy đích cũng có thể liên lạc lại với chúng ta.
+
+Hãy kiểm tra xem chúng ta có thể truy cập được `example.com` không. Trong kết quả đầu ra của terminal bên dưới, chúng ta thấy rằng đã nhận được 4 phản hồi thành công.
+Ngoài ra, chúng ta còn nhận được một vài thống kê; ví dụ, thời gian khứ hồi trung bình là 241 mili giây.
+
+![](./img/3.3.png)
+
+---
+
+Một công cụ giá trị khác để khắc phục sự cố là `tracert`, viết tắt của "trace route" (truy dấu tuyến đường).
+Lệnh `tracert target_name` sẽ truy dấu đường đi trong mạng mà gói tin đã đi qua để đến được đích.
+
+Không đi sâu vào chi tiết kỹ thuật, nó dựa vào việc các bộ định tuyến (router) trên đường đi sẽ thông báo lại nếu chúng loại bỏ gói tin vì giá trị TTL (thời gian sống) đã về 0.
+Kết quả đầu ra của terminal bên dưới cho thấy chúng ta đã đi qua 15 router trước khi đến được mục tiêu.
+
+![](./img/3.4.png)
+
+---
+
+### Các lệnh mạng khác
+
+Một lệnh mạng đáng biết là `nslookup`. Nó tra cứu một máy chủ hoặc tên miền và trả về địa chỉ IP của nó.
+Cú pháp `nslookup example.com` sẽ tra cứu `example.com` bằng máy chủ tên miền mặc định.
+Tuy nhiên, `nslookup example.com 1.1.1.1` sẽ sử dụng máy chủ tên `one.one.one.one`.
+
+Terminal bên dưới hiển thị kết quả của cả hai lệnh.
+Kết quả là giống nhau; tuy nhiên, bạn có thể thấy rằng các câu trả lời được lấy từ những máy chủ tên khác nhau.
+
+![](./img/3.5.png)
+
+---
+
+Lệnh mạng cuối cùng mà chúng ta sẽ đề cập trong phòng này là `netstat`.
+Lệnh này hiển thị các kết nối mạng hiện tại và các cổng đang lắng nghe.
+
+Một lệnh `netstat` cơ bản không có đối số sẽ hiển thị cho bạn các kết nối đã được thiết lập, như được minh họa bên dưới.
+
+![](./img/3.6.png)
+
+---
+
+Chúng có thể chạy `netstat -h`, trong đó `-h` hiển thị trang trợ giúp.
+
+
+* `-a` hiển thị tất cả các kết nối đã thiết lập và các cổng đang lắng nghe
+* `-b` hiển thị chương trình liên quan đến mỗi cổng đang lắng nghe và kết nối đã thiết lập
+* `-o` tiết lộ ID tiến trình (PID) liên quan đến kết nối
+* `-n` sử dụng dạng số cho địa chỉ và số cổng
+
+Có thể kết hợp bốn tùy chọn này và thực thi lệnh `netstat -abon`.
+
+---
+
+**Hãy trả lời các câu hỏi bên dưới**
+
+**Câu hỏi: Lệnh nào được dùng để tra địa chỉ vật lý (MAC address) của máy chủ?**
+
+<details>
+  <summary>Hiển thị đáp án</summary>
+  Đáp án: ipconfig /all
+</details>
+
+---
+
+**Câu hỏi: Tên tiến trình đang lắng nghe trên cổng 3389 là gì?**
+
+<details>
+  <summary>Hiển thị đáp án</summary>
+  Đáp án: TermService
+</details>
+
+Cổng **3389** được sử dụng bởi **Giao thức Remote Desktop (RDP)**.
+
+Tiến trình (process) thường lắng nghe trên cổng này là: `TermService` (Dịch vụ Terminal)**
+
+* Trên hệ điều hành **Windows**, đây là thành phần của **Remote Desktop Services** (dịch vụ máy tính từ xa).
+* Tập tin thực thi liên quan thường là:
+  **`svchost.exe -k NetworkService`** và nó chứa dịch vụ `TermService`.
+
+Cách kiểm tra tiến trình đang lắng nghe trên cổng 3389: dùng Command Prompt hoặc PowerShell):
+
+```bash
+netstat -ano | findstr :3389
+```
+
+Lệnh này sẽ hiển thị PID của tiến trình đang lắng nghe trên cổng 3389.
+
+Sau đó:
+
+```bash
+tasklist /FI "PID eq <PID>"
+```
+
+Thay `<PID>` bằng mã tiến trình bạn nhận được từ lệnh trên để biết tên tiến trình.
+
+---
+
+**Câu hỏi: Subnet mask là gì?**
+
+<details>
+  <summary>Hiển thị đáp án</summary>
+  Đáp án: 255.255.0.0
+</details>
+
+
+
+
+
+
