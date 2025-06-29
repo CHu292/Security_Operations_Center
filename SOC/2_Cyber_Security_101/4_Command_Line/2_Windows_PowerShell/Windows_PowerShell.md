@@ -4,8 +4,7 @@
 
 1. [Task 1: Introduction](#task-1-introduction)
 2. [Task 2: What Is PowerShell](#task-2-what-is-powershell)
-
-# Task 1: Introduction
+3. [Task 3: PowerShell Basics](#task-3-powershell-basics)
 
 
 ### Mục tiêu học tập
