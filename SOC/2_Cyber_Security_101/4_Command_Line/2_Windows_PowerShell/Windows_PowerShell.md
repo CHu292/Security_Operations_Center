@@ -7,6 +7,8 @@
 3. [Task 3: PowerShell Basics](#task-3-powershell-basics)
 
 
+# Task 1: Introduction
+
 ### Mục tiêu học tập
 
 Đây là phòng giới thiệu về PowerShell — công cụ dòng lệnh thứ hai (chỉ xét về mặt lịch sử) được xây dựng dành cho hệ điều hành Windows.
@@ -150,7 +152,7 @@ Như đã trình bày ở kết quả phía trên, **`Get-Help`** cho chúng ta 
 
 ---
 
-**Where to Find and Download Cmdlets**
+### **Where to Find and Download Cmdlets**
 
 Một tính năng mạnh mẽ khác của **PowerShell** là khả năng mở rộng chức năng của nó bằng cách tải thêm các cmdlet từ các kho trực tuyến.
 
