@@ -203,3 +203,50 @@ Khi đã xác định được mô-đun, chúng ta có thể tải xuống và c
   <summary>Hiển thị đáp án</summary>
   Đáp án: Get-Help New-LocalUser -Examples
 </details>
+
+---
+
+# Task 4: Navigating the File System and Working with Files
+
+---
+
+**PowerShell** cung cấp một loạt các cmdlet để điều hướng hệ thống tệp và quản lý tệp, nhiều trong số đó có các tương đương trong CLI truyền thống của Windows.
+
+### Liệt kê
+
+Tương tự như lệnh `dir` trong Command Prompt (hoặc `ls` trong các hệ thống giống Unix), **`Get-ChildItem`** liệt kê các tệp và thư mục trong một vị trí được chỉ định bằng tham số **`-Path`**. Nó có thể được dùng để khám phá thư mục và xem nội dung của chúng. Nếu không chỉ định **Path**, cmdlet sẽ hiển thị nội dung của thư mục làm việc hiện tại.
+
+![](./img/4.1.png)
+
+---
+
+### Điều hướng thư mục
+
+Để điều hướng đến một thư mục khác, chúng ta có thể sử dụng cmdlet **`Set-Location`**. Nó thay đổi thư mục hiện tại, đưa chúng ta đến đường dẫn đã chỉ định, tương tự như lệnh **`cd`** trong Command Prompt.
+
+![](./img/4.2.png)
+
+---
+
+### Tạo file, folder
+
+Trong khi CLI truyền thống của Windows sử dụng các lệnh riêng biệt để tạo và quản lý các mục khác nhau như thư mục và tệp, **PowerShell** đơn giản hóa quy trình này bằng cách cung cấp một tập hợp cmdlet duy nhất để xử lý việc tạo và quản lý cả hai loại mục đó.
+
+Để tạo một mục trong **PowerShell**, chúng ta có thể sử dụng **`New-Item`**. Ta sẽ cần chỉ định đường dẫn của mục và loại của nó (liệu đó là tệp hay thư mục).
+
+![](./img/4.4.png)
+
+---
+
+### Xóa
+
+Tương tự như vậy, cmdlet **`Remove-Item`** dùng để xóa cả thư mục và tệp, trong khi trong CLI của Windows, chúng ta phải dùng các lệnh riêng biệt là **`rmdir`** và **`del`**.
+
+![](./img/4.5.png)
+
+---
+
+### Sao chép, di chuyển
+
+Chúng ta có thể sao chép hoặc di chuyển các tệp và thư mục tương tự nhau, lần lượt sử dụng **`Copy-Item`** (tương đương với lệnh **`copy`**) và **`Move-Item`** (tương đương với lệnh **`move`**).
+
