@@ -1,4 +1,4 @@
-# Network Fundamentals
+# Section 2: Network Fundamentals
 
 ## Mục lục
 
