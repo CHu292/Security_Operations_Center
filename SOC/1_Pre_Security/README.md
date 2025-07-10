@@ -34,3 +34,4 @@
 1. [Windows Fundamentals 1](./5_Windows_Fundamentals/1_Windows_Fundamentals_1.md)  
 2. [Windows Fundamentals 2](./5_Windows_Fundamentals/2_Windows_Fundamentals_2.md)  
 3. [Windows Fundamentals 3](./5_Windows_Fundamentals/3_Windows_Fundamentals_3.md)
+4. [Active Directory Basics](./5_Windows_Fundamentals/4_Active_Directory_Basics.md)
