@@ -5,6 +5,7 @@
 1. [Task 1: Introduction](#task-1-introduction)
 2. [Task 2: What Is PowerShell](#task-2-what-is-powershell)
 3. [Task 3: PowerShell Basics](#task-3-powershell-basics)
+4. [Task 4: Navigating the File System and Working with Files](#task-4-navigating-the-file-system-and-working-with-files)
 
 
 # Task 1: Introduction
@@ -264,3 +265,30 @@ Chúng ta có thể sao chép hoặc di chuyển các tệp và thư mục tươ
 
 ---
 
+### Hiển thị nội dung của tệp: cat
+
+Cuối cùng, để đọc và hiển thị nội dung của một tệp, chúng ta có thể sử dụng lệnh **`Get-Content`**, hoạt động tương tự như lệnh **`type`** trong Command Prompt (hoặc **`cat`** trong các hệ thống giống Unix).
+
+![](./img/2_Windows_PowerShell/4.9.png)
+
+### Ghi nội dung vào file
+
+1. Ghi nội dung mới vào file (tạo mới hoặc ghi đè)
+
+![](./img/2_Windows_PowerShell/4.10.png)
+
+2. Thêm nội dung vào cuối file (append)
+
+![](./img/2_Windows_PowerShell/4.11.png)
+
+3. Sử dụng Set-Content để ghi đè
+
+![](./img/2_Windows_PowerShell/4.12.png)
+
+4. Sử dụng Add-Content để thêm dòng
+
+![](./img/2_Windows_PowerShell/4.13.png)
+
+5. Ghi nhiều dòng vào file
+
+![](./img/2_Windows_PowerShell/4.14.png)
