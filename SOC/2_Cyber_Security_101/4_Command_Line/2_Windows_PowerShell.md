@@ -80,13 +80,13 @@ Ngoài ra, **PowerShell** cũng có thể được khởi chạy từ **Command 
 
 ---
 
-![](./img/3.1.png)
+![](./img/2_Windows_PowerShell/2_Windows_PowerShell/3.1.png)
 
 ---
 
 Giao diện của PowerShell
 
-![](./img/3.2.png)
+![](./img/2_Windows_PowerShell/3.2.png)
 
 ---
 
@@ -115,7 +115,7 @@ Ví dụ:
 Get-Command
 ```
 
-![](./img/3.3.png)
+![](./img/2_Windows_PowerShell/3.3.png)
 
 Đây là một công cụ thiết yếu để khám phá xem có thể sử dụng những lệnh nào.
 
@@ -131,7 +131,7 @@ Get-Command -CommandType "Function"
 
 như minh họa bên dưới.
 
-![](./img/3.4.png)
+![](./img/2_Windows_PowerShell/3.4.png)
 
 
 ---
@@ -140,7 +140,7 @@ Chúng ta sẽ học các cách hiệu quả hơn để lọc đầu ra từ cá
 
 Một cmdlet thiết yếu khác mà chúng ta nên có trong "hộp công cụ" là **`Get-Help`**: nó cung cấp thông tin chi tiết về các cmdlet, bao gồm cách sử dụng, các tham số, và ví dụ minh họa. Đây là cmdlet nên dùng để học cách sử dụng các lệnh PowerShell.
 
-![](./img/3.5.png)
+![](./img/2_Windows_PowerShell/3.5.png)
 
 ---
 
@@ -148,7 +148,7 @@ Như đã trình bày ở kết quả phía trên, **`Get-Help`** cho chúng ta 
 
 Để giúp việc chuyển đổi dễ dàng hơn cho các chuyên gia CNTT, **PowerShell** bao gồm các **alias** — tức là các lối tắt hay tên thay thế cho các cmdlet — cho nhiều lệnh truyền thống trong Windows. Đây là tính năng không thể thiếu đối với những người đã quen thuộc với các công cụ dòng lệnh khác của Windows. **`Get-Alias`** liệt kê tất cả các alias có sẵn. Ví dụ: **`dir`** là alias cho **`Get-ChildItem`**, và **`cd`** là alias cho **`Set-Location`**.
 
-![](./img/3.6.png)
+![](./img/2_Windows_PowerShell/3.6.png)
 
 ---
 
@@ -163,13 +163,13 @@ Một tính năng mạnh mẽ khác của **PowerShell** là khả năng mở r�
 ```powershell
 Cmdlet -Property "pattern*"
 ```
-![](./img/3.7.png)
+![](./img/2_Windows_PowerShell/3.7.png)
 
 ---
 
 Khi đã xác định được mô-đun, chúng ta có thể tải xuống và cài đặt mô-đun đó từ kho bằng lệnh **`Install-Module`**, giúp các cmdlet mới có trong mô-đun sẵn sàng để sử dụng.
 
-![](./img/3.8.png)
+![](./img/2_Windows_PowerShell/3.8.png)
 
 ---
 
@@ -182,7 +182,7 @@ Khi đã xác định được mô-đun, chúng ta có thể tải xuống và c
   Đáp án: Get-Command -Name Remove
 </details>
 
-![](./img/3.9.png)
+![](./img/2_Windows_PowerShell/3.9.png)
 
 ---
 
@@ -193,7 +193,7 @@ Khi đã xác định được mô-đun, chúng ta có thể tải xuống và c
   Đáp án: Write-Output
 </details>
 
-![](./img/3.10.png)
+![](./img/2_Windows_PowerShell/3.10.png)
 
 ---
 
@@ -216,7 +216,7 @@ Khi đã xác định được mô-đun, chúng ta có thể tải xuống và c
 
 Tương tự như lệnh `dir` trong Command Prompt (hoặc `ls` trong các hệ thống giống Unix), **`Get-ChildItem`** liệt kê các tệp và thư mục trong một vị trí được chỉ định bằng tham số **`-Path`**. Nó có thể được dùng để khám phá thư mục và xem nội dung của chúng. Nếu không chỉ định **Path**, cmdlet sẽ hiển thị nội dung của thư mục làm việc hiện tại.
 
-![](./img/4.1.png)
+![](./img/2_Windows_PowerShell/4.1.png)
 
 ---
 
@@ -224,7 +224,7 @@ Tương tự như lệnh `dir` trong Command Prompt (hoặc `ls` trong các hệ
 
 Để điều hướng đến một thư mục khác, chúng ta có thể sử dụng cmdlet **`Set-Location`**. Nó thay đổi thư mục hiện tại, đưa chúng ta đến đường dẫn đã chỉ định, tương tự như lệnh **`cd`** trong Command Prompt.
 
-![](./img/4.2.png)
+![](./img/2_Windows_PowerShell/4.2.png)
 
 ---
 
@@ -234,7 +234,7 @@ Trong khi CLI truyền thống của Windows sử dụng các lệnh riêng bi�
 
 Để tạo một mục trong **PowerShell**, chúng ta có thể sử dụng **`New-Item`**. Ta sẽ cần chỉ định đường dẫn của mục và loại của nó (liệu đó là tệp hay thư mục).
 
-![](./img/4.4.png)
+![](./img/2_Windows_PowerShell/4.4.png)
 
 ---
 
@@ -242,7 +242,7 @@ Trong khi CLI truyền thống của Windows sử dụng các lệnh riêng bi�
 
 Tương tự như vậy, cmdlet **`Remove-Item`** dùng để xóa cả thư mục và tệp, trong khi trong CLI của Windows, chúng ta phải dùng các lệnh riêng biệt là **`rmdir`** và **`del`**.
 
-![](./img/4.5.png)
+![](./img/2_Windows_PowerShell/4.5.png)
 
 ---
 
@@ -252,15 +252,15 @@ Chúng ta có thể sao chép hoặc di chuyển các tệp và thư mục tươ
 
 - Các File ban đầu
 
-![](./img/4.6.png)
+![](./img/2_Windows_PowerShell/4.6.png)
 
 - Copy:
 
-![](./img/4.7.png)
+![](./img/2_Windows_PowerShell/4.7.png)
 
 - Move
 
-![](./img/4.8.png)
+![](./img/2_Windows_PowerShell/4.8.png)
 
 ---
 
