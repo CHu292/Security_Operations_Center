@@ -1,4 +1,4 @@
-# Linux Fundametals
+# Section 4: Linux Fundametals
 
 ## Mục lục
 

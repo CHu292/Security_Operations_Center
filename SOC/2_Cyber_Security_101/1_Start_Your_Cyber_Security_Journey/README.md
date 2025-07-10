@@ -1,4 +1,4 @@
-# Nội dung
+# Section 1: Start Your Cyber Security Journey
 
 - [Offensive Security Intro](https://github.com/CHu292/SOC/blob/main/Try_Hack_Me/Pre_Security/1_Introduction_to_Cyber_Security/1_Offensive_Security_Intro.md)  
 - [Defensive Security Intro](https://github.com/CHu292/SOC/blob/main/Try_Hack_Me/Pre_Security/1_Introduction_to_Cyber_Security/2_Defensive_Security_Intro.md)  
