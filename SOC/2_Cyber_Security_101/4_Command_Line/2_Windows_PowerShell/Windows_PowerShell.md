@@ -250,3 +250,9 @@ Tương tự như vậy, cmdlet **`Remove-Item`** dùng để xóa cả thư m�
 
 Chúng ta có thể sao chép hoặc di chuyển các tệp và thư mục tương tự nhau, lần lượt sử dụng **`Copy-Item`** (tương đương với lệnh **`copy`**) và **`Move-Item`** (tương đương với lệnh **`move`**).
 
+- Các File ban đầu
+
+![](./img/4.6.png)
+
+- Copy:
+
