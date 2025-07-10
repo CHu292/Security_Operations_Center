@@ -99,19 +99,19 @@ Trước khi thực thi các lệnh, chúng ta cần lưu ý rằng chỉ có th
 Bạn có thể dùng lệnh `set` để kiểm tra biến đường dẫn từ dòng lệnh.
 Kết quả hiển thị từ terminal sẽ cho biết đường dẫn mà hệ điều hành Windows sẽ sử dụng để thực thi các lệnh, được chỉ ra bằng dòng bắt đầu với `Path=`.
 
-![](./img/1_Windows_Command_Line/2.1.png)
+![](./img/2.1.png)
 
 ---
 
 **Hãy sử dụng lệnh `ver` để xác định phiên bản của hệ điều hành (OS). Terminal bên dưới sẽ hiển thị một ví dụ về đầu ra.**
 
-![](./img/1_Windows_Command_Line/2.2.png)
+![](./img/2.2.png)
 
 ---
 
 Khởi động vậy là đủ rồi. Hãy khám phá thêm thông tin chuyên sâu hơn về hệ thống. Chúng ta có thể chạy lệnh `systeminfo` để liệt kê nhiều thông tin khác nhau về hệ thống như thông tin hệ điều hành (OS), chi tiết hệ thống, bộ xử lý và bộ nhớ. Terminal bên dưới sẽ hiển thị một đoạn kết quả được hiển thị.
 
-![](./img/1_Windows_Command_Line/2.3.png)
+![](./img/2.3.png)
 
 ---
 
@@ -156,14 +156,14 @@ Hầu hết chúng ta đều quen với việc xem cấu hình mạng trong MS W
 Bạn có thể kiểm tra thông tin mạng của mình bằng cách sử dụng lệnh `ipconfig`.
 Đầu ra của lệnh trên terminal sẽ hiển thị địa chỉ IP, subnet mask (mặt nạ mạng con) và default gateway (cổng mặc định) của bạn.
 
-![](./img/1_Windows_Command_Line/3.1.png)
+![](./img/3.1.png)
 
 ---
 
 Bạn cũng có thể sử dụng lệnh `ipconfig /all` để xem thêm thông tin về cấu hình mạng của bạn.
 Như hiển thị trong terminal bên dưới, chúng ta có thể xem các máy chủ DNS và xác nhận rằng DHCP đã được bật.
 
-![](./img/1_Windows_Command_Line/3.2.png)
+![](./img/3.2.png)
 
 ---
 
@@ -175,7 +175,7 @@ Lấy cảm hứng từ trò chơi ping-pong, chúng ta gửi một gói ICMP c�
 Hãy kiểm tra xem chúng ta có thể truy cập được `example.com` không. Trong kết quả đầu ra của terminal bên dưới, chúng ta thấy rằng đã nhận được 4 phản hồi thành công.
 Ngoài ra, chúng ta còn nhận được một vài thống kê; ví dụ, thời gian khứ hồi trung bình là 241 mili giây.
 
-![](./img/1_Windows_Command_Line/3.3.png)
+![](./img/3.3.png)
 
 ---
 
@@ -185,7 +185,7 @@ Lệnh `tracert target_name` sẽ truy dấu đường đi trong mạng mà gói
 Không đi sâu vào chi tiết kỹ thuật, nó dựa vào việc các bộ định tuyến (router) trên đường đi sẽ thông báo lại nếu chúng loại bỏ gói tin vì giá trị TTL (thời gian sống) đã về 0.
 Kết quả đầu ra của terminal bên dưới cho thấy chúng ta đã đi qua 15 router trước khi đến được mục tiêu.
 
-![](./img/1_Windows_Command_Line/3.4.png)
+![](./img/3.4.png)
 
 ---
 
@@ -198,7 +198,7 @@ Tuy nhiên, `nslookup example.com 1.1.1.1` sẽ sử dụng máy chủ tên `one
 Terminal bên dưới hiển thị kết quả của cả hai lệnh.
 Kết quả là giống nhau; tuy nhiên, bạn có thể thấy rằng các câu trả lời được lấy từ những máy chủ tên khác nhau.
 
-![](./img/1_Windows_Command_Line/3.5.png)
+![](./img/3.5.png)
 
 ---
 
@@ -207,7 +207,7 @@ Lệnh này hiển thị các kết nối mạng hiện tại và các cổng đ
 
 Một lệnh `netstat` cơ bản không có đối số sẽ hiển thị cho bạn các kết nối đã được thiết lập, như được minh họa bên dưới.
 
-![](./img/1_Windows_Command_Line/3.6.png)
+![](./img/3.6.png)
 
 ---
 
@@ -283,7 +283,7 @@ Nó tương đương với việc hỏi hệ thống: *"Tôi đang ở đâu?"*
 
 Bạn có thể xem các thư mục con bằng cách sử dụng lệnh `dir`.
 
-![](./img/1_Windows_Command_Line/4.1.png)
+![](./img/4.1.png)
 
 ---
 
@@ -295,13 +295,13 @@ Lưu ý rằng bạn có thể sử dụng các tùy chọn sau với lệnh `di
 
 Bạn có thể gõ `tree` để hiển thị trực quan cấu trúc các thư mục con và thư mục lồng nhau.
 
-![](./img/1_Windows_Command_Line/4.2.png)
+![](./img/4.2.png)
 
 ---
 
 Bạn có thể chuyển đến bất kỳ thư mục nào bằng cách sử dụng lệnh `cd target_directory`; lệnh này tương đương với việc nhấp đúp vào thư mục `target_directory` trên màn hình nền của bạn. Ngoài ra, bạn có thể dùng `cd ..` để quay lại một cấp thư mục. Một ví dụ được hiển thị trong đầu ra của terminal bên dưới.
 
-![](./img/1_Windows_Command_Line/4.3.png)
+![](./img/4.3.png)
 
 ---
 
@@ -309,7 +309,7 @@ Bạn có thể chuyển đến bất kỳ thư mục nào bằng cách sử d�
 Để xóa một thư mục, hãy dùng `rmdir directory_name`; `rmdir` là viết tắt của *remove directory* (xóa thư mục).
 Đầu ra của terminal bên dưới minh họa việc tạo và xóa một thư mục.
 
-![](./img/1_Windows_Command_Line/4.4.png)
+![](./img/4.4.png)
 
 ---
 
@@ -321,19 +321,19 @@ Bạn cũng có thể sử dụng `more` đối với các tập tin văn bản 
 
 Lệnh `copy` cho phép bạn sao chép các tập tin từ vị trí này sang vị trí khác. Đầu ra của terminal dưới đây cung cấp một ví dụ minh họa.
 
-![](./img/1_Windows_Command_Line/4.5.png)
+![](./img/4.5.png)
 
 ---
 
 Tương tự, bạn có thể di chuyển các tập tin bằng lệnh `move`. Một ví dụ được hiển thị trong đầu ra của terminal bên dưới.
 
-![](./img/1_Windows_Command_Line/4.6.png)
+![](./img/4.6.png)
 
 ---
 
 Cuối cùng, chúng ta có thể xóa một tập tin bằng lệnh `del` hoặc `erase`.
 
-![](./img/1_Windows_Command_Line/4.7.png)
+![](./img/4.7.png)
 
 ---
 
@@ -364,7 +364,7 @@ Chắc hẳn bạn đã quen thuộc với Trình quản lý tác vụ (Task Man
 
 Chúng ta có thể liệt kê các tiến trình đang chạy bằng lệnh `tasklist`.
 
-![](./img/1_Windows_Command_Line/5.1.png)
+![](./img/5.1.png)
 
 ---
 
@@ -377,7 +377,7 @@ tasklist /FI "imagename eq services.exe"
 
 Lưu ý rằng `/FI` được dùng để đặt bộ lọc **tên ảnh bằng** `services.exe`.
 
-![](./img/1_Windows_Command_Line/5.2.png)
+![](./img/5.2.png)
 
 ---
 
@@ -451,7 +451,7 @@ Trong phòng này, chúng tôi đã sử dụng lệnh `more` theo hai cách:
   Đáp án: shutdown /r
 </details>
 
-![](./img/1_Windows_Command_Line/6.1.png)
+![](./img/6.1.png)
 
 ---
 
@@ -462,4 +462,4 @@ Trong phòng này, chúng tôi đã sử dụng lệnh `more` theo hai cách:
   Đáp án: `shutdown /a`
 </details>
 
-![](./img/1_Windows_Command_Line/6.2.png)
+![](./img/6.2.png)
