@@ -256,3 +256,11 @@ Chúng ta có thể sao chép hoặc di chuyển các tệp và thư mục tươ
 
 - Copy:
 
+![](./img/4.7.png)
+
+- Move
+
+![](./img/4.8.png)
+
+---
+
