@@ -342,7 +342,7 @@ Toán tử `-eq` (tức là **"bằng với"**) là một phần của tập h�
 
 ---
 
-Dưới đây là một số ví dụ minh họa cụ thể bằng **PowerShell**, sử dụng các toán tử so sánh với `Where-Object` để lọc
+### Dưới đây là một số ví dụ minh họa cụ thể bằng **PowerShell**, sử dụng các toán tử so sánh với `Where-Object` để lọc
 
 **1. Liệt kê các tập tin có phần mở rộng là `.txt`**
 
@@ -399,4 +399,20 @@ Get-ChildItem | Where-Object { $_.Length -le 2MB }
 ---
 
 
+### **Các lệnh phổ biến (Common Commands):**
+
+* `Sort-Object` (sắp xếp các đối tượng theo thuộc tính) – không có lệnh tương đương trực tiếp trong CMD, nhưng giống với lệnh `sort` trong Linux.
+
+* `Where-Object` (lọc đối tượng dựa trên điều kiện) – tương tự như lệnh `grep` trong Linux.
+
+* `Select-Object` (chọn các thuộc tính từ đối tượng) – dùng để tinh chỉnh kết quả đầu ra.
+
+---
+
+### **Ví dụ (Example):**
+
+* `Get-ChildItem | Where-Object -Property Length -gt 100`
+  → Liệt kê các tập tin có kích thước lớn hơn **100 byte**.
+
+---
 
