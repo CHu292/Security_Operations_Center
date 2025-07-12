@@ -292,3 +292,111 @@ Cuối cùng, để đọc và hiển thị nội dung của một tệp, chúng
 5. Ghi nhiều dòng vào file
 
 ![](./img/2_Windows_PowerShell/4.14.png)
+
+---
+
+**Hãy trả lời các câu hỏi bên dưới**
+
+**Câu hỏi: Cmdlet nào bạn có thể dùng thay cho lệnh `type` truyền thống của Windows?**
+
+<details>
+  <summary>Hiển thị đáp án</summary>
+  Đáp án: `Get-Content`
+</details>
+
+---
+
+**Câu hỏi: Lệnh PowerShell nào được dùng để hiển thị nội dung thư mục `C:\Users`? (Không sử dụng dấu nháy trong câu trả lời)**
+
+<details>
+  <summary>Hiển thị đáp án</summary>
+  Đáp án: `Get-ChildItem -Path C:\Users`
+</details>
+
+---
+
+
+Dưới đây là bản dịch tiếng Việt của đoạn văn trong ảnh:
+
+---
+
+# Task 5: Piping, Filtering, and Sorting Data
+
+> Kết nối, lọc và sắp xếp dữ liệu)**
+
+PowerShell sử dụng **piping** (`|`) để gửi đầu ra của một lệnh (cmdlet) làm đầu vào cho lệnh khác. Không giống như CMD/Linux, PowerShell truyền **đối tượng** thay vì văn bản, cho phép thao tác dữ liệu linh hoạt hơn.
+
+Tại đây, `Where-Object` lọc các tập tin dựa trên thuộc tính `Extension`, đảm bảo rằng chỉ các tập tin có phần mở rộng bằng (`-eq`) **`.txt`** mới được liệt kê.
+
+Toán tử `-eq` (tức là **"bằng với"**) là một phần của tập hợp **các toán tử so sánh**, được dùng chung với các ngôn ngữ kịch bản khác (ví dụ: Bash, Python). Để minh họa khả năng lọc mạnh mẽ của PowerShell, dưới đây là một số toán tử hữu ích nhất từ danh sách đó:
+
+* `-ne`: **"khác với"**. Toán tử này có thể dùng để loại bỏ các đối tượng không thỏa mãn tiêu chí chỉ định ra khỏi kết quả.
+
+* `-gt`: **"lớn hơn"**. Toán tử này sẽ chỉ giữ lại những đối tượng có giá trị lớn hơn giá trị chỉ định. Lưu ý rằng đây là phép so sánh nghiêm ngặt, có nghĩa là những đối tượng có giá trị bằng với giá trị chỉ định sẽ bị loại khỏi kết quả.
+
+* `-ge`: **"lớn hơn hoặc bằng"**. Đây là phiên bản không nghiêm ngặt của toán tử trước. Là sự kết hợp giữa `-gt` và `-eq`.
+
+* `-lt`: **"nhỏ hơn"**. Tương tự như toán tử "lớn hơn", đây là một phép so sánh nghiêm ngặt. Chỉ giữ lại các đối tượng có giá trị nhỏ hơn rõ ràng so với giá trị chỉ định.
+
+* `-le`: **"nhỏ hơn hoặc bằng"**. Tương tự như `-ge`, đây là phiên bản không nghiêm ngặt của toán tử trước. Là sự kết hợp giữa `-lt` và `-eq`.
+
+---
+
+Dưới đây là một số ví dụ minh họa cụ thể bằng **PowerShell**, sử dụng các toán tử so sánh với `Where-Object` để lọc
+
+**1. Liệt kê các tập tin có phần mở rộng là `.txt`**
+
+```powershell
+Get-ChildItem | Where-Object { $_.Extension -eq ".txt" }
+```
+
+*Chỉ hiển thị các tập tin `.txt`.*
+
+---
+
+**2. Liệt kê các tập tin KHÔNG phải `.txt`**
+
+```powershell
+Get-ChildItem | Where-Object { $_.Extension -ne ".txt" }
+```
+
+*Loại bỏ tập tin `.txt`, chỉ hiển thị các loại khác như `.jpg`, `.exe`…*
+
+---
+
+**3. Liệt kê các tập tin có kích thước lớn hơn 1MB**
+
+```powershell
+Get-ChildItem | Where-Object { $_.Length -gt 1MB }
+```
+
+*Chỉ hiện tập tin có dung lượng lớn hơn 1MB (1MB = 1048576 byte).*
+
+---
+
+**4. Các tập tin có kích thước từ 500KB trở lên**
+
+```powershell
+Get-ChildItem | Where-Object { $_.Length -ge 500KB }
+```
+
+---
+
+ **5. Tập tin nhỏ hơn 100KB**
+
+```powershell
+Get-ChildItem | Where-Object { $_.Length -lt 100KB }
+```
+
+---
+
+**6. Tập tin nhỏ hơn hoặc bằng 2MB**
+
+```powershell
+Get-ChildItem | Where-Object { $_.Length -le 2MB }
+```
+
+---
+
+
+
