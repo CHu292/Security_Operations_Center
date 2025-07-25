@@ -1,6 +1,8 @@
 # Process Scheduling
 >Lập lịch tiến trình
 
+[Bài Viết Gốc Tại Đây](https://csc.sibsutis.ru/sites/csc.sibsutis.ru/files/courses/os/Lecture_06.pdf)
+
 ## 1. **Đa nhiệm**
 
 * **Hệ điều hành được gọi là đa nhiệm**, nếu nó có khả năng luân phiên thực hiện nhiều tiến trình, tạo ra cảm giác rằng tại mỗi thời điểm có nhiều hơn một tiến trình đang chạy.
@@ -181,3 +183,125 @@ $$
 * **Quantum thời gian**: khoảng thời gian tiến trình được cấp CPU.
 * **Delta tương tác**: ảnh hưởng đến cách hệ thống đánh giá tiến trình có “tính tương tác” tốt hay không.
 * **Ngưỡng thời gian ngủ**: nếu tiến trình ngủ quá thời gian này thì sẽ được coi là có tính tương tác cao (thường là I/O-bound), và được ưu tiên hơn trong lập lịch.
+
+---
+
+## 7.  **Gán độ ưu tiên động**
+
+➤ **Độ ưu tiên của các tiến trình bị giới hạn bởi tốc độ I/O** sẽ được **giảm xuống đến 5 mức như một phần thưởng** (tức là ưu tiên cao hơn)
+
+➤ **Các tiến trình bị giới hạn bởi hiệu năng CPU** sẽ bị "phạt" bằng cách **tăng độ ưu tiên lên đến 5 mức** (tức là ưu tiên thấp hơn)
+
+➤ **Việc một tiến trình thuộc loại I/O-bound hay CPU-bound** được xác định **thông qua một thuật toán heuristic đánh giá mức độ tương tác** (*interactivity*)
+
+➤ **Việc điều chỉnh độ ưu tiên chỉ được thực hiện đối với các tiến trình của người dùng** (user processes)
+
+---
+
+## 8. **Độ ưu tiên động**
+
+$$
+\text{Độ ưu tiên động} = \max \left(100, \min(\text{độ ưu tiên tĩnh} - \text{thưởng} + 5, 139)\right)
+$$
+
+---
+
+**Tiến trình được coi là có tính tương tác nếu nó thỏa mãn điều kiện sau:**
+
+$$
+\text{thưởng} - 5 \geq \frac{\text{độ ưu tiên tĩnh}}{4} - 28
+$$
+
+(Phần bên phải biểu thức là **độ lệch tính tương tác** – delta interactivity)
+
+---
+
+## 9. **Lập lịch trong Linux. Độ ưu tiên**
+
+**Độ ưu tiên của tiến trình thời gian thực:**
+
+**0 … 99**
+
+---
+
+➤ **Giá trị càng lớn thì độ ưu tiên càng cao**
+
+➤ **Tất cả các tiến trình thời gian thực có độ ưu tiên cao hơn so với các tiến trình thông thường**
+
+![](../img/Process_Scheduling/4_Scheduling_in_Linux_Priority.png)
+
+```bash
+ps -eo state,uid,pid,ppid,rtprio,time,comm
+```
+
+Lệnh này hiển thị danh sách tiến trình, tập trung vào trạng thái (`state`) và **độ ưu tiên thời gian thực (`RTPRIO`)**, cụ thể:
+
+---
+
+| Cột         | Ý nghĩa                                                                                                                                                                                                                         |
+| ----------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **STATE**   | Trạng thái của tiến trình: <br> - `S`: Sleeping (ngủ) <br> - `I`: Idle <br> - `R`: Running (đang chạy) <br> - `D`: Waiting for I/O <br> - `Z`: Zombie                                                                           |
+| **UID**     | ID người dùng sở hữu tiến trình                                                                                                                                                                                                 |
+| **PID**     | ID tiến trình                                                                                                                                                                                                                   |
+| **PPID**    | ID tiến trình cha                                                                                                                                                                                                               |
+| **RTPRIO**  | **Độ ưu tiên thời gian thực (real-time priority)** <br> - Nếu là dấu `-` → không phải tiến trình thời gian thực <br> - Nếu là số (0–99) → là tiến trình **real-time**, số càng nhỏ càng ưu tiên thấp, càng cao càng ưu tiên cao |
+| **TIME**    | Tổng thời gian CPU tiến trình đã dùng                                                                                                                                                                                           |
+| **COMMAND** | Tên tiến trình hoặc lệnh đang chạy                                                                                                                                                                                              |
+
+---
+
+* Rất nhiều tiến trình có `RTPRIO` là `50` hoặc `99`, chứng tỏ đây là **tiến trình thời gian thực**:
+
+  * Ví dụ: `idle_inject/*` có `RTPRIO = 50`
+  * Các tiến trình `migration/*` có `RTPRIO = 99` → cực kỳ ưu tiên, thường là để cân bằng tải giữa CPU cores
+* Các tiến trình như `systemd`, `kthreadd`, `rcu_tasks*`, `kswapd` v.v. có `RTPRIO = -` → là **tiến trình người dùng/thông thường**, không thuộc lớp thời gian thực
+
+---
+
+* `RTPRIO` giúp xác định rõ tiến trình nào thuộc loại **real-time scheduling** (FIFO hoặc RR).
+* Trong hệ thống thực, chỉ **một số tiến trình hệ thống đặc biệt hoặc yêu cầu nghiêm ngặt** mới được gán `RTPRIO`, vì chúng có thể chiếm CPU lâu dài nếu không kiểm soát tốt.
+* Để thay đổi `rtprio`, cần quyền `sudo` và sử dụng lệnh như:
+
+  ```bash
+  chrt -r -p 50 <PID>
+  ```
+
+---
+
+## 10. **Lập lịch trong Linux. Quantum thời gian**
+
+➤ **Quantum thời gian** là một giá trị số, xác định tiến trình được phép thực thi **trong bao lâu trước khi bị thu hồi quyền kiểm soát CPU**
+
+➤ **Giá trị quantum quá lớn** sẽ dẫn đến **giảm hiệu năng tương tác** của hệ thống
+
+➤ **Giá trị quantum quá nhỏ** sẽ dẫn đến **tăng chi phí chuyển đổi giữa các tiến trình**
+
+➤ Trong bộ lập lịch của Linux, **mỗi tiến trình được cấp một phần (portion)** thời gian CPU
+
+➤ **Phần thời gian** này phụ thuộc vào **mức tải của hệ thống** và **giá trị `nice`** của tiến trình.
+
+---
+
+## 11. **Lập lịch trong Linux. Các lớp lập lịch**
+
+➤ **Trong bộ lập lịch, tồn tại đồng thời nhiều thuật toán tích hợp khác nhau** (*lớp lập lịch*), được thiết kế để lập lịch cho **chỉ một loại tiến trình cụ thể**
+
+➤ **Mỗi lớp lập lịch có độ ưu tiên riêng của nó**
+
+➤ **Việc quyết định tiến trình nào sẽ được chạy tiếp theo** do lớp lập lịch có **độ ưu tiên cao nhất** và **phù hợp với loại tiến trình đã sẵn sàng** thực hiện đưa ra.
+
+---
+
+## 12. **Bộ lập lịch CFS (Completely Fair Scheduler – Bộ lập lịch hoàn toàn công bằng)**
+
+➤ **Lớp lập lịch dành cho các tiến trình thông thường**
+(**SCHED\_NORMAL**)
+
+---
+
+## 13. **Chiến lược lập lịch trong chế độ thời gian thực**
+
+➤ **Các lớp lập lịch cho tiến trình thời gian thực:** `SCHED_FIFO` và `SCHED_RR`
+➤ **Các lớp này không được thực hiện trong bộ lập lịch CFS, mà trong một bộ lập lịch thời gian thực chuyên biệt**
+➤ `SCHED_FIFO` – thuật toán lập lịch đơn giản theo nguyên tắc **"Đến trước – phục vụ trước"**, không sử dụng quantum thời gian
+➤ `SCHED_RR` – là `SCHED_FIFO` có thêm quantum, là thuật toán lập lịch theo **vòng tròn (round-robin)**
