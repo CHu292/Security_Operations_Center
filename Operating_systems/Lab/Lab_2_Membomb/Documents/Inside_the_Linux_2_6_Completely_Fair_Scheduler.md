@@ -101,7 +101,7 @@ Hàm `pick_next_task` trong CFS nằm trong `./kernel/sched_fair.c` (có tên l�
 
 ---
 
-### 4. Mức ưu tiên và CFS
+## 4. Mức ưu tiên và CFS
 
 **CFS không sử dụng mức ưu tiên một cách trực tiếp**, mà thay vào đó dùng chúng như **hệ số suy giảm** cho khoảng thời gian mà một tác vụ được phép thực thi. **Tác vụ có mức ưu tiên thấp** sẽ có hệ số suy giảm cao hơn, trong khi **tác vụ có mức ưu tiên cao** sẽ có hệ số suy giảm thấp hơn.
 
@@ -109,7 +109,7 @@ Hàm `pick_next_task` trong CFS nằm trong `./kernel/sched_fair.c` (có tên l�
 
 ---
 
-### 5. Lập lịch theo nhóm trong CFS
+## 5. Lập lịch theo nhóm trong CFS
 
 Một khía cạnh thú vị khác của CFS là khái niệm **lập lịch theo nhóm (group scheduling)** (được giới thiệu từ nhân Linux 2.6.24). Lập lịch theo nhóm là một cách khác để đảm bảo công bằng trong lập lịch, đặc biệt trong trường hợp có những tác vụ sinh ra nhiều tác vụ con.
 
@@ -121,7 +121,7 @@ Bạn có thể tìm thấy giao diện `/proc` để quản lý **cấu trúc p
 
 ---
 
-### 6. Lớp và miền lập lịch (Scheduling classes and domains)
+## 6. Lớp và miền lập lịch (Scheduling classes and domains)
 
 Cùng với CFS, khái niệm **lớp lập lịch (scheduling class)** cũng được giới thiệu (xem lại **Hình 2**). Mỗi tác vụ sẽ thuộc về một **lớp lập lịch**, lớp này xác định cách tác vụ sẽ được lập lịch.
 
@@ -168,7 +168,7 @@ Các miền lập lịch cho phép bạn **gom một hoặc nhiều bộ xử l�
 
 ---
 
-### 7. Các bộ lập lịch khác
+## 7. Các bộ lập lịch khác
 
 Công việc nghiên cứu về lập lịch vẫn tiếp tục, và bạn sẽ thấy có nhiều bộ lập lịch đang được phát triển nhằm mở rộng giới hạn về **hiệu năng và khả năng mở rộng**. **Con Kolivas** không nản lòng với trải nghiệm của mình trong cộng đồng Linux và đã phát triển một bộ lập lịch khác cho Linux với tên viết tắt đầy khiêu khích: **BFS** (Brain Fuck Scheduler).
 
@@ -176,7 +176,7 @@ Bộ lập lịch này được báo cáo là có **hiệu năng tốt hơn trê
 
 ---
 
-### 8. Hướng phát triển tiếp theo
+## 8. Hướng phát triển tiếp theo
 
 Nếu có điều gì đó luôn tồn tại trong Linux, thì đó chính là **sự thay đổi là điều tất yếu**. Hôm nay, **CFS là bộ lập lịch của Linux phiên bản nhân 2.6**; nhưng ngày mai, nó có thể là một bộ lập lịch khác hoặc **một tập hợp các bộ lập lịch** có thể được kích hoạt tĩnh hoặc động.
 
