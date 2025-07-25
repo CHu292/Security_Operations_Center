@@ -132,7 +132,7 @@ Thông thường, bộ lập lịch hoạt động trên các tiến trình riê
 * `CONFIG_FAIR_GROUP_SCHED`: Cho phép nhóm các tiến trình CFS (ví dụ: `SCHED_NORMAL`, `SCHED_BATCH`).
 
 > Các tùy chọn này yêu cầu bật `CONFIG_CGROUPS` và quản trị viên phải tạo các **nhóm tiến trình tuỳ ý** bằng cách sử dụng hệ thống tệp giả “cgroup”.
-> (Xem thêm: **[Control Groups](https://www.kernel.org/doc/Documentation/cgroup-v1/cgroups.txt)** để biết thêm thông tin.)
+> (Xem thêm: **[Control Groups](./Control_Groups.md)** để biết thêm thông tin.)
 
 ---
 
