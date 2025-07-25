@@ -322,7 +322,7 @@ Dưới đây là bản dịch tiếng Việt của đoạn văn trong ảnh:
 
 # Task 5: Piping, Filtering, and Sorting Data
 
-> Kết nối, lọc và sắp xếp dữ liệu)**
+> Kết nối, lọc và sắp xếp dữ liệu)
 
 PowerShell sử dụng **piping** (`|`) để gửi đầu ra của một lệnh (cmdlet) làm đầu vào cho lệnh khác. Không giống như CMD/Linux, PowerShell truyền **đối tượng** thay vì văn bản, cho phép thao tác dữ liệu linh hoạt hơn.
 
@@ -342,7 +342,7 @@ Toán tử `-eq` (tức là **"bằng với"**) là một phần của tập h�
 
 ---
 
-### Dưới đây là một số ví dụ minh họa cụ thể bằng **PowerShell**, sử dụng các toán tử so sánh với `Where-Object` để lọc
+### Ví dụ minh họa 
 
 **1. Liệt kê các tập tin có phần mở rộng là `.txt`**
 
@@ -416,3 +416,12 @@ Get-ChildItem | Where-Object { $_.Length -le 2MB }
 
 ---
 
+**Hãy trả lời các câu hỏi bên dưới**
+
+**Câu hỏi: Làm thế nào để lấy các mục trong thư mục hiện tại có kích thước lớn hơn 100? (Không sử dụng dấu nháy trong câu trả lời)**
+
+<details>
+  <summary>Hiển thị đáp án</summary>
+  Đáp án:  
+  `Get-ChildItem | Where-Object -Property Length -gt 100`
+</details>
