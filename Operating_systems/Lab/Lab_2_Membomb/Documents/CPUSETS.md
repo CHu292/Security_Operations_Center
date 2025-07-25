@@ -705,11 +705,6 @@ Tương đương với:
 mount -t cgroup -ocpuset,noprefix X /sys/fs/cgroup/cpuset
 echo "/sbin/cpuset_release_agent" > /sys/fs/cgroup/cpuset/release_agent
 ```
-
----
-
-Dưới đây là bản dịch chuẩn sang tiếng Việt của phần **2.2 Thêm/Xoá CPU**:
-
 ---
 
 ### **2.2 Thêm / xoá CPU**

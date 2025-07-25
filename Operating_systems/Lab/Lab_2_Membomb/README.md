@@ -28,4 +28,7 @@ swapon -a
 
 * [Control Groups](./Documents/Control_Groups.md)
 
+* [CPUSETS](./Documents/CPUSETS.md)
+
+
 ---
