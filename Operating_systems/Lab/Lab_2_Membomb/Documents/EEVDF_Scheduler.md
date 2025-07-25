@@ -1,4 +1,6 @@
 # EEVDF Scheduler
+
+[Bài viết gốc](https://www.kernel.org/doc/html/latest/scheduler/sched-eevdf.html)
 ---
 
 ### **Bộ lập lịch EEVDF**
