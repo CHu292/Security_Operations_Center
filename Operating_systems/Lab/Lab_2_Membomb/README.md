@@ -18,7 +18,7 @@ swapon -a
 
 * [https://www.informit.com/articles/article.aspx?p=101760\&seqNum=2](https://www.informit.com/articles/article.aspx?p=101760&seqNum=2) - Bộ lập lịch cũ
 * [Bộ lập lịch mới- Inside the Linux 2.6 Completely Fair Scheduler](../Lab_2_Membomb/Documents/Inside_the_Linux_2_6_Completely_Fair_Scheduler.md)
-* [Process Scheduling](../Lab_2_Membomb/Documents/Process%20Scheduling.md)
+* [Process Scheduling](../Lab_2_Membomb/Documents/Process_Scheduling.md)
 
 ---
 
