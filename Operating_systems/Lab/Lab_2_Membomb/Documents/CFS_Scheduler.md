@@ -4,7 +4,7 @@
 
 ## **1. TỔNG QUAN**
 
-CFS là viết tắt của “Completely Fair Scheduler” (Bộ lập lịch hoàn toàn công bằng), là bộ lập lịch tiến trình "dành cho máy tính để bàn" do Ingo Molnar phát triển và được tích hợp vào Linux từ phiên bản 2.6.23. Khi được tích hợp lần đầu, nó đã thay thế cho bộ lập lịch trước đó là `SCHED_OTHER` – bộ lập lịch tương tác tiêu chuẩn. Ngày nay, CFS đang dần được thay thế bởi EEVDF, tài liệu về EEVDF có thể được tìm thấy tại [EEVDF Scheduler](https://www.kernel.org/doc/html/latest/scheduler/sched-eevdf.html).
+CFS là viết tắt của “Completely Fair Scheduler” (Bộ lập lịch hoàn toàn công bằng), là bộ lập lịch tiến trình "dành cho máy tính để bàn" do Ingo Molnar phát triển và được tích hợp vào Linux từ phiên bản 2.6.23. Khi được tích hợp lần đầu, nó đã thay thế cho bộ lập lịch trước đó là `SCHED_OTHER` – bộ lập lịch tương tác tiêu chuẩn. Ngày nay, CFS đang dần được thay thế bởi EEVDF, tài liệu về EEVDF có thể được tìm thấy tại [EEVDF Scheduler](./EEVDF_Scheduler.md).
 
 80% thiết kế của CFS có thể được tóm gọn trong một câu:
 **CFS về cơ bản mô phỏng một “CPU đa nhiệm lý tưởng, chính xác” trên phần cứng thực tế.**
