@@ -651,6 +651,7 @@ Các ứng dụng đã biết hiện tại sử dụng tính năng này bao gồ
 ### 5. Câu hỏi thường gặp (Questions)
 
 > **Q: Chuyện gì xảy ra với `/bin/echo` vậy?**
+
 > **A:** Lệnh `echo` được tích hợp sẵn trong bash **không kiểm tra lỗi khi gọi `write()`**.
 > Nếu bạn dùng nó trong hệ thống tệp `cgroup`, **bạn sẽ không biết được câu lệnh đã thực hiện thành công hay thất bại**.
 > Vì vậy cần dùng `/bin/echo` từ hệ thống file, không phải `echo` tích hợp của bash.
@@ -658,6 +659,7 @@ Các ứng dụng đã biết hiện tại sử dụng tính năng này bao gồ
 ---
 
 > **Q: Khi tôi gán tiến trình, chỉ tiến trình đầu tiên trong dòng được gán thật sự!**
+
 > **A:** Vì hệ thống chỉ có thể trả về **một mã lỗi duy nhất cho mỗi lần gọi `write()`**, nên **chỉ nên ghi một PID duy nhất** mỗi lần.
 
 ---
