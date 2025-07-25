@@ -272,7 +272,7 @@ goto fork
 Tên file: **`safe_fork_bomb.ps1`**
 
 ```powershell
-$max = 30
+$max = 50
 $count = 0
 
 while ($count -lt $max) {
