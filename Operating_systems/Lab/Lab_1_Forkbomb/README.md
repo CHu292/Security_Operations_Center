@@ -9,3 +9,10 @@
 [Chương trình forkbomb trên linux](./Linux/)
 
 [Chương trình forkbomb trên windows](./Windows/)
+
+## Tài Liệu Tham Khảo
+
+* [ForkBomb Linux](https://www.cyberciti.biz/faq/understanding-bash-fork-bomb/)
+
+* [Fork bomb attack](https://imperva.com/learn/ddos/fork-bomb/)
+
