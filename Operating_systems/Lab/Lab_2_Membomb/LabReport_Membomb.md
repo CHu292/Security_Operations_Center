@@ -239,3 +239,95 @@ Hình 2 – Biểu đồ RAM khả dụng theo block**
 * Rất gần với đồ thị bên Linux → thể hiện nhất quán và chính xác.
 
 ---
+
+# 3. OM Killer
+
+**OOM Killer (Out-Of-Memory Killer)** là một cơ chế trong Linux được thiết kế để **giải phóng bộ nhớ trong tình huống hệ thống bị cạn kiệt RAM**. Khi hệ thống không còn đủ bộ nhớ để phân bổ thêm cho tiến trình mới (và không thể sử dụng swap), **OOM Killer sẽ tự động lựa chọn và kết thúc một hoặc nhiều tiến trình để khôi phục hoạt động ổn định** của hệ thống.
+
+---
+
+### **1. Khi nào OOM Killer hoạt động?**
+
+OOM Killer được kích hoạt khi:
+
+* RAM đã sử dụng hết;
+* Swap (nếu có) cũng đã đầy;
+* Không còn khả năng phân bổ thêm bộ nhớ cho tiến trình mới.
+
+---
+
+### **2. Cách OOM Killer chọn tiến trình để “giết”**
+
+Linux sử dụng một chỉ số gọi là **OOM score** để đánh giá mức độ "hy sinh được" của các tiến trình:
+
+* Công thức tổng quát (tùy kernel version) gồm:
+
+  ```
+  oom_score = (memory used by process) / (total memory) + bonus factors
+  ```
+
+* Các yếu tố ảnh hưởng đến điểm số:
+
+  * Bộ nhớ mà tiến trình sử dụng (RAM, shared memory).
+  * Quyền ưu tiên (`nice` và `oom_score_adj`).
+  * Tiến trình hệ thống sẽ được bảo vệ tốt hơn.
+  * Tiến trình con của root thường ít bị giết hơn.
+
+Bạn có thể xem điểm số OOM của các tiến trình tại:
+
+```
+/proc/<pid>/oom_score
+```
+
+---
+
+### **3. Theo dõi và phân tích OOM**
+
+#### Cách phát hiện OOM Killer đã được kích hoạt:
+
+* **Xem log hệ thống:**
+
+```bash
+dmesg | grep -i "killed process"
+```
+
+* Hoặc:
+
+```bash
+journalctl -k | grep -i 'oom'
+```
+
+#### Ví dụ log:
+
+```
+Out of memory: Kill process 1234 (python) score 956 or sacrifice child
+Killed process 1234 (python) total-vm:500000kB, anon-rss:450000kB, file-rss:0kB
+```
+
+---
+
+### **4. Điều chỉnh OOM Killer**
+
+Bạn có thể **ảnh hưởng hành vi của OOM Killer** bằng cách chỉnh giá trị trong:
+
+```
+/proc/<pid>/oom_score_adj
+```
+
+* Phạm vi: từ `-1000` (bảo vệ tuyệt đối) đến `+1000` (dễ bị giết nhất).
+* Ví dụ: Bảo vệ tiến trình khỏi OOM:
+
+```bash
+echo -1000 > /proc/<pid>/oom_score_adj
+```
+
+---
+
+### **5. Tùy chỉnh kernel hoặc ngăn OOM**
+
+* **Tăng swap** nếu RAM không đủ.
+* **Giới hạn bộ nhớ** bằng cgroup hoặc `ulimit` cho các tiến trình dễ rò rỉ bộ nhớ.
+* Dùng công cụ như `earlyoom`, `nohang`, hoặc `systemd-oomd` để có phản ứng nhanh và thông minh hơn trước OOM.
+
+---
+
