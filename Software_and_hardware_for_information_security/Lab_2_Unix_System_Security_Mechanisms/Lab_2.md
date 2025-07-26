@@ -111,30 +111,24 @@ Các lớp được chia thành ba nhóm, khác nhau về cách thức xử lý 
 
 Đầu tiên, chúng ta tạo một người dùng mới (Hình 2).
 
-<p align="center">
-  <img src="https://github.com/CHu292/SOC/blob/main/Software_and_hardware_for_information_security/Lab_2_Unix_System_Security_Mechanisms/image/2.png" alt="" width="1000">
-</p>
-<p align="center"><b>Hình 2 – Tạo người dùng mới</b></p>
+![](./image/2.png)
+
+Hình 2 – Tạo người dùng mới
 
 
 Sau đó, thực hiện nhận dạng và xác thực các chủ thể truy cập khi đăng nhập vào hệ thống bằng mã nhận dạng và mật khẩu cố định, gồm ít nhất 8 ký tự và bao gồm ít nhất 3 loại ký tự khác nhau (Hình 3).
 
-<p align="center">
-  <img src="https://github.com/CHu292/SOC/blob/main/Software_and_hardware_for_information_security/Lab_2_Unix_System_Security_Mechanisms/image/3.png" alt="" width="800">
-</p>
-<p align="center"><b></b></p>
+![](./image/3.png)
 
-<p align="center">
-  <img src="https://github.com/CHu292/SOC/blob/main/Software_and_hardware_for_information_security/Lab_2_Unix_System_Security_Mechanisms/image/3.1.png" alt="" width="800">
-</p>
-<p align="center"><b>Hình 3 – Quy tắc đặt mật khẩu</b></p>
+![](./image/3.1.png)
+
+Hình 3 – Quy tắc đặt mật khẩu
 
 Tiếp theo, kiểm tra các quy tắc đặt mật khẩu. Chúng ta thấy rằng nếu mật khẩu có ít hơn 12 ký tự hoặc bao gồm ít hơn 3 loại ký tự, thì mật khẩu được coi là không hợp lệ và chúng ta không thể thay đổi mật khẩu (Hình 4).
 
-<p align="center">
-  <img src="https://github.com/CHu292/SOC/blob/main/Software_and_hardware_for_information_security/Lab_2_Unix_System_Security_Mechanisms/image/4.png" alt="" width="800">
-</p>
-<p align="center"><b>Hình 4 – Kiểm tra quy tắc đặt mật khẩu</b></p>
+![](./image/4.png)
+
+Hình 4 – Kiểm tra quy tắc đặt mật khẩu
 
 
 ### 3.2 Cấu hình hệ thống ghi nhật ký và kiểm toán
@@ -150,30 +144,24 @@ Hầu hết các tệp nhật ký đều nằm trong thư mục `/var/log`:
 - `/var/log/auth.log` hoặc `/var/log/secure` — chứa thông tin về việc xác thực người dùng, bao gồm các lần đăng nhập thành công và thất bại, cùng các cơ chế xác thực được sử dụng.
 - `/var/log/dmesg` — chứa nhật ký của các trình điều khiển thiết bị. Có thể sử dụng lệnh cùng tên để xem nội dung của tệp này. Dung lượng của nhật ký có giới hạn; khi tệp đạt đến mức tối đa, các thông báo cũ sẽ bị ghi đè bởi các thông báo mới. Thêm tùy chọn `--level=` để lọc đầu ra theo mức độ quan trọng.
 
-<p align="center">
-  <img src="https://github.com/CHu292/SOC/blob/main/Software_and_hardware_for_information_security/Lab_2_Unix_System_Security_Mechanisms/image/5.png" alt="" width="800">
-</p>
-<p align="center"><b>**Hình 5** – Danh sách các bản ghi về các sự kiện hệ thống và ứng dụng khác nhau </b></p>
+![](./image/5.png)
+
+**Hình 5** – Danh sách các bản ghi về các sự kiện hệ thống và ứng dụng khác nhau 
 
 
+![](./image/6.png)
 
-<p align="center">
-  <img src="https://github.com/CHu292/SOC/blob/main/Software_and_hardware_for_information_security/Lab_2_Unix_System_Security_Mechanisms/image/6.png" alt="" width="800">
-</p>
-<p align="center"><b>**Hình 6** – Nhật ký đăng nhập và đăng xuất của người dùng  </b></p>
+**Hình 6** – Nhật ký đăng nhập và đăng xuất của người dùng  
 
+![](./image/7.png)
 
-<p align="center">
-  <img src="https://github.com/CHu292/SOC/blob/main/Software_and_hardware_for_information_security/Lab_2_Unix_System_Security_Mechanisms/image/7.png" alt="" width="800">
-</p>
-<p align="center"><b>**Hình 7** – Nhật ký các lần đăng nhập không thành công  </b></p>
+**Hình 7** – Nhật ký các lần đăng nhập không thành công
 
 Lệnh `dmesg` được sử dụng để hiển thị các thông báo của kernel trong các hệ điều hành tương tự Unix, bao gồm Debian. Để tìm kiếm thông tin liên quan đến một thiết bị cụ thể, chẳng hạn như ổ đĩa cứng được xác định là "sda", chúng ta có thể sử dụng lệnh `dmesg` kết hợp với `grep`.
 
-<p align="center">
-  <img src="https://github.com/CHu292/SOC/blob/main/Software_and_hardware_for_information_security/Lab_2_Unix_System_Security_Mechanisms/image/8.png" alt="" width="800">
-</p>
-<p align="center"><b>**Hình 8** – Nhật ký phương tiện thông tin  </b></p>
+![](./image/8.png)
+
+**Hình 8** – Nhật ký phương tiện thông tin
 
 ### 3.3 Cấu hình hệ thống bảo đảm tính toàn vẹn
 
@@ -183,40 +171,32 @@ Cài đặt clamav:
 ```bash
 sudo apt install clamav clamav-daemon
 ```
-<p align="center">
-  <img src="https://github.com/CHu292/SOC/blob/main/Software_and_hardware_for_information_security/Lab_2_Unix_System_Security_Mechanisms/image/9.png" alt="" width="800">
-</p>
-<p align="center"><b>**Hình 9** – Kiểm tra tính toàn vẹn của tệp trước khi thay đổi</b></p>
 
+![](./image/9.png)
 
-<p align="center">
-  <img src="https://github.com/CHu292/SOC/blob/main/Software_and_hardware_for_information_security/Lab_2_Unix_System_Security_Mechanisms/image/10.png" alt="" width="800">
-</p>
-<p align="center"><b>**Hình 10** – Bash script để tạo giá trị băm</b></p>
+**Hình 9** – Kiểm tra tính toàn vẹn của tệp trước khi thay đổi
 
-<p align="center">
-  <img src="https://github.com/CHu292/SOC/blob/main/Software_and_hardware_for_information_security/Lab_2_Unix_System_Security_Mechanisms/image/11.png" alt="" width="800">
-</p>
-<p align="center"><b>**Hình 11** – Bash script để so sánh giá trị băm tính toán với giá trị mong đợi</b></p>
+![](./image/10.png)
 
+**Hình 10** – Bash script để tạo giá trị băm
 
+![](./image/11.png)
 
-<p align="center">
-  <img src="https://github.com/CHu292/SOC/blob/main/Software_and_hardware_for_information_security/Lab_2_Unix_System_Security_Mechanisms/image/12.png" alt="" width="800">
-</p>
-<p align="center"><b>**Hình 12** – Kiểm tra hoạt động của script</b></p>
+**Hình 11** – Bash script để so sánh giá trị băm tính toán với giá trị mong đợi</b></p>
+
+![](./image/12.png)
+
+*Hình 12** – Kiểm tra hoạt động của script
 
 Để thêm script vào crontab ta thực hiện như sau:
 
 ```bash
 crontab -e
 ```
-<p align="center">
-  <img src="https://github.com/CHu292/SOC/blob/main/Software_and_hardware_for_information_security/Lab_2_Unix_System_Security_Mechanisms/image/13.png" alt="" width="800">
-</p>
-<p align="center"><b>**Hình 13** – Thêm script vào crontab</b></p>
 
+![](./image/13.png)
 
+**Hình 13** – Thêm script vào crontab
 
 Tệp `/home/debian/check_hash.sh` thực hiện việc khởi chạy script bash. Giờ đây, sau khi lưu tệp và khởi động lại thiết bị, script bash sẽ tự động chạy.
 
@@ -227,10 +207,9 @@ Sau đó, chúng tôi sử dụng ứng dụng “Backintime” để tạo bả
 sudo apt update
 sudo apt install backintime-qt
 ```
-<p align="center">
-  <img src="https://github.com/CHu292/SOC/blob/main/Software_and_hardware_for_information_security/Lab_2_Unix_System_Security_Mechanisms/image/14.png" alt="" width="800">
-</p>
-<p align="center"><b>**Hình 14** – Ứng dụng “Backintime”</b></p>
+![](./image/14.png)
+
+**Hình 14** – Ứng dụng “Backintime”
 
 
 Tùy chọn “Include” cho phép chỉ định các tệp và thư mục để sao lưu, trong khi “Exclude” cho phép loại trừ các thư mục không cần thiết. Khi khởi chạy ứng dụng, cấu hình khá đơn giản. Trên màn hình chính, tất cả các bản sao lưu được liệt kê (Backintime gọi chúng là "snapshot").
@@ -278,10 +257,9 @@ Khi khởi chạy lần đầu, **Back In Time** sẽ yêu cầu bạn thiết l
 Với các bước này, bạn sẽ có một bản sao lưu được cấu hình và quản lý dễ dàng thông qua giao diện của **Back In Time**.
 --- 
 
-<p align="center">
-  <img src="https://github.com/CHu292/SOC/blob/main/Software_and_hardware_for_information_security/Lab_2_Unix_System_Security_Mechanisms/image/15.png" alt="" width="800">
-</p>
-<p align="center"><b>**Hình 15** – Giao diện chương trình</b></p>
+![](./image/15.png)
+
+**Hình 15** – Giao diện chương trình
 
 
 Ở đây bạn có thể thao tác với tất cả các bản sao lưu: khôi phục, xóa, so sánh, v.v. Chọn bản sao lưu cần thiết và nhấn nút “Khôi phục”. Sau khi hoàn tất, tất cả dữ liệu sẽ được khôi phục.
@@ -301,10 +279,9 @@ apt-get update && apt-get install vulners-agent
 ```
 [chi tiết tại đây](https://vulners.com/docs/manuals/vulners_agent/#debian)
 
-<p align="center">
-  <img src="https://github.com/CHu292/SOC/blob/main/Software_and_hardware_for_information_security/Lab_2_Unix_System_Security_Mechanisms/image/16.png" alt="" width="800">
-</p>
-<p align="center"><b>****Hình 17** – Thêm api-key để sử dụng Vulners Agent</b></p>
+![](./image/16.png)
+
+**Hình 16** – Thêm api-key để sử dụng Vulners Agent
 
 
 
