@@ -5,7 +5,7 @@ Thực hiện kiểm thử và tìm ra **bộ lập lịch I/O (nhập/xuất) t
 
 ---
 
-### Lựa chọn nâng cao:
+**Lựa chọn nâng cao:**
 
 **Chỉnh sửa bộ lập lịch hiện có ở cấp độ nhân hệ điều hành**
 
