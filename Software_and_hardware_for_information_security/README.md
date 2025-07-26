@@ -2,7 +2,7 @@
 
 >Phần mềm và phần cứng bảo mật thông tin
 
-## LAB 1- Virtualization and containerization
+## [LAB 1- Virtualization and containerization](/Software_and_hardware_for_information_security/Lab_1_Virtualization_and_containerization/)
 
 **MỤC TIÊU: CUNG CẤP BẢO MẬT ẢO HÓA**
 
