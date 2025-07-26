@@ -14,6 +14,8 @@ swapon -a
 
 ---
 
+- [Báo cáo](./LabReport_Membomb.md)
+
 ## **Tài liệu tham khảo**
 
 * [Bộ lập lịch cũ](https://www.informit.com/articles/article.aspx?p=101760&seqNum=2)
