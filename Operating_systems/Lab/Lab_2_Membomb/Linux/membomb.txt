@@ -1,0 +1,6 @@
+              total        used        free      shared  buff/cache   available
+Mem:           1964        1303          86          17         574         486
+Swap:             0           0           0
+              total        used        free      shared  buff/cache   available
+Mem:           1964        1806          61          17          96          26
+Swap:             0           0           0
