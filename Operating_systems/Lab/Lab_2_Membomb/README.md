@@ -31,6 +31,9 @@ swapon -a
 * [perf Examples](https://www.brendangregg.com/perf.html#SchedulerAnalysis)
 
 * [Tuning the Task Scheduler](./Documents/Tuning_the_Task_Scheduler.md)
+
+* [sched(7) — Linux manual page](https://man7.org/linux/man-pages/man7/sched.7.html)
+
 ---
 
 ### [Control Group Version 1](https://www.kernel.org/doc/html/latest/admin-guide/cgroup-v1/index.html#cgroup-v1)
