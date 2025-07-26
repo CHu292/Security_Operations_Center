@@ -76,31 +76,26 @@ Trong VirtualBox, việc ghi nhật ký và xác thực có sẵn theo mặc đ�
 
 **Cách thực hiện:** ```click vào biểu tượng có 3 dấu chấm trong máy ảo bạn muốn ghi nhật ký -> Logs```
 
-<p align="center">
-  <img src="https://github.com/CHu292/SOC/blob/main/Software_and_hardware_for_information_security/Lab_1_Virtualization_and_containerization/image/1_open_logs.png" alt="Nhật ký của VirtualBox" width="1000">
-</p>
-<p align="center"><b>Hình 1 - Nhật ký của VirtualBox</b></p>
+![Nhật ký của Virtualbox](./image/1_open_logs.png)
+
+Hình 1 - Nhật ký của VirtualBox
 
 Ngoài ra, bạn có thể thiết lập mật khẩu để đăng nhập vào hệ thống ảo (Hình 2).
 
 **cách thực hiện:** ``` Chọn settings của máy ảo -> General -> Disk Encryption```
 
-<p align="center">
-  <img src="https://github.com/CHu292/SOC/blob/main/Software_and_hardware_for_information_security/Lab_1_Virtualization_and_containerization/image/2_Set_up_authentication_to_access_the_virtual_machine.png" alt="Thiết lập mật khẩu" width="1000">
-</p>
-<p align="center"><b>Hình 2 - Cài đặt xác thực để truy cập vào máy ảo</b></p>
+![Thiết lập mật khẩu](./image/2_Set_up_authentication_to_access_the_virtual_machine.png)
+
+Hình 2 - Cài đặt xác thực để truy cập vào máy ảo
 
 
 Khi cài đặt hệ thống ảo, có thể tạo mật khẩu để đăng nhập vào hệ điều hành khách (Hình 3).
 
-<p align="center">
-  <img src="https://github.com/CHu292/SOC/blob/main/Software_and_hardware_for_information_security/Lab_1_Virtualization_and_containerization/image/3_set_.png" alt="Set Password" width="1000">
-</p>
+![Set Password](./image/3_set_.png)
 
-<p align="center">
-  <img src="https://github.com/CHu292/SOC/blob/main/Software_and_hardware_for_information_security/Lab_1_Virtualization_and_containerization/image/3_login.png" alt="Login" width="1000">
-</p>
-<p align="center"><b>Hình 3 - Yêu cầu mật khẩu trong hệ điều hành khách</b></p>
+![login](./image/3_login.png)
+
+Hình 3 - Yêu cầu mật khẩu trong hệ điều hành khách
 
 
 ## ZSV.2 - Quản lý quyền truy cập của người dùng vào các đối tượng trong hạ tầng ảo, bao gồm cả bên trong máy ảo.
@@ -109,88 +104,77 @@ Trong môi trường ảo, có thể thêm tài khoản người dùng và cấp
 
 **Cách thực hiện:** ``` windows + R -> nhập Control Panel -> User Acconts and Family Safety -> Tại mục User Accounts chọn Add or remove user acconts -> Create new account```
 
-<p align="center">
-  <img src="https://github.com/CHu292/SOC/blob/main/Software_and_hardware_for_information_security/Lab_1_Virtualization_and_containerization/image/4_create_new_account.png  " alt="Create New Account" width="1000">
-</p>
-<p align="center"><b>Hình 4 - Tạo tài khoản người dùng khác</b></p>
+![](./image/4_create_new_account.png)
+
+Hình 4 - Tạo tài khoản người dùng khác
 
 
-ZSV.3 - Đăng ký các sự kiện bảo mật trong hạ tầng ảo.
+## ZSV.3 - Đăng ký các sự kiện bảo mật trong hạ tầng ảo.
 
 Trong VirtualBox và hệ điều hành khách, tính năng ghi nhật ký sự kiện bảo mật có sẵn theo mặc định (Hình 5).
 
 **Cách thực hiện:** ``` windows + R -> nhập eventvwr.msc -> Windows.Logs -> System```
 
-<p align="center">
-  <img src="https://github.com/CHu292/SOC/blob/main/Software_and_hardware_for_information_security/Lab_1_Virtualization_and_containerization/image/5_Registering_security_events_in_the_virtual_infrastructure.png" alt="Ghi nhật ký sự kiện trong Windows" width="1000">
-</p>
-<p align="center"><b>Hình 5 - Ghi nhật ký sự kiện trong Windows 7</b></p>
+![](./image/5_Registering_security_events_in_the_virtual_infrastructure.png)
+
+Hình 5 - Ghi nhật ký sự kiện trong Windows 7
 
 
-ZSV.4 - Quản lý (lọc, định tuyến, kiểm soát kết nối, truyền một chiều) luồng thông tin giữa các thành phần trong hạ tầng ảo, cũng như qua chu vi hạ tầng ảo.
+## ZSV.4 - Quản lý (lọc, định tuyến, kiểm soát kết nối, truyền một chiều) luồng thông tin giữa các thành phần trong hạ tầng ảo, cũng như qua chu vi hạ tầng ảo.
 
 Trong hệ điều hành khách được sử dụng cho ví dụ này, Firewall của Windows được tích hợp sẵn (Hình 6). Trong đó, có thể tùy chọn chặn và giới hạn lưu lượng vào và ra. Cũng có thể thiết lập các bộ điều hợp bổ sung cho máy ảo trên VirtualBox.
 
 **Cách thực hiện:** ``` windows + R -> nhập wf.msc -> Inbound Rules -> New rule -> Program -> This program path -> browse -> Computer -> Ổ đĩa chứa ứng dung exe -> Program Files -> Ví dụ muốn chọn chrome thì chọn folder chrome -> application -> chrome sau đó đặt tên```
 
+![](./image/6_Firewall_Configuration.png)
 
-<p align="center">
-  <img src="https://github.com/CHu292/SOC/blob/main/Software_and_hardware_for_information_security/Lab_1_Virtualization_and_containerization/image/6_Firewall_Configuration.png" alt="Ghi nhật ký sự kiện trong Windows" width="1000">
-</p>
-<p align="center"><b>Hình 6 - Cấu hình tường lửa</b></p>
+Hình 6 - Cấu hình tường lửa
 
 
 ## ZSV.5 - Tải tin cậy máy chủ ảo hóa, máy ảo (container), và máy chủ quản lý ảo hóa.
 
 Biện pháp này yêu cầu đảm bảo việc tải tin cậy của các máy chủ ảo hóa, máy ảo và các máy chủ quản lý ảo hóa. Biện pháp này chia thành hai phần - một là tải tin cậy các máy chủ vật lý (hypervisor, hệ thống quản lý ảo hóa), và hai là tải tin cậy của máy ảo. Phần thứ nhất thực hiện bằng các phương tiện phần cứng tải tin cậy truyền thống, phần thứ hai chỉ thực hiện qua các công cụ bảo mật ảo hóa bổ sung (Hình 7).
 
-<p align="center">
-  <img src="https://github.com/CHu292/SOC/blob/main/Software_and_hardware_for_information_security/Lab_1_Virtualization_and_containerization/image/7_Trusted_Download_Settings.png" alt="Ghi nhật ký sự kiện trong Windows" width="1000">
-</p>
-<p align="center"><b>Hình 7 - Cài đặt tải tin cậy</b></p>
+![](./image/7_Trusted_Download_Settings.png)
+
+Hình 7 - Cài đặt tải tin cậy
 
 ## ZSV.6 - Quản lý di chuyển máy ảo (container) và dữ liệu trên chúng.
 
 Cấu hình của máy ảo có thể xuất sang đám mây. Cũng có thể xuất cấu hình sang hệ thống chính hoặc thiết bị lưu trữ di động (Hình 8).
 
-<p align="center">
-  <img src="https://github.com/CHu292/SOC/blob/main/Software_and_hardware_for_information_security/Lab_1_Virtualization_and_containerization/image/8_Export_virtual_machine_configuration.png" alt="Ghi nhật ký sự kiện trong Windows" width="1000">
-</p>
-<p align="center"><b>Hình 8 - Xuất cấu hình máy ảo</b></p>
+![](./image/8_Export_virtual_machine_configuration.png)
+
+Hình 8 - Xuất cấu hình máy ảo
 
 ## ZSV.7 - Kiểm tra tính toàn vẹn của hạ tầng ảo và cấu hình của nó.
 
 Kiểm tra tính toàn vẹn được tích hợp trong VirtualBox. Ví dụ, khi cố gắng sửa đổi tệp với phần mở rộng .vdi và mở máy ảo qua VirtualBox, sẽ gặp lỗi về tính toàn vẹn (Hình 9).
 
-<p align="center">
-  <img src="https://github.com/CHu292/SOC/blob/main/Software_and_hardware_for_information_security/Lab_1_Virtualization_and_containerization/image/9_change_vdi_file.png" alt="Sửa file vdi" width="1000">
-</p>
-<p align="center"><b>Sửa file .vdi trong máy chính</b></p>
+![](./image/9_change_vdi_file.png)
 
-<p align="center">
-  <img src="https://github.com/CHu292/SOC/blob/main/Software_and_hardware_for_information_security/Lab_1_Virtualization_and_containerization/image/9_Error_in_integrity_control.png" alt="Lỗi khi kiểm tra tính toàn vẹn" width="1000">
-</p>
-<p align="center"><b>Hình 9 - Lỗi khi kiểm tra tính toàn vẹn</b></p>
+Hình 9.1 - Sửa file .vdi trong máy chính
+
+![](./image/9_Error_in_integrity_control.png)
+
+Hình 9.2 - Lỗi khi kiểm tra tính toàn vẹn
 
 
-ZSV.8 - Sao lưu dữ liệu, dự phòng các phương tiện kỹ thuật, phần mềm của hạ tầng ảo, cũng như các kênh truyền trong hạ tầng ảo.
+## ZSV.8 - Sao lưu dữ liệu, dự phòng các phương tiện kỹ thuật, phần mềm của hạ tầng ảo, cũng như các kênh truyền trong hạ tầng ảo.
 
 Trong VirtualBox, có tính năng sao lưu nội bộ máy ảo - tạo Snapshot (Hình 10).
 
 **Cách thực hiện:** ```Click chuột vào dấu 3 chấm của máy ảo -> snapshots -> take```
+![](./image/10_create_snapshot.png)
 
-<p align="center">
-  <img src="https://github.com/CHu292/SOC/blob/main/Software_and_hardware_for_information_security/Lab_1_Virtualization_and_containerization/image/10_create_snapshot.png" alt="tạo snapshots" width="1000">
-</p>
-<p align="center"><b>Hình 10 - Tạo Snapshot</b></p>
+Hình 10 - Tạo Snapshot
 
 Cũng có thể sao chép tệp cấu hình của máy ảo qua "Trình quản lý phương tiện ảo" (Hình 11).
 **Cách thực hiện:** ``` Click chuột vào dấu 3 chấm ở mục tools -> media```
 
-<p align="center">
-  <img src="https://github.com/CHu292/SOC/blob/main/Software_and_hardware_for_information_security/Lab_1_Virtualization_and_containerization/image/11_copy_via_virtual_media_manager.png" alt="Sao chép qua trình quản lý phương tiện ảo" width="1000">
-</p>
-<p align="center"><b>Hình 11 - Sao chép qua trình quản lý phương tiện ảo</b></p>
+![](./image/11_copy_via_virtual_media_manager.png)
+
+Hình 11 - Sao chép qua trình quản lý phương tiện ảo
 
 
 ## ZSV.9 - Thực hiện và quản lý bảo vệ chống virus trong hạ tầng ảo.
@@ -201,26 +185,23 @@ Trong VirtualBox không có sẵn phần mềm chống virus, vì vậy cần t�
 
 Có thể thiết lập quyền truy cập người dùng trên máy ảo, từ đó phân đoạn hạ tầng (Hình 12). Cũng có thể thiết lập các mạng cục bộ khác nhau trong máy ảo (Hình 13).
 
-<p align="center">
-  <img src="https://github.com/CHu292/SOC/blob/main/Software_and_hardware_for_information_security/Lab_1_Virtualization_and_containerization/image/12_network_segmentation.png" alt="Hình 12 - Phân đoạn mạng" width="1000">
-</p>
-<p align="center"><b>Hình 12 - Phân đoạn mạng</b></p>
+![](./image/12_network_segmentation.png)
+
+Hình 12 - Phân đoạn mạng
 
 ```Trên hệ thống bấm góc trái màn hình -> mũi tên ở nút shut down -> switch user```
 
-<p align="center">
-  <img src="https://github.com/CHu292/SOC/blob/main/Software_and_hardware_for_information_security/Lab_1_Virtualization_and_containerization/image/13_access_control_segmentation.png" alt="Hình 13 - Phân đoạn kiểm soát truy cập" width="1000">
-</p>
-<p align="center"><b>Hình 13 - Phân đoạn kiểm soát truy cập</b></p>
+![](./image/13_access_control_segmentation.png)
+
+Hình 13 - Phân đoạn kiểm soát truy cập
 
 ## Đảm bảo bảo vệ công nghệ theo yêu cầu của tài liệu
 
 Để đảm bảo bảo vệ theo ZSV.9, chúng tôi đã cài đặt phần mềm chống virus 360 Total Security trên máy ảo Windows 7 và kiểm tra hoạt động của nó (Hình 14).
 
-<p align="center">
-  <img src="https://github.com/CHu292/SOC/blob/main/Software_and_hardware_for_information_security/Lab_1_Virtualization_and_containerization/image/14_antivirus_software_in_action.png" alt="Hình 14 - Hoạt động của phần mềm chống virus" width="1000">
-</p>
-<p align="center"><b>Hình 14 - Hoạt động của phần mềm chống virus</b></p>
+![](./image/14_antivirus_software_in_action.png)
+
+Hình 14 - Hoạt động của phần mềm chống virus
 
 
 
