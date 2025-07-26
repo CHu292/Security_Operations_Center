@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+</head>
+<body>
+    <h1>Login</h1>
+
+    {% if error_message %}
+        <p style="color: red;">{{ error_message }}</p> <!-- Отображение сообщения об ошибке в красном цвете -->
+    {% endif %}
+
+    <form action="/login" method="post"> <!-- Форма для входа пользователя -->
+        <label for="email">Email:</label> <!-- Подпись для поля ввода электронной почты -->
+        <input type="email" id="email" name="email" required> <!-- Поле ввода для электронной почты -->
+        <br>
+        <label for="password">Password:</label> <!-- Подпись для поля ввода пароля -->
+        <input type="password" id="password" name="password" required> <!-- Поле ввода для пароля -->
+        <br>
+        <button type="submit">Login</button> <!-- Кнопка для отправки формы -->
+    </form>
+</body>
+</html>
+

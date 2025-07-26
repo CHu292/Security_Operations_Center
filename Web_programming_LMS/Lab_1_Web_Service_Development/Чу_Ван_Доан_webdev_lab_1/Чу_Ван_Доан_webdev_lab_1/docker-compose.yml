@@ -1,0 +1,28 @@
+version: '3.8'
+
+services:
+  nginx:
+    build: ./nginx
+    container_name: nginx
+    ports:
+      - "80:80"  # Chỉ phơi ra cổng 80
+    depends_on:
+      - website
+
+  website:
+    build: ./website
+    container_name: website
+    expose:
+      - "8000"
+    environment:
+      DATABASE_URL: "postgresql://user:password@db:5432/chatapp"
+
+  db:
+    image: postgres:13
+    container_name: db
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: chatapp
+    volumes:
+      - ./db:/docker-entrypoint-initdb.d

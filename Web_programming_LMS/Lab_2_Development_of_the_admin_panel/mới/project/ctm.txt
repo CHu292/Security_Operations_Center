@@ -1,0 +1,25 @@
+project/
+├── docker-compose.yml
+├── .gitignore
+├── api/
+│   ├── Dockerfile
+│   ├── requirements.txt
+│   └── app/
+│       ├── __init__.py
+│       ├── main.py
+│       ├── database.py
+│       ├── models.py
+│       ├── schemas.py
+│       ├── crud.py
+├── frontend/
+│   ├── Dockerfile
+│   ├── package.json
+│   ├── .dockerignore
+│   ├── public/
+│   │   └── index.html
+│   └── src/
+│       ├── index.js
+│       ├── App.js
+│       ├── Pagination.js
+│       └── services/
+│           └── api.js

@@ -1,0 +1,30 @@
+Bài 1:
+
+python3 -m venv .venv
+
+source .venv/bin/activate
+
+Bài 2:
+
+pip install "fastapi[standard]"
+
+Bài 3:
+Tạo file main.py
+
+code: 
+
+from fastapi import FastAPI
+
+app = FastAPI()
+
+
+@app.get("/")
+async def root():
+    return {"message": "Hello World"}
+
+sau đó chạy lệnh:
+fastapi dev --host 0.0.0.0 main.py
+
+Bài 4:
+nhấn Ctrl + C
+

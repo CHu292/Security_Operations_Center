@@ -1,0 +1,12 @@
+# FastAPI — фреймворк для создания веб-приложений и API на Python
+fastapi
+
+# websockets — библиотека для работы с протоколом WebSocket, поддерживающая асинхронные соединения
+websockets
+
+# pyjwt — библиотека для кодирования и декодирования JWT-токенов (JSON Web Token)
+pyjwt
+
+# uvicorn — ASGI-сервер для запуска приложений на базе ASGI, включая FastAPI
+uvicorn
+

@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat Room</title>
+    <script>
+        let ws;
+        let currentRoom = "";
+
+        function joinRoom(roomName) {
+            if (ws) {
+                ws.close();
+            }
+            currentRoom = roomName;
+            document.getElementById("chat-room-name").textContent = roomName;
+            document.getElementById("messages").innerHTML = "";
+
+            ws = new WebSocket(`ws://${window.location.host}/ws/${roomName}`);
+            
+            ws.onmessage = function(event) {
+                const messagesDiv = document.getElementById("messages");
+                const message = document.createElement("p");
+                const timestamp = new Date().toLocaleTimeString();
+                message.textContent = `[${timestamp}] ${event.data}`;
+                messagesDiv.appendChild(message);
+                messagesDiv.scrollTop = messagesDiv.scrollHeight;
+            };
+            
+            ws.onopen = function() {
+                ws.send("{{ user.username }} has joined the room.");
+            };
+            
+            ws.onclose = function() {
+                console.log("Disconnected from room:", roomName);
+                const messagesDiv = document.getElementById("messages");
+                const message = document.createElement("p");
+                message.textContent = "Connection lost. Please refresh the page to reconnect.";
+                messagesDiv.appendChild(message);
+            };
+        }
+
+        function sendMessage() {
+            const input = document.getElementById("message-input");
+            if (ws && input.value) {
+                ws.send(input.value);
+                input.value = "";
+            }
+        }
+    </script>
+</head>
+<body>
+    <h1>Welcome to the Chat Room, {{ user.username }}!</h1>
+
+    <h2>Create New Room</h2>
+    <form action="/create-room" method="post">
+        <input type="text" name="room_name" required placeholder="Room Name">
+        <button type="submit">Create Room</button>
+    </form>
+
+    <h2>Search Rooms</h2>
+    <form action="/search-rooms" method="get">
+        <input type="text" name="search_query" required minlength="6" placeholder="Search Room Name">
+        <button type="submit">Search</button>
+    </form>
+
+    <h2>Available Rooms</h2>
+    <ul>
+        {% for room in rooms %}
+            <li>
+                <a href="javascript:void(0);" onclick="joinRoom('{{ room.name }}')">{{ room.name }}</a>
+                {% if room.owner_id == user.id %}
+                    <form action="/delete-room" method="post" style="display: inline;">
+                        <input type="hidden" name="room_id" value="{{ room.id }}">
+                        <button type="submit">Delete</button>
+                    </form>
+                {% endif %}
+            </li>
+        {% endfor %}
+    </ul>
+
+    <h2>Current Room: <span id="chat-room-name">None</span></h2>
+    <div id="messages" style="border: 1px solid black; height: 300px; overflow-y: scroll; padding: 5px;"></div>
+
+    <input type="text" id="message-input" placeholder="Type a message..." onkeypress="if(event.key === 'Enter') sendMessage()">
+    <button onclick="sendMessage()">Send</button>
+</body>
+</html>
