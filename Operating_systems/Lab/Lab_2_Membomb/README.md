@@ -26,11 +26,14 @@ swapon -a
 
 * [EEVDF Scheduler](./Documents/EEVDF_Scheduler.md)
 
+* [Debugging and fine-tuning the linux process scheduler](https://serverfault.com/questions/948401/debugging-and-fine-tuning-the-linux-process-scheduler)
 
+* [perf Examples](https://www.brendangregg.com/perf.html#SchedulerAnalysis)
 
+* [Tuning the Task Scheduler](./Documents/Tuning_the_Task_Scheduler.md)
 ---
 
-### Control Group Version 1
+### [Control Group Version 1](https://www.kernel.org/doc/html/latest/admin-guide/cgroup-v1/index.html#cgroup-v1)
 
 1. [Control Groups](./Documents/Control_Groups.md)
 
