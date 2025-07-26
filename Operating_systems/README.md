@@ -20,6 +20,7 @@
 [3. LAB 3 - LINPACK](./Lab/Lab_3_Linpack/)
 
 1. **Phương án đơn giản**
+
 Tất cả thực hiện trên một hệ điều hành
 
 Tìm và biên dịch chương trình **linpack** để đánh giá hiệu suất tính toán của máy tính (Flops) và kiểm thử nó trong các chế độ hoạt động khác nhau của hệ điều hành:
@@ -27,8 +28,6 @@ Tìm và biên dịch chương trình **linpack** để đánh giá hiệu suấ
 1. Với các mức **ưu tiên nhiệm vụ khác nhau** trong bộ lập lịch
 2. Có và không có **ràng buộc tiến trình với bộ xử lý** (CPU affinity)
 3. Thực hiện nhiều bài kiểm thử, so sánh kết quả theo 3 sigma hoặc tiêu chí thống kê khác
-
----
 
 2. **Phương án nâng cao**
 
@@ -86,8 +85,6 @@ Hệ điều hành: Windows hoặc Linux.
 
 **Liệt kê tất cả các cách mà bạn biết để phát hiện hệ thống đang chạy trong máy ảo.**
 (Yêu cầu ít nhất **5 cách** trở lên)
-
----
 
 2. **Phiên bản nâng cao (hoặc):**
 
