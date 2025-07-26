@@ -1,0 +1,209 @@
+/* Ảnh nền cho toàn bộ trang */
+body {
+    font-family: Arial, sans-serif;
+    background-image: url('/static/images/background.png');
+    background-size: cover; /* Co giãn ảnh để phủ kín */
+    background-position: center; /* Căn giữa ảnh */
+    background-attachment: fixed; /* Giữ cố định khi cuộn */
+    color: #333; /* Màu chữ */
+    margin: 0;
+    padding: 0;
+}
+
+/* Định dạng container chính */
+.main-container {
+    background-color: rgba(255, 255, 255, 0.8); /* Nền trắng trong suốt */
+    margin: 20px auto;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+    max-width: 1200px;
+    overflow: hidden; /* Đảm bảo không có cuộn ngang */
+}
+
+/* Định dạng cho phần điều hướng (nav) */
+nav {
+    background-color: #654321; /* Màu nâu cà phê */
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    color: white;
+    border-radius: 5px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+    position: sticky; /* Dính trên cùng khi cuộn */
+    top: 0;
+    z-index: 10;
+}
+
+/* Định dạng các liên kết trong nav */
+nav a {
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+    padding: 8px 12px;
+    border: 1px solid white;
+    border-radius: 5px;
+    margin-right: 10px;
+    transition: background-color 0.3s ease;
+}
+
+nav a:hover {
+    background-color: #856c54; /* Màu sáng hơn khi hover */
+}
+
+/* Định dạng cho phần Welcome */
+nav .welcome {
+    background-color: #856c54; /* Màu nền nhạt hơn */
+    padding: 8px 12px;
+    border-radius: 5px;
+    font-weight: bold;
+    margin-right: 10px;
+    color: white;
+    border: 1px solid white;
+}
+
+/* Hộp Welcome */
+.welcome-box {
+    background-color: #856c54; /* Màu nền nhạt hơn */
+    padding: 8px 12px;
+    border-radius: 5px;
+    font-weight: bold;
+    color: white;
+    border: 2px solid white;
+    display: flex;
+    align-items: center;
+    margin-right: 10px;
+}
+
+/* Định dạng riêng cho Username */
+.welcome-box .username {
+    font-weight: bold;
+    color: #ffdb58; /* Màu vàng nổi bật */
+    margin-left: 5px;
+    border: 1px solid white;
+    padding: 4px 8px;
+    border-radius: 3px;
+    background-color: #654321; /* Màu nâu đậm */
+}
+
+/* Dòng chào mừng */
+.welcome-message {
+    text-align: center;
+    font-size: 24px;
+    font-weight: bold;
+    color: #654321; /* Màu nâu cà phê */
+    margin-bottom: 20px;
+}
+
+/* Container trang đăng nhập */
+.login-container {
+    max-width: 400px;
+    margin: 50px auto;
+    padding: 20px;
+    background-color: rgba(255, 255, 255, 0.9); /* Nền trắng mờ */
+    border-radius: 10px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+}
+
+/* Form đăng nhập */
+.login-form label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+    color: #333;
+}
+
+.login-form input {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 15px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+.login-form .btn {
+    width: 100%;
+    background-color: #654321;
+    color: white;
+    border: none;
+    padding: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.login-form .btn:hover {
+    background-color: #856c54;
+}
+
+/* Bảng kết quả */
+#result-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    font-size: 16px;
+    text-align: left;
+    table-layout: auto; /* Căn chỉnh tự động theo nội dung */
+    overflow-x: auto;
+}
+
+#result-table th, #result-table td {
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: left;
+    word-break: break-word; /* Đảm bảo không vượt quá cột */
+}
+
+#result-table th {
+    background-color: #654321;
+    color: white;
+}
+
+#result-table tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+#result-table tr:hover {
+    background-color: #f1f1f1;
+}
+
+/* Hiệu ứng cuộn ngang nếu bảng quá lớn */
+#result-table-container {
+    overflow-x: auto;
+    margin-top: 20px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background-color: white;
+    padding: 10px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Phân trang */
+#pagination-controls {
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
+
+#pagination-controls button {
+    padding: 8px 12px;
+    background-color: #654321;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+#pagination-controls button:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+}
+
+#pagination-controls span {
+    font-weight: bold;
+    color: #333;
+}

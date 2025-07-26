@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block title %}Login{% endblock %}
+
+{% block content %}
+<!-- Dòng chào mừng -->
+<h2 class="welcome-message">Welcome to the coffee product distribution management system</h2>
+
+<!-- Tiêu đề đăng nhập -->
+<h2>Login</h2>
+
+<!-- Hiển thị thông báo lỗi nếu có -->
+{% if error %}
+<p style="color: red;">{{ error }}</p>
+{% endif %}
+
+<!-- Form đăng nhập -->
+<form action="/auth/login" method="post" style="margin-top: 10px;">
+    <label for="username">Username:</label><br>
+    <input type="text" id="username" name="username" placeholder="Enter your username" required style="width: 100%; padding: 8px; margin-bottom: 10px;"><br>
+    
+    <label for="password">Password:</label><br>
+    <input type="password" id="password" name="password" placeholder="Enter your password" required style="width: 100%; padding: 8px; margin-bottom: 10px;"><br>
+    
+    <button type="submit" style="padding: 10px 15px;">Login</button>
+</form>
+
+<!-- Liên kết đến trang đăng ký -->
+<p style="margin-top: 15px;">
+    Don't have an account? <a href="/auth/register">Register here</a>.
+</p>
+{% endblock %}
