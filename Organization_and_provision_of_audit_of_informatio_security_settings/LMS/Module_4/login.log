@@ -1,0 +1,3 @@
+2025-05-15 02:05:33,606 - INFO - User 'Xadi' logged in successfully.
+2025-05-15 02:07:06,739 - WARNING - Login failed: incorrect 2FA code for user 'Xadi'.
+2025-05-15 02:07:38,374 - INFO - User 'Xadi' logged in successfully.
