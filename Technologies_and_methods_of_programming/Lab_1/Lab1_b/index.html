@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Защита контента</title>
+
+  <style>
+    /* Центрирование всего содержимого */
+    body, html {
+      height: 100%;
+      margin: 0;
+      font-family: Arial, sans-serif;
+      display: flex;
+      justify-content: center;  /* Центрирование по горизонтали */
+      align-items: center;      /* Центрирование по вертикали */
+      background-size: cover;
+      background-position: center;
+    }   
+
+    /* Центрирование блока контента */
+    #main-content {
+      background-color: rgba(255, 255, 255, 0.8); /* Полупрозрачный белый фон для удобства чтения */
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      text-align: center;
+    }
+
+    /* CSS для отключения выделения текста и правого клика при включенной защите */
+    .protected-content {
+      -webkit-user-select: none;  /* Safari */
+      -moz-user-select: none;     /* Firefox */
+      -ms-user-select: none;      /* Internet Explorer/Edge */
+      user-select: none;          /* Общая версия */
+      pointer-events: none;       /* Отключение событий мыши */
+    }
+
+    /* CSS для отображения опций включения/выключения защиты */
+    #protection-options {
+      margin: 20px;
+    }
+
+    #password-section {
+      margin-top: 10px;
+    }
+
+    button {
+      padding: 10px 20px;
+      margin: 5px;
+      font-size: 16px;
+      cursor: pointer;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      transition: background-color 0.3s;
+    }
+
+    button:hover {
+      background-color: #45a049;
+    }
+
+    input[type="password"] {
+      padding: 10px;
+      font-size: 16px;
+      margin-right: 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+  </style>
+</head>
+<body>
+  <!-- Основной блок контента -->
+  <div id="main-content">
+    
+
+    <!-- Защищённый контент -->
+    <div id="content" class="protected-content">
+        <h1>Защита от копирования</h1>
+      <p>Этот контент защищен если режим защиты включен.</p>
+    </div>
+
+    <!-- Блок опций включения/выключения защиты -->
+    <div id="protection-options">
+      <button onclick="promptPassword('enable')">Включить защиту</button>
+      <button onclick="promptPassword('disable')">Отключить защиту</button>
+    </div>
+
+    <!-- Форма для ввода пароля -->
+    <div id="password-section" style="display: none;">
+      <input type="password" id="password" placeholder="Введите пароль">
+      <button onclick="handlePassword()">Подтвердить</button>
+    </div>
+  </div>
+
+  <script>
+    // SHA256 хеш пароля
+    const hashedPassword = "9f836f77a5918d1d48f774cbde22f4317f7931018ccd44e4350a441e00c6b56a";
+
+    // Переменная для состояния действия включения/выключения защиты
+    let protectionAction = "";
+
+    // Показать форму для ввода пароля в зависимости от действия
+    function promptPassword(action) {
+      protectionAction = action;
+      document.getElementById("password-section").style.display = "block";
+    }
+
+    // Обработка введённого пароля
+    async function handlePassword() {
+      const inputPassword = document.getElementById("password").value;
+
+      // Хеш SHA256 введённого пароля
+      const inputHashed = await sha256(inputPassword);
+
+      if (inputHashed === hashedPassword) {
+        if (protectionAction === 'enable') {
+          enableProtection();
+          alert("Защита включена. Вы можете только распечатать страницу и отключить защиту.");
+        } else if (protectionAction === 'disable') {
+          disableProtection();
+          alert("Защита отключена. Вы можете взаимодействовать с контентом.");
+        }
+        document.getElementById("password-section").style.display = "none";  // Скрыть форму после подтверждения
+      } else {
+        alert("Неверный пароль!");
+      }
+    }
+
+    // Включить защиту
+    function enableProtection() {
+      // Отключить взаимодействие с контентом, кроме кнопок защиты
+      document.getElementById("content").classList.add("protected-content");  
+    }
+
+    // Отключить защиту
+    function disableProtection() {
+      // Включить взаимодействие с контентом
+      document.getElementById("content").classList.remove("protected-content");  
+    }
+
+    // Хеширование SHA256 (с использованием SubtleCrypto API браузера)
+    async function sha256(message) {
+      const msgBuffer = new TextEncoder().encode(message);
+      const hashBuffer = await crypto.subtle.digest('SHA-256', msgBuffer);
+      const hashArray = Array.from(new Uint8Array(hashBuffer));
+      return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+    }
+  </script>
+</body>
+</html>
