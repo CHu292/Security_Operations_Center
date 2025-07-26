@@ -1,0 +1,10 @@
+1. tải GNS3 về: https://gns3.com/software/download
+2. tải GNS3 VM từ: https://www.gns3.com/software/download-vm
+3. Tải IOU cho router L3, switch L2 tại: https://drive.google.com/file/d/1KuXGWCTSz_LKbeTbQcLieYVPfUB4eZUt/view?pli=1
+Sau đó xóa đuôi .txt của file iourc
+
+4. Fix lỗi KVM false: https://www.youtube.com/watch?v=8VQ8eTmMtjQ&t=3s    
+Tuy nhiên nó sẽ éo bật đc :) 
+
+5. Nếu không kết nối được với GNS3 VM bằng virtualbox thì có thể kết nối qua remote
+

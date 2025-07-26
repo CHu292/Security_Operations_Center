@@ -1,0 +1,271 @@
+1. VLAN
+IOU1:
+
+enable
+configure terminal
+vlan 10
+name PC1
+vlan 15
+name PC2
+vlan 20
+name PC3
+exit
+
+write memory
+show vlan brief
+
+IOU2:
+configure terminal
+vlan 10
+name PC1
+vlan 15
+name PC2
+exit
+write memory
+show vlan brief
+
+IOU3:
+configure terminal
+vlan 15
+name PC2
+vlan 20
+name PC3
+exit
+write memory
+show vlan brief
+
+-------------------------------------------------------
+
+2. trunk
+
+IOU1:
+
+configure terminal
+interface Ethernet0/0
+switchport trunk encapsulation dot1q
+switchport mode trunk
+
+interface Ethernet0/1
+switchport trunk encapsulation dot1q
+switchport mode trunk
+
+interface Ethernet0/2
+switchport trunk encapsulation dot1q
+switchport mode trunk
+exit
+
+write memory
+show interfaces trunk
+
+IOU2:
+
+configure terminal
+interface Ethernet0/0
+switchport trunk encapsulation dot1q
+switchport mode trunk
+exit
+write memory
+show interfaces trunk
+
+IOU3:
+configure terminal
+interface Ethernet0/0
+switchport trunk encapsulation dot1q
+switchport mode trunk
+exit
+write memory
+show interfaces trunk
+
+-------------------------------------------------------
+
+3. Access
+
+IOU2: 
+configure terminal
+interface Ethernet0/1
+switchport mode access
+switchport access vlan 10
+
+interface Ethernet0/2
+switchport mode access
+switchport access vlan 15
+exit
+write memory
+show vlan brief
+
+IOU3:
+configure terminal
+interface Ethernet0/1
+switchport mode access
+switchport access vlan 15
+
+interface Ethernet0/2
+switchport mode access
+switchport access vlan 20
+exit
+write memory
+show vlan brief
+
+-------------------------------------------------------
+
+4. sub_interface:
+
+R1:
+configure terminal
+interface Ethernet0/0
+no shutdown
+exit
+
+interface Ethernet0/0.10
+encapsulation dot1Q 10
+ip address 192.168.10.254 255.255.255.0
+exit
+
+interface Ethernet0/0.15
+encapsulation dot1Q 15
+ip address 192.168.15.254 255.255.255.0
+exit
+
+interface Ethernet0/0.20
+encapsulation dot1Q 20
+ip address 192.168.20.254 255.255.255.0
+exit
+
+exit
+write memory
+show ip interface brief
+-------------------------------------------------------
+
+5. DHCP Server:
+R1:
+
+configure terminal
+ip dhcp excluded-address 192.168.10.1 192.168.10.9
+ip dhcp pool PC1
+network 192.168.10.0 255.255.255.0
+default-router 192.168.10.254
+dns-server 8.8.8.8
+exit
+
+ip dhcp excluded-address 192.168.15.1 192.168.15.9
+ip dhcp pool PC2
+network 192.168.15.0 255.255.255.0
+default-router 192.168.15.254
+dns-server 8.8.8.8
+exit
+
+ip dhcp excluded-address 192.168.20.1 192.168.20.9
+ip dhcp pool PC3
+network 192.168.20.0 255.255.255.0
+default-router 192.168.20.254
+dns-server 8.8.8.8
+exit
+write memory
+
+-------------------------------------------------------
+
+6. Port's security:
+
+IOU2:
+
+conf t
+interface Ethernet0/1
+switchport mode access
+switchport access vlan 10
+switchport port-security
+switchport port-security maximum 1
+switchport port-security mac-address sticky
+switchport port-security violation restrict
+spanning-tree portfast
+
+interface Ethernet0/2
+switchport mode access
+switchport access vlan 15
+switchport port-security
+switchport port-security maximum 1
+switchport port-security mac-address sticky
+switchport port-security violation restrict
+spanning-tree portfast
+exit
+
+write memory
+show port-security
+show port-security interface Ethernet0/X
+
+IOU3: 
+
+conf t
+interface Ethernet0/1
+switchport mode access
+switchport access vlan 15
+switchport port-security
+switchport port-security maximum 1
+switchport port-security mac-address sticky
+switchport port-security violation shutdown
+spanning-tree portfast
+
+interface Ethernet0/2
+switchport mode access
+switchport access vlan 20
+switchport port-security
+switchport port-security maximum 1
+switchport port-security mac-address sticky
+switchport port-security violation shutdown
+spanning-tree portfast
+exit
+
+write memory
+show port-security
+show port-security interface Ethernet0/X
+
+
+-------------------------------------------------------
+
+7. Dhcp snooping:
+
+IOU1:
+
+conf t
+ip dhcp snooping
+ip dhcp snooping vlan 10,15,20
+
+interface Ethernet0/0
+ip dhcp snooping trust
+exit
+interface Ethernet0/1
+ip dhcp snooping trust
+
+interface Ethernet0/2
+no ip dhcp snooping trust
+exit
+
+show ip dhcp snooping
+
+IOU2:
+conf t
+ip dhcp snooping
+ip dhcp snooping vlan 10,15,20
+
+interface Ethernet0/0
+ip dhcp snooping trust
+
+interface Ethernet0/1
+ip dhcp snooping trust
+
+interface Ethernet0/2
+ip dhcp snooping trust
+
+exit
+
+IOU3:
+ip dhcp snooping
+ip dhcp snooping vlan 10,15,20
+exit
+
+
+write memory
+show ip dhcp snooping
+
+Cách xóa dhcp snooping
+no ip dhcp snooping
+
