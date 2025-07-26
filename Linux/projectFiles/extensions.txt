@@ -1,0 +1,9 @@
+Apps Menu
+Blur my Shell
+Extension List
+Forge
+Media Label and Controls (Mpris Label)
+Open Bar
+Places Status Indicator
+System Monitor Tray Indicator
+Weather or Not
