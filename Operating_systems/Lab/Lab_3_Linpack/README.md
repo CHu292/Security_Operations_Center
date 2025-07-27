@@ -24,6 +24,9 @@ Tương tự như trên, **cộng thêm thay đổi các tham số ở cấp đ�
 
 ---
 
+## Tài Liệu Tham Khảo
+
+- ![Floating-Point Operations Per Second (FLOPS)]()
 **Hệ thống tệp (FS)**
 
 * [FAT](http://pascal.net.ru/book/fat.pdf)
@@ -31,4 +34,5 @@ Tương tự như trên, **cộng thêm thay đổi các tham số ở cấp đ�
 * [ext2](http://samag.ru/archive/article/203)
 
 ---
+
 
