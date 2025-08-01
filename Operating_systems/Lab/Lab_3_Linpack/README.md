@@ -36,4 +36,9 @@ Tương tự như trên, **cộng thêm thay đổi các tham số ở cấp đ�
 
 ---
 
+* [Linpack](https://www.netlib.org/linpack/)
+
+
+---
+
 

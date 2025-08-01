@@ -6,7 +6,8 @@
 2. [Task 2: What Is PowerShell](#task-2-what-is-powershell)
 3. [Task 3: PowerShell Basics](#task-3-powershell-basics)
 4. [Task 4: Navigating the File System and Working with Files](#task-4-navigating-the-file-system-and-working-with-files)
-
+5. [Task 5: Piping, Filtering, and Sorting Data ](#task-5-piping-filtering-and-sorting-data)
+6. [Task 6: System and Network Information](#task-6-system-and-network-information)
 
 # Task 1: Introduction
 
@@ -425,3 +426,102 @@ Get-ChildItem | Where-Object { $_.Length -le 2MB }
   Đáp án:  
   `Get-ChildItem | Where-Object -Property Length -gt 100`
 </details>
+
+---
+
+# Task 6: System and Network Information
+
+>Thông tin Hệ thống và Mạng
+
+**PowerShell** được tạo ra để đáp ứng nhu cầu ngày càng tăng về một công cụ tự động hóa và quản lý mạnh mẽ nhằm hỗ trợ các quản trị viên hệ thống và chuyên gia CNTT. Do đó, nó cung cấp một loạt các cmdlet cho phép truy xuất thông tin chi tiết về cấu hình hệ thống và cài đặt mạng.
+
+---
+### Xem thông tin hệ thống
+
+Cmdlet **Get-ComputerInfo** truy xuất thông tin hệ thống toàn diện, bao gồm thông tin hệ điều hành, thông số phần cứng, chi tiết BIOS và nhiều hơn nữa. Nó cung cấp một bản chụp nhanh cấu hình toàn bộ hệ thống chỉ với một lệnh duy nhất. Lệnh truyền thống tương đương **systeminfo** chỉ truy xuất được một tập con nhỏ của các thông tin này.
+
+![](./img/2_Windows_PowerShell/6.1.png)
+
+---
+
+### Xem các tài khoản người dùng
+
+Cần thiết để quản lý tài khoản người dùng và hiểu cấu hình bảo mật của máy, lệnh **Get-LocalUser** liệt kê tất cả các tài khoản người dùng cục bộ trên hệ thống. Kết quả đầu ra mặc định hiển thị, đối với mỗi người dùng, tên người dùng, trạng thái tài khoản và mô tả.
+
+![](./img/2_Windows_PowerShell/6.2.png)
+
+---
+
+### Xem cấu hình mạng
+
+Tương tự như lệnh **ipconfig** truyền thống, hai cmdlet sau có thể được sử dụng để truy xuất thông tin chi tiết về cấu hình mạng của hệ thống.
+
+**Get-NetIPConfiguration** cung cấp thông tin chi tiết về các giao diện mạng trên hệ thống, bao gồm địa chỉ IP, máy chủ DNS và cấu hình cổng (gateway).
+
+![](./img/2_Windows_PowerShell/6.3.png)
+
+---
+
+### Xem địa chỉ IP
+
+Trong trường hợp chúng ta cần thông tin chi tiết cụ thể về các địa chỉ IP được gán cho các giao diện mạng, cmdlet **Get-NetIPAddress** sẽ hiển thị chi tiết tất cả các địa chỉ IP được cấu hình trên hệ thống, bao gồm cả những địa chỉ hiện không hoạt động.
+
+![](./img/2_Windows_PowerShell/6.4.png)
+
+---
+
+**Câu hỏi 1:**
+Ngoài người dùng hiện tại của bạn và tài khoản “Administrator” mặc định, còn người dùng nào khác được bật trên máy đích?
+
+<details>
+  <summary>Hiển thị đáp án</summary>
+  Đáp án:  p1r4t3
+</details>
+
+>Cách thực hiện
+
+```bash
+Get-LocalUser
+```
+
+![](./img/2_Windows_PowerShell/6.5.png)
+
+---
+
+**Câu hỏi 2:**
+Tên cướp biển này đã giấu tài khoản của hắn giữa những tài khoản khác mà chẳng hề để tâm đến thuyền trưởng đáng kính của chúng ta! Phương châm mà hắn trắng trợn đặt trong phần mô tả tài khoản là gì?
+
+<details>
+  <summary>Hiển thị đáp án</summary>
+  Đáp án:  
+  `A merry life and a short one.`
+</details>
+
+![](./img/2_Windows_PowerShell/6.5.png)
+
+---
+
+**Câu hỏi 3:**
+Giờ là một thử thách nhỏ để ghép tất cả lại. Tên cướp biển mà ta vừa tìm ra giữa đám tài khoản cục bộ có một thư mục riêng trong “C:\Users\”.
+Bạn có thể điều hướng hệ thống tập tin và tìm kho báu ẩn trong nhà của tên cướp biển này không?
+
+<details>
+  <summary>Hiển thị đáp án</summary>
+  Đáp án:  
+  `THM{p34rlInAsh3ll}`
+</details>
+
+>Cách thực hiện
+
+```bash
+Set-Location C:\Users\p1r4t3
+Get-ChildItem
+Set-Location hidden-treasure-chest
+Get-Content big-treasure.txt
+```
+>Hoặc
+
+![](./img/2_Windows_PowerShell/6.6.png)
+
+![](./img/2_Windows_PowerShell/6.7.png)
+
