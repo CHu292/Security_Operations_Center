@@ -525,3 +525,116 @@ Get-Content big-treasure.txt
 
 ![](./img/2_Windows_PowerShell/6.7.png)
 
+---
+
+# Task 7: Real-Time System Analysic
+
+>Phân tích hệ thống thời gian thực
+
+Để thu thập thông tin hệ thống nâng cao hơn, đặc biệt liên quan đến các khía cạnh động như quy trình đang chạy, dịch vụ và các kết nối mạng đang hoạt động, chúng ta có thể tận dụng một tập hợp các lệnh cmdlet vượt ra ngoài các chi tiết máy tĩnh.
+
+### Xem các tiến trình
+
+`Get-Process` cung cấp cái nhìn chi tiết về tất cả các tiến trình đang chạy, bao gồm mức sử dụng CPU và bộ nhớ, khiến nó trở thành công cụ mạnh mẽ để giám sát và khắc phục sự cố.
+
+![](./img/2_Windows_PowerShell/7.1.png)
+
+---
+
+### Xem các dịch vụ đang chạy
+
+Tương tự, `Get-Service` cho phép truy xuất thông tin về trạng thái của các dịch vụ trên máy, chẳng hạn như dịch vụ nào đang chạy, đã dừng hoặc đang tạm dừng. Lệnh này được sử dụng rộng rãi trong việc khắc phục sự cố bởi các quản trị viên hệ thống, nhưng cũng được các nhà phân tích pháp y sử dụng để truy tìm các dịch vụ bất thường được cài đặt trên hệ thống.
+
+![](./img/2_Windows_PowerShell/7.2.png)
+
+---
+
+### Giám sát các kết nối mạng
+
+Để giám sát các kết nối mạng đang hoạt động, `Get-NetTCPConnection` hiển thị các kết nối TCP hiện tại, cung cấp cái nhìn sâu về cả các điểm cuối cục bộ và từ xa. Cmdlet này đặc biệt hữu ích trong quá trình phản ứng sự cố hoặc phân tích phần mềm độc hại, vì nó có thể phát hiện các cửa hậu ẩn hoặc các kết nối đã thiết lập đến máy chủ do kẻ tấn công kiểm soát.
+
+![](./img/2_Windows_PowerShell/7.3.png)
+
+---
+
+### Băm tệp
+
+Ngoài ra, chúng ta sẽ đề cập đến `Get-FileHash` như một cmdlet hữu ích để tạo ra các giá trị băm của tệp, điều này đặc biệt có giá trị trong phản ứng sự cố, truy vết mối đe dọa và phân tích phần mềm độc hại, vì nó giúp xác minh tính toàn vẹn của tệp và phát hiện hành vi can thiệp tiềm ẩn.
+
+![](./img/2_Windows_PowerShell/7.4.png)
+
+---
+
+**Câu hỏi 1:**
+Trong nhiệm vụ trước, bạn đã tìm thấy một kho báu tuyệt vời được giấu kỹ lưỡng trong máy mục tiêu. Hash của tệp chứa kho báu đó là gì?
+
+<details>
+  <summary>Hiển thị đáp án</summary>
+  Đáp án:  
+  `71FC5EC11C2497A32F8F08E61399687D90ABE6E204D2964DF589543A613F3E08`
+</details>
+
+>Cách thực hiện
+
+```bash
+Get-FileHash -Path big-treasure.txt
+```
+
+![](./img/2_Windows_PowerShell/7.5.png)
+
+---
+
+**Câu hỏi 2:**
+Thuộc tính nào được truy xuất theo mặc định bởi `Get-NetTCPConnection` chứa thông tin về tiến trình đã bắt đầu kết nối?
+
+<details>
+  <summary>Hiển thị đáp án</summary>
+  Đáp án:  
+  `OwningProcess`
+</details>
+
+![](./img/2_Windows_PowerShell/7.6.png)
+
+---
+
+**Câu hỏi 3:**
+Đã đến lúc cho một thử thách nhỏ khác. Một dịch vụ quan trọng đã được cài đặt trên con tàu cướp biển này để đảm bảo thuyền trưởng luôn có thể điều hướng an toàn. Nhưng có gì đó không ổn, và thuyền trưởng băn khoăn tại sao. Điều tra kỹ, cuối cùng họ phát hiện ra sự thật: dịch vụ đã bị can thiệp! Tên cướp biển trước đó đã sửa đổi thuộc tính `DisplayName` để phản ánh phương châm riêng của hắn, cũng chính là câu mô tả mà hắn đặt trong tài khoản người dùng của mình.
+
+Với thông tin này và kiến thức PowerShell mà bạn đã tích lũy, bạn có tìm được tên của dịch vụ không?
+
+<details>
+  <summary>Hiển thị đáp án</summary>
+  Đáp án:  
+  `plr4t3-s-compass`
+</details>
+
+>Cách thực hiện
+
+```bash
+Get-Service | Where-Object { $_.DisplayName -like "*merry*" } | Select-Object Name, DisplayName
+```
+
+![](./img/2_Windows_PowerShell/7.7.png)
+
+![](./img/2_Windows_PowerShell/7.8.png)
+
+![](./img/2_Windows_PowerShell/7.9.png)
+
+---
+
+# Task 8 – Scripting
+
+**Scripting** là quá trình viết và thực thi một loạt lệnh được chứa trong một tệp văn bản, được biết đến như là script, để tự động hóa các tác vụ mà thông thường bạn sẽ thực hiện thủ công trong một shell, như **PowerShell**.
+
+Nói một cách đơn giản, scripting giống như việc đưa cho máy tính một danh sách những việc cần làm, trong đó mỗi dòng trong script là một nhiệm vụ mà máy tính sẽ tự động thực hiện. Điều này giúp tiết kiệm thời gian, giảm thiểu sai sót và cho phép thực hiện những tác vụ quá phức tạp hoặc tốn thời gian nếu làm thủ công. Khi bạn hiểu rõ hơn về shell và scripting, bạn sẽ khám phá ra rằng script có thể là công cụ mạnh mẽ để quản lý hệ thống, xử lý dữ liệu và nhiều việc khác.
+
+Việc học scripting với **PowerShell** vượt ra ngoài phạm vi của nội dung trong phòng này. Tuy nhiên, chúng ta cần hiểu rằng sức mạnh của nó khiến cho nó trở thành một kỹ năng quan trọng trong tất cả các vai trò an ninh mạng.
+
+* Đối với **blue team** (đội phòng thủ), bao gồm các chuyên gia phản ứng sự cố, phân tích phần mềm độc hại, và thợ săn mối đe dọa, các script **PowerShell** có thể tự động hóa nhiều tác vụ khác nhau, bao gồm phân tích nhật ký, phát hiện bất thường, và trích xuất các chỉ số xâm phạm (IOC). Những script này cũng có thể được sử dụng để dịch ngược mã độc (malware) hoặc tự động quét hệ thống nhằm phát hiện dấu hiệu xâm nhập.
+
+* Đối với **red team** (đội tấn công), bao gồm các chuyên gia kiểm thử xâm nhập và hacker đạo đức, script **PowerShell** có thể tự động hóa các tác vụ như liệt kê hệ thống, thực hiện lệnh từ xa và tạo mã hóa nhằm vượt qua hệ thống phòng thủ. Việc tích hợp sâu với nhiều hệ thống khác nhau khiến nó trở thành công cụ mạnh để mô phỏng tấn công và kiểm tra khả năng chống chịu của hệ thống trước các mối đe dọa thực tế.
+
+* Trong bối cảnh an ninh mạng, **quản trị viên hệ thống** cũng được hưởng lợi từ script **PowerShell** để tự động kiểm tra tính toàn vẹn, quản lý cấu hình hệ thống và bảo mật mạng, đặc biệt trong các môi trường từ xa hoặc quy mô lớn. Script PowerShell có thể được thiết kế để thực thi chính sách bảo mật, giám sát tình trạng hệ thống, và phản hồi tự động với các sự cố an ninh, qua đó nâng cao tư thế an ninh tổng thể.
+
+---
+
