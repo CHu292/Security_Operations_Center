@@ -8,6 +8,10 @@
 4. [Task 4: Navigating the File System and Working with Files](#task-4-navigating-the-file-system-and-working-with-files)
 5. [Task 5: Piping, Filtering, and Sorting Data ](#task-5-piping-filtering-and-sorting-data)
 6. [Task 6: System and Network Information](#task-6-system-and-network-information)
+7. [Task 7: Real-Time System Analysic](#task-7-real-time-system-analysic)
+8. [Task 8 – Scripting](#task-8--scripting)
+
+---
 
 # Task 1: Introduction
 
@@ -636,5 +640,46 @@ Việc học scripting với **PowerShell** vượt ra ngoài phạm vi của n�
 
 * Trong bối cảnh an ninh mạng, **quản trị viên hệ thống** cũng được hưởng lợi từ script **PowerShell** để tự động kiểm tra tính toàn vẹn, quản lý cấu hình hệ thống và bảo mật mạng, đặc biệt trong các môi trường từ xa hoặc quy mô lớn. Script PowerShell có thể được thiết kế để thực thi chính sách bảo mật, giám sát tình trạng hệ thống, và phản hồi tự động với các sự cố an ninh, qua đó nâng cao tư thế an ninh tổng thể.
 
+Dù được sử dụng một cách phòng thủ hay tấn công, PowerShell scripting là một khả năng thiết yếu trong bộ công cụ an ninh mạng.
+
+Trước khi kết thúc nhiệm vụ về scripting, chúng ta không thể không nhắc đến cmdlet `Invoke-Command`.
+
+`Invoke-Command` là công cụ thiết yếu để thực thi lệnh trên các hệ thống từ xa, khiến nó trở nên quan trọng đối với quản trị viên hệ thống, kỹ sư bảo mật và các chuyên gia kiểm thử xâm nhập. `Invoke-Command` cho phép quản lý từ xa hiệu quả và — khi kết hợp với scripting — tự động hóa các tác vụ trên nhiều máy. Nó cũng có thể được dùng để thực thi các payload hoặc lệnh trên hệ thống mục tiêu trong quá trình kiểm thử bảo mật — hoặc bởi những kẻ tấn công.
+
+Hãy khám phá một số ví dụ sử dụng của cmdlet mạnh mẽ này bằng cách tham khảo trang ví dụ lệnh `Get-Help`.
+
+![](./img/2_Windows_PowerShell/8.1.png)
+
 ---
+
+Hai ví dụ đầu tiên được cung cấp bởi trang "examples" của lệnh `Get-Help` và được đề cập ở trên là đủ để hiểu được sự đơn giản và sức mạnh của cmdlet `Invoke-Command`.
+
+Ví dụ đầu tiên cho thấy cmdlet này có thể dễ dàng kết hợp với bất kỳ script tùy chỉnh nào để tự động hóa các tác vụ trên các máy tính từ xa.
+
+Ví dụ thứ hai chứng minh rằng chúng ta không cần biết cách viết script để tận dụng sức mạnh của `Invoke-Command`. Thực tế, bằng cách thêm tham số `-ScriptBlock { ... }` vào cú pháp của cmdlet, chúng ta có thể thực thi bất kỳ lệnh nào (hoặc chuỗi lệnh) trên máy tính từ xa. Kết quả sẽ giống như khi chúng ta gõ các lệnh đó trong một phiên PowerShell cục bộ trên chính máy tính từ xa.
+
+---
+
+**Lệnh chính:**
+
+* `Invoke-Command -ComputerName RemotePC -ScriptBlock {Get-Service}`: Chạy lệnh `Get-Service` trên một máy tính từ xa có tên là "RemotePC".
+
+---
+
+**So sánh:**
+
+* CMD không có hệ thống scripting tích hợp sẵn nào mạnh mẽ như PowerShell. PowerShell tương đương hơn với scripting Bash trên Linux.
+
+---
+
+**Trả lời các câu hỏi bên dưới**
+
+> *Cú pháp để thực thi lệnh* `Get-Service` *trên một máy tính từ xa có tên là "RoyalFortune" là gì? Giả sử bạn không cần cung cấp thông tin xác thực để thiết lập kết nối. \[vì mục đích của câu hỏi này, hãy tránh dùng dấu ngoặc kép (" hoặc ') trong câu trả lời của bạn]*
+
+**Trả lời:**
+`Invoke-Command -ComputerName RoyalFortune -ScriptBlock {Get-Service}`
+
+---
+
+
 
