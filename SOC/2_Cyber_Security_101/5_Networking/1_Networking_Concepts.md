@@ -5,7 +5,7 @@
 1. [Task 1: OSI Model](#task-1-osi-model)
 2. [Task 2: TCP/IP Model](#task-2-tcpip-model)
 3. [Task 3: IP Addresses and Subnets](#task-3-ip-addresses-and-subnets)
-
+4. [Task 4: UDP and TCP](#task-4-udp-and-tcp)
 
 ## Nội dung
 
@@ -371,6 +371,37 @@ Bộ định tuyến hoạt động ở **tầng 3**, nó kiểm tra địa ch�
 * 192.168.199.13
 
 **Trả lời:** `192.168.305.19` (không hợp lệ vì số `305` vượt quá giới hạn 255 của một octet trong địa chỉ IPv4)
+
+---
+
+# Task 4: UDP and TCP
+
+Giao thức IP cho phép chúng ta tiếp cận một thiết bị đích trên mạng; thiết bị đó được nhận diện thông qua địa chỉ IP của nó. Tuy nhiên, chúng ta cần các giao thức giúp các tiến trình trên các thiết bị mạng có thể giao tiếp với nhau. Có hai giao thức truyền tải được dùng để làm điều đó: **UDP** và **TCP**.
+
+---
+
+### **UDP**
+
+**UDP** (User Datagram Protocol – Giao thức Gói tin Người dùng) cho phép chúng ta gửi đến một tiến trình cụ thể trên thiết bị đích.
+**UDP** là một giao thức đơn giản, **không kết nối** và hoạt động ở tầng giao vận – tức là **tầng 4** trong mô hình OSI. Không kết nối có nghĩa là UDP **không cần thiết lập kết nối trước khi gửi dữ liệu**.
+UDP thậm chí còn **không cung cấp cơ chế nào để biết liệu gói tin đã được nhận hay chưa**.
+
+Một địa chỉ IP giúp xác định thiết bị, nhưng ta vẫn cần một cơ chế để xác định tiến trình gửi và nhận. Điều này được thực hiện thông qua **số hiệu cổng (port)**.
+Một số cổng sử dụng hai **octet**, do đó nó nằm trong khoảng từ **1 đến 65535**, trong đó **port 0 là dành riêng** (không sử dụng).
+(Số 65535 được tính từ biểu thức: $2^{16} - 1$)
+
+---
+
+Một ví dụ trong thực tế giống với UDP là dịch vụ gửi thư thông thường, **không có xác nhận giao hàng**.
+Nói cách khác, **không có gì đảm bảo rằng gói tin UDP đã đến nơi thành công**, tương tự như khi bạn gửi thư mà không có xác nhận phát.
+
+Trong trường hợp thư tiêu chuẩn, điều này đồng nghĩa với chi phí thấp hơn so với dịch vụ có xác nhận.
+Trong trường hợp của **UDP**, nó cũng đồng nghĩa với **tốc độ cao hơn** so với các giao thức truyền tải có xác nhận.
+
+---
+
+Vậy nếu chúng ta **muốn một giao thức truyền tải có xác nhận rằng gói tin đã được nhận**, thì sao?
+Câu trả lời là: **hãy dùng TCP thay vì UDP.**
 
 ---
 
