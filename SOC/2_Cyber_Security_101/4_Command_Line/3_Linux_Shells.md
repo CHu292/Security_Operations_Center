@@ -376,4 +376,25 @@ fi
 **Trả lời:** Vòng lặp (Loops)
 
 ---
+# Task 5: The Locker Script
+
+>Tập lệnh Locker
+
+Trong nhiệm vụ trước, chúng ta đã học về biến, vòng lặp và câu lệnh điều kiện trong lập trình shell.
+Hãy sử dụng kiến thức đó để tạo một shell script sử dụng tất cả các thành phần này.
+
+---
+
+**Yêu cầu**
+
+Một người dùng có một tủ khóa trong ngân hàng. Để bảo mật tủ khóa, chúng ta cần có một script kiểm tra danh tính người dùng trước khi mở.
+Khi chạy, script cần yêu cầu người dùng nhập tên, tên công ty và mã PIN.
+Nếu người dùng nhập đúng các thông tin sau đây, họ sẽ được phép truy cập. Nếu không, quyền truy cập sẽ bị từ chối:
+
+* **Tên người dùng**: Sun
+* **Tên công ty**: KMA
+* **PIN**: 2510
+
+---
+
 
