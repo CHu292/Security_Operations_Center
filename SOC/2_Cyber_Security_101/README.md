@@ -40,7 +40,7 @@ Lộ trình này được thiết kế thân thiện với người mới bắt 
 
 1. [Windows Command Line](./4_Command_Line/1_Windows_Command_Line.md)  
 2. [Windows PowerShell](./4_Command_Line/2_Windows_PowerShell.md)  
-- Linux Shells  
+3. [Linux Shells](./4_Command_Line/3_Linux_Shells.md)  
 
 ---
 
