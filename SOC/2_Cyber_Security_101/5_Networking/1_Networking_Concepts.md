@@ -3,6 +3,7 @@
 ## Mục lục
 
 1. [Task 1: OSI Model](#task-1-osi-model)
+2. [Task 3: TCP/IP Model](#task-2-tcpip-model)
 
 ## Nội dung
 
@@ -137,5 +138,81 @@ Việc đọc về mô hình OSI của ISO lần đầu tiên có thể khiến 
 | **Tầng 2**  | Tầng Liên kết dữ liệu (Data Link) | Truyền dữ liệu tin cậy giữa các nút liền kề    | Ethernet (802.3), WiFi (802.11)        |
 | **Tầng 1**  | Tầng Vật lý (Physical)            | Phương tiện truyền dẫn dữ liệu vật lý          | Tín hiệu điện, quang học, và không dây |
 
+
 ---
 
+**Trả lời các câu hỏi bên dưới**
+
+1. **Tầng nào chịu trách nhiệm cho việc giao tiếp từ đầu đến cuối giữa các ứng dụng đang chạy?**
+
+   → **4**
+
+2. **Tầng nào chịu trách nhiệm định tuyến các gói tin đến đúng mạng?**
+
+   → **3**
+
+3. **Trong mô hình OSI, tầng nào chịu trách nhiệm mã hóa dữ liệu của ứng dụng?**
+
+   → **6**
+
+4. **Tầng nào chịu trách nhiệm truyền dữ liệu giữa các máy chủ trên cùng một đoạn mạng?**
+
+   → **2**
+
+---
+
+# Task 2: TCP/IP Model
+
+>Mô hình TCP/IP
+
+Bây giờ khi chúng ta đã tìm hiểu xong mô hình OSI của ISO (một mô hình mang tính khái niệm), đã đến lúc nghiên cứu một mô hình được triển khai thực tế — mô hình **TCP/IP**.
+TCP/IP là viết tắt của **Transmission Control Protocol/Internet Protocol** và được phát triển vào những năm 1970 bởi Bộ Quốc phòng Hoa Kỳ (DoD). Bạn có thể thắc mắc vì sao Bộ Quốc phòng lại tạo ra một mô hình như vậy. Một trong những điểm mạnh của mô hình này là nó cho phép mạng vẫn tiếp tục hoạt động ngay cả khi một phần của nó bị gián đoạn — chẳng hạn, do một cuộc tấn công quân sự. Khả năng này phần nào có được nhờ thiết kế của các giao thức định tuyến có thể thích nghi với sự thay đổi trong cấu trúc mạng.
+
+Trong phần trình bày về mô hình OSI của ISO, chúng ta đã học theo thứ tự từ dưới lên, từ tầng 1 đến tầng 7. Trong nhiệm vụ này, hãy nhìn sự việc từ một góc độ khác — từ trên xuống dưới. Từ trên xuống, ta có:
+
+* **Tầng Ứng dụng (Application Layer):** Trong mô hình OSI, các tầng 5, 6 và 7 — tức là tầng phiên, tầng trình bày và tầng ứng dụng — được gộp lại thành tầng ứng dụng trong mô hình TCP/IP.
+* **Tầng Giao vận (Transport Layer):** Đây là tầng 4.
+* **Tầng Internet (Internet Layer):** Đây là tầng 3. Tầng mạng trong mô hình OSI được gọi là tầng Internet trong mô hình TCP/IP.
+* **Tầng Liên kết (Link Layer):** Đây là tầng 2.
+
+---
+
+**Bảng dưới đây cho thấy cách các tầng trong mô hình TCP/IP ánh xạ (tương ứng) với các tầng trong mô hình ISO/OSI.**
+
+| **Số Tầng** | **Mô hình ISO OSI**                     | **Mô hình TCP/IP (RFC 1122)**     | **Các Giao thức**                                                           |
+| ----------- | --------------------------------------- | --------------------------------- | --------------------------------------------------------------------------- |
+| Tầng 7      | Tầng Ứng dụng (Application Layer)       | Tầng Ứng dụng (Application Layer) | **HTTP**, **HTTPS**, **FTP**, **POP3**, **SMTP**, **IMAP**, Telnet, **SSH** |
+| Tầng 6      | Tầng Trình bày (Presentation Layer)     | *(gộp chung vào tầng ứng dụng)*   |                                                                             |
+| Tầng 5      | Tầng Phiên (Session Layer)              | *(gộp chung vào tầng ứng dụng)*   |                                                                             |
+| Tầng 4      | Tầng Giao vận (Transport Layer)         | Tầng Giao vận (Transport Layer)   | **TCP**, **UDP**                                                            |
+| Tầng 3      | Tầng Mạng (Network Layer)               | Tầng Internet (Internet Layer)    | **IP**, **ICMP**, **IPSec**                                                 |
+| Tầng 2      | Tầng Liên kết dữ liệu (Data Link Layer) | Tầng Liên kết (Link Layer)        | **Ethernet 802.3**, **WiFi 802.11**                                         |
+| Tầng 1      | Tầng Vật lý (Physical Layer)            | *(gộp chung vào tầng liên kết)*   |                                                                             |
+
+---
+
+Nhiều giáo trình mạng hiện đại mô tả mô hình **TCP/IP** gồm **năm tầng** thay vì bốn.
+Ví dụ, trong cuốn *Computer Networking: A Top-Down Approach, ấn bản lần thứ 8* của **Kurose và Ross**, mô hình giao thức Internet năm tầng được trình bày như sau, bằng cách thêm tầng vật lý:
+
+* Ứng dụng (Application)
+* Giao vận (Transport)
+* Mạng (Network)
+* Liên kết (Link)
+* Vật lý (Physical)
+
+Trong các nhiệm vụ tiếp theo, chúng ta sẽ tìm hiểu về giao thức IP từ tầng Internet và các giao thức **UDP** và **TCP** từ tầng giao vận.
+
+---
+
+**Trả lời các câu hỏi dưới đây**
+
+**HTTP thuộc tầng nào trong mô hình TCP/IP?**
+
+→ **Tầng Ứng dụng (Application Layer)**
+
+**Tầng ứng dụng trong mô hình TCP/IP bao gồm bao nhiêu tầng của mô hình OSI?**
+
+→ **3 tầng**
+
+
+(Cụ thể là các tầng 5 - Phiên, tầng 6 - Trình bày, và tầng 7 - Ứng dụng trong mô hình OSI được gộp lại thành một tầng trong mô hình TCP/IP.)
