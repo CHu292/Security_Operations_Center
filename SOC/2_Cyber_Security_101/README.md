@@ -50,7 +50,7 @@ Lộ trình này được thiết kế thân thiện với người mới bắt 
 
 2. [Networking Essentials](./5_Networking/2_Networking_Essentials.md)  
 
-- Networking Core Protocols  
+3. [Networking Core Protocols](./5_Networking/3_Networking_Core_Protocols.md)  
 - Networking Secure Protocols  
 - Wireshark: The Basics  
 - Tcpdump: The Basics  

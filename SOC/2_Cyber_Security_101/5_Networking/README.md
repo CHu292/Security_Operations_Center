@@ -4,7 +4,8 @@
 
 - [Networking Essentials](./2_Networking_Essentials.md)  
 
-- Networking Core Protocols  
+- [Networking Core Protocols](./3_Networking_Core_Protocols.md)  
+
 - Networking Secure Protocols  
 - Wireshark: The Basics  
 - Tcpdump: The Basics  
