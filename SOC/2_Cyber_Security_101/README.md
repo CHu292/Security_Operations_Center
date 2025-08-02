@@ -14,15 +14,19 @@ Lộ trình này được thiết kế thân thiện với người mới bắt 
 ## [Section 1: Start Your Cyber Security Journey](./1_Start_Your_Cyber_Security_Journey/)
 
 1. [Offensive Security Intro](/SOC/1_Pre_Security/1_Introduction_to_Cyber_Security/1_Offensive_Security_Intro.md)  
+
 2. [Defensive Security Intro](/SOC/1_Pre_Security/1_Introduction_to_Cyber_Security/2_Defensive_Security_Intro.md)  
+
 3. [Search Skills](./1_Start_Your_Cyber_Security_Journey/Search_Skills.md)  
 
 ---
 
 ## [Section 2: Linux Fundamentals](/SOC/1_Pre_Security/4_Linux_Fundamentals/)
 
-1. [Linux Fundamentals Part 1](/SOC/1_Pre_Security/4_Linux_Fundamentals/1_Linux_Fundamentals_Part_1.md)  
-2. [Linux Fundamentals Part 2](/SOC/1_Pre_Security/4_Linux_Fundamentals/2_Linux_Fundamentals_Part_2.md)  
+1. [Linux Fundamentals Part 1](/SOC/1_Pre_Security/4_Linux_Fundamentals/1_Linux_Fundamentals_Part_1.md) 
+
+2. [Linux Fundamentals Part 2](/SOC/1_Pre_Security/4_Linux_Fundamentals/2_Linux_Fundamentals_Part_2.md) 
+
 3. [Linux Fundamentals Part 3](/SOC/1_Pre_Security/4_Linux_Fundamentals/3_Linux_Fundamentals_Part_3.md)  
 
 ---
@@ -30,8 +34,11 @@ Lộ trình này được thiết kế thân thiện với người mới bắt 
 ## [Section 3: Windows and AD Fundamentals](/SOC/1_Pre_Security/5_Windows_Fundamentals/)
 
 1. [Windows Fundamentals 1](/SOC/1_Pre_Security/5_Windows_Fundamentals/1_Windows_Fundamentals_1.md)  
+
 2. [Windows Fundamentals 2](/SOC/1_Pre_Security/5_Windows_Fundamentals/2_Windows_Fundamentals_2.md)
+
 3. [Windows Fundamentals 3](/SOC/1_Pre_Security/5_Windows_Fundamentals/3_Windows_Fundamentals_3.md)  
+
 4. [Active Directory Basics](/SOC/1_Pre_Security/5_Windows_Fundamentals/4_Active_Directory_Basics.md)  
 
 ---
@@ -51,7 +58,9 @@ Lộ trình này được thiết kế thân thiện với người mới bắt 
 2. [Networking Essentials](./5_Networking/2_Networking_Essentials.md)  
 
 3. [Networking Core Protocols](./5_Networking/3_Networking_Core_Protocols.md)  
-- Networking Secure Protocols  
+
+4. [Networking Secure Protocols](./5_Networking/4_Networking_Secure_Protocols.md)
+
 - Wireshark: The Basics  
 - Tcpdump: The Basics  
 - Nmap: The Basics  

@@ -6,7 +6,8 @@
 
 - [Networking Core Protocols](./3_Networking_Core_Protocols.md)  
 
-- Networking Secure Protocols  
+- [Networking Secure Protocols](./4_Networking_Secure_Protocols.md)  
+
 - Wireshark: The Basics  
 - Tcpdump: The Basics  
 - Nmap: The Basics  

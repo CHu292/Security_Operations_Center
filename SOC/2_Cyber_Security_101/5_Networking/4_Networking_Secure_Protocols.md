@@ -6,7 +6,10 @@
 2. [Task 2: TLS](#task-2-tls)
 3. [Task 3: HTTPS](#task-3-https)
 4. [Task 4: SMTPS, POP3S, and IMAPS](#task-4-smtps-pop3s-and-imaps)
-
+5. [Task 5: SSH](#task-5-ssh)
+6. [Task 6: SFTP and FTPS](#task-6-sftp-and-ftps)
+7. [Task 7: VPN](#task-7-vpn)
+8. [Task 8: Closing Notes](#task-8-closing-notes)
 
 ## Nội dung
 
@@ -142,7 +145,7 @@ Nếu bạn muốn xem dữ liệu được trao đổi, thì bây giờ là cơ
 
 ### **Trả lời các câu hỏi bên dưới**
 
-*Có bao nhiêu gói tin được sử dụng trong quá trình đàm phán và thiết lập TLS trong các ảnh chụp Wireshark HTTPS ở trên?*
+Câu 1: *Có bao nhiêu gói tin được sử dụng trong quá trình đàm phán và thiết lập TLS trong các ảnh chụp Wireshark HTTPS ở trên?*
 
 **Trả lời: 8**
 
@@ -150,7 +153,7 @@ Nếu bạn muốn xem dữ liệu được trao đổi, thì bây giờ là cơ
 
 ---
 
-*Số thứ tự của gói tin chứa lệnh* `GET /login` *khi truy cập trang web qua HTTPS là bao nhiêu?*
+Câu 2: *Số thứ tự của gói tin chứa lệnh* `GET /login` *khi truy cập trang web qua HTTPS là bao nhiêu?*
 
 **Trả lời:** 10
 
@@ -197,4 +200,148 @@ Sử dụng IMAPS đảm bảo rằng các email bạn đọc trên nhiều thi�
 **Trả lời:** IMAP
 
 (Giải thích thêm: Vì IMAP không sử dụng mã hóa nếu không có TLS, nên thông tin đăng nhập có thể bị lộ qua mạng nếu không bảo mật.)
+
+---
+
+# Task 5: SSH
+
+**SSH** (Secure Shell) là một giao thức được sử dụng để đăng nhập an toàn vào các hệ thống từ xa. Nó cung cấp giao tiếp được mã hóa, giúp bảo vệ tính toàn vẹn và tính bảo mật của kết nối. SSH đã thay thế các phương pháp không an toàn trước đây như Telnet, nơi tất cả dữ liệu, bao gồm cả mật khẩu, được gửi dưới dạng văn bản thuần túy.
+
+OpenSSH mang lại nhiều lợi ích. Dưới đây là một vài điểm chính:
+
+* **Xác thực an toàn**: Bên cạnh xác thực bằng mật khẩu, SSH còn hỗ trợ xác thực bằng khóa công khai và xác thực hai yếu tố.
+
+* **Bảo mật thông tin**: OpenSSH cung cấp mã hóa đầu-cuối, bảo vệ chống nghe lén. Hơn nữa, nó thông báo cho bạn khi có khóa máy chủ mới để phòng tránh các cuộc tấn công dạng "man-in-the-middle" (kẻ trung gian).
+
+* **Tính toàn vẹn**: Ngoài việc bảo vệ tính bảo mật của dữ liệu được trao đổi, mật mã học còn bảo vệ tính toàn vẹn của lưu lượng truyền tải.
+
+* **Tunneling (Đường hầm)**: SSH có thể tạo một “đường hầm” an toàn để chuyển tiếp các giao thức khác thông qua SSH. Cấu hình này hoạt động giống như một kết nối VPN.
+
+* **Chuyển tiếp X11**: Nếu bạn kết nối tới một hệ thống giống Unix với giao diện đồ họa, SSH cho phép bạn sử dụng ứng dụng đồ họa đó thông qua mạng.
+
+Bạn sẽ sử dụng lệnh `ssh username@hostname` để kết nối đến một máy chủ SSH. Nếu tên người dùng giống với tên người dùng hiện tại mà bạn đang đăng nhập, bạn chỉ cần dùng `ssh hostname`. Sau đó, bạn sẽ được yêu cầu nhập mật khẩu; tuy nhiên, nếu sử dụng xác thực bằng khóa công khai, bạn sẽ được đăng nhập ngay lập tức.
+
+Ảnh chụp màn hình bên dưới cho thấy ví dụ về việc chạy Wireshark trên một hệ thống Kali Linux từ xa. Tham số `-X` là cần thiết để hỗ trợ chạy giao diện đồ họa, ví dụ: `ssh 192.168.124.148 -X`. (Hệ thống cục bộ cần phải được cài đặt sẵn môi trường đồ họa phù hợp.)
+
+![](./img/4_Networking_Secure_Protocols/5.1.webp)
+
+
+Trong khi máy chủ **TELNET** lắng nghe trên cổng 23, thì máy chủ **SSH** lắng nghe trên cổng 22.
+
+### **Trả lời các câu hỏi bên dưới**
+
+*Tên của bản triển khai mã nguồn mở của giao thức SSH là gì?*
+
+**Trả lời:** OpenSSH
+
+---
+
+# Task 6: SFTP and FTPS
+
+**SFTP** (SSH File Transfer Protocol) và **FTPS** (File Transfer Protocol Secure) đều cung cấp các phương thức bảo mật để truyền tệp, nhưng chúng sử dụng các công nghệ nền tảng khác nhau.
+
+* **SFTP**: Là một phần của bộ giao thức SSH, hoạt động trên **cổng 22**.
+
+* **FTPS**: Sử dụng TLS để bảo mật, tương tự như HTTPS, và thường hoạt động trên **cổng 990**.
+
+### Ví dụ:
+
+```bash
+sftp user@hostname
+```
+
+Lệnh này thiết lập một phiên truyền tệp bảo mật sử dụng SFTP, đảm bảo rằng tất cả quá trình tải lên và tải xuống tệp đều được mã hóa.
+
+### Trả lời các câu hỏi bên dưới
+
+**Nhấp vào nút *View Site* để truy cập trang liên quan. Vui lòng làm theo hướng dẫn trên trang để lấy được cờ.**
+
+**Trả lời:** `THM{Protocols_secur3d}`
+
+```bash
+FTP 21 > TTPS 990
+Telnet 23 > SSH 22
+SMTP 25 > SMTPS 465 and 587
+POP3 110 > POP3S 995
+IMAP 143 > IMAPS 993
+```
+
+---
+
+# Task 7: VPN
+
+**VPN** (Mạng riêng ảo) tạo ra một “đường hầm” bảo mật giữa máy khách và máy chủ VPN, cho phép người dùng truy cập vào mạng từ xa như thể họ đang kết nối trực tiếp. VPN được sử dụng rộng rãi bởi các công ty để nhân viên có thể truy cập an toàn vào tài nguyên nội bộ từ xa.
+
+### Các tính năng chính:
+
+* **Mã hóa**: VPN mã hóa toàn bộ lưu lượng giữa máy khách và máy chủ.
+* **Ẩn danh**: Người dùng VPN sẽ hiển thị như đang truy cập từ địa chỉ IP của máy chủ VPN thay vì vị trí thực tế của họ.
+
+### Ví dụ:
+
+Một nhân viên làm việc từ xa có thể sử dụng VPN để kết nối an toàn đến mạng của công ty và truy cập các tập tin cũng như ứng dụng được chia sẻ, giống như khi họ đang làm việc tại văn phòng.
+
+Khi một đường hầm VPN được thiết lập, toàn bộ lưu lượng Internet của chúng ta thường sẽ được chuyển qua kết nối VPN, tức là qua đường hầm VPN. Do đó, khi chúng ta cố gắng truy cập một dịch vụ Internet hay ứng dụng web, họ sẽ không thấy địa chỉ IP công khai của chúng ta mà sẽ thấy địa chỉ của máy chủ VPN. Đây là lý do tại sao một số người dùng Internet kết nối qua VPN để vượt qua các giới hạn địa lý. Thêm vào đó, nhà cung cấp dịch vụ Internet (ISP) tại địa phương sẽ chỉ nhìn thấy dữ liệu đã được mã hóa, điều này hạn chế khả năng kiểm duyệt truy cập Internet.
+
+Nói cách khác, nếu một người dùng kết nối đến máy chủ VPN đặt tại Nhật Bản, họ sẽ hiển thị như đang truy cập từ Nhật Bản. Các máy chủ dịch vụ sẽ tùy chỉnh trải nghiệm tương ứng, chẳng hạn như chuyển hướng người dùng đến phiên bản tiếng Nhật của dịch vụ. Ảnh chụp màn hình bên dưới hiển thị trang tìm kiếm của Google sau khi kết nối đến máy chủ VPN tại Nhật Bản.
+
+![](./img/4_Networking_Secure_Protocols/7.1.webp)
+
+Cuối cùng, mặc dù trong nhiều trường hợp, người dùng sẽ thiết lập kết nối VPN để chuyển toàn bộ lưu lượng qua đường hầm VPN, nhưng một số kết nối VPN lại không làm điều đó. Máy chủ VPN có thể được cấu hình để chỉ cung cấp quyền truy cập vào mạng riêng mà không định tuyến toàn bộ lưu lượng của bạn. Thêm vào đó, một số máy chủ VPN có thể làm rò rỉ địa chỉ IP thực của bạn, mặc dù về lý thuyết, chúng được kỳ vọng sẽ chuyển hướng toàn bộ lưu lượng của bạn qua VPN. Tùy thuộc vào mục đích sử dụng VPN, bạn có thể cần chạy thêm một số kiểm tra, chẳng hạn như kiểm tra rò rỉ DNS.
+
+Cuối cùng, một số quốc gia coi việc sử dụng VPN là bất hợp pháp, thậm chí có thể bị xử phạt. Vui lòng kiểm tra luật pháp và quy định địa phương trước khi sử dụng VPN, đặc biệt là khi bạn đang đi du lịch.
+
+
+### **Trả lời các câu hỏi bên dưới**
+
+*Công cụ nào bạn sẽ sử dụng để kết nối các chi nhánh khác nhau của công ty, nhằm giúp người dùng tại văn phòng từ xa có thể truy cập tài nguyên được lưu trữ tại trụ sở chính?*
+
+**Trả lời:** VPN
+
+---
+
+# Task 8: Closing Notes
+>Ghi chú kết luận
+
+Tóm lại, **TLS** đóng vai trò quan trọng trong việc bảo mật các giao tiếp Internet hiện đại. Nó cung cấp một nền tảng để bảo vệ nhiều giao thức khác nhau, bao gồm HTTP, SMTP, IMAP và nhiều giao thức khác. Cùng với SSH và VPN, các công nghệ này bảo vệ tính toàn vẹn và bảo mật của dữ liệu, cho phép truy cập từ xa an toàn, truyền tệp, và giao dịch trực tuyến.
+
+Sự kết hợp của các giao thức này đảm bảo rằng dữ liệu nhạy cảm — dù đang được truyền tải, gửi qua email hay chuyển tập tin — vẫn luôn được bảo mật và không thể bị truy cập bởi kẻ tấn công.
+
+
+Chúng tôi đã cấu hình trình duyệt để ghi lại các khóa TLS của phiên làm việc, nhờ đó có thể quan sát lưu lượng truy cập kỹ hơn bằng Wireshark. Việc ghi này được thực hiện bằng cách thêm một tùy chọn vào lối tắt của trình duyệt. Khi chạy lệnh:
+
+```bash
+chromium --ssl-key-log-file=~/ssl-key.log
+```
+
+trình duyệt sẽ ghi các khóa TLS vào tập tin `ssl-key.log`.
+
+Tập tin bắt gói được gọi là **randy-chromium.pcapng** và được lưu trong thư mục **Documents**. Khi bạn mở tập tin này trong Wireshark, bạn có thể cấu hình để Wireshark sử dụng tập tin `ssl-key.log`, nhờ đó toàn bộ lưu lượng TLS sẽ được giải mã. Bạn có thể thấy năm bước để thực hiện điều này trong hai ảnh chụp màn hình bên dưới.
+
+Trước hết, nhấp chuột phải vào bất kỳ đâu, chọn **“Protocol Preferences”**. Trong menu con, chọn **“Transport Layer Security”**, sau đó nhấp vào **“Open Transport Layer Security preferences”**.
+
+![](./img/4_Networking_Secure_Protocols/8.1.webp)
+
+
+Nhấp vào “Open Transport Layer Security preferences” sẽ hiển thị một hộp thoại. Bạn cần nhấp vào nút “Browse” được đánh dấu là số bốn để tìm tập tin `ssl-key.log`. Bạn có thể tìm thấy nó trong thư mục **Documents**. Cuối cùng, nhấn OK và Wireshark sẽ hiển thị toàn bộ lưu lượng TLS đã được giải mã. Một trong những gói tin này chứa thông tin đăng nhập.
+
+![](./img/4_Networking_Secure_Protocols/8.2.webp)
+
+
+### **Trả lời các câu hỏi bên dưới**
+
+*Một trong các gói tin chứa thông tin đăng nhập. Mật khẩu mà người dùng đã nhập là gì?*
+
+**Trả lời:** `THM{B8WM6P}`
+
+```bash
+Step-by-Step from Tryhackme
+Check packet number 366
+```
+![](./img/4_Networking_Secure_Protocols/8.3.webp)
+
+---
+
+
+
 
