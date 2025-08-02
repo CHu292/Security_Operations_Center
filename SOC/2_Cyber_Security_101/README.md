@@ -46,8 +46,10 @@ Lộ trình này được thiết kế thân thiện với người mới bắt 
 
 ## [Section 5: Networking](./5_Networking/)
 
-- Networking Concepts  
-- Networking Essentials  
+1. [Networking Concepts](./5_Networking/1_Networking_Concepts.md)
+
+2. [Networking Essentials](./5_Networking/2_Networking_Essentials.md)  
+
 - Networking Core Protocols  
 - Networking Secure Protocols  
 - Wireshark: The Basics  
