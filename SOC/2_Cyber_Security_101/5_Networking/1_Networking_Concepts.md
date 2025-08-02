@@ -6,6 +6,8 @@
 2. [Task 2: TCP/IP Model](#task-2-tcpip-model)
 3. [Task 3: IP Addresses and Subnets](#task-3-ip-addresses-and-subnets)
 4. [Task 4: UDP and TCP](#task-4-udp-and-tcp)
+5. [Task 5: Encapsulation](#task-5-encapsulation)
+6. [Task 6: Telnet](#task-6-telnet)
 
 ## Nội dung
 
@@ -438,8 +440,6 @@ Các gói tin được gửi theo thứ tự sau:
 * Server trả về SYN-ACK ➝ Máy tính
 * Máy tính gửi ACK ➝ Server
 
----
-
 Tương tự như **UDP**, **TCP** cũng sử dụng số hiệu cổng (port) để xác định tiến trình bắt đầu hoặc chờ (lắng nghe) kết nối.
 Số hiệu cổng hợp lệ nằm trong khoảng **1 đến 65535**, vì nó sử dụng 2 octet, còn **port 0 được dành riêng** (không sử dụng).
 
@@ -456,4 +456,153 @@ Số hiệu cổng hợp lệ nằm trong khoảng **1 đến 65535**, vì nó s
 → **65** (tức là khoảng 65.000 cổng – cụ thể là 65.535)
 
 ---
+
+# Task 5: Encapsulation
+
+>Bao gói (Encapsulation)
+
+Trước khi kết thúc, chúng ta cần làm rõ một khái niệm quan trọng khác: **bao gói (encapsulation)**.
+Trong ngữ cảnh này, "encapsulation" đề cập đến **quá trình mỗi tầng trong mô hình mạng thêm một phần tiêu đề (header)** — và đôi khi là phần đuôi (trailer) — vào đơn vị dữ liệu nhận được, rồi gửi đơn vị dữ liệu đã được bao gói xuống tầng bên dưới.
+
+**Bao gói** là một khái niệm thiết yếu vì nó cho phép mỗi tầng tập trung vào chức năng riêng của mình. Trong hình minh họa bên dưới, quy trình bao gói gồm bốn bước sau:
+
+* **Dữ liệu ứng dụng (Application data):**
+  Mọi thứ bắt đầu khi người dùng nhập dữ liệu mà họ muốn gửi vào ứng dụng.
+  Ví dụ: bạn viết một email hoặc tin nhắn rồi nhấn nút gửi.
+  Ứng dụng định dạng dữ liệu này theo giao thức ứng dụng đang dùng, và sau đó gửi nó xuống tầng bên dưới — **tầng giao vận (transport layer)**.
+
+* **Phân đoạn hoặc datagram của giao thức giao vận (Transport protocol segment or datagram):**
+  Tầng giao vận — như **TCP** hoặc **UDP** — thêm phần tiêu đề phù hợp và tạo ra **TCP segment** hoặc **UDP datagram**.
+  Đơn vị này được gửi xuống tầng mạng (network layer).
+
+* **Gói tin mạng (Network packet):**
+  Tầng mạng — như **Internet layer** — thêm **tiêu đề IP** vào TCP segment hoặc UDP datagram nhận được.
+  Gói tin IP này sau đó được gửi tiếp xuống tầng liên kết dữ liệu (data link layer).
+
+* **Khung dữ liệu liên kết (Data link frame):**
+  Ethernet hoặc WiFi sẽ nhận gói IP, thêm tiêu đề và phần đuôi thích hợp để tạo thành **khung dữ liệu (frame)**.
+
+ Tóm lại:
+
+* Bắt đầu với **dữ liệu ứng dụng**
+* Tại tầng giao vận, thêm tiêu đề TCP hoặc UDP để tạo **TCP segment** hoặc **UDP datagram**
+* Tại tầng mạng, thêm tiêu đề IP để tạo **IP packet**
+* Cuối cùng, tại tầng liên kết, thêm tiêu đề và đuôi để tạo **khung Ethernet hoặc WiFi**
+
+![](./img/1_Networking_Concepts/5.1.svg)
+
+- Quá trình này phải được đảo ngược ở phía nhận cho đến khi dữ liệu ứng dụng được trích xuất.
+
+---
+
+### **Vòng đời của một gói tin (The Life of a Packet)**
+
+Dựa trên những gì chúng ta đã học, giờ đây ta có thể giải thích **phiên bản đơn giản hóa** của vòng đời một gói tin.
+Hãy cùng xét ví dụ: bạn tìm kiếm một phòng học trên trang **TryHackMe**.
+
+1. Trên trang tìm kiếm của TryHackMe, bạn nhập từ khóa tìm kiếm và nhấn Enter.
+
+2. Trình duyệt web của bạn, sử dụng **HTTPS**, tạo một yêu cầu **HTTP** và đẩy nó xuống tầng bên dưới – **tầng giao vận**.
+
+3. Tầng **TCP** cần thiết lập một kết nối thông qua quá trình “**bắt tay 3 bước**” giữa trình duyệt và máy chủ web của TryHackMe.
+
+   Sau khi thiết lập kết nối TCP thành công, nó có thể gửi yêu cầu HTTP chứa nội dung truy vấn tìm kiếm.
+
+   Mỗi **đoạn TCP (TCP segment)** được tạo ra sẽ được chuyển tiếp xuống tầng bên dưới – **tầng Internet**.
+
+4. Tầng **IP** sẽ thêm địa chỉ IP nguồn (tức là địa chỉ IP máy tính của bạn) và địa chỉ IP đích (tức là địa chỉ IP của máy chủ web TryHackMe).
+
+   Để gói tin này đến được router, laptop của bạn sẽ chuyển tiếp nó xuống tầng bên dưới – **tầng liên kết dữ liệu**.
+
+5. Tùy vào giao thức, tầng liên kết dữ liệu sẽ thêm **phần tiêu đề và phần đuôi liên kết** phù hợp, sau đó gửi gói tin đến **router**.
+
+6. Router sẽ **loại bỏ tiêu đề và đuôi ở tầng liên kết**, kiểm tra địa chỉ IP đích (và một số thông tin khác), rồi định tuyến gói tin đến tuyến đường phù hợp.
+
+   Mỗi router sẽ lặp lại quá trình này cho đến khi gói tin đến được router của máy chủ đích.
+
+
+Sau đó, **các bước trên sẽ được thực hiện ngược lại** khi gói tin đi từ router của mạng đích đến máy chủ đích.
+
+Khi chúng ta học thêm về các giao thức khác, chúng ta sẽ **quay lại ví dụ này** và tạo một phiên bản chi tiết hơn.
+
+---
+
+### **Trả lời các câu hỏi dưới đây**
+
+**Trên mạng WiFi, một gói IP sẽ được bao gói (encapsulated) trong gì?**
+
+→ **Khung (Frame)**
+
+**Đơn vị dữ liệu của UDP dùng để bao gói dữ liệu ứng dụng được gọi là gì?**
+
+→ **Datagram**
+
+**Đơn vị dữ liệu bao gói dữ liệu ứng dụng được gửi qua TCP được gọi là gì?**
+
+→ **Segment**
+
+---
+
+# Task 6: Telnet
+
+Ở đây chúng ta thực hiện trên máy ảo của Tryhackme
+
+Khởi động **AttackBox** bằng cách nhấn nút **Start AttackBox** ở đầu trang. AttackBox sẽ khởi chạy ở chế độ chia màn hình (Split-Screen). Nếu không thấy, hãy sử dụng nút **Show Split View** màu xanh lam ở đầu trang.
+
+Hãy chờ khoảng **2 phút** để cả hai máy khởi động đầy đủ. Sau khi hai máy đã sẵn sàng, chúng ta sẽ mở terminal trên AttackBox để thực hành với lệnh **`telnet`**.
+
+---
+
+**Giao thức TELNET** (Teletype Network) là một giao thức mạng dùng để kết nối từ xa với terminal.
+Nói đơn giản hơn, **`telnet`** là một trình khách (client) TELNET cho phép bạn kết nối và giao tiếp với một hệ thống từ xa, để thực hiện các lệnh dạng văn bản.
+
+Mặc dù ban đầu được sử dụng cho mục đích quản trị từ xa, chúng ta có thể dùng **`telnet`** để kết nối với bất kỳ máy chủ nào đang lắng nghe trên **cổng TCP**.
+
+---
+
+Trên máy ảo mục tiêu, có nhiều dịch vụ đang chạy. Chúng ta sẽ thực hành với **ba dịch vụ** sau:
+
+* **Echo server**: Máy chủ này phản hồi lại mọi thứ bạn gửi đến. Mặc định nó lắng nghe trên **cổng 7**.
+* **Daytime server**: Máy chủ này lắng nghe trên **cổng 13** và trả về ngày giờ hiện tại.
+* **Máy chủ Web (HTTP)**: Máy chủ này lắng nghe trên **cổng TCP 80**, phục vụ các trang web.
+
+---
+
+**Lưu ý:** Trước khi tiếp tục, cần lưu ý rằng **echo** và **daytime** là các dịch vụ **tiềm ẩn rủi ro bảo mật** và không nên vận hành thực tế. Tuy nhiên, chúng tôi đã khởi động chúng để **minh họa cách giao tiếp bằng `telnet`** với máy chủ.
+
+Trong cửa sổ terminal bên dưới, chúng ta sẽ kết nối đến máy ảo mục tiêu qua **cổng TCP số 7** của echo server.
+Để đóng kết nối, nhấn tổ hợp phím **`CTRL` + `]`**.
+
+![](./img/1_Networking_Concepts/6.1.png)
+
+---
+
+**Trong terminal bên dưới, chúng ta sử dụng lệnh** `telnet` **để kết nối đến máy chủ daytime đang lắng nghe tại cổng 13. Chúng tôi nhận thấy rằng kết nối sẽ tự động đóng sau khi ngày và giờ hiện tại được trả về.**
+
+![](./img/1_Networking_Concepts/6.2.png)
+
+---
+
+Cuối cùng, hãy thử gửi yêu cầu truy cập một trang web bằng cách sử dụng lệnh `telnet`. Sau khi kết nối đến cổng 80, bạn cần nhập lệnh `GET / HTTP/1.1` và xác định máy chủ nơi bạn muốn gửi yêu cầu, ví dụ như `Host: telnet.thm`. Tiếp theo, bạn cần nhấn `Enter` hai lần để dòng nhập cuối cùng là một dòng trống. Kết quả đầu ra bên dưới sẽ hiển thị quá trình trao đổi (Trang web đã được ẩn đi).
+
+**Lưu ý:** Bạn có thể cần nhấn `Enter` sau khi gửi thông tin nếu không nhận được phản hồi.
+
+![](./img/1_Networking_Concepts/6.3.png)
+
+
+---
+
+**Trả lời các câu hỏi bên dưới**
+
+Sử dụng `telnet` để kết nối đến máy chủ web trên `MACHINE_IP`. Tên và phiên bản của máy chủ HTTP là gì?
+
+**lighttpd/1.4.63**
+
+Khi bạn xem trang, bạn nhận được cờ (flag) nào?
+
+**THM{TELNET\_MASTER}**
+
+---
+
+![](./img/1_Networking_Concepts/6.3.png)
 
