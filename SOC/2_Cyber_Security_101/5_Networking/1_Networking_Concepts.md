@@ -378,8 +378,6 @@ Bộ định tuyến hoạt động ở **tầng 3**, nó kiểm tra địa ch�
 
 Giao thức IP cho phép chúng ta tiếp cận một thiết bị đích trên mạng; thiết bị đó được nhận diện thông qua địa chỉ IP của nó. Tuy nhiên, chúng ta cần các giao thức giúp các tiến trình trên các thiết bị mạng có thể giao tiếp với nhau. Có hai giao thức truyền tải được dùng để làm điều đó: **UDP** và **TCP**.
 
----
-
 ### **UDP**
 
 **UDP** (User Datagram Protocol – Giao thức Gói tin Người dùng) cho phép chúng ta gửi đến một tiến trình cụ thể trên thiết bị đích.
@@ -390,18 +388,72 @@ Một địa chỉ IP giúp xác định thiết bị, nhưng ta vẫn cần m�
 Một số cổng sử dụng hai **octet**, do đó nó nằm trong khoảng từ **1 đến 65535**, trong đó **port 0 là dành riêng** (không sử dụng).
 (Số 65535 được tính từ biểu thức: $2^{16} - 1$)
 
----
-
 Một ví dụ trong thực tế giống với UDP là dịch vụ gửi thư thông thường, **không có xác nhận giao hàng**.
 Nói cách khác, **không có gì đảm bảo rằng gói tin UDP đã đến nơi thành công**, tương tự như khi bạn gửi thư mà không có xác nhận phát.
 
 Trong trường hợp thư tiêu chuẩn, điều này đồng nghĩa với chi phí thấp hơn so với dịch vụ có xác nhận.
 Trong trường hợp của **UDP**, nó cũng đồng nghĩa với **tốc độ cao hơn** so với các giao thức truyền tải có xác nhận.
 
----
-
 Vậy nếu chúng ta **muốn một giao thức truyền tải có xác nhận rằng gói tin đã được nhận**, thì sao?
 Câu trả lời là: **hãy dùng TCP thay vì UDP.**
+
+---
+
+### **TCP**
+
+**TCP** (Transmission Control Protocol – Giao thức Điều khiển Truyền tải) là một giao thức tầng giao vận **có kết nối**.
+Nó sử dụng nhiều cơ chế để đảm bảo việc truyền dữ liệu giữa các tiến trình trên các thiết bị mạng được **đáng tin cậy**.
+
+Giống như **UDP**, TCP cũng hoạt động ở **tầng 4**. Tuy nhiên, vì là giao thức có kết nối, TCP yêu cầu **thiết lập kết nối trước khi gửi dữ liệu**.
+
+Trong TCP, mỗi **octet dữ liệu** (byte) đều có **số thứ tự** riêng.
+Điều này giúp bên nhận dễ dàng xác định các gói tin bị mất hoặc bị trùng lặp.
+Ngược lại, bên nhận sẽ xác nhận (ACK) rằng dữ liệu đã được nhận thành công, bằng cách gửi lại số thứ tự của byte cuối cùng đã nhận được.
+
+
+**TCP thiết lập kết nối thông qua quy trình gọi là "bắt tay 3 bước" (three-way handshake)**
+
+Hai cờ hiệu được sử dụng: **SYN** (Synchronise – đồng bộ) và **ACK** (Acknowledgment – xác nhận).
+Các gói tin được gửi theo thứ tự sau:
+
+1. **SYN Packet**:
+
+   * Client khởi tạo kết nối bằng cách gửi gói SYN đến server.
+   * Gói này chứa một số thứ tự ban đầu do client chọn ngẫu nhiên.
+
+2. **SYN-ACK Packet**:
+
+   * Server phản hồi bằng một gói SYN-ACK, trong đó bao gồm số thứ tự ban đầu do server chọn.
+
+3. **ACK Packet**:
+
+   * Quá trình "bắt tay 3 bước" hoàn tất khi client gửi gói ACK để xác nhận đã nhận được gói SYN-ACK.
+
+
+![](./img/1_Networking_Concepts/4.1.svg)
+
+*Hình minh họa cho thấy:*
+
+* Máy tính gửi SYN ➝ Server
+* Server trả về SYN-ACK ➝ Máy tính
+* Máy tính gửi ACK ➝ Server
+
+---
+
+Tương tự như **UDP**, **TCP** cũng sử dụng số hiệu cổng (port) để xác định tiến trình bắt đầu hoặc chờ (lắng nghe) kết nối.
+Số hiệu cổng hợp lệ nằm trong khoảng **1 đến 65535**, vì nó sử dụng 2 octet, còn **port 0 được dành riêng** (không sử dụng).
+
+---
+
+### **Trả lời các câu hỏi dưới đây**
+
+**Giao thức nào yêu cầu bắt tay ba bước (three-way handshake)?**
+
+→ **TCP**
+
+**Số lượng cổng (port) xấp xỉ là bao nhiêu (tính bằng hàng nghìn)?**
+
+→ **65** (tức là khoảng 65.000 cổng – cụ thể là 65.535)
 
 ---
 
