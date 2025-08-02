@@ -3,7 +3,9 @@
 ## Mục lục
 
 1. [Task 1: OSI Model](#task-1-osi-model)
-2. [Task 3: TCP/IP Model](#task-2-tcpip-model)
+2. [Task 2: TCP/IP Model](#task-2-tcpip-model)
+3. [Task 3: IP Addresses and Subnets](#task-3-ip-addresses-and-subnets)
+
 
 ## Nội dung
 
@@ -25,7 +27,7 @@ Mô hình OSI (Open Systems Interconnection – Kết nối Hệ thống Mở) l
 
 Việc đánh số bắt đầu với tầng vật lý là tầng 1, trong khi tầng cao nhất, tầng ứng dụng, là tầng 7. Để giúp bạn nhớ các tầng từ dưới lên trên, bạn có thể sử dụng một câu ghi nhớ như: “**Please Do Not Throw Spinach Pizza Away**” (Vui lòng Đừng Ném Pizza Rau Chân Vịt Đi). Bạn cũng có thể tra cứu trên Internet để tìm thêm các từ viết tắt dễ nhớ khác nếu điều đó giúp bạn học thuộc. Việc nhớ được các tầng trong mô hình OSI cùng với số thứ tự của chúng là rất quan trọng; nếu không, bạn sẽ gặp khó khăn khi hiểu các thuật ngữ như “thiết bị tầng 3” hoặc “tường lửa tầng 7”.
 
-![](./img/1_Networking_Concepts/1.svg)
+![](./img/1_Networking_Concepts/1.1.svg)
 
 ---
 
@@ -36,7 +38,7 @@ Việc truyền dữ liệu có thể diễn ra thông qua tín hiệu điện, 
 
 Ngoài cáp Ethernet (được minh họa bên dưới) và cáp quang, các ví dụ về phương tiện tầng vật lý còn bao gồm các dải tần số vô tuyến WiFi, cụ thể là dải 2.4 GHz, dải 5 GHz và dải 6 GHz.
 
-![](./img/1_Networking_Concepts/2.svg)
+![](./img/1_Networking_Concepts/1.2.svg)
 
 ---
 
@@ -49,7 +51,7 @@ Ví dụ, hãy tưởng tượng một văn phòng công ty có mười máy tí
 Các ví dụ về tầng 2 bao gồm Ethernet (ví dụ: 802.3) và WiFi (ví dụ: 802.11). Địa chỉ của Ethernet và WiFi là dài 6 byte. Địa chỉ này được gọi là địa chỉ MAC, trong đó MAC là viết tắt của "Media Access Control" (Kiểm soát truy cập phương tiện).
 Chúng thường được biểu diễn ở dạng thập lục phân, với dấu hai chấm (:) ngăn cách mỗi hai chữ số thập lục phân (tương ứng với một byte). Ba byte đầu tiên bên trái dùng để nhận diện nhà sản xuất.
 
-![](./img/1_Networking_Concepts/3.svg)
+![](./img/1_Networking_Concepts/1.3.svg)
 
 
 Chúng ta kỳ vọng sẽ thấy hai địa chỉ MAC trong mỗi khung dữ liệu khi giao tiếp mạng thực tế qua Ethernet hoặc WiFi. Gói tin trong ảnh chụp màn hình bên dưới hiển thị:
@@ -58,7 +60,7 @@ Chúng ta kỳ vọng sẽ thấy hai địa chỉ MAC trong mỗi khung dữ li
 * **Địa chỉ liên kết dữ liệu nguồn (địa chỉ MAC)** được đánh dấu màu xanh dương
 * **Các bit còn lại thể hiện dữ liệu đang được gửi**
 
-![](./img/1_Networking_Concepts/4.png)
+![](./img/1_Networking_Concepts/1.4.png)
 
 ---
 
@@ -70,7 +72,7 @@ Tầng liên kết dữ liệu tập trung vào việc gửi dữ liệu giữa 
 
 Sơ đồ mạng bên dưới cho thấy máy tính A và máy tính B được kết nối với nhau, mặc dù chúng nằm ở các mạng khác nhau. Bạn cũng có thể thấy có hai đường đi kết nối hai máy tính; tầng mạng sẽ định tuyến các gói tin mạng thông qua đường đi mà nó cho là tối ưu hơn.
 
-![](./img/1_Networking_Concepts/5.svg)
+![](./img/1_Networking_Concepts/1.5.svg)
 
 *(Hình minh họa: hai máy tính A và B kết nối qua nhiều router với hai tuyến đường khác nhau)*
 
@@ -216,3 +218,159 @@ Trong các nhiệm vụ tiếp theo, chúng ta sẽ tìm hiểu về giao thức
 
 
 (Cụ thể là các tầng 5 - Phiên, tầng 6 - Trình bày, và tầng 7 - Ứng dụng trong mô hình OSI được gộp lại thành một tầng trong mô hình TCP/IP.)
+
+---
+
+# Task 3: IP Addresses and Subnets
+
+>Địa chỉ IP và Subnet
+
+Khi bạn nghe đến cụm từ “địa chỉ IP”, bạn có thể nghĩ đến một địa chỉ như **192.168.0.1** hoặc một địa chỉ ít phổ biến hơn, chẳng hạn như **172.16.159.243**. Trong cả hai trường hợp, bạn đều đúng. Cả hai đều là địa chỉ IP — cụ thể là địa chỉ IPv4 (Internet Protocol phiên bản 4).
+
+Mỗi thiết bị (host) trong mạng đều cần một định danh duy nhất để các thiết bị khác có thể giao tiếp với nó. Nếu không có định danh duy nhất, thiết bị đó không thể được xác định một cách rõ ràng. Khi sử dụng bộ giao thức TCP/IP, chúng ta cần gán một địa chỉ IP cho mỗi thiết bị kết nối với mạng.
+
+Một phép so sánh đơn giản cho địa chỉ IP là địa chỉ nhà của bạn. Địa chỉ nhà giúp bạn nhận thư và bưu kiện từ khắp nơi trên thế giới. Tương tự, địa chỉ IP xác định vị trí của bạn trong mạng để các thiết bị khác có thể liên lạc. Nếu không có địa chỉ rõ ràng, bạn không thể mua hàng trực tuyến!
+
+Như bạn có thể đã biết, hiện có IPv4 và IPv6 (Internet Protocol phiên bản 6). IPv4 vẫn là phiên bản phổ biến nhất, và bất cứ khi nào văn bản đề cập đến "IP" mà không ghi rõ phiên bản, ta thường ngầm hiểu đó là IPv4.
+
+Vậy điều gì tạo nên một địa chỉ IP? Một địa chỉ IP gồm bốn **octet**, tức là **32 bit**. Mỗi octet có 8 bit, cho phép biểu diễn một số thập phân từ 0 đến 255. Một địa chỉ IP sẽ được minh họa trong hình ảnh bên dưới.
+
+![](./img/1_Networking_Concepts/3.1.png)
+
+---
+
+Ở mức độ đơn giản hóa, địa chỉ có số cuối là **0** và **255** thường được dành cho địa chỉ mạng và địa chỉ quảng bá (broadcast), tương ứng.
+Nói cách khác, **192.168.1.0** là địa chỉ mạng, trong khi **192.168.1.255** là địa chỉ broadcast.
+Gửi dữ liệu đến địa chỉ broadcast đồng nghĩa với việc gửi đến tất cả các thiết bị trong cùng một mạng.
+
+Với phép tính đơn giản, bạn có thể kết luận rằng chúng ta không thể có quá 4 tỷ địa chỉ IPv4 duy nhất.
+Nếu bạn tò mò về phép toán, con số này xấp xỉ là 2³², vì chúng ta có 32 bit. Con số này chỉ là xấp xỉ vì chưa tính đến các địa chỉ mạng và broadcast.
+
+---
+
+### **Xem cấu hình mạng của bạn**
+
+Bạn có thể kiểm tra địa chỉ IP của mình trên dòng lệnh của Windows bằng cách sử dụng lệnh: **ipconfig**
+Trên các hệ thống Linux hoặc dựa trên UNIX, bạn có thể dùng lệnh **ifconfig** hoặc
+**ip address show**, có thể viết tắt là **ip a s**.
+
+Trong cửa sổ dòng lệnh bên dưới, chúng tôi sử dụng lệnh **ifconfig**.
+
+![](./img/1_Networking_Concepts/3.2.png)
+
+Dựa vào kết quả lệnh `ifconfig` bạn cung cấp, thông tin của **host (laptop)** có thể được lấy từ giao diện đang hoạt động và có địa chỉ IP thật, cụ thể là giao diện `eno2`.
+
+---
+
+**Host (laptop) IP Address**:
+
+**`192.168.31.231`**
+
+**Subnet Mask**:
+
+**`255.255.255.0`**
+
+**Broadcast Address**:
+
+**`192.168.31.255`**
+
+---
+
+Hãy sử dụng lệnh `ip a s` để so sánh cách địa chỉ IP của card mạng được hiển thị.
+
+![](./img/1_Networking_Concepts/3.3.png)
+
+
+Dựa trên kết quả lệnh `ip a s` mà bạn cung cấp, thông tin **IP của máy (host laptop)** có thể được lấy từ giao diện chính đang hoạt động. Giao diện đó là `eno2`.
+
+**Thông tin IP của host (từ interface `eno2`)**:
+
+* **IP address (IPv4)**: `192.168.31.231`
+
+* **Subnet mask**: `/24` (tương đương với `255.255.255.0`)
+
+* **Broadcast address**: `192.168.31.255`
+
+* **MAC address**: `74:78:27:0c:05:1c`
+
+---
+
+
+Nếu bạn đang thắc mắc thì subnet mask `255.255.255.0` cũng có thể được viết dưới dạng **`/24`**.
+Ký hiệu **`/24`** nghĩa là 24 bit bên trái trong địa chỉ IP sẽ không thay đổi trong toàn bộ mạng con — tức là phần mạng.
+
+Nói cách khác, 3 octet đầu tiên giống nhau đối với toàn bộ subnet; do đó, các địa chỉ trong subnet này sẽ có thể nằm trong khoảng từ **`192.168.31.1`** đến **`192.168.31.254`**.
+
+Tương tự như đã đề cập, **`192.168.31.0`** và **`192.168.31.255`** lần lượt là địa chỉ **mạng** và **broadcast**.
+
+---
+
+### **Địa chỉ IP riêng (Private Addresses)**
+
+Khi chúng ta đang giải thích về địa chỉ IP, sẽ rất hữu ích khi đề cập rằng trong hầu hết các tình huống thực tế, có hai loại địa chỉ IP:
+
+* Địa chỉ IP công cộng (Public IP addresses)
+* Địa chỉ IP riêng (Private IP addresses)
+
+**RFC 1918** định nghĩa ba dải địa chỉ IP riêng như sau:
+
+* `10.0.0.0` - `10.255.255.255` (hay `/8`)
+* `172.16.0.0` - `172.31.255.255` (hay `/12`)
+* `192.168.0.0` - `192.168.255.255` (hay `/16`)
+
+---
+
+Trước đó, chúng ta đã sử dụng một phép so sánh rằng địa chỉ IP công cộng giống như địa chỉ nhà của bạn – cho phép người khác gửi thư đến từ bất kỳ nơi nào trên thế giới.
+
+Địa chỉ IP riêng thì khác – về cơ bản, nó không thể kết nối ra ngoài hoặc được kết nối từ bên ngoài. Nó giống như một khu dân cư hoặc khu phức hợp cách biệt, nơi tất cả các căn hộ đều được đánh số rõ ràng và có thể gửi thư cho nhau dễ dàng, nhưng không liên lạc trực tiếp với thế giới bên ngoài.
+
+Để địa chỉ IP riêng có thể truy cập Internet, **router** cần phải có một địa chỉ IP công cộng và hỗ trợ **NAT (Network Address Translation)**.
+Ở giai đoạn này, bạn chưa cần lo lắng về NAT vì chúng ta sẽ học sâu hơn ở phần sau của mô-đun.
+
+---
+
+**Trước khi tiếp tục, bạn nên ghi nhớ các dải địa chỉ IP riêng.**
+Nếu không, bạn có thể gặp một địa chỉ như `10.1.33.7` hoặc `172.31.33.7` và cố truy cập nó như thể đó là địa chỉ công cộng.
+
+---
+
+### **Định tuyến (Routing)**
+
+Một bộ định tuyến (router) giống như bưu điện địa phương của bạn; bạn đưa cho họ một gói thư, và họ sẽ biết cách chuyển nó đi đâu. Nếu ta đi sâu hơn, bạn có thể hình dung việc gửi thư đến một địa chỉ ở thành phố hoặc quốc gia khác. Bưu điện sẽ kiểm tra địa chỉ và quyết định gửi tiếp theo đến đâu. Ví dụ, nếu thư cần rời khỏi quốc gia, chúng ta sẽ trông đợi một bưu cục trung tâm xử lý tất cả các lô hàng quốc tế.
+
+Ở khía cạnh kỹ thuật, một bộ định tuyến chuyển tiếp các gói dữ liệu đến mạng thích hợp. Thông thường, một gói dữ liệu sẽ đi qua nhiều bộ định tuyến trước khi đến đích cuối cùng.
+Bộ định tuyến hoạt động ở **tầng 3**, nó kiểm tra địa chỉ IP và chuyển gói tin đến mạng (hoặc bộ định tuyến) tốt nhất, giúp gói tin tiến gần hơn đến điểm đích của nó.
+
+![](./img/1_Networking_Concepts/3.4.svg)
+
+---
+
+### **Trả lời các câu hỏi dưới đây**
+
+---
+
+**Câu hỏi 1:**
+
+Địa chỉ IP nào sau đây **không phải là địa chỉ IP riêng (private IP)**?
+
+* 192.168.250.125
+* 10.20.141.132
+* 49.69.147.197 
+* 172.23.182.251
+
+**Trả lời:** `49.69.147.197` (đây là địa chỉ IP công cộng)
+
+---
+
+**Câu hỏi 2:**
+Địa chỉ IP nào sau đây **không phải là địa chỉ IP hợp lệ**?
+
+* 192.168.250.15
+* 192.168.254.17
+* 192.168.305.19 
+* 192.168.199.13
+
+**Trả lời:** `192.168.305.19` (không hợp lệ vì số `305` vượt quá giới hạn 255 của một octet trong địa chỉ IPv4)
+
+---
+
