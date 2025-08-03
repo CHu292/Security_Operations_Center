@@ -62,8 +62,9 @@ Lộ trình này được thiết kế thân thiện với người mới bắt 
 4. [Networking Secure Protocols](./5_Networking/4_Networking_Secure_Protocols.md)
 
 5. [Wireshark: The Basics](./5_Networking/5_Wireshark_The_Basics.md)
+
+6. [Tcpdump: The Basics](./5_Networking/6_tcpdump_the_basics.md)
   
-- Tcpdump: The Basics  
 - Nmap: The Basics  
 
 ---
