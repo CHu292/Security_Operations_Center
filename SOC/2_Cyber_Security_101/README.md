@@ -64,8 +64,8 @@ Lộ trình này được thiết kế thân thiện với người mới bắt 
 5. [Wireshark: The Basics](./5_Networking/5_Wireshark_The_Basics.md)
 
 6. [Tcpdump: The Basics](./5_Networking/6_tcpdump_the_basics.md)
-  
-- Nmap: The Basics  
+
+7. [Nmap: The Basics](./5_Networking/7_Nmap_The_Basics.md)  
 
 ---
 
