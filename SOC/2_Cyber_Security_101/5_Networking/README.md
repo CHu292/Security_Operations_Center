@@ -8,6 +8,7 @@
 
 - [Networking Secure Protocols](./4_Networking_Secure_Protocols.md)  
 
-- Wireshark: The Basics  
+- [Wireshark: The Basics](./5_Wireshark_The_Basics.md)
+  
 - Tcpdump: The Basics  
 - Nmap: The Basics  
