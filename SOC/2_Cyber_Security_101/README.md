@@ -69,7 +69,7 @@ Lộ trình này được thiết kế thân thiện với người mới bắt 
 
 ---
 
-## **Section 6: Cryptography**
+## [Section 6: Cryptography](./6_Cryptography/)
 
 - Cryptography Basics  
 - Public Key Cryptography Basics  

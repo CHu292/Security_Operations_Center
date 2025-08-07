@@ -53,7 +53,7 @@ Khi bạn hoàn thành phòng này, bạn sẽ nắm được các giao thức s
 ---
 
 # Task 2: DNS - Remembering Addresses
-
+> Domain Name System
 >DNS: Ghi nhớ địa chỉ
 
 Bạn có nhớ địa chỉ IP của các trang web yêu thích của mình không? Trừ khi đó là địa chỉ IP riêng của thiết bị cục bộ, thì không ai cần phải nhớ địa chỉ IP cả. Điều này một phần là nhờ vào Hệ thống tên miền (DNS), giúp ánh xạ đúng tên miền tới địa chỉ IP.
@@ -156,11 +156,19 @@ Thao tác này sẽ hiển thị thông tin như thông tin liên hệ của ng�
 
 ### **Trả lời các câu hỏi dưới đây**
 
-**Hỏi:** Hồ sơ của `x.com` được tạo vào thời điểm nào? Vui lòng cung cấp câu trả lời theo định dạng YYYY-MM-DD.
+**Câu hỏi 1:** Hồ sơ của `x.com` được tạo vào thời điểm nào? Vui lòng cung cấp câu trả lời theo định dạng YYYY-MM-DD.
+
 **Trả lời:** 1993-04-02
 
-**Hỏi:** Hồ sơ của `twitter.com` được tạo vào thời điểm nào? Vui lòng cung cấp câu trả lời theo định dạng YYYY-MM-DD.
+![](./img/3_Networking_Core_Protocols/3.2.png)
+
+---
+
+**Câu hỏi 2:** Hồ sơ của `twitter.com` được tạo vào thời điểm nào? Vui lòng cung cấp câu trả lời theo định dạng YYYY-MM-DD.
+
 **Trả lời:** 2000-01-21
+
+![](./img/3_Networking_Core_Protocols/3.3.png)
 
 ---
 # Task 4: HTTP(S) - Accessing the Web

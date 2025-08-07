@@ -269,7 +269,7 @@ IMAP 143 > IMAPS 993
 ---
 
 # Task 7: VPN
-
+>Virtual Private Network
 **VPN** (Mạng riêng ảo) tạo ra một “đường hầm” bảo mật giữa máy khách và máy chủ VPN, cho phép người dùng truy cập vào mạng từ xa như thể họ đang kết nối trực tiếp. VPN được sử dụng rộng rãi bởi các công ty để nhân viên có thể truy cập an toàn vào tài nguyên nội bộ từ xa.
 
 ### Các tính năng chính:

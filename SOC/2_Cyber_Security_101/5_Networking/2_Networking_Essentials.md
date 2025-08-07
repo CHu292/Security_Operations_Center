@@ -59,6 +59,8 @@ Mục tiêu của phòng học này là giúp bạn hiểu về các giao thức
 
 # Task 2: DHCP: Give Me My Network Settings
 
+> Dynamic Host Configuration Protocol
+
 >DHCP – Cấp cho tôi các thiết lập mạng
 
 Bạn đến quán cà phê yêu thích, gọi món đồ uống nóng yêu thích, và mở laptop của mình. Laptop của bạn kết nối với WiFi của quán và tự động cấu hình mạng, nhờ vậy bạn có thể bắt đầu làm việc trên một phòng học mới của TryHackMe. Bạn không nhập một địa chỉ IP nào, nhưng thiết bị của bạn vẫn được thiết lập sẵn sàng. Hãy xem điều gì đã xảy ra nhé.
@@ -137,6 +139,8 @@ Kết thúc quá trình **DHCP**, thiết bị của chúng ta sẽ nhận đư�
 ---
 
 # Task 3: ARP: Bridging Layer 3 Addressing to Layer 2 Addressing
+
+> Address Resolution Protocol
 
 >ARP – Cầu nối giữa địa chỉ tầng 3 và tầng 2
 
@@ -328,6 +332,19 @@ traceroute to example.com (93.184.215.14), 30 hops max, 60 byte packets
 **Hỏi:** Trường nào trong tiêu đề IP mà lệnh `traceroute` yêu cầu phải trở về giá trị bằng không?
 
 **Trả lời:** TTL
+
+Trong tiêu đề (header) của gói tin IP mà lệnh `traceroute` sử dụng, **trường "Time To Live" (TTL)** là trường **được giảm dần** tại mỗi router trung gian, và **khi TTL = 0**, router **phải gửi về một gói ICMP "Time Exceeded"**.
+
+> **Trường TTL (Time To Live) trong tiêu đề IP phải trở về giá trị bằng 0 để lệnh traceroute nhận được phản hồi từ router.**
+
+>Giải thích thêm:
+
+* Lệnh `traceroute` gửi các gói UDP (hoặc ICMP tùy hệ điều hành) với TTL bắt đầu từ 1 và tăng dần.
+* Mỗi router trên đường đi **giảm TTL đi 1**, và khi TTL = 0, **router sẽ hủy gói và gửi ICMP Time Exceeded về nguồn**.
+* Dựa vào phản hồi ICMP đó, `traceroute` xác định được địa chỉ IP của router trung gian.
+
+Cơ chế này giúp xác định từng "hops" (bước nhảy) từ máy nguồn đến đích.
+
 
 ---
 
