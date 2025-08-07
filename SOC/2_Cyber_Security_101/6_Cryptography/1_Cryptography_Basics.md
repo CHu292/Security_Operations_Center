@@ -399,11 +399,11 @@ Phép toán modulo **luôn trả về một kết quả không âm nhỏ hơn s�
 
 * `118613842 % 9091` là: **3565**
 
-![](./img/1_Cryptography_Basics/5.3.png)
+![](./img/1_Cryptography_Basics/6.1.png)
 
 * `60 % 12` là: **0**
 
-![](./img/1_Cryptography_Basics/5.4.png)
+![](./img/1_Cryptography_Basics/6.2.png)
 
 ---
 
