@@ -7,6 +7,7 @@
 3. [Task 3: Plaintext to Ciphertext](#task-3-plaintext-to-ciphertext)
 4. [Task 4: Historical Ciphers](#task-4-historical-ciphers)
 5. [Task 5: Types of Encryption](#task-5-types-of-encryption)
+6. [Task 6: Basic Math](#task-6-basic-math)
 
 ## Nội dung
 
@@ -136,9 +137,14 @@ Bạn có thể bắt gặp nhiều loại mật mã lịch sử khác trong cá
 * Máy Enigma từ Thế chiến thứ hai
 * Bảng mã sử dụng một lần (one-time pad) từ thời Chiến tranh Lạnh
 
+---
+**Trả lời câu hỏi sau**
+
 Biết rằng **XRPCTCRGNEI** đã được mã hóa bằng Mật mã Caesar, văn bản gốc là:
 
 **Câu trả lời**: ICANENCRYPT
+
+---
 
 Mật mã Caesar là một dạng **mã thay thế đơn giản**, trong đó mỗi chữ cái trong bản rõ được dịch chuyển đi một số vị trí cố định trong bảng chữ cái. Ví dụ, với dịch chuyển là +3: A → D, B → E, ..., Z → C.
 
@@ -311,4 +317,95 @@ AES được chấp nhận là tiêu chuẩn mã hóa vào năm nào?
 **2001**
 
 ---
+
+# Task 6: Basic Math
+
+**Toán học cơ bản**
+
+Các khối xây dựng nên mật mã học hiện đại nằm ở toán học. Để minh họa một số thuật toán cơ bản, chúng ta sẽ tìm hiểu hai phép toán được sử dụng trong nhiều thuật toán khác nhau:
+
+* Phép toán XOR
+* Phép toán Modulo
+
+---
+
+### Phép toán XOR
+
+**XOR**, viết tắt của “exclusive OR” (hoặc loại trừ), là một phép toán logic trong số học nhị phân đóng vai trò quan trọng trong tính toán và ứng dụng mật mã. Trong nhị phân, XOR so sánh hai bit và trả về 1 nếu các bit khác nhau và trả về 0 nếu chúng giống nhau, như thể hiện trong bảng chân trị dưới đây. Phép toán này thường được ký hiệu là ⊕ hoặc ^.
+
+| A | B | A ⊕ B |
+| - | - | ----- |
+| 0 | 0 | 0     |
+| 0 | 1 | 1     |
+| 1 | 0 | 1     |
+| 1 | 1 | 0     |
+
+Nếu đây là lần đầu bạn làm việc với bảng chân trị, thì đó là bảng thể hiện tất cả các kết quả có thể có. Bảng chân trị XOR ở trên thể hiện 4 trường hợp:
+0 ⊕ 0 = 0, 0 ⊕ 1 = 1, 1 ⊕ 0 = 1, và 1 ⊕ 1 = 0.
+
+Hãy xem một ví dụ khi ta muốn áp dụng XOR cho hai số nhị phân 1010 và 1100. Trong trường hợp này, ta thực hiện phép toán theo từng bit:
+1 ⊕ 1 = 0, 0 ⊕ 1 = 1, 1 ⊕ 0 = 1, và 0 ⊕ 0 = 0,
+kết quả là **0110**.
+
+Bạn có thể thắc mắc tại sao XOR lại đóng vai trò trong mật mã học. XOR có nhiều tính chất thú vị khiến nó hữu ích trong mật mã và phát hiện lỗi. Một tính chất quan trọng là:
+
+* XOR với chính nó trả về 0: A ⊕ A = 0
+* XOR với 0 không thay đổi giá trị: A ⊕ 0 = A
+* XOR là giao hoán: A ⊕ B = B ⊕ A
+* XOR là kết hợp: (A ⊕ B) ⊕ C = A ⊕ (B ⊕ C)
+
+---
+
+Hãy xem ta có thể tận dụng các tính chất này trong mật mã học như thế nào. Ta sẽ minh họa cách **XOR** có thể được sử dụng như một thuật toán mã hóa đối xứng cơ bản.
+
+Xét các giá trị nhị phân **P** là văn bản thuần (plaintext), và **K** là khóa bí mật (secret key). Bản mã (ciphertext) được tính là:
+**C = P ⊕ K**
+
+Bây giờ, nếu ta biết **C** và **K**, ta có thể khôi phục lại **P**. Ta bắt đầu với:
+**C ⊕ K = (P ⊕ K) ⊕ K**
+Vì XOR là kết hợp, nên:
+**= P ⊕ (K ⊕ K)**
+Ta biết rằng: **K ⊕ K = 0**,
+do đó:
+**P ⊕ 0 = P**
+
+Nói cách khác, XOR hoạt động như một thuật toán mã hóa đối xứng đơn giản. Trong thực tế, nó phức tạp hơn vì cần một khóa bí mật có độ dài bằng văn bản thuần.
+
+### Phép toán Modulo
+
+Một phép toán toán học khác mà ta thường gặp trong mật mã học là phép toán **modulo**, thường được viết là `%` hoặc *mod*. Toán tử modulo, **X % Y**, là **phần dư** khi X chia cho Y. Trong các phép tính thường ngày, ta thường quan tâm đến kết quả của phép chia hơn là phần dư. Tuy nhiên, phần dư đóng vai trò quan trọng trong mật mã học.
+
+Bạn cần làm việc với các số lớn khi giải các bài toán mật mã học. Nếu máy tính của bạn không xử lý được, chúng tôi khuyên bạn nên sử dụng ngôn ngữ lập trình như Python. Python có kiểu dữ liệu **int** tích hợp sẵn có thể xử lý các số nguyên có kích thước tùy ý và tự động chuyển sang kiểu lớn hơn nếu cần. Nhiều ngôn ngữ lập trình khác cũng có thư viện dành riêng cho số nguyên lớn. Nếu bạn thích làm toán trực tuyến, hãy tham khảo [WolframAlpha](https://www.wolframalpha.com/).
+
+---
+
+Hãy xem một vài ví dụ:
+
+* `25 % 5 = 0` vì 25 chia 5 được 5, dư 0. Tức là: 25 = 5 × 5 + 0
+* `23 % 6 = 5` vì 23 chia 6 được 3, dư 5. Tức là: 23 = 3 × 6 + 5
+* `23 % 7 = 2` vì 23 chia 7 được 3, dư 2. Tức là: 23 = 3 × 7 + 2
+
+---
+
+Một điều quan trọng cần nhớ về phép modulo là **nó không khả nghịch**. Nếu ta được cho phương trình `x % 5 = 4`, thì tồn tại **vô số giá trị x** thỏa mãn phương trình này.
+
+Phép toán modulo **luôn trả về một kết quả không âm nhỏ hơn số chia**. Điều này có nghĩa là với bất kỳ số nguyên **a** và số nguyên dương **n**, kết quả của `a % n` sẽ luôn nằm trong khoảng từ **0 đến n - 1**.
+
+---
+
+**Trả lời các câu hỏi dưới đây**
+
+* `1001 ⊕ 1010` là: **0011**
+
+* `118613842 % 9091` là: **3565**
+
+![](./img/1_Cryptography_Basics/5.3.png)
+
+* `60 % 12` là: **0**
+
+![](./img/1_Cryptography_Basics/5.4.png)
+
+---
+
+
 
