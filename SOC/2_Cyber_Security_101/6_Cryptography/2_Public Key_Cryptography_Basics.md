@@ -78,3 +78,124 @@ Trong thực tế, bạn cần nhiều kỹ thuật mật mã hơn để xác mi
 *Câu hỏi:* Trong phép ẩn dụ đã trình bày, đối tượng thực tế nào tương ứng với **khóa công khai**?
 
 **Trả lời:** **Ổ khóa (Lock)**
+
+# Task 3: RSA
+
+[Xem lab tại đây](/ITMO/)
+
+**RSA (Rivest-Shamir-Adleman)** là một thuật toán mã hóa sử dụng khóa công khai, cho phép truyền dữ liệu an toàn qua các kênh không bảo mật. Với một kênh không bảo mật, ta kỳ vọng sẽ có kẻ tấn công nghe trộm.
+
+---
+
+### Toán học giúp RSA trở nên an toàn
+
+RSA dựa trên một bài toán toán học khó: phân tích một số lớn thành các thừa số nguyên tố. Việc nhân hai số nguyên tố lớn với nhau là thao tác đơn giản; tuy nhiên, tìm các thừa số của một số lớn thì đòi hỏi rất nhiều sức mạnh tính toán.
+
+Bạn có thể nhân hai số nguyên tố nhỏ một cách dễ dàng, ví dụ:
+113 × 127 = 14351
+Thậm chí với các số nguyên tố lớn hơn, bạn vẫn có thể thực hiện bằng tay nếu cần.
+
+Xét ví dụ sau:
+
+* Số nguyên tố 1: 982451653031
+* Số nguyên tố 2: 169743212279
+* Tích của chúng:
+  982451653031 × 169743212279 = **166764499494295486767649**
+
+Tuy nhiên, nếu chỉ được cho số **166764499494295486767649**, thì việc xác định hai số nguyên tố nào đã tạo nên nó lại rất khó.
+
+Trong các ví dụ thực tế, các số nguyên tố được sử dụng còn lớn hơn nhiều. Máy tính có thể dễ dàng phân tích số 166764499494295486767649, nhưng nếu là một số có hơn **600 chữ số**, thì việc phân tích sẽ gần như là không thể. Ngược lại, việc nhân hai số nguyên tố lớn (mỗi số có khoảng 300 chữ số) lại đơn giản hơn nhiều so với việc phân tích ngược lại.
+
+---
+
+### Ví dụ số học
+
+Tiếp theo, nội dung sẽ minh họa quá trình **mã hóa, giải mã và sử dụng khóa** trong mã hóa bất đối xứng như RSA. Khóa công khai sẽ được dùng để mã hóa, còn **khóa riêng sẽ được giữ bí mật** và dùng để giải mã.
+
+![](./img/2_Public%20Key_Cryptography_Basics/3.1.png)
+
+Trong phần **Cơ bản về Mật mã học**, ta đã giải thích phép toán modulo và vai trò quan trọng của nó trong mật mã. Dưới đây là một ví dụ số học đơn giản minh họa cách hoạt động của thuật toán **RSA**:
+
+1. **Bob chọn hai số nguyên tố:**
+   $p = 157$, $q = 199$
+   Sau đó tính $n = p \times q = 31243$
+
+2. Tính $\phi(n) = n - p - q + 1 = 31243 - 157 - 199 + 1 = 30888$
+   Bob chọn $e = 163$ sao cho $e$ nguyên tố cùng nhau với $\phi(n)$.
+   Tiếp theo, Bob chọn $d = 379$ sao cho $e \times d \equiv 1 \mod \phi(n)$.
+   Nghĩa là $e \times d = 163 \times 379 = 61777$ và $61777 \mod 30888 = 1$
+   ⇒ **Khóa công khai** là $(n, e) = (31243, 163)$
+   ⇒ **Khóa bí mật** là $(n, d) = (31243, 379)$
+
+3. Giả sử Alice muốn mã hóa giá trị $x = 13$, cô sẽ tính:
+   $y = x^e \mod n = 13^{163} \mod 31243 = 16341$
+   ⇒ Alice gửi **y = 16341**
+
+4. Bob giải mã giá trị nhận được bằng cách tính:
+   $x = y^d \mod n = 16341^{379} \mod 31243 = 13$
+   ⇒ Bob khôi phục lại đúng giá trị mà Alice đã gửi.
+
+---
+
+**Lưu ý:**
+Chứng minh chi tiết cho thuật toán trên có thể tìm thấy trong lĩnh vực **số học modulo (modular arithmetic)** và vượt ra ngoài phạm vi của mô-đun này. Cũng cần nhắc lại rằng, trong ví dụ này, các số nguyên tố chỉ có 3 chữ số, còn trong ứng dụng thực tế, $p$ và $q$ thường có ít nhất **300 chữ số mỗi số**.
+
+
+### RSA trong các cuộc thi CTF
+
+Các kiến thức toán học đằng sau RSA thường xuất hiện trong các cuộc thi CTF (Capture The Flag), yêu cầu bạn phải tính toán các biến hoặc phá giải một dạng mã hóa nào đó dựa trên RSA. Nhiều bài viết trên mạng giải thích rất rõ về RSA và thường cung cấp gần như đầy đủ thông tin bạn cần để hoàn thành thử thách. Một ví dụ điển hình về RSA trong CTF là phòng **Breaking RSA**.
+
+Có một số công cụ rất tốt để phá giải thử thách RSA trong CTF. Công cụ yêu thích của tôi là **RsaCtfTool**, đã hoạt động hiệu quả nhiều lần. Tôi cũng từng thành công với **rsatool**.
+
+---
+
+Bạn cần biết các biến chính trong RSA dùng trong CTF, bao gồm:
+$p, q, m, n, e, d, c$. Theo ví dụ số học trước:
+
+* $p$ và $q$ là hai số nguyên tố lớn
+* $n$ là tích của $p \times q$
+* Khóa công khai là $(n, e)$
+* Khóa bí mật là $(n, d)$
+* $m$ là thông điệp gốc (plaintext)
+* $c$ là bản mã (ciphertext)
+
+---
+
+Các thử thách RSA trong Crypto CTF thường cung cấp một tập hợp các giá trị trong số này, và bạn cần phá giải mã hóa để **giải mã thông điệp và truy xuất ra flag**.
+
+**Trả lời các câu hỏi dưới đây**
+
+---
+
+**Biết rằng** $p = 4391$ và $q = 6659$.
+**Hỏi:** $n$ là bao nhiêu?
+
+**Trả lời:** **29239669**
+
+```bash
+Calculate 𝑛
+Formula:n=p×q
+Given values:
+p=4391
+q=6659
+Calculation:
+n=4391×6659=29239669
+```
+
+---
+
+**Biết rằng** $p = 4391$ và $q = 6659$.
+**Hỏi:** $\varphi(n)$ là bao nhiêu?
+
+**Trả lời:** **29228620**
+
+```bash
+Calculate φ(n):
+Formula: φ(n)=(p−1)×(q−1)
+Calculation:
+φ(n)=(4391−1)×(6659−1)=4390×6658=29228620
+```
+
+---
+
+
