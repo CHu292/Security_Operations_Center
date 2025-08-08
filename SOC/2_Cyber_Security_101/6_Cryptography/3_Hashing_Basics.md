@@ -8,7 +8,8 @@
 4. [Task 4: Using Hashing for Secure Password Storage](#task-4-using-hashing-for-secure-password-storage)
 5. [Task 5: Recognising Password Hashes](#task-5-recognising-password-hashes)
 6. [Task 6: Password Cracking](#task-6-password-cracking)
-
+7. [Task 7: Hashing for Integrity Checking](#task-7-hashing-for-integrity-checking)
+8. [Task 8: Conclusion](#task-8-conclusion)
 
 ## Nội dung
 
@@ -481,5 +482,145 @@ https://crackstation.net/?source=post_page-----17f1549693f7---------------------
 
 ---
 
+# Task 7: Hashing for Integrity Checking
 
+**Băm để kiểm tra tính toàn vẹn**
+
+Trong Nhiệm vụ 3, chúng ta đã đề cập đến hai mục đích chính của hàm băm: lưu trữ mật khẩu và đảm bảo tính toàn vẹn của dữ liệu. Ta đã bàn kỹ về cách hàm băm bảo vệ mật khẩu trong hệ thống xác thực. Trong nhiệm vụ này, ta sẽ tìm hiểu cách sử dụng hàm băm để kiểm tra tính toàn vẹn của tệp tin.
+
+---
+
+### Kiểm tra tính toàn vẹn (Integrity Checking)
+
+Hashing có thể được dùng để xác minh rằng tệp tin không bị thay đổi. Nếu bạn nhập cùng một dữ liệu, bạn sẽ luôn nhận được cùng một giá trị băm. Ngay cả khi chỉ một bit thay đổi, hash cũng sẽ thay đổi rõ rệt (như đã trình bày ở Nhiệm vụ 2).
+
+Điều này có nghĩa là bạn có thể dùng hash để kiểm tra xem tệp tin có bị sửa đổi không, hoặc để đảm bảo rằng tệp bạn tải về giống hệt tệp được lưu trữ trên máy chủ web.
+
+Tệp văn bản được liệt kê dưới đây hiển thị hash SHA256 của hai file ISO Fedora Workstation. Nếu bạn chạy lệnh `sha256sum` trên tệp đã tải về và kết quả khớp với hash được liệt kê, bạn có thể yên tâm rằng tệp của mình giống hệt bản chính thức.
+
+```bash
+root@AttackBox# head Fedora-Workstation-40-1.14-x86_64-CHECKSUM
+-----BEGIN PGP SIGNED MESSAGE-----
+Hash: SHA256
+# Fedora-Workstation-Live-osb-40-1.14.x86_64.iso: 2623733760 bytes
+SHA256 (Fedora-Workstation-Live-osb-40-1.14.x86_64.iso) = 8d3cb4d99f27eb932064915bc9ad34a7529d5d073a390896152a8a899518573f
+# Fedora-Workstation-Live-x86_64-40-1.14.iso: 2295853056 bytes
+SHA256 (Fedora-Workstation-Live-x86_64-40-1.14.iso) = dd1faca950d1a8c3d169adf2df4c3644ebb62f8aac04c401f2393e521395d613
+[...]
+```
+
+Bạn cũng có thể dùng hàm băm để tìm các tệp trùng lặp; nếu hai tài liệu có cùng hash, chúng là cùng một tài liệu. Điều này rất tiện lợi khi cần tìm và xóa tệp trùng.
+
+---
+
+### HMACs
+
+**HMAC (Keyed-Hash Message Authentication Code)** là một loại mã xác thực thông điệp (MAC) sử dụng hàm băm mật mã kết hợp với một khóa bí mật để xác minh tính xác thực và toàn vẹn của dữ liệu.
+
+HMAC được dùng để đảm bảo rằng người tạo ra HMAC là người họ tuyên bố (xác minh danh tính); hơn nữa, nó chứng minh rằng thông điệp không bị sửa đổi hay hỏng hóc – tức là duy trì tính toàn vẹn. Điều này đạt được nhờ việc sử dụng khóa bí mật để xác minh danh tính và một thuật toán băm để tạo hash nhằm chứng minh toàn vẹn.
+
+---
+
+Các bước sau mô tả cách HMAC hoạt động:
+
+1. Khóa bí mật được đệm để phù hợp với kích thước khối của hàm băm.
+2. Khóa đã đệm được XOR với một hằng số (thường là một khối toàn số 0 hoặc 1).
+3. Thông điệp được băm bằng hàm băm kết hợp với khóa đã XOR.
+4. Kết quả từ bước 3 được băm lại bằng chính hàm băm đó, lần này sử dụng khóa đã đệm XOR với một hằng số khác.
+5. Kết quả cuối cùng là giá trị HMAC – thường là một chuỗi có độ dài cố định.
+
+Phần minh họa bên dưới sẽ giúp làm rõ quy trình trên.
+
+![](./img/3_Hashing_Basics/7.1.png)
+
+
+Về mặt kỹ thuật, hàm HMAC được tính theo biểu thức sau:
+
+$$
+\text{HMAC}(K, M) = H\left((K \oplus \text{opad}) \, \| \, H((K \oplus \text{ipad}) \, \| \, M)\right)
+$$
+
+Trong đó:
+
+* $K$ là khóa bí mật
+* $M$ là thông điệp
+* $H$ là hàm băm
+* $\oplus$ là phép XOR
+* $\|$ là phép nối chuỗi
+* `ipad` và `opad` là hai hằng số đệm được dùng trong thuật toán
+
+---
+
+**Trả lời các câu hỏi sau**
+
+câu 1: SHA256 hash của tệp `libgcrypt-1.11.0.tar.bz2` nằm trong thư mục `~/Hashing-Basics/Task-7` là gì?
+
+**Trả lời:**
+`09120c9867ce7f2081d6aaa1775386b98c2f2f246135761aae47d81f58685b9c`
+
+```bash
+sha256sum ~/Hashing-Basics/Task-7/libgcrypt-1.11.0.tar.bz2
+```
+
+---
+
+> Số chế độ hashcat cho HMAC-SHA512 (key = \$pass) là gì?
+
+**Trả lời:** 1750
+
+[https://hashcat.net/wiki/doku.php?id=example\_hashes](https://hashcat.net/wiki/doku.php?id=example_hashes)
+
+
+---
+
+# Task 8: Conclusion
+
+**Kết luận**
+
+Phòng học này đã đề cập đến các hàm băm và cách sử dụng của chúng từ nhiều góc độ khác nhau. Trước khi tiếp tục, ta cần phân biệt giữa **băm (hashing)**, **mã hóa (encoding)** và **mã hóa bảo mật (encryption)**.
+
+---
+
+### **Hashing**
+
+Như đã trình bày, hashing là quá trình nhận dữ liệu đầu vào và tạo ra một giá trị băm — chuỗi ký tự có độ dài cố định, còn gọi là **digest**. Giá trị băm này đại diện duy nhất cho dữ liệu; bất kỳ thay đổi nào, dù nhỏ nhất, đều dẫn đến sự thay đổi trong giá trị băm.
+
+Hashing **không phải là mã hóa hay mã hóa bảo mật**. Hashing là **một chiều**, bạn không thể đảo ngược để lấy lại dữ liệu gốc từ giá trị băm.
+
+---
+
+### **Encoding**
+
+Encoding chuyển đổi dữ liệu từ định dạng này sang định dạng khác để tương thích với một hệ thống cụ thể. Ví dụ: ASCII, UTF-8, UTF-16, UTF-32, ISO-8859-1, Windows-1252 đều là các phương pháp encoding hợp lệ cho tiếng Anh.
+
+Lưu ý rằng UTF-8, UTF-16, và UTF-32 là encoding của Unicode, có thể biểu diễn các ký tự từ nhiều ngôn ngữ khác nhau như tiếng Ả Rập hay tiếng Nhật.
+
+Một dạng encoding khác thường được dùng để truyền/tải dữ liệu không liên quan đến ngôn ngữ cụ thể là Base32 và Base64. Ví dụ sau minh họa cách dùng **base64** để mã hóa và giải mã.
+
+```bash
+strategos@g5000 ~> base64
+TryHackMe
+VHJ5SGFja01lCg==
+strategos@g5000 ~> base64 -d
+VHJ5SGFja01lCg==
+TryHackMe
+```
+
+**Encoding không nên bị nhầm lẫn với encryption**, vì sử dụng một phương pháp encoding cụ thể **không bảo vệ được tính bảo mật của thông điệp**. Encoding là quá trình **có thể đảo ngược**; bất kỳ ai cũng có thể thay đổi encoding dữ liệu nếu có công cụ phù hợp.
+
+---
+
+**Chỉ có encryption**, như đã trình bày ở các phòng trước, mới bảo vệ được **tính bảo mật** của dữ liệu bằng cách sử dụng thuật toán mã hóa và khóa. Encryption có thể đảo ngược **nếu biết thuật toán và có khóa giải mã**.
+
+---
+
+### Trả lời các câu hỏi bên dưới
+
+> Sử dụng `base64` để giải mã chuỗi: `RU5jb2RlREVDb2RlCg==`, được lưu dưới tên `decode-this.txt` tại thư mục `~/Hashing-Basics/Task-8`. Từ gốc là gì?
+
+**Trả lời:** ENcodeDEcode
+
+```bash
+base64 -d ~/Hashing-Basics/Task-8/decode-this.txt
+```
 
