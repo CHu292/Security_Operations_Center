@@ -1,0 +1,371 @@
+# John the Ripper The Basics 
+
+## Mục lục
+
+1. [Task 1: Introduction to John the Ripper](#task-1-introduction-to-john-the-ripper)
+2. [Task 2: Basic Terms](#task-2-basic-terms)
+3. [Task 3: Setting Up Your System](#task-3-setting-up-your-system)
+4. [Task 4: Cracking Basic Hashed](#task-4-cracking-basic-hashed)
+
+## Nội dung
+
+
+
+# Task 1: Introduction to John the Ripper
+
+### Mục tiêu học tập
+
+Sau khi hoàn thành phòng học này, bạn sẽ nắm được cách sử dụng **John** để:
+
+* Bẻ khóa các hash xác thực Windows
+* Bẻ khóa các hash trong tệp `/etc/shadow`
+* Bẻ khóa file `.zip` được bảo vệ bằng mật khẩu
+* Bẻ khóa file `.rar` được bảo vệ bằng mật khẩu
+* Bẻ khóa khóa SSH
+
+---
+
+# Task 2: Basic Terms
+
+>Thuật ngữ cơ bản 
+
+---
+
+### **Hash là gì?**
+
+Hash là cách biểu diễn một đoạn dữ liệu có độ dài bất kỳ thành một chuỗi ký tự có độ dài cố định. Quá trình này che giấu giá trị gốc bằng cách sử dụng **thuật toán băm**. Các thuật toán băm phổ biến gồm **MD4**, **MD5**, **SHA1** và **NTLM**.
+
+Ví dụ:
+
+* Với chuỗi `"polo"` (4 ký tự), sau khi băm bằng **MD5** ta nhận được:
+  `b53759f3ce692de7af1fb5779d3964da`
+
+* Với chuỗi `"polomints"` (9 ký tự), cũng băm bằng **MD5**, ta nhận được:
+  `584b6e4f4586e136bc280f27f9c64f3b`
+
+Mỗi chuỗi đều cho ra một **hash MD5 dài 32 ký tự**, dù độ dài đầu vào khác nhau.
+
+---
+
+### **Điều gì làm cho hash trở nên an toàn?**
+
+Các hàm băm được thiết kế là **hàm một chiều** – dễ tính toán từ đầu vào, nhưng cực kỳ khó để đảo ngược và tìm ra đầu vào ban đầu từ hash.
+
+Về mặt toán học, vấn đề này gắn liền với lý thuyết **P vs NP** trong khoa học máy tính:
+
+* **P (Polynomial Time)**: Bài toán có thể giải được trong thời gian đa thức. Ví dụ: sắp xếp danh sách.
+
+* **NP (Non-deterministic Polynomial Time)**: Bài toán có thể kiểm tra nghiệm nhanh chóng, nhưng **việc tìm nghiệm lại cực kỳ khó**. “Bẻ khóa hash” rơi vào loại này.
+
+---
+
+**Tóm lại:**
+Hash **dễ tính**, **khó đảo ngược**, và **bảo mật nếu không có thuật toán "giải ngược" hiệu quả**. Do đó, hash đóng vai trò quan trọng trong mật mã học và bảo mật hệ thống.
+
+### Vai trò của John (John the Ripper)
+
+Dù thuật toán băm không thể đảo ngược một cách khả thi, điều đó không có nghĩa là không thể bẻ khóa các hash.
+
+Nếu bạn có phiên bản đã băm của một mật khẩu (ví dụ), và bạn biết thuật toán băm được sử dụng, bạn có thể dùng chính thuật toán đó để băm hàng loạt từ trong một **từ điển** (dictionary). Sau đó, so sánh các giá trị hash thu được với giá trị hash mà bạn đang cố gắng bẻ. Nếu khớp, bạn đã tìm được từ ban đầu tương ứng với hash — bạn đã **bẻ khóa thành công**!
+
+Quá trình này được gọi là **dictionary attack (tấn công từ điển)**, và **John the Ripper** (thường gọi tắt là **John**) là công cụ được thiết kế để thực hiện các cuộc tấn công dạng brute force cực nhanh trên nhiều loại hash khác nhau.
+
+
+---
+
+> Phiên bản mở rộng phổ biến nhất của **John the Ripper** là gì?
+
+**Trả lời:** Jumbo John
+
+---
+
+# Task 3: Setting Up Your System
+>Nhiệm vụ 3 – Cài đặt hệ thống
+
+Trong suốt các bài tập trong phòng học này, bạn sẽ sử dụng:
+
+* Phiên bản **"Jumbo John"** của **John the Ripper**
+* Danh sách mật khẩu **RockYou**
+
+---
+
+Nếu bạn sử dụng máy ảo đính kèm hoặc **AttackBox**, **không cần cài đặt John the Ripper**. Tuy nhiên, nếu bạn sử dụng hệ thống của riêng mình và không dùng phiên bản **Jumbo John**, bạn có thể thiếu một số công cụ cần thiết như:
+
+* `zip2john`
+* `rar2john`
+
+---
+
+### Cài đặt
+
+**John the Ripper** hỗ trợ nhiều hệ điều hành, không chỉ riêng các bản phân phối Linux. Có nhiều phiên bản của John, bao gồm bản "core" tiêu chuẩn và các bản mở rộng từ cộng đồng. Bản phổ biến nhất là **Jumbo John**, bản này sẽ được sử dụng trong hướng dẫn này.
+
+---
+
+#### **AttackBox và Kali**
+
+* **Jumbo John** đã được cài sẵn trên AttackBox và các bản phân phối như **Kali Linux**.
+* Nếu bạn dùng những nền tảng đó, **không cần thao tác thêm**.
+
+Bạn có thể kiểm tra nhanh bằng cách nhập lệnh:
+
+```bash
+john
+```
+
+Nếu đúng, dòng đầu tiên sẽ hiển thị thông tin như:
+
+```
+John the Ripper 1.9.0-jumbo-1
+```
+
+hoặc tương tự với số phiên bản khác.
+
+### Các bản phân phối Linux khác
+
+Nhiều bản phân phối Linux cung cấp **John the Ripper** thông qua kho chính thức:
+
+* Trên **Fedora**, cài bằng:
+
+  ```bash
+  sudo dnf install john
+  ```
+
+* Trên **Ubuntu**, cài bằng:
+
+  ```bash
+  sudo apt install john
+  ```
+
+Tuy nhiên, **các phiên bản này thường chỉ có chức năng cơ bản** và **thiếu nhiều công cụ mở rộng** có trong bản **Jumbo John** (như `zip2john`, `rar2john`, v.v.).
+
+Vì vậy, bạn nên **biên dịch từ mã nguồn** nếu muốn sử dụng đầy đủ các tính năng.
+
+Tham khảo hướng dẫn chi tiết tại [official installation guide](https://github.com/openwall/john/blob/bleeding-jumbo/doc/INSTALL)
+
+---
+
+### Cài đặt trên Windows
+
+Để cài **Jumbo John the Ripper** trên Windows:
+
+* Tải bản ZIP phù hợp và cài đặt cho:
+
+  * Hệ thống **64-bit**: [tại đây](https://www.openwall.com/john/#windows)
+  * Hệ thống **32-bit**: [tại đây](https://www.openwall.com/john/#windows)
+
+### Danh sách từ (Wordlists)
+
+Bây giờ khi đã có **john** sẵn sàng, chúng ta cần xem xét một thành phần không thể thiếu khác: wordlists.
+
+Như đã đề cập trước đó, để thực hiện tấn công từ điển vào các hash, bạn cần một danh sách các từ để băm và so sánh; không ngạc nhiên khi danh sách này được gọi là wordlist. Có rất nhiều wordlist khác nhau, và một bộ sưu tập tốt có thể được tìm thấy trong kho lưu trữ **SecLists**. Có một vài nơi bạn có thể tìm các wordlist để tấn công hệ thống bạn chọn; chúng ta sẽ nhanh chóng điểm qua nơi bạn có thể tìm thấy chúng.
+
+Trên AttackBox và các bản phân phối Kali Linux, thư mục **/usr/share/wordlists** chứa một loạt wordlist rất tốt.
+
+### RockYou
+
+Đối với tất cả các nhiệm vụ trong phòng học này, chúng ta sẽ sử dụng wordlist nổi tiếng **rockyou.txt**, một danh sách mật khẩu phổ biến rất lớn thu được từ vụ rò rỉ dữ liệu trên trang web rockyou.com vào năm 2009. Nếu bạn không sử dụng bất kỳ bản phân phối nào ở trên, bạn có thể lấy wordlist **rockyou.txt** từ kho lưu trữ **SecLists** trong mục con **/Passwords/Leaked-Databases**. Bạn có thể cần giải nén tệp từ định dạng **.tar.gz** bằng lệnh:
+
+```bash
+tar xvzf rockyou.txt.tar.gz
+```
+
+Giờ khi đã cài đặt công cụ bẻ khóa hash và wordlist, hãy chuyển sang phần bẻ hash!
+
+---
+
+Để làm theo, trước tiên hãy khởi động **Máy ảo (Virtual Machine)** bằng cách nhấn nút **Start Machine** bên dưới.
+
+Máy sẽ khởi động ở chế độ **Split-Screen**. Nếu **VM** không hiển thị, hãy dùng nút **Show Split View** màu xanh ở đầu trang.
+
+Bạn cũng có thể truy cập máy ảo bằng **SSH** tại địa chỉ IP **10.10.252.199** với thông tin sau:
+
+* Tên đăng nhập: `user`
+* Mật khẩu: `Tryhackme123!`
+
+
+---
+
+> Danh sách mật khẩu **rockyou.txt** được tạo ra từ vụ rò rỉ dữ liệu của trang web nào?
+
+**Trả lời:** rockyou.com
+
+---
+
+# Task 4: Cracking Basic Hashed
+
+>Bẻ khóa các hash cơ bản
+
+Có nhiều cách để sử dụng **John the Ripper** để bẻ các hash đơn giản. Chúng ta sẽ làm một vài ví dụ trước khi tự thực hành.
+
+---
+
+### Cú pháp cơ bản của John
+
+Cú pháp lệnh cơ bản của **John the Ripper** như sau:
+
+```
+john [options] [file path]
+```
+
+* `john`: gọi chương trình **John the Ripper**
+* `[options]`: chỉ định các tùy chọn bạn muốn sử dụng
+* `[file path]`: tệp chứa các hash bạn muốn bẻ; nếu nằm cùng thư mục với terminal thì chỉ cần tên file
+
+---
+
+### Bẻ khóa tự động (Automatic Cracking)
+
+John có tính năng tự động phát hiện loại hash và chọn quy tắc, định dạng phù hợp để bẻ. Tuy nhiên, việc này có thể **không đáng tin cậy** nên chỉ nên dùng nếu bạn **không biết rõ loại hash** đang xử lý.
+
+Cú pháp để thực hiện:
+
+```
+john --wordlist=[đường dẫn tới wordlist] [đường dẫn tới file]
+```
+
+* `--wordlist=`: chỉ định danh sách từ (wordlist) sẽ sử dụng
+* `[path to wordlist]`: đường dẫn đến file wordlist (ví dụ `rockyou.txt`)
+* `[path to file]`: đường dẫn đến file chứa hash cần bẻ
+
+---
+
+### Ví dụ sử dụng:
+
+```bash
+john --wordlist=/usr/share/wordlists/rockyou.txt hash_to_crack.txt
+```
+
+### Nhận diện Hashes
+
+Đôi khi, John không hoạt động tốt khi tự động nhận diện và nạp các hash, nhưng không sao cả! Ta có thể sử dụng công cụ khác để xác định loại hash, sau đó chỉ định đúng định dạng cho John.
+
+Có nhiều cách để làm điều này, ví dụ dùng công cụ nhận diện hash online như [trang web này](https://www.tunnelsup.com/hash-analyzer/). Một công cụ phổ biến là **hash-identifier**, một script Python rất dễ dùng và có thể cho bạn biết các loại hash khả dĩ mà chuỗi bạn nhập có thể là.
+
+Để dùng **hash-identifier**, bạn có thể dùng `wget` hoặc `curl` để tải file Python **hash-id.py** từ GitLab. Sau đó chạy bằng:
+
+```bash
+python3 hash-id.py
+```
+
+Rồi nhập chuỗi hash bạn muốn xác định. Công cụ sẽ trả về danh sách các định dạng hash có khả năng cao nhất. Hai bước này được minh họa bên dưới trong terminal.
+
+![](./img/4_John_the_Ripper_The_Basics/4.1.png)
+
+### Bẻ khóa theo định dạng cụ thể (Format-Specific Cracking)
+
+Khi bạn đã xác định được loại hash đang xử lý, bạn có thể yêu cầu John sử dụng định dạng cụ thể đó để bẻ khóa bằng cú pháp sau:
+
+```
+john --format=[format] --wordlist=[đường dẫn đến wordlist] [đường dẫn đến file]
+```
+
+* `--format=`: là cờ thông báo cho John rằng bạn đang cung cấp hash theo một định dạng cụ thể, và hãy sử dụng định dạng đó để bẻ.
+* `[format]`: định dạng hash.
+
+---
+
+**Ví dụ sử dụng:**
+
+```
+john --format=raw-md5 --wordlist=/usr/share/wordlists/rockyou.txt hash_to_crack.txt
+```
+
+---
+
+### Lưu ý về định dạng:
+
+Khi bạn chỉ định định dạng cho John, nếu bạn đang xử lý một loại hash tiêu chuẩn, ví dụ `md5` như trong ví dụ trên, bạn cần thêm tiền tố `raw-` để thông báo rằng hash này thuộc loại chuẩn (chưa qua mã hóa thêm).
+
+Tuy nhiên, không phải lúc nào quy tắc này cũng đúng.
+Để kiểm tra xem bạn cần dùng tiền tố hay không, bạn có thể liệt kê toàn bộ định dạng mà John hỗ trợ bằng:
+
+```
+john --list=formats
+```
+
+Hoặc lọc theo từ khóa bằng:
+
+```
+john --list=formats | grep -iF "md5"
+```
+
+![](./img/4_John_the_Ripper_The_Basics/4.2.png)
+
+![](./img/4_John_the_Ripper_The_Basics/4.3.png)
+
+---
+
+**Trả lời các câu hỏi dưới đây**
+
+
+Câu 1: Loại hàm băm của hash1.txt là gì?
+
+md5
+
+
+![](./img/4_John_the_Ripper_The_Basics/4.4.png)
+
+![](./img/4_John_the_Ripper_The_Basics/4.5.png)
+
+
+---
+
+Câu 2: Giá trị đã giải mã của hash1.txt là gì?
+
+biscuit
+
+
+![](./img/4_John_the_Ripper_The_Basics/4.6.png)
+
+
+---
+Câu 3: Loại hàm băm của hash2.txt là gì?
+
+sha1
+
+
+![](./img/4_John_the_Ripper_The_Basics/4.7.png)
+
+![](./img/4_John_the_Ripper_The_Basics/4.8.png)
+
+---
+
+
+Câu 4: Giá trị đã giải mã của hash2.txt là gì?
+
+kangeroo
+
+![](./img/4_John_the_Ripper_The_Basics/4.9.png)
+
+---
+Câu 5: Loại hàm băm của hash3.txt là gì?
+
+sha256
+
+![](./img/4_John_the_Ripper_The_Basics/4.10.png)
+
+---
+
+Câu 6: Giá trị đã giải mã của hash3.txt là gì?
+
+microphone
+
+![](./img/4_John_the_Ripper_The_Basics/4.11.png)
+
+---
+
+Câu 7: Loại hàm băm của hash4.txt là gì?
+
+whirlpool
+
+
+![](./img/4_John_the_Ripper_The_Basics/4.12.png)
+
+---
+
+Câu 8: Giá trị đã giải mã của hash4.txt là gì?
+
+colossal
+
+![](./img/4_John_the_Ripper_The_Basics/4.13.png)
