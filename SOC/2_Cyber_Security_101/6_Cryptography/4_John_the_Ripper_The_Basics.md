@@ -10,6 +10,9 @@
 6. [ Task 6: Cracking /etc/shadow Hashes](#task-6-cracking-etcshadow-hashes)
 7. [Task 7: Single Crack Mode](#task-7-single-crack-mode)
 8. [Task 8: Custom Rules](#task-8-custom-rules)
+9. [Task 9: Cracking Password Protected Zip Files](#task-9-cracking-password-protected-zip-files)
+
+
 
 ## Nội dung
 
@@ -702,3 +705,61 @@ Cờ nào sẽ được sử dụng để gọi custom rule có tên là **THMRR
 **--rule=THMRRules**
 
 
+# Task 9: Cracking Password Protected Zip Files
+
+---
+
+Vâng! Đúng vậy đấy. Chúng ta có thể dùng John để bẻ khóa mật khẩu trên các tệp Zip được bảo vệ bằng mật khẩu. Chúng ta sẽ sử dụng một phần riêng biệt trong bộ công cụ của John để chuyển đổi tệp Zip sang định dạng mà John có thể hiểu, nhưng vẫn sử dụng cú pháp mà bạn đã quen thuộc.
+
+---
+
+### Zip2John
+
+Tương tự như công cụ `unshadow` mà ta đã dùng trước đó, ta sẽ dùng công cụ `zip2john` để chuyển tệp Zip sang định dạng hash mà John có thể hiểu và (hy vọng là) bẻ khóa được. Cách sử dụng cơ bản như sau:
+
+```
+zip2john [options] [zip file] > [output file]
+```
+
+* `[options]`: Cho phép bạn truyền các tùy chọn checksum cụ thể cho `zip2john`; thường không cần thiết.
+* `[zip file]`: Đường dẫn đến tệp Zip mà bạn muốn lấy hash.
+* `>`: Dùng để chuyển hướng đầu ra của lệnh này sang tệp khác.
+* `[output file]`: Tệp sẽ lưu phần đầu ra (hash).
+
+**Ví dụ sử dụng:**
+
+```
+zip2john zipfile.zip > zip_hash.txt
+```
+
+---
+
+### Cracking
+
+Sau đó, ta có thể dùng tệp đầu ra từ `zip2john`, ví dụ ở đây là `zip_hash.txt`, và giống như đã làm với `unshadow`, đưa trực tiếp vào John vì định dạng đã được chuẩn bị sẵn:
+
+```
+john --wordlist=/usr/share/wordlists/rockyou.txt zip_hash.txt
+```
+
+---
+
+### Practical
+
+Giờ thì bạn đã sẵn sàng để bẻ khóa một tệp Zip “bảo mật”! Tệp được đặt tại:
+
+```
+~/John-the-Ripper-The-Basics/Task09/
+```
+
+---
+
+**Trả lời các câu hỏi dưới đây**
+
+Mật khẩu của tệp secure.zip là gì?
+**pass123**
+
+Nội dung của cờ bên trong tệp zip là gì?
+**THM{w3ll\_d0n3\_h4sh\_r0y4l}**
+
+![](./img/4_John_the_Ripper_The_Basics/9.1.png)
