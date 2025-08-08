@@ -6,4 +6,4 @@
 
 - [Hashing Basics](./3_Hashing_Basics.md)
 
-- John the Ripper: The Basics  
+- [John the Ripper: The Basics](./4_John_the_Ripper_The_Basics.md)  

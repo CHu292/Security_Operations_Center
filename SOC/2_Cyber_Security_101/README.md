@@ -77,7 +77,7 @@ Lộ trình này được thiết kế thân thiện với người mới bắt 
 
 3. [Hashing Basics](./6_Cryptography/3_Hashing_Basics.md) 
 
-- John the Ripper: The Basics  
+4. [John the Ripper: The Basics](./6_Cryptography/4_John_the_Ripper_The_Basics.md)  
 
 ---
 
