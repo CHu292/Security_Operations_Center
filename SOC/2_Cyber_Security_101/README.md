@@ -75,7 +75,8 @@ Lộ trình này được thiết kế thân thiện với người mới bắt 
 
 2. [Public Key Cryptography Basics](./6_Cryptography/2_Public_Key_Cryptography_Basics.md)
 
-- Hashing Basics  
+3. [Hashing Basics](./6_Cryptography/3_Hashing_Basics.md) 
+
 - John the Ripper: The Basics  
 
 ---

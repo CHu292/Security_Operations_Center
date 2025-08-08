@@ -4,5 +4,6 @@
 
 - [Public Key Cryptography Basics](./2_Public_Key_Cryptography_Basics.md)
 
-- Hashing Basics  
+- [Hashing Basics](./3_Hashing_Basics.md)
+
 - John the Ripper: The Basics  
