@@ -4,7 +4,7 @@
 
 1. [Task 1: Introduction](#task-1-introduction)
 2. [Task 2: Hash Functions](#task-2-hash-functions)
-
+3. [Task 3: Insecure Password Storage for Authentication](#task-3-insecure-password-storage-for-authentication)
 
 ## Nội dung
 
@@ -135,3 +135,66 @@ Nếu đầu ra của hàm băm là 8 bit, thì có bao nhiêu giá trị băm c
 **Trả lời:** 256
 
 ---
+
+# Task 3: Insecure Password Storage for Authentication
+
+>Lưu trữ mật khẩu không an toàn cho xác thực
+
+Băm có nhiều ứng dụng trong An ninh mạng. Trong phần này, chúng ta sẽ tập trung vào hai mục tiêu: **lưu trữ mật khẩu** và **bảo vệ tính toàn vẹn của dữ liệu**. Việc lưu trữ mật khẩu được nhắc đến trong ngữ cảnh xác thực.
+
+**Lưu ý quan trọng:** điều này **không áp dụng cho trình quản lý mật khẩu**, vì trình quản lý cần **trả về mật khẩu ở dạng rõ (cleartext)**. Trong khi đó, **các cơ chế xác thực chỉ cần xác nhận rằng người dùng biết mật khẩu**, để cấp quyền truy cập — do đó, vấn đề này khác với trình quản lý mật khẩu.
+
+---
+
+### Các câu chuyện về lưu trữ mật khẩu không an toàn trong xác thực
+
+Hầu hết các ứng dụng web đều cần xác minh mật khẩu của người dùng tại một thời điểm nào đó. **Lưu trữ mật khẩu ở dạng văn bản thuần túy (plaintext)** là một thực hành bảo mật **rất kém an toàn**. Có lẽ bạn đã từng thấy những tin tức về việc rò rỉ cơ sở dữ liệu của một công ty nào đó. Vì nhiều người dùng **dùng chung mật khẩu** cho nhiều tài khoản (kể cả ngân hàng trực tuyến), việc rò rỉ một mật khẩu sẽ **đe dọa toàn bộ hệ thống tài khoản khác**.
+
+---
+
+Chúng ta sẽ xem xét **ba thực hành không an toàn** phổ biến nhất trong việc lưu trữ mật khẩu:
+
+* Lưu mật khẩu ở dạng **plaintext**
+* Lưu mật khẩu bằng **thuật toán mã hóa đã lỗi thời**
+* Lưu mật khẩu bằng **thuật toán băm không an toàn**
+
+---
+
+### **Lưu mật khẩu ở dạng văn bản thuần túy (plaintext)**
+
+Nhiều vụ rò rỉ dữ liệu đã tiết lộ rằng mật khẩu người dùng được lưu ở dạng **plaintext**. Có thể bạn đã quen thuộc với danh sách mật khẩu **"rockyou.txt"** trên hệ điều hành **Kali Linux**, cùng nhiều công cụ tấn công khác.
+Danh sách này có nguồn gốc từ công ty **RockYou**, công ty phát triển các ứng dụng mạng xã hội và widget. Họ đã lưu trữ mật khẩu người dùng ở **dạng văn bản rõ**, và bị rò rỉ dữ liệu nghiêm trọng.
+Tệp văn bản chứa **hơn 14 triệu mật khẩu** và có thể được tìm thấy tại:
+
+```
+/usr/share/wordlists/rockyou.txt
+```
+
+![](./img/3_Hashing_Basics/3.1.png)
+
+### Sử dụng thuật toán mã hóa không an toàn
+
+Vụ rò rỉ dữ liệu nghiêm trọng của Adobe có phần khác biệt. Thay vì sử dụng một hàm băm an toàn để lưu trữ các giá trị băm của mật khẩu, công ty này lại sử dụng một định dạng mã hóa đã lỗi thời. Hơn nữa, các gợi ý mật khẩu (password hints) cũng được lưu ở dạng văn bản thuần túy, đôi khi còn chứa cả mật khẩu thật. Do đó, **mật khẩu ở dạng rõ (plaintext)** có thể bị truy xuất khá nhanh chóng.
+
+---
+
+### Sử dụng hàm băm không an toàn
+
+LinkedIn cũng đã bị rò rỉ dữ liệu vào năm 2012. LinkedIn sử dụng một thuật toán băm không an toàn là **SHA-1** để lưu trữ mật khẩu người dùng. Ngoài ra, họ **không sử dụng kỹ thuật salting cho mật khẩu**.
+
+**Password salting** là việc thêm một **giá trị ngẫu nhiên** (gọi là **salt**) vào mật khẩu trước khi tiến hành băm.
+
+**Trả lời các câu hỏi sau**
+
+**Câu hỏi:**
+Mật khẩu thứ 20 trong tệp `rockyou.txt` là gì?
+
+**Trả lời:**
+`qwerty`
+
+**Lệnh sử dụng:**
+
+```bash
+sed -n '20p' /usr/share/wordlists/rockyou.txt
+```
+
