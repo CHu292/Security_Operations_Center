@@ -8,7 +8,7 @@
 4. [Task 4: Cracking Basic Hashed](#task-4-cracking-basic-hashed)
 5. [Task 5: Cracking Windows Authentication Hashes](#task-5-cracking-windows-authentication-hashes)
 6. [ Task 6: Cracking /etc/shadow Hashes](#task-6-cracking-etcshadow-hashes)
-
+7. [Task 7: Single Crack Mode](#task-7-single-crack-mode)
 
 ## Nội dung
 
@@ -485,5 +485,89 @@ Câu hỏi: Mật khẩu của người dùng root là:
 **1234**
 
 ![](./img/4_John_the_Ripper_The_Basics/6.2.png)
+
+---
+
+# Task 7: Single Crack Mode
+
+Cho đến nay, chúng ta đã sử dụng chế độ wordlist của John để brute-force các hash đơn giản và không quá đơn giản. Nhưng John còn có một chế độ khác, gọi là **Single Crack Mode**. Trong chế độ này, John chỉ sử dụng thông tin cung cấp trong tên người dùng để thử tìm ra các mật khẩu khả dĩ theo cách heuristic bằng cách thay đổi nhẹ chữ cái và số có trong tên người dùng.
+
+---
+
+### Word Mangling
+
+Cách tốt nhất để giải thích chế độ Single Crack và kỹ thuật word mangling là thông qua một ví dụ:
+
+Giả sử tên người dùng là “Markus”.
+
+Một số mật khẩu có thể là:
+
+* Markus1, Markus2, Markus3 (v.v.)
+* MArkus, MARKus, MARKus (v.v.)
+* Markus!, Markus\$, Markus\* (v.v.)
+
+---
+
+Kỹ thuật này được gọi là **word mangling**. John tạo ra từ điển dựa trên thông tin mà nó được cung cấp và sử dụng một tập hợp các quy tắc gọi là **mangling rules**, xác định cách thức mà nó có thể biến đổi từ ban đầu để tạo ra một wordlist dựa trên các yếu tố liên quan đến mục tiêu bạn đang cố gắng bẻ khóa. Điều này khai thác việc sử dụng mật khẩu yếu thường được đặt dựa trên thông tin như tên người dùng hoặc dịch vụ mà người dùng đăng nhập vào.
+
+**GECOS**
+
+Việc triển khai kỹ thuật word mangling của John cũng hỗ trợ tương thích với trường GECOS trong hệ điều hành UNIX, cũng như các hệ điều hành tương tự UNIX khác như Linux. GECOS là viết tắt của *General Electric Comprehensive Operating System*.
+
+Trong nhiệm vụ trước, chúng ta đã xem xét các mục nhập trong cả hai tệp `/etc/shadow` và `/etc/passwd`. Quan sát kỹ, bạn sẽ thấy rằng các trường được phân tách bằng dấu hai chấm `:`. Trường thứ năm trong bản ghi tài khoản người dùng là trường GECOS. Trường này lưu trữ thông tin tổng quát về người dùng, chẳng hạn như họ tên đầy đủ, số phòng làm việc, và số điện thoại, cùng với một số thông tin khác.
+
+John có thể lấy thông tin được lưu trong các bản ghi đó — chẳng hạn như họ tên và tên thư mục home — để thêm vào wordlist mà nó tạo ra khi bẻ khóa các hash trong `/etc/shadow` bằng chế độ single crack.
+
+**Sử dụng Single Crack Mode**
+
+Để sử dụng chế độ single crack, chúng ta sử dụng cú pháp gần giống với những gì đã dùng trước đây; ví dụ, nếu chúng ta muốn bẻ khóa mật khẩu của người dùng tên “Mike” bằng chế độ single, ta sẽ dùng:
+
+```
+john --single --format=[định_dạng] [đường_dẫn_đến_tệp]
+```
+
+* `--single`: Tham số này cho John biết bạn muốn sử dụng chế độ bẻ khóa hash đơn (single crack mode).
+* `--format=[định_dạng]`: Như thường lệ, việc xác định đúng định dạng là rất quan trọng.
+
+**Ví dụ sử dụng:**
+
+```
+john --single --format=raw-sha256 hashes.txt
+```
+
+**Lưu ý về định dạng tệp trong chế độ Single Crack:**
+
+Nếu bạn đang bẻ khóa các hash trong chế độ single crack, bạn cần thay đổi định dạng tệp mà bạn cung cấp cho John để John hiểu dữ liệu và tạo wordlist từ đó. Bạn thực hiện việc này bằng cách thêm tên người dùng mà hash thuộc về ở đầu dòng hash. Theo ví dụ bên trên, chúng ta sẽ thay đổi tệp `hashes.txt` như sau:
+
+```
+Từ:    1efee03cdcb96d90ad48ccc7b8666633  
+Thành: mike:1efee03cdcb96d90ad48ccc7b8666633
+```
+
+---
+
+**Thực hành**
+
+Bây giờ bạn đã quen với cú pháp cho chế độ single crack của John, hãy truy cập tệp hash và bẻ khóa nó, giả sử rằng người dùng mà hash thuộc về có tên là “Joker”. Tệp được đặt tại:
+
+```
+~/John-the-Ripper-The-Basics/Task07/
+```
+
+---
+
+**Trả lời các câu hỏi dưới đây**
+
+Mật khẩu của Joker là gì?
+
+Jok3r
+
+![](./img/4_John_the_Ripper_The_Basics/7.1.png)
+
+![](./img/4_John_the_Ripper_The_Basics/7.2.png)
+
+![](./img/4_John_the_Ripper_The_Basics/7.3.png)
+
+![](./img/4_John_the_Ripper_The_Basics/7.4.png)
 
 ---
