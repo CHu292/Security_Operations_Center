@@ -7,6 +7,8 @@
 3. [Task 3: RSA](#task-3-rsa)
 4. [Task 4: Diffie-Hellman Key Exchange](#task-4-diffie-hellman-key-exchange)
 5. [Task 5: SSH](#task-5-ssh)
+6. [Task 6: Digital Signatures and Certificates](#task-6-digital-signatures-and-certificates)
+7. [Task 7: PGP and GPG](#task-7-pgp-and-gpg)
 
 ## Nội dung
 
@@ -115,7 +117,7 @@ Trong các ví dụ thực tế, các số nguyên tố được sử dụng cò
 
 Tiếp theo, nội dung sẽ minh họa quá trình **mã hóa, giải mã và sử dụng khóa** trong mã hóa bất đối xứng như RSA. Khóa công khai sẽ được dùng để mã hóa, còn **khóa riêng sẽ được giữ bí mật** và dùng để giải mã.
 
-![](./img/2_Public%20Key_Cryptography_Basics/3.1.png)
+![](./img/2_Public_Key_Cryptography_Basics/3.1.png)
 
 Trong phần **Cơ bản về Mật mã học**, ta đã giải thích phép toán modulo và vai trò quan trọng của nó trong mật mã. Dưới đây là một ví dụ số học đơn giản minh họa cách hoạt động của thuật toán **RSA**:
 
@@ -238,7 +240,7 @@ Nếu bạn thấy các đoạn trước quá trừu tượng, hãy cùng tìm h
    Bob tính: $A^b \mod p = 19^{15} \mod 29 = 10$
    Cả hai phép tính cho cùng một kết quả, $g^{ab} \mod p = 10$, đây là **khóa bí mật chung**.
 
-![](./img/2_Public%20Key_Cryptography_Basics/4.1.png)
+![](./img/2_Public_Key_Cryptography_Basics/4.1.png)
 
 Các số được chọn quá nhỏ để cung cấp bất kỳ mức độ bảo mật nào, và trong các ứng dụng thực tế, chúng ta sẽ sử dụng những số lớn hơn nhiều.
 
@@ -365,7 +367,7 @@ Lệnh thực hiện:
 ssh-keygen -t ed25519
 ```
 
-![](./img/2_Public%20Key_Cryptography_Basics/5.1.png)
+![](./img/2_Public_Key_Cryptography_Basics/5.1.png)
 
 **Diễn giải quá trình:**
 
@@ -389,7 +391,7 @@ ssh-keygen -t ed25519
 
 Trong ví dụ trên, chúng ta không sử dụng passphrase để có thể xem nội dung của cặp khóa SSH đã tạo:
 
-![](./img/2_Public%20Key_Cryptography_Basics/5.2.png)
+![](./img/2_Public_Key_Cryptography_Basics/5.2.png)
 
  **Khóa công khai (`id_ed25519.pub`)**
 
@@ -482,3 +484,154 @@ cat ~/Public-Crypto-Basics/Task-5/id_rsa_1593558668558.id_rsa
 
 Từ đó, bạn có thể xác định được loại thuật toán được sử dụng là **RSA**.
 
+---
+
+# Task 6: Digital Signatures and Certificates
+
+**Chữ ký số và Chứng chỉ**
+
+Trong thế giới **“phi số” (analogue)**, bạn thường được yêu cầu ký vào giấy tờ. Khi bạn đến ngân hàng để mở tài khoản tiết kiệm, bạn gần như chắc chắn sẽ phải ký nhiều tài liệu. Khi muốn tạo tài khoản ở thư viện địa phương, bạn sẽ được yêu cầu điền đơn và ký vào đó. Mục đích có thể khác nhau tùy theo hoàn cảnh — ví dụ như xác nhận bạn đồng ý với các điều khoản, ủy quyền giao dịch, hoặc xác nhận đã nhận hàng.
+
+Trong thế giới **“số” (digital)**, bạn không thể sử dụng chữ ký tay, con dấu, hay dấu vân tay — bạn cần một **chữ ký số**.
+
+---
+
+### Chữ ký số là gì?
+
+Chữ ký số cung cấp cách để **xác minh tính xác thực và toàn vẹn** của một thông điệp hoặc tài liệu số. Việc chứng minh tính xác thực của tệp có nghĩa là ta biết ai đã tạo hoặc sửa đổi nó.
+
+Sử dụng **mã hóa bất đối xứng**, bạn tạo ra chữ ký bằng **khóa riêng**, có thể được xác minh bằng **khóa công khai**. Chỉ bạn mới được phép sở hữu khóa riêng, điều đó chứng minh rằng **chính bạn đã ký vào tệp**.
+
+Tại nhiều quốc gia hiện đại, chữ ký số và chữ ký tay có **giá trị pháp lý tương đương**.
+
+Dạng đơn giản nhất của chữ ký số là mã hóa tài liệu bằng **khóa riêng**. Ai muốn xác minh chữ ký có thể giải mã bằng **khóa công khai**, rồi so sánh nội dung để kiểm tra xem tệp có bị thay đổi không. Quy trình này được minh họa trong hình bên dưới.
+
+![](./img/2_Public_Key_Cryptography_Basics/6.1.png)
+
+Một số bài viết sử dụng các thuật ngữ như **chữ ký điện tử** và **chữ ký số** thay thế cho nhau. Chúng thường chỉ hành động chèn hình ảnh của chữ ký vào tài liệu. Tuy nhiên, cách này **không chứng minh được tính toàn vẹn của tài liệu**, vì ai cũng có thể sao chép và dán hình ảnh đó.
+
+Trong nhiệm vụ này, thuật ngữ **chữ ký số** dùng để chỉ việc ký một tài liệu bằng **khóa riêng** hoặc **chứng chỉ số**. Quy trình này giống như hình minh họa trước đó — ví dụ Bob mã hóa **hàm băm (hash)** của tài liệu rồi chia sẻ cùng tài liệu gốc với Alice. Alice có thể **giải mã hàm băm** và **so sánh với hàm băm của tài liệu** cô ấy nhận được để xác thực tính toàn vẹn. Cách làm này **an toàn hơn nhiều** so với việc chỉ chèn hình chữ ký.
+
+---
+
+### **Chứng chỉ số: Xác minh bạn là ai**
+
+**Chứng chỉ số (certificates)** là một ứng dụng quan trọng của mật mã khóa công khai, và cũng liên quan chặt chẽ đến chữ ký số. Một ví dụ phổ biến là khi bạn truy cập trang web qua **HTTPS** — làm sao trình duyệt biết được đó thực sự là trang *tryhackme.com*?
+
+Câu trả lời nằm ở **chứng chỉ số**. Máy chủ web có một chứng chỉ nói rằng nó là *tryhackme.com thật sự*. Các chứng chỉ này nằm trong **chuỗi tin cậy (chain of trust)**, bắt đầu từ một **Tổ chức cấp chứng chỉ gốc (Root CA)**. Từ lúc thiết bị được cài đặt, hệ điều hành và trình duyệt web đã **tự động tin tưởng nhiều Root CA**. Một chứng chỉ chỉ được tin cậy nếu **Root CA tuyên bố rằng họ tin tưởng tổ chức đã ký** chứng chỉ đó.
+
+Về bản chất, đây là một chuỗi:
+Chứng chỉ được ký bởi một tổ chức → tổ chức đó được tin bởi một CA → CA được trình duyệt của bạn tin → do đó trình duyệt tin chứng chỉ. Các trình duyệt như Firefox hay Chrome có danh sách CA đáng tin cậy của riêng mình ([xem tại đây](https://ccadb-public.secure.force.com/mozilla/IncludedCACertificateReport) và [tại đây](https://www.chromium.org/Home/chromium-security/root-ca-policy/)).
+
+---
+
+### Nếu bạn có website và muốn sử dụng HTTPS:
+
+Bạn cần **chứng chỉ TLS**. Có thể mua từ các tổ chức cấp chứng chỉ (CA) với phí hàng năm, hoặc dùng **Let’s Encrypt** để **nhận miễn phí**. Nếu bạn điều hành một trang web, thì việc thiết lập HTTPS là điều **rất nên làm**, vì gần như mọi trang hiện đại đều đã dùng.
+
+---
+
+**Trả lời các câu hỏi sau**
+
+**Câu hỏi:** Máy chủ web từ xa sử dụng gì để chứng minh danh tính với máy khách?
+**Trả lời:** Chứng chỉ (Certificate)
+
+**Câu hỏi:** Bạn sẽ dùng gì để lấy chứng chỉ TLS miễn phí cho website của mình?
+**Trả lời:** Let’s Encrypt
+
+# Task 7: PGP and GPG
+
+**PGP và GPG**
+
+**PGP** là viết tắt của *Pretty Good Privacy* (Bảo mật khá tốt). Đây là phần mềm dùng để mã hóa file, ký số tài liệu, và nhiều chức năng khác. **GnuPG** hoặc **GPG** là phiên bản mã nguồn mở của chuẩn OpenPGP.
+
+**GPG** thường được sử dụng trong email để bảo vệ tính riêng tư của nội dung thư. Ngoài ra, nó còn có thể được dùng để **ký vào email** nhằm xác nhận **tính toàn vẹn** của nội dung.
+
+Dưới đây là ví dụ về quá trình tạo khóa bằng **GPG**. Bạn sẽ được hỏi về mục đích sử dụng khóa GPG — chẳng hạn để **chỉ ký số** hoặc **vừa ký vừa mã hóa**. Bên cạnh việc chọn thuật toán mã hóa, bạn cũng cần thiết lập **ngày hết hạn** cho khóa. Cuối cùng, bạn sẽ cung cấp một số thông tin cá nhân như: **tên, địa chỉ email**, và một **ghi chú** ngắn mô tả mục đích sử dụng khóa này.
+
+```bash
+gpg --full-gen-key
+gpg (GnuPG) 2.4.4; Copyright (C) 2024 g10 Code GmbH
+This is free software: you are free to change and redistribute it.
+There is NO WARRANTY, to the extent permitted by law.
+Please select what kind of key you want:
+   (1) RSA and RSA
+   (2) DSA and Elgamal
+   (3) DSA (sign only)
+   (4) RSA (sign only)
+   (9) ECC (sign and encrypt) *default*
+  (10) ECC (sign only)
+  (14) Existing key from card
+Your selection? 9
+Please select which elliptic curve you want:
+   (1) Curve 25519 *default*
+   (4) NIST P-384
+   (6) Brainpool P-256
+Your selection? 1
+Please specify how long the key should be valid.
+         0 = key does not expire
+      <n>  = key expires in n days
+      <n>w = key expires in n weeks
+      <n>m = key expires in n months
+      <n>y = key expires in n years
+Key is valid for? (0) 
+Key does not expire at all
+Is this correct? (y/N) y
+GnuPG needs to construct a user ID to identify your key.
+Real name: strategos
+Email address: strategos@tryhackme.thm
+[...]
+pub   ed25519 2024-08-29 [SC]
+      AB7E6AA87B6A8E0D159CA7FFE5E63DBD5F83D5ED
+uid                      Strategos <strategos@tryhackme.thm>
+sub   cv25519 2024-08-29 [E]
+```
+
+Bạn có thể cần dùng GPG để giải mã các tệp trong các cuộc thi CTF. Với PGP/GPG, khóa riêng có thể được bảo vệ bằng passphrase (mật khẩu) — tương tự như cách bảo vệ khóa SSH riêng. Nếu khóa có đặt passphrase, bạn có thể thử dò mật khẩu bằng công cụ **John the Ripper** và **gpg2john**.
+
+> *Lưu ý: Khóa được cung cấp trong nhiệm vụ này **không có passphrase**.*
+
+Trang hướng dẫn (man page) của GPG có thể tìm thấy trực tuyến [tại đây](https://www.gnupg.org/gph/de/manual/r1023.html).
+
+---
+
+### **Ví dụ thực tế**
+
+Khi bạn đã tạo cặp khóa GPG, bạn có thể **chia sẻ khóa công khai** với người liên hệ. Khi họ muốn gửi tin nhắn an toàn cho bạn, họ sẽ **mã hóa tin nhắn bằng khóa công khai của bạn**.
+Để giải mã tin nhắn, bạn sẽ phải sử dụng **khóa riêng**.
+
+Do tầm quan trọng của cặp khóa GPG, bạn nên **sao lưu khóa ở nơi an toàn**.
+
+---
+
+**Giả sử bạn dùng một máy tính mới**, bạn chỉ cần **nhập lại khóa** và bắt đầu giải mã các tin nhắn đã nhận:
+
+* **Nhập khóa sao lưu:**
+
+```bash
+gpg --import backup.key
+```
+
+* **Giải mã tin nhắn đã nhận:**
+
+```bash
+gpg --decrypt confidential_message.gpg
+```
+---
+
+**Trả lời các câu hỏi sau**
+
+**Câu hỏi:**
+Sử dụng GPG để giải mã tin nhắn trong thư mục `~/Public-Crypto-Basics/Task-7`.
+Từ bí mật trong tin nhắn là gì?
+
+**Đáp án:** Pineapple
+
+---
+
+**Lệnh sử dụng:**
+
+```bash
+gpg --import ~/Public-Crypto-Basics/Task-7/tryhackme.key
+gpg --decrypt ~/Public-Crypto-Basics/Task-7/message.gpg
+```
