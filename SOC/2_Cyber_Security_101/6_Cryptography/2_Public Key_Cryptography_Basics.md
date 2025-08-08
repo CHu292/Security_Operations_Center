@@ -5,6 +5,8 @@
 1. [Task 1: Introduction](#task-1-introduction)
 2. [Task 2: Common Use of Asymmetric Encryption](#task-2-common-use-of-asymmetric-encryption)
 3. [Task 3: RSA](#task-3-rsa)
+4. [Task 4: Diffie-Hellman Key Exchange](#task-4-diffie-hellman-key-exchange)
+5. [Task 5: SSH](#task-5-ssh)
 
 ## Nội dung
 
@@ -309,4 +311,174 @@ $$
 * Công thức: $\text{Key} = A^b \mod p$
 * Thay số: $\text{Key} = 7^{17} \mod 29$
 * Kết quả: $\text{Key} = 24$
+
+# Task 5: SSH
+
+**Xác thực máy chủ**
+
+>Secure Shell
+
+Nếu bạn đã từng sử dụng SSH client trước đây, bạn sẽ nhận ra lời nhắc xác nhận như hiển thị trong đầu ra terminal dưới đây.
+
+```bash
+root@TryHackMe# ssh 10.10.244.173
+The authenticity of host '10.10.244.173 (10.10.244.173)' can't be established.
+ED25519 key fingerprint is SHA256:llZhZc7YzRBDchm02qTX0QsLqeeiTCJg5ip0T0E/YM8.
+This key is not known by any other name.
+Are you sure you want to continue connecting (yes/no/[fingerprint])? yes
+Warning: Permanently added '10.10.244.173' (ED25519) to the list of known hosts.
+```
+
+Trong tương tác trên, SSH client xác nhận liệu chúng ta có nhận diện được dấu vân tay của khóa công khai của máy chủ hay không. ED25519 là thuật toán khóa công khai được sử dụng để tạo và xác minh chữ ký số trong ví dụ này. SSH client không nhận ra khóa này và đang yêu cầu xác nhận xem chúng ta có muốn tiếp tục kết nối không. Cảnh báo này xuất hiện vì có khả năng xảy ra tấn công dạng "man-in-the-middle" — một máy chủ độc hại có thể đã chặn kết nối và phản hồi, giả danh là máy chủ đích.
+
+Trong trường hợp này, người dùng phải xác thực máy chủ, tức là xác minh danh tính của máy chủ bằng cách kiểm tra chữ ký khóa công khai. Khi người dùng trả lời “yes”, SSH client sẽ ghi nhớ khóa công khai này cho máy chủ. Lần sau, nó sẽ tự động kết nối trừ khi máy chủ trả lời bằng một khóa công khai khác.
+
+**Xác thực máy khách**
+
+Bây giờ khi chúng ta đã xác nhận rằng mình đang giao tiếp với đúng máy chủ, ta cần xác định danh tính và thực hiện xác thực. Trong nhiều trường hợp, người dùng SSH được xác thực bằng tên đăng nhập và mật khẩu giống như khi đăng nhập vào một máy vật lý. Tuy nhiên, do các vấn đề bảo mật vốn có của mật khẩu, phương pháp này không phải là thực hành an toàn tốt nhất.
+
+Một lúc nào đó, bạn sẽ gặp một máy có cấu hình SSH sử dụng xác thực bằng khóa thay vì mật khẩu. Cách xác thực này sử dụng **khóa công khai và khóa riêng tư** để chứng minh rằng máy khách là người dùng hợp lệ và được ủy quyền trên máy chủ. Mặc định, các khóa SSH là khóa RSA. Bạn có thể chọn thuật toán để tạo khóa và thêm passphrase để mã hóa khóa SSH.
+
+**`ssh-keygen`** là chương trình thường được sử dụng để tạo cặp khóa. Nó hỗ trợ nhiều thuật toán khác nhau, như được hiển thị trong trang hướng dẫn dưới đây:
+
+```bash
+root@TryHackMe# man ssh-keygen
+[...]
+  -t dsa | ecdsa | ecdsa-sk | ed25519 | ed25519-sk | rsa
+  Specifies the type of key to create. The possible values are “dsa”, “ecdsa”, “ecdsa-sk”, “ed25519”, “ed25519-sk”, or “rsa”.
+[...]
+```
+
+**Các thuật toán được hỗ trợ (chỉ cần nhận diện tên tại giai đoạn này):**
+
+* **DSA (Digital Signature Algorithm)**: Thuật toán mật mã khóa công khai chuyên dùng để tạo chữ ký số.
+* **ECDSA (Elliptic Curve Digital Signature Algorithm)**: Biến thể của DSA sử dụng mật mã đường cong elliptic để tạo kích thước khóa nhỏ hơn với mức bảo mật tương đương.
+* **ECDSA-SK (ECDSA with Security Key)**: Phần mở rộng của ECDSA, sử dụng khóa phần cứng để tăng cường bảo vệ khóa riêng.
+* **Ed25519**: Thuật toán chữ ký số sử dụng EdDSA (Edwards-curve Digital Signature Algorithm) với Curve25519.
+* **Ed25519-SK (Ed25519 with Security Key)**: Biến thể của Ed25519, tương tự ECDSA-SK, sử dụng khóa bảo mật phần cứng để bảo vệ khóa riêng mạnh hơn.
+
+**Tạo cặp khóa SSH với tùy chọn mặc định**
+
+Lệnh thực hiện:
+
+```bash
+ssh-keygen -t ed25519
+```
+
+![](./img/2_Public%20Key_Cryptography_Basics/5.1.png)
+
+**Diễn giải quá trình:**
+
+* Hệ thống tạo một **cặp khóa công khai/riêng tư** sử dụng thuật toán `ed25519`.
+* Tên tệp lưu khóa riêng được đề xuất là:
+  `/home/strategos/.ssh/id_ed25519`
+* Nếu bạn muốn đặt mật khẩu bảo vệ khóa riêng, hãy nhập **passphrase** (hoặc để trống nếu không cần).
+* Khóa riêng được lưu tại:
+  `/home/strategos/.ssh/id_ed25519`
+* Khóa công khai được lưu tại:
+  `/home/strategos/.ssh/id_ed25519.pub`
+
+**Thông tin thêm hiển thị:**
+
+* Dấu vân tay (fingerprint) của khóa:
+  `SHA256:4S4DQVrFp52UuNwg+nNTcwlnTETJTbMcCU0N8UYC1do strategos@g5000`
+* Một hình ảnh ngẫu nhiên đại diện cho khóa (random art image) giúp trực quan xác minh khóa bằng mắt.
+
+Đây là bước đầu tiên để thiết lập xác thực bằng SSH key — sau đó bạn cần thêm khóa công khai vào máy chủ từ xa (trong tệp `~/.ssh/authorized_keys`) để có thể đăng nhập mà không cần mật khẩu.
+
+
+Trong ví dụ trên, chúng ta không sử dụng passphrase để có thể xem nội dung của cặp khóa SSH đã tạo:
+
+![](./img/2_Public%20Key_Cryptography_Basics/5.2.png)
+
+ **Khóa công khai (`id_ed25519.pub`)**
+
+```bash
+cat id_ed25519.pub
+```
+
+Nội dung:
+
+```
+ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAInqNMqNhpXZGt6T8Q8b0pIyTeldfWq3T3RyNJTmTMJq9 strategos@g5000
+```
+
+Đây là khóa mà bạn chia sẻ với máy chủ từ xa — bạn cần thêm dòng này vào tệp `~/.ssh/authorized_keys` trên máy chủ đó để cho phép truy cập.
+
+
+ **Khóa riêng (`id_ed25519`)**
+
+```bash
+cat id_ed25519
+```
+
+Nội dung:
+
+```
+-----BEGIN OPENSSH PRIVATE KEY-----
+<...nội dung mã hóa của khóa riêng...>
+-----END OPENSSH PRIVATE KEY-----
+```
+
+Đây là khóa phải được giữ **bí mật tuyệt đối**. Bạn không bao giờ chia sẻ khóa này — nó được dùng để xác minh bạn là chủ sở hữu hợp lệ của khóa công khai.
+
+
+Việc không đặt passphrase (để trống khi tạo khóa) khiến khóa riêng không được mã hóa bằng mật khẩu, tức là **bất kỳ ai có được tệp `id_ed25519` đều có thể sử dụng nó**. Trong môi trường thực tế, nên đặt passphrase để tăng bảo mật.
+
+Lưu ý rằng khóa riêng được chia sẻ ở trên chỉ nhằm mục đích minh họa và đã bị xóa sau đó. Việc chia sẻ khóa riêng là hành động kém an toàn nhất mà bất kỳ ai có thể mắc phải đối với bảo mật của mình. Ngoài ra, nếu chúng ta sử dụng tùy chọn `-t rsa`, thì các khóa được tạo ra sẽ dài hơn nhiều.
+
+
+**Khóa riêng SSH**
+
+Như đã đề cập, bạn nên đối xử với khóa riêng SSH như mật khẩu. **Không bao giờ chia sẻ chúng trong bất kỳ trường hợp nào**; chúng được gọi là "khóa riêng" vì một lý do. Ai đó có khóa riêng của bạn có thể đăng nhập vào các máy chủ chấp nhận khóa đó, trừ khi khóa đã được mã hóa bằng passphrase.
+
+**Passphrase** được dùng để giải mã khóa riêng **không được gửi đến máy chủ** và **không rời khỏi hệ thống của bạn**. Nó chỉ dùng để giải mã khóa riêng.
+
+Dùng các công cụ như **John the Ripper**, bạn có thể tấn công khóa SSH đã mã hóa để tìm passphrase — điều này nhấn mạnh tầm quan trọng của việc dùng passphrase phức tạp và giữ khóa riêng an toàn.
+
+Khi tạo khóa SSH để đăng nhập vào máy từ xa, bạn nên tạo khóa trên máy cục bộ rồi **sao chép khóa công khai** sang máy đích bằng lệnh `ssh-copy-id`. Như vậy, khóa riêng không bao giờ tồn tại trên máy đích (trừ các trường hợp tạm thời như CTF).
+
+**Phân quyền đúng** là bắt buộc để sử dụng khóa riêng. Nếu không, SSH client sẽ bỏ qua tệp với cảnh báo. Chỉ chủ sở hữu nên có quyền đọc/ghi khóa riêng (thường là `600` hoặc chặt hơn):
+
+```bash
+ssh -i privateKeyFileName user@host
+```
+
+Đây là cú pháp chuẩn cho SSH client của OpenSSH trên Linux.
+
+---
+
+**Khóa được máy chủ tin cậy**
+
+Thư mục `~/.ssh` là nơi mặc định lưu các khóa. Tệp `authorized_keys` trong thư mục này chứa các **khóa công khai** được phép truy cập vào máy chủ nếu xác thực bằng khóa được bật.
+
+Trên nhiều bản phân phối **Linux**, xác thực bằng khóa được bật theo mặc định vì **an toàn hơn** so với dùng mật khẩu. Chỉ nên cho phép xác thực bằng khóa nếu bạn muốn cấp quyền SSH cho người dùng `root`.
+
+---
+
+**Sử dụng khóa SSH để có một shell "tốt hơn"**
+
+Trong các bài thực hành CTF, kiểm thử xâm nhập, hoặc huấn luyện đỏ xanh (red teaming), khóa SSH là cách tuyệt vời để **nâng cấp reverse shell**, miễn là tài khoản người dùng có đăng nhập được. Tài khoản như `www-data` thường không cho phép, nhưng tài khoản người dùng hoặc `root` thì có thể.
+
+Để lại một khóa SSH trong tệp `authorized_keys` có thể được dùng như một **backdoor hữu ích**, giúp bạn **tránh các vấn đề** liên quan đến shell không ổn định (ví dụ: không dùng được Ctrl-C hoặc tab completion).
+
+---
+
+**Kiểm tra khóa riêng SSH trong thư mục `~/Public-Crypto-Basics/Task-5`. Thuật toán mà khóa sử dụng là gì?**
+
+**Đáp án:** RSA
+
+**Lệnh sử dụng để kiểm tra:**
+
+```bash
+ssh-keygen -l -f ~/Public-Crypto-Basics/Task-5
+```
+
+**Hoặc để xem nội dung khóa:**
+
+```bash
+cat ~/Public-Crypto-Basics/Task-5/id_rsa_1593558668558.id_rsa
+```
+
+Từ đó, bạn có thể xác định được loại thuật toán được sử dụng là **RSA**.
 
