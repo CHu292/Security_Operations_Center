@@ -6,6 +6,9 @@
 2. [Task 2: Basic Terms](#task-2-basic-terms)
 3. [Task 3: Setting Up Your System](#task-3-setting-up-your-system)
 4. [Task 4: Cracking Basic Hashed](#task-4-cracking-basic-hashed)
+5. [Task 5: Cracking Windows Authentication Hashes](#task-5-cracking-windows-authentication-hashes)
+6. [ Task 6: Cracking /etc/shadow Hashes](#task-6-cracking-etcshadow-hashes)
+
 
 ## Nội dung
 
@@ -403,3 +406,84 @@ Câu 2: Giá trị đã giải mã của mật khẩu này là gì?
 mushroom
 
 ![](./img/4_John_the_Ripper_The_Basics/5.1.png)
+
+---
+
+# Task 6: Cracking /etc/shadow Hashes
+
+**Bẻ khóa Hash từ /etc/shadow**
+
+Tệp `/etc/shadow` là tệp trên các máy Linux nơi lưu trữ các hash mật khẩu. Nó cũng lưu trữ thông tin khác, chẳng hạn như ngày thay đổi mật khẩu cuối cùng và thông tin hết hạn mật khẩu. Tệp này chứa một dòng cho mỗi người dùng hoặc tài khoản người dùng của hệ thống. Tệp này thường chỉ có thể truy cập bởi người dùng root, vì vậy bạn phải có đủ đặc quyền để truy cập các hash. Tuy nhiên, nếu bạn làm được điều đó, bạn có thể có cơ hội bẻ khóa một số hash.
+
+---
+
+**Unshadowing**
+
+John có thể rất nghiêm ngặt về định dạng dữ liệu để có thể xử lý nó; vì lý do này, để bẻ khóa mật khẩu từ `/etc/shadow`, bạn phải kết hợp nó với tệp `/etc/passwd` để John có thể hiểu dữ liệu được cung cấp. Để làm điều này, chúng ta sử dụng một công cụ tích hợp trong bộ công cụ John gọi là `unshadow`. Cú pháp cơ bản của `unshadow` như sau:
+
+```
+unshadow [đường dẫn tới passwd] [đường dẫn tới shadow]
+```
+
+* `unshadow`: gọi công cụ unshadow
+* `[đường dẫn tới passwd]`: Tệp chứa bản sao của tệp `/etc/passwd` bạn đã lấy từ máy mục tiêu
+* `[đường dẫn tới shadow]`: Tệp chứa bản sao của tệp `/etc/shadow` bạn đã lấy từ máy mục tiêu
+
+---
+
+**Ví dụ sử dụng:**
+
+```
+unshadow local_passwd local_shadow > unshadowed.txt
+```
+
+---
+
+**Ghi chú về các tệp**
+
+Khi sử dụng `unshadow`, bạn có thể sử dụng toàn bộ tệp `/etc/passwd` và `/etc/shadow` (nếu bạn có sẵn), hoặc bạn có thể sử dụng dòng tương ứng từ mỗi tệp, ví dụ:
+
+---
+
+**TỆP 1 - local\_passwd**
+
+Chứa dòng `/etc/passwd` cho người dùng root:
+
+**TỆP 2 - local\_shadow**
+
+Chứa dòng từ tệp `/etc/shadow` cho người dùng root:
+
+```
+root:$6$2mwjN454g.dv4HN/$m9Z/r2xVfweVYkrr.vSFt8Ws3/YYksfNwg96UL1FX00JjY1L61.DS3KEVsZ9rOVLB/1dTeEL/OihJZ4GMFMGA0:18576:::::: 
+```
+
+![](./img/4_John_the_Ripper_The_Basics/6.1.png)
+
+
+**Cracking**
+
+Chúng ta có thể đưa đầu ra từ `unshadow`, trong ví dụ này là tệp `unshadowed.txt`, trực tiếp vào John. Chúng ta không cần chỉ định chế độ cụ thể vì đầu vào đã được chuẩn bị riêng cho John; tuy nhiên, trong một số trường hợp, bạn sẽ cần chỉ định định dạng như đã làm trước đó bằng cách sử dụng: `--format=sha512crypt`
+
+```
+john --wordlist=/usr/share/wordlists/rockyou.txt --format=sha512crypt unshadowed.txt
+```
+
+---
+
+**Practical**
+
+Bây giờ, hãy thử làm theo quy trình để bẻ khóa hash mật khẩu của người dùng root có trong tệp `etchashes.txt`. Chúc may mắn! Các tệp được đặt tại:
+
+```
+~/John-the-Ripper-The-Basics/Task06/
+```
+
+---
+
+Câu hỏi: Mật khẩu của người dùng root là:
+
+**1234**
+
+![](./img/4_John_the_Ripper_The_Basics/6.2.png)
+
+---
