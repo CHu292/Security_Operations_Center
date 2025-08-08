@@ -369,3 +369,37 @@ Câu 8: Giá trị đã giải mã của hash4.txt là gì?
 colossal
 
 ![](./img/4_John_the_Ripper_The_Basics/4.13.png)
+
+
+---
+
+
+# Task 5: Cracking Windows Authentication Hashes
+
+Bây giờ khi chúng ta đã hiểu cú pháp cơ bản và cách sử dụng của John the Ripper, hãy chuyển sang bẻ khóa một thứ phức tạp hơn một chút, điều mà bạn thậm chí có thể muốn thử nếu bạn đang thực hiện một cuộc kiểm thử xâm nhập thực sự hoặc tham gia nhóm Đỏ. Hash xác thực là các phiên bản đã được băm của mật khẩu được lưu trữ bởi hệ điều hành; đôi khi có thể bẻ khóa chúng bằng các phương pháp brute-force của chúng ta. Để lấy được các hash này, bạn thường phải là người dùng có đặc quyền, vì vậy chúng tôi sẽ giải thích một số hash mà chúng tôi dự định bẻ khóa khi thử nghiệm chúng.
+
+**NTHash / NTLM**
+
+NTHash là định dạng hash mà các hệ điều hành Windows hiện đại sử dụng để lưu trữ mật khẩu người dùng và dịch vụ. Nó cũng thường được gọi là NTLM, ám chỉ đến phiên bản trước của định dạng hash Windows là LM, do đó có tên NT/LM.
+
+Một chút lịch sử: ký hiệu NT cho các sản phẩm Windows ban đầu có nghĩa là Công nghệ Mới (New Technology). Nó được sử dụng bắt đầu từ Windows NT để chỉ các sản phẩm không được xây dựng từ hệ điều hành MS-DOS. Cuối cùng, dòng “NT” trở thành loại hệ điều hành tiêu chuẩn được phát hành bởi Microsoft, và tên gọi này đã bị loại bỏ, nhưng vẫn tồn tại trong tên gọi của một số công nghệ Microsoft.
+
+Trong Windows, SAM (Trình quản lý tài khoản bảo mật) được sử dụng để lưu trữ thông tin tài khoản người dùng, bao gồm cả tên người dùng và mật khẩu đã được băm. Bạn có thể lấy các hash NTHash/NTLM bằng cách trích xuất cơ sở dữ liệu SAM trên máy Windows, sử dụng công cụ như Mimikatz, hoặc sử dụng cơ sở dữ liệu Active Directory: **NTDS.dit**. Bạn có thể không cần bẻ khóa hash để tiếp tục leo thang đặc quyền, vì bạn thường có thể thực hiện một cuộc tấn công “pass the hash” thay thế, tuy nhiên đôi khi bẻ khóa hash vẫn là một lựa chọn khả thi nếu có chính sách mật khẩu yếu.
+
+**Thực hành**
+
+Bây giờ bạn đã biết lý thuyết đằng sau nó, hãy xem bạn có thể sử dụng các kỹ thuật đã thực hành trong nhiệm vụ trước và kiến thức về loại hash nào để bẻ khóa tệp **ntlm.txt** hay không! Tệp nằm trong `~/John-the-Ripper-The-Basics/Task5/`.
+
+---
+
+**Trả lời các câu hỏi sau**
+
+Câu 1: Chúng ta cần đặt cờ `--format` thành giá trị nào để bẻ khóa hash này?
+
+nt
+
+Câu 2: Giá trị đã giải mã của mật khẩu này là gì?
+
+mushroom
+
+![](./img/4_John_the_Ripper_The_Basics/5.1.png)
