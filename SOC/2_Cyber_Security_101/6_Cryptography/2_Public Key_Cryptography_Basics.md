@@ -4,6 +4,7 @@
 
 1. [Task 1: Introduction](#task-1-introduction)
 2. [Task 2: Common Use of Asymmetric Encryption](#task-2-common-use-of-asymmetric-encryption)
+3. [Task 3: RSA](#task-3-rsa)
 
 ## Nội dung
 
@@ -198,4 +199,114 @@ Calculation:
 
 ---
 
+# Task 4: Diffie-Hellman Key Exchange
+
+**Trao đổi khóa Diffie-Hellman**
+
+Một trong những thách thức khi sử dụng mã hóa đối xứng là việc chia sẻ khóa bí mật. Giả sử bạn muốn gửi một tài liệu được bảo vệ bằng mật khẩu cho đối tác kinh doanh của mình để thảo luận về các chiến lược kinh doanh bảo mật. Làm thế nào bạn sẽ chia sẻ mật khẩu với họ? Sẽ là tốt nhất nếu bạn có một kênh bảo mật để gửi mật khẩu, đảm bảo rằng kẻ tấn công không thể đọc hoặc thay đổi nó.
+
+### Trao đổi khóa Diffie-Hellman
+
+**Trao đổi khóa** nhằm thiết lập một bí mật chung giữa hai bên. Đây là một phương pháp cho phép hai bên thiết lập một bí mật chung thông qua một kênh liên lạc không an toàn mà không cần một bí mật chung có sẵn và cũng không để cho bất kỳ bên quan sát nào có thể lấy được khóa này. Do đó, khóa chung này có thể được sử dụng để mã hóa đối xứng trong các liên lạc tiếp theo.
+
+Hãy xem xét kịch bản sau: Alice và Bob muốn nói chuyện một cách an toàn. Họ muốn thiết lập một khóa chung cho mã hóa đối xứng nhưng không muốn sử dụng mã hóa bất đối xứng cho việc trao đổi khóa. Đây chính là lúc phương pháp Trao đổi khóa Diffie-Hellman được sử dụng.
+
+Alice và Bob tạo ra các bí mật một cách độc lập; ta gọi các bí mật này là A và B. Họ cũng có một số dữ liệu công khai chung; ta gọi nó là C.
+
+Chúng ta cần đưa ra một số giả định. Thứ nhất, bất cứ khi nào chúng ta kết hợp các bí mật, thì gần như không thể tách chúng ra được. Thứ hai, thứ tự kết hợp không quan trọng. Alice và Bob sẽ kết hợp bí mật của họ với dữ liệu chung để tạo thành AC và BC. Sau đó, họ gửi những phần này cho nhau và kết hợp phần nhận được với bí mật của mình để tạo ra hai khóa giống hệt nhau, tức là cả hai đều có ABC. Giờ đây, họ có thể sử dụng khóa này để liên lạc với nhau.
+
+Nếu bạn thấy các đoạn trước quá trừu tượng, hãy cùng tìm hiểu quy trình cụ thể sau đây:
+
+1. **Alice và Bob đồng ý về các biến công khai**: một số nguyên tố lớn $p$ và một số sinh $g$, với $0 < g < p$. Những giá trị này sẽ được công bố công khai qua kênh liên lạc. Mặc dù nhỏ và không an toàn trong thực tế, ta sẽ chọn $p = 29$ và $g = 3$ để đơn giản hóa việc tính toán.
+
+2. **Mỗi bên chọn một số nguyên riêng**. Ví dụ cụ thể: Alice chọn $a = 13$, Bob chọn $b = 15$. Mỗi giá trị này là **khóa bí mật** và không được tiết lộ.
+
+3. Đến lúc mỗi bên **tính toán khóa công khai** của mình bằng cách dùng khóa bí mật ở bước 2 và các biến công khai đã thống nhất ở bước 1.
+   Alice tính: $A = g^a \mod p = 3^{13} \mod 29 = 19$
+   Bob tính: $B = g^b \mod p = 3^{15} \mod 29 = 26$
+   Đây là các **khóa công khai**.
+
+4. **Alice và Bob gửi khóa công khai cho nhau**.
+   Bob nhận được: $A = g^a \mod p = 19$, tức là khóa công khai của Alice.
+   Alice nhận được: $B = g^b \mod p = 26$, tức là khóa công khai của Bob.
+   Bước này gọi là **trao đổi khóa**.
+
+5. **Alice và Bob có thể tính toán khóa bí mật chung** bằng cách dùng khóa công khai nhận được và khóa bí mật của chính họ.
+   Alice tính: $B^a \mod p = 26^{13} \mod 29 = 10$
+   Bob tính: $A^b \mod p = 19^{15} \mod 29 = 10$
+   Cả hai phép tính cho cùng một kết quả, $g^{ab} \mod p = 10$, đây là **khóa bí mật chung**.
+
+![](./img/2_Public%20Key_Cryptography_Basics/4.1.png)
+
+Các số được chọn quá nhỏ để cung cấp bất kỳ mức độ bảo mật nào, và trong các ứng dụng thực tế, chúng ta sẽ sử dụng những số lớn hơn nhiều.
+
+Trao đổi khóa Diffie-Hellman thường được sử dụng cùng với mật mã khóa công khai RSA. Diffie-Hellman được dùng để thỏa thuận khóa, trong khi RSA được dùng cho chữ ký số, truyền khóa và xác thực, cùng nhiều mục đích khác. Ví dụ, RSA giúp xác minh danh tính của người mà bạn đang liên lạc thông qua việc ký số, vì bạn có thể xác nhận dựa trên khóa công khai của họ. Điều này sẽ ngăn chặn ai đó tấn công kết nối bằng một cuộc tấn công xen giữa (man-in-the-middle) chống lại Alice bằng cách giả làm Bob. Tóm lại, Diffie-Hellman và RSA được tích hợp vào nhiều giao thức và tiêu chuẩn bảo mật để cung cấp một giải pháp bảo mật toàn diện.
+
+---
+
+**Trả lời các câu hỏi dưới đây**
+
+**Cho $p = 29$, $g = 5$, $a = 12$. Hỏi $A$ bằng bao nhiêu?**
+
+**Đáp án: 7**
+
+$$
+A = 5^{12} \mod 29 = 7
+$$
+
+**Tính toán chi tiết:**
+
+* Công thức: $A = g^a \mod p$
+* Thay số: $A = 5^{12} \mod 29$
+* Kết quả: $A = 7$
+
+---
+
+**Cho $p = 29$, $g = 5$, $b = 17$. Hỏi $B$ bằng bao nhiêu?**
+
+**Đáp án: 9**
+
+$$
+B = 5^{17} \mod 29 = 9
+$$
+
+**Tính toán chi tiết:**
+
+* Công thức: $B = g^b \mod p$
+* Thay số: $B = 5^{17} \mod 29$
+* Kết quả: $B = 9$
+
+---
+
+**Biết rằng $p = 29$, $a = 12$, và bạn đã có $B$ từ câu hỏi thứ hai, khóa được Bob tính là bao nhiêu?**
+(**Công thức:** $\text{key} = B^a \mod p$)
+
+**Đáp án: 24**
+
+$$
+9^{12} \mod 29 = 24
+$$
+
+**Tính toán chi tiết:**
+
+* Công thức: $\text{Key} = B^a \mod p$
+* Thay số: $\text{Key} = 9^{12} \mod 29$
+* Kết quả: $\text{Key} = 24$
+
+---
+
+**Biết rằng $p = 29$, $b = 17$, và bạn đã có $A$ từ câu hỏi đầu tiên, khóa được Alice tính là bao nhiêu?**
+(**Công thức:** $\text{key} = A^b \mod p$)
+
+**Đáp án: 24**
+
+$$
+7^{17} \mod 29 = 24
+$$
+
+**Tính toán chi tiết:**
+
+* Công thức: $\text{Key} = A^b \mod p$
+* Thay số: $\text{Key} = 7^{17} \mod 29$
+* Kết quả: $\text{Key} = 24$
 
