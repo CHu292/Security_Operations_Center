@@ -9,6 +9,7 @@
 5. [Task 5: Cracking Windows Authentication Hashes](#task-5-cracking-windows-authentication-hashes)
 6. [ Task 6: Cracking /etc/shadow Hashes](#task-6-cracking-etcshadow-hashes)
 7. [Task 7: Single Crack Mode](#task-7-single-crack-mode)
+8. [Task 8: Custom Rules](#task-8-custom-rules)
 
 ## Nội dung
 
@@ -571,3 +572,133 @@ Jok3r
 ![](./img/4_John_the_Ripper_The_Basics/7.4.png)
 
 ---
+
+# Task 8: Custom Rules
+
+---
+
+### Custom Rules là gì?
+
+Khi chúng ta khám phá những gì John có thể làm trong chế độ Single Crack, bạn có thể đã hình dung ra một vài mẫu word mangling tốt hoặc các mẫu mà mật khẩu thường sử dụng có thể được sao chép bằng một quy tắc biến đổi cụ thể. Tin tốt là bạn có thể tự định nghĩa các quy tắc, và John sẽ sử dụng chúng để tạo mật khẩu một cách linh hoạt. Việc có thể định nghĩa các quy tắc như vậy rất hữu ích khi bạn biết thêm thông tin về cấu trúc mật khẩu của mục tiêu.
+
+---
+
+### Các quy tắc tùy chỉnh phổ biến
+
+Nhiều tổ chức sẽ yêu cầu một mức độ phức tạp nhất định cho mật khẩu để cố gắng chống lại các cuộc tấn công từ điển. Nói cách khác, khi tạo tài khoản mới hoặc thay đổi mật khẩu, nếu bạn thử một mật khẩu như `polopassword`, rất có thể nó sẽ không hoạt động. Lý do là do yêu cầu độ phức tạp của mật khẩu. Kết quả là, bạn có thể nhận được thông báo rằng mật khẩu phải chứa ít nhất một ký tự từ mỗi nhóm sau:
+
+* Chữ thường
+* Chữ hoa
+* Số
+* Ký hiệu
+
+Độ phức tạp của mật khẩu là điều tốt! Tuy nhiên, chúng ta có thể khai thác thực tế rằng phần lớn người dùng sẽ có xu hướng đặt các ký hiệu này ở vị trí dễ đoán. Với các tiêu chí trên, nhiều người dùng sẽ tạo mật khẩu như:
+
+```
+PoloPassword1!
+```
+
+Xét một mật khẩu với chữ cái đầu viết hoa, sau đó là một số và kết thúc bằng ký hiệu. Mẫu mật khẩu quen thuộc này, được thêm hoặc chèn vào với các ký tự bổ sung (chữ hoa hoặc ký hiệu), là kiểu dễ nhớ mà người dùng thường sử dụng lại khi tạo mật khẩu. Mẫu này cho phép chúng ta khai thác tính dự đoán được của độ phức tạp mật khẩu.
+
+Mặc dù điều này đáp ứng được các yêu cầu phức tạp về mật khẩu, nhưng với tư cách là kẻ tấn công, chúng ta có thể khai thác việc biết vị trí có khả năng xuất hiện của các yếu tố bổ sung để tạo ra các mật khẩu động từ wordlist của mình.
+
+**Cách tạo Custom Rules**
+
+Các quy tắc tùy chỉnh (custom rules) được định nghĩa trong tệp `john.conf`. Tệp này có thể được tìm thấy ở:
+
+* `/opt/john/john.conf` trên TryHackMe Attackbox
+* hoặc thường nằm tại `/etc/john/john.conf` nếu bạn cài đặt John qua trình quản lý gói hoặc build từ source với `make`.
+
+---
+
+Hãy cùng xem cú pháp của các custom rules này, sử dụng ví dụ bên trên làm mẫu. Lưu ý rằng bạn có thể định nghĩa mức độ kiểm soát chi tiết rất lớn trong các quy tắc này. Bạn có thể tham khảo thêm trên wiki (được gợi ý trong văn bản gốc) để biết thêm về các modifier và ví dụ áp dụng.
+
+**Dòng đầu tiên:**
+
+```
+[List.Rules:THMRRules]
+```
+
+Dùng để định nghĩa tên quy tắc của bạn; bạn sẽ sử dụng tên này làm đối số khi gọi custom rule trong John.
+
+---
+
+**Sau đó dùng cú pháp regex để xác định vị trí và cách từ sẽ được chỉnh sửa.** Dưới đây là một số modifier chính và phổ biến:
+
+* `Az`: thêm các ký tự bạn định nghĩa vào **sau** từ
+* `Az0`: thêm các ký tự bạn định nghĩa vào **trước** từ
+* `c`: viết hoa chữ cái theo vị trí
+
+Các modifier này có thể được kết hợp để xác định **ở đâu** và **cái gì** trong từ bạn muốn chỉnh sửa.
+
+---
+
+**Cuối cùng**, bạn phải xác định **các ký tự** sẽ được thêm vào, chèn vào đầu/cuối hay ở vị trí khác. Làm điều này bằng cách đặt tập ký tự vào trong dấu ngoặc vuông `[ ]`, theo cú pháp:
+
+* `[0-9]`: bao gồm các số từ 0 đến 9
+* `[0]`: chỉ bao gồm số 0
+* `[A-z]`: bao gồm cả chữ hoa và chữ thường
+* `[A-Z]`: chỉ bao gồm chữ hoa
+* `[a-z]`: chỉ bao gồm chữ thường
+
+Các tập ký tự này phải nằm trong dấu ngoặc kép `" "` khi sử dụng trong quy tắc.
+
+Lưu ý rằng:
+
+* `[a]`: Chỉ bao gồm chữ **a**
+* `[!£#$%@]`: Bao gồm các ký hiệu **!, £, #, \$, %, @**
+
+---
+
+Kết hợp tất cả lại, để tạo một wordlist từ các quy tắc có thể tạo ra mật khẩu ví dụ `Polopassword1!` (giả sử từ gốc `polopassword` có trong wordlist), ta sẽ tạo một dòng quy tắc như sau:
+
+```
+[List.Rules:PoloPassword]
+cAz"[0-9] [!£#$%@]"
+```
+
+---
+
+Sử dụng các thành phần sau:
+
+* `c`: Viết hoa chữ cái đầu tiên
+* `Az`: Thêm vào cuối từ
+* `[0-9]`: Thêm một chữ số từ 0–9
+* `[!£#$%@]`: Mật khẩu kết thúc bằng một trong các ký hiệu này
+
+**Sử dụng Custom Rules**
+
+Chúng ta có thể gọi custom rule này như một đối số trong lệnh của John bằng cờ `--rule=PoloPassword`.
+
+---
+
+**Câu lệnh đầy đủ:**
+
+```
+john --wordlist=[đường_dẫn_wordlist] --rule=PoloPassword [đường_dẫn_tệp]
+```
+
+---
+
+**Lưu ý:**
+Tôi thấy việc diễn giải mẫu khi viết quy tắc rất hữu ích; như được trình bày ở trên, điều này cũng áp dụng khi viết mẫu RegEx.
+
+Jumbo John đã có sẵn một danh sách phong phú các custom rules chứa các modifier để sử dụng trong hầu hết các trường hợp. Nếu bạn gặp khó khăn, hãy thử xem các quy tắc đó (khoảng dòng 678) nếu cú pháp của bạn không hoạt động đúng.
+
+---
+
+**Trả lời các câu hỏi dưới đây**
+
+Custom rules cho phép chúng ta khai thác điều gì?
+
+**Password complexity predictability**
+
+Quy tắc nào sẽ được sử dụng để thêm tất cả chữ in hoa vào cuối từ?
+
+**Az"\[A-Z]"**
+
+Cờ nào sẽ được sử dụng để gọi custom rule có tên là **THMRRules**?
+
+**--rule=THMRRules**
+
+
