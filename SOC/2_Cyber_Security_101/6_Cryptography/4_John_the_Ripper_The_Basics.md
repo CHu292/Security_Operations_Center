@@ -11,8 +11,8 @@
 7. [Task 7: Single Crack Mode](#task-7-single-crack-mode)
 8. [Task 8: Custom Rules](#task-8-custom-rules)
 9. [Task 9: Cracking Password Protected Zip Files](#task-9-cracking-password-protected-zip-files)
-
-
+10. [Task 10: Cracking Password-Protected RAR Archives](#task-10-cracking-password-protected-rar-archives)
+11. [Task 11: Cracking SSH Keys with John](#task-11-cracking-ssh-keys-with-john)
 
 ## Nội dung
 
@@ -704,6 +704,7 @@ Cờ nào sẽ được sử dụng để gọi custom rule có tên là **THMRR
 
 **--rule=THMRRules**
 
+---
 
 # Task 9: Cracking Password Protected Zip Files
 
@@ -763,3 +764,144 @@ Nội dung của cờ bên trong tệp zip là gì?
 **THM{w3ll\_d0n3\_h4sh\_r0y4l}**
 
 ![](./img/4_John_the_Ripper_The_Basics/9.1.png)
+
+---
+
+# Task 10: Cracking Password-Protected RAR Archives
+
+---
+
+### Bẻ khóa tệp RAR được bảo vệ bằng mật khẩu
+
+Chúng ta có thể sử dụng quy trình tương tự như ở nhiệm vụ trước để lấy được mật khẩu từ các tệp RAR. Nếu bạn chưa quen, RAR là định dạng nén do WinRAR tạo ra, tương tự như tệp Zip, dùng để nén thư mục và tệp tin.
+
+---
+
+### Rar2John
+
+Gần như giống hệt với công cụ `zip2john`, chúng ta sẽ dùng công cụ `rar2john` để chuyển tệp RAR sang định dạng hash mà John có thể hiểu. Cú pháp cơ bản như sau:
+
+```
+rar2john [rar file] > [output file]
+```
+
+* `rar2john`: Gọi công cụ `rar2john`
+* `[rar file]`: Đường dẫn đến tệp RAR mà bạn muốn tạo hash
+* `>`: Chuyển hướng đầu ra của lệnh sang tệp khác
+* `[output file]`: Tệp sẽ lưu đầu ra từ lệnh
+
+**Ví dụ sử dụng:**
+
+```
+/opt/john/rar2john rarfile.rar > rar_hash.txt
+```
+
+---
+
+### Cracking
+
+Một lần nữa, ta có thể dùng tệp đầu ra từ `rar2john`, ví dụ là `rar_hash.txt`, và đưa trực tiếp vào John giống như đã làm với `zip2john`:
+
+```
+john --wordlist=/usr/share/wordlists/rockyou.txt rar_hash.txt
+```
+
+---
+
+### Practical
+
+Giờ thì bạn có thể thử bẻ khóa một tệp RAR “bảo mật”! Tệp được đặt tại:
+
+```
+~/John-the-Ripper-The-Basics/Task10/
+```
+
+---
+
+**Trả lời các câu hỏi dưới đây**
+
+Mật khẩu của tệp secure.rar là gì?
+
+**password**
+
+Nội dung của cờ bên trong tệp zip là gì?
+
+**THM{r4r\_4rch1ve5\_th15\_t1m3}**
+
+![](./img/4_John_the_Ripper_The_Basics/10.1.png)
+
+---
+
+# Task 11: Cracking SSH Keys with John
+
+---
+
+### Bẻ khóa mật khẩu SSH Key
+
+Được rồi, được rồi, tôi hiểu rồi. Không còn kho lưu trữ file nữa! Tốt thôi! Hãy khám phá một cách sử dụng khác của John thường xuất hiện trong các thử thách CTF — sử dụng John để bẻ khóa mật khẩu private key SSH trong các tệp `id_rsa`.
+
+Trừ khi được cấu hình khác đi, bạn sẽ xác thực đăng nhập SSH bằng mật khẩu. Tuy nhiên, bạn có thể cấu hình xác thực dựa trên khóa (key-based authentication), cho phép sử dụng private key — tệp `id_rsa` — để đăng nhập từ xa vào máy qua SSH.
+
+Tuy nhiên, làm như vậy thường yêu cầu mật khẩu để truy cập vào private key. Ở đây, chúng ta sẽ sử dụng John để bẻ khóa mật khẩu đó nhằm cho phép xác thực qua SSH bằng key.
+
+### SSH2John
+
+Ai mà ngờ được, lại là một công cụ chuyển đổi nữa! Vâng, đó chính là điều khiến John trở nên hữu ích. Như cái tên gợi ý, `ssh2john` chuyển đổi khóa riêng SSH (`id_rsa`) – vốn được dùng để đăng nhập vào phiên SSH – sang định dạng hash mà John có thể xử lý được.
+
+Đùa vậy thôi, đây lại là một ví dụ tuyệt vời khác về tính linh hoạt của John.
+
+---
+
+**Lưu ý:** Nếu bạn không có `ssh2john` được cài đặt sẵn, bạn có thể dùng `ssh2john.py`, nằm ở:
+
+* `/opt/john/ssh2john.py`
+  Hoặc nếu bạn dùng Kali:
+* `/usr/share/john/ssh2john.py`
+
+**Câu lệnh:**
+
+```
+ssh2john [id_rsa private key file] > [output file]
+```
+
+* `ssh2john`: Gọi công cụ `ssh2john`
+* `[id_rsa private key file]`: Đường dẫn đến tệp `id_rsa` mà bạn muốn lấy hash
+* `>`: Chuyển hướng đầu ra từ lệnh sang một tệp khác
+* `[output file]`: Tệp sẽ lưu phần đầu ra từ lệnh
+
+---
+
+**Ví dụ sử dụng:**
+
+```
+/opt/john/ssh2john.py id_rsa > id_rsa_hash.txt
+```
+
+### Cracking
+
+Lần cuối cùng, chúng ta sẽ đưa tệp được xuất ra từ `ssh2john` – trong ví dụ này là `id_rsa_hash.txt` – và như đã làm với `rar2john`, ta có thể dùng nó một cách liền mạch với John:
+
+```
+john --wordlist=/usr/share/wordlists/rockyou.txt id_rsa_hash.txt
+```
+
+---
+
+### Practical
+
+Bây giờ, bạn hãy bẻ khóa hash của tệp `id_rsa` liên quan đến nhiệm vụ này!
+Tệp được đặt tại:
+
+```
+~/John-the-Ripper-The-Basics/Task11/
+```
+
+---
+
+**Trả lời các câu hỏi dưới đây**
+
+Mật khẩu của SSH private key là gì?
+
+**mango**
+
+![](./img/4_John_the_Ripper_The_Basics/11.1.png)
