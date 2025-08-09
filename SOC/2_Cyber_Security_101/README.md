@@ -123,7 +123,7 @@ Lộ trình này được thiết kế thân thiện với người mới bắt 
 2. [Metasploit: Introduction](./7_Exploitation_Basics/2_Metasploit_Introduction.md) 
 >Giới thiệu về các thành phần chính của Metasploit Framework.
 
-- Metasploit: Exploitation  
+3. [Metasploit: Exploitation](./7_Exploitation_Basics/3_Metasploit_Exploitation.md)  
 >Sử dụng Metasploit để quét, đánh giá lỗ hổng bảo mật và khai thác.
 
 - Metasploit: Meterpreter  
