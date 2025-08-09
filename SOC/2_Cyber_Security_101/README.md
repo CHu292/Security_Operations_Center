@@ -117,7 +117,7 @@ Lộ trình này được thiết kế thân thiện với người mới bắt 
 ## **Section 7: Exploitation Basics**
 >Khám phá nghệ thuật khai thác bằng cách tận dụng một lỗ hổng thực tế. Tiếp theo, tìm hiểu các tính năng khai thác của framework Metasploit.
 
-- Moniker Link (CVE-2024-21413)  
+1. [Moniker Link (CVE-2024-21413)](./7_Exploitation_Basics/1_Moniker_Link.md)  
 >Rò rỉ thông tin xác thực của người dùng bằng cách sử dụng CVE-2024-21413 để vượt qua chế độ Protected View của Outlook.
 
 - Metasploit: Introduction  
