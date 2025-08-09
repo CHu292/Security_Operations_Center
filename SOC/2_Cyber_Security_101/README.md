@@ -114,7 +114,7 @@ Lộ trình này được thiết kế thân thiện với người mới bắt 
 
 ---
 
-## **Section 7: Exploitation Basics**
+## [Section 7: Exploitation Basics](./7_Exploitation_Basics/)
 >Khám phá nghệ thuật khai thác bằng cách tận dụng một lỗ hổng thực tế. Tiếp theo, tìm hiểu các tính năng khai thác của framework Metasploit.
 
 1. [Moniker Link (CVE-2024-21413)](./7_Exploitation_Basics/1_Moniker_Link.md)  
