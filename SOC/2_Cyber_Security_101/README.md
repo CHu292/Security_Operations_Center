@@ -120,7 +120,7 @@ Lộ trình này được thiết kế thân thiện với người mới bắt 
 1. [Moniker Link (CVE-2024-21413)](./7_Exploitation_Basics/1_Moniker_Link.md)  
 >Rò rỉ thông tin xác thực của người dùng bằng cách sử dụng CVE-2024-21413 để vượt qua chế độ Protected View của Outlook.
 
-2Metasploit: Introduction  
+2. [Metasploit: Introduction](./7_Exploitation_Basics/2_Metasploit_Introduction.md) 
 >Giới thiệu về các thành phần chính của Metasploit Framework.
 
 - Metasploit: Exploitation  
