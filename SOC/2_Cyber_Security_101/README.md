@@ -126,7 +126,7 @@ Lộ trình này được thiết kế thân thiện với người mới bắt 
 3. [Metasploit: Exploitation](./7_Exploitation_Basics/3_Metasploit_Exploitation.md)  
 >Sử dụng Metasploit để quét, đánh giá lỗ hổng bảo mật và khai thác.
 
-- Metasploit: Meterpreter  
+4. [Metasploit: Meterpreter](./7_Exploitation_Basics/4_Metasploit_Meterpreter.md)  
 >Tìm hiểu chuyên sâu về Meterpreter và cách các payload chạy trong bộ nhớ có thể được sử dụng cho các hoạt động hậu khai thác.
 
 - Blue  
