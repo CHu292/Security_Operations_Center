@@ -129,7 +129,7 @@ Lộ trình này được thiết kế thân thiện với người mới bắt 
 4. [Metasploit: Meterpreter](./7_Exploitation_Basics/4_Metasploit_Meterpreter.md)  
 >Tìm hiểu chuyên sâu về Meterpreter và cách các payload chạy trong bộ nhớ có thể được sử dụng cho các hoạt động hậu khai thác.
 
-- Blue  
+5. [Blue](./7_Exploitation_Basics/5_Blue.md)  
 >Triển khai và tấn công vào một máy Windows, khai thác các vấn đề cấu hình sai phổ biến.
 
 ---
