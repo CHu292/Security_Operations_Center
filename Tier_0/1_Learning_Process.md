@@ -1,36 +1,56 @@
 ## Table of Contents
 
 1. [Mindset](#1mindset)
+
 1.1 [Way Of Thinking](#11-way-of-thinking)
+
 1.2 [Think Outside the Box](#12-think-outside-the-box)
+
 1.3 [Occam's Razor](#13-occams-razor)
+
 1.4 [Talent](#14-talent)
 
 ---
 2. [Learning Dependencies](#2-learning-dependencies)
+
 2.1 [Way Of Learning](#21-way-of-learning)
+
 2.2 [Learning Efficiency](#22-learning-efficiency)
+
 2.3 [Learning Types](#23-learning-types)
+
 2.4 [The Brain](#24-the-brain)
+
 2.5 [The Will](#25-the-will)
+
 2.6 [The Goal](#26-the-goal)
+
 2.7 [Decision Making](#27-decision-making)
 
 ---
 
 3. [Learning Overview](#3-learning-overview)
+
 3.1 [Documentation](#31-documentation)
+
 3.2 [Organization](#32-organization)
 
 ---
 
 4. [The Process](#4-the-process)
+
 4.1 [Focus](#41-focus)
+
 4.2 [Attention](#42-attention)
+
 4.3 [Comfort](#43-comfort)
+
 4.4 [Obstacles](#44-obstacles)
+
 4.5 [Questioning](#45-questioning)
+
 4.6 [Handling Frustration](#46-handling-frustration)
+
 4.7 [Learning Progress](#47-learning-progress)
 
 ---
