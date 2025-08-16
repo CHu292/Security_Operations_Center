@@ -1,0 +1,42 @@
+Apr 02 12:06:27.416 HYPERVISOR: Release 0.2.23-amd64/Linux (tag 2023010200)
+Apr 02 12:06:27.416 HYPERVISOR: Started on IP = 127.0.0.1, TCP port = 46931.
+Apr 02 12:06:27.426 HYPERVISOR: exec_cmd: hypervisor version 
+Apr 02 12:06:27.426 HYPERVISOR: exec_cmd: hypervisor working_dir /home/chu/Documents/SOC/Mạng máy tính và kiểm soát an ninh trong mạng máy tính/Lab_3/project/lab3/project-files/dynamips 
+Apr 02 12:06:27.426 GENERAL: working_dir=/home/chu/Documents/SOC/Mạng máy tính và kiểm soát an ninh trong mạng máy tính/Lab_3/project/lab3/project-files/dynamips
+Apr 02 12:06:27.426 HYPERVISOR: exec_cmd: hypervisor working_dir /home/chu/Documents/SOC/Mạng máy tính và kiểm soát an ninh trong mạng máy tính/Lab_3/project/lab3/project-files/dynamips/4940c5b8-219c-4fa1-9e7b-2e0cbe7b22a2 
+Apr 02 12:06:27.426 GENERAL: working_dir=/home/chu/Documents/SOC/Mạng máy tính và kiểm soát an ninh trong mạng máy tính/Lab_3/project/lab3/project-files/dynamips/4940c5b8-219c-4fa1-9e7b-2e0cbe7b22a2
+Apr 02 12:06:27.426 HYPERVISOR: exec_cmd: vm create R1 1 c7200 
+Apr 02 12:06:27.426 VM: VM R1 created.
+Apr 02 12:06:27.426 HYPERVISOR: exec_cmd: vm set_con_tcp_port R1 5000 
+Apr 02 12:06:27.427 HYPERVISOR: exec_cmd: c7200 get_mac_addr R1 
+Apr 02 12:06:27.427 HYPERVISOR: exec_cmd: vm get_status R1 
+Apr 02 12:06:27.427 HYPERVISOR: exec_cmd: vm slot_add_binding R1 0 0 C7200-IO-FE 
+Apr 02 12:06:27.427 HYPERVISOR: exec_cmd: vm set_ios R1 /home/chu/GNS3/images/IOS/c7200-adventerprisek9-mz.124-15.T17.image 
+Apr 02 12:06:27.427 HYPERVISOR: exec_cmd: vm get_status R1 
+Apr 02 12:06:27.427 HYPERVISOR: exec_cmd: vm set_idle_pc R1 0x606f0b84 
+Apr 02 12:06:27.428 HYPERVISOR: exec_cmd: vm set_ram R1 512 
+Apr 02 12:06:27.428 HYPERVISOR: exec_cmd: vm set_nvram R1 512 
+Apr 02 12:06:27.428 HYPERVISOR: exec_cmd: vm set_disk0 R1 0 
+Apr 02 12:06:27.428 HYPERVISOR: exec_cmd: vm get_status R1 
+Apr 02 12:06:27.428 HYPERVISOR: exec_cmd: vm slot_add_binding R1 1 0 PA-A1 
+Apr 02 12:06:27.429 HYPERVISOR: exec_cmd: vm get_status R1 
+Apr 02 12:06:27.429 HYPERVISOR: exec_cmd: vm slot_add_binding R1 2 0 PA-FE-TX 
+Apr 02 12:06:27.429 HYPERVISOR: exec_cmd: vm get_status R1 
+Apr 02 12:06:27.429 HYPERVISOR: exec_cmd: vm slot_add_binding R1 3 0 PA-4T+ 
+Apr 02 12:06:27.429 HYPERVISOR: exec_cmd: vm get_status R1 
+Apr 02 12:06:27.429 HYPERVISOR: exec_cmd: vm slot_add_binding R1 4 0 PA-8T 
+Apr 02 12:06:27.429 HYPERVISOR: exec_cmd: vm get_status R1 
+Apr 02 12:06:27.429 HYPERVISOR: exec_cmd: vm slot_add_binding R1 5 0 PA-GE 
+Apr 02 12:06:27.430 HYPERVISOR: exec_cmd: vm get_status R1 
+Apr 02 12:06:27.430 HYPERVISOR: exec_cmd: vm slot_add_binding R1 6 0 PA-POS-OC3 
+Apr 02 12:06:27.476 HYPERVISOR: exec_cmd: vm set_ios R1 /home/chu/GNS3/images/IOS/c7200-adventerprisek9-mz.124-15.T17.image 
+Apr 02 12:06:28.515 HYPERVISOR: exec_cmd: vm set_ios R1 /home/chu/GNS3/images/IOS/c7200-adventerprisek9-mz.124-15.T17.image 
+Apr 02 12:06:29.740 HYPERVISOR: exec_cmd: vm set_ios R1 /home/chu/GNS3/images/IOS/c7200-adventerprisek9-mz.124-15.T17.image 
+Apr 02 12:07:58.917 HYPERVISOR: exec_cmd: vm set_ios R1 /home/chu/GNS3/images/IOS/c7200-adventerprisek9-mz.124-15.T17.image 
+Apr 02 12:08:00.860 HYPERVISOR: exec_cmd: vm get_status R1 
+Apr 02 12:08:00.861 HYPERVISOR: exec_cmd: vm extract_config R1 
+Apr 02 12:08:00.862 HYPERVISOR: exec_cmd: vm delete R1 
+Apr 02 12:08:00.862 VM: VM R1 destroyed.
+Apr 02 12:08:00.863 HYPERVISOR: exec_cmd: hypervisor stop 
+Apr 02 12:08:01.018 HYPERVISOR: Stopped.
+Apr 02 12:08:01.018 GENERAL: reset done.

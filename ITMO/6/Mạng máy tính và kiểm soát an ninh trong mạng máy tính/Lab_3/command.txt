@@ -1,0 +1,198 @@
+Cấu hình địa chỉ IP trên FirewallVM
+
+- chạy dưới quyền quản trị: su
+- thực hiện cấu hình trong file interfaces:
+nano /etc/network/interfaces
+
+# Loopback interface
+auto lo
+iface lo inet loopback
+
+# Cấu hình cho eth0
+auto eth0
+iface eth0 inet static
+    address 10.10.10.1
+    netmask 255.255.255.0
+
+# Cấu hình cho eth1
+auto eth1
+iface eth1 inet static
+    address 192.168.100.1
+    netmask 255.255.255.0
+
+- thực hiện khởi động lại mạng:
+sudo ifdown eth0 && sudo ifup eth0
+sudo ifdown eth1 && sudo ifup eth1
+
+- thực hiện kiểm tra:
+ifconfig -a
+hoặc
+ip addr
+
+- Kết quả cho ra trạng thái với các giao diện mạng eth0 và eth1 là state UP là ok
+
+-------------------------------------------------------------------------------------------
+
+Cấu hình IP trên ClientVM
+
+- chạy dưới quyền quản trị: su
+- thực hiện cấu hình trong file interfaces:
+nano /etc/network/interfaces
+
+
+# Loopback interface
+auto lo
+iface lo inet loopback
+
+# Cấu hình card mạng chính (giả sử là eth0)
+auto eth0
+iface eth0 inet static
+    address 10.10.10.10
+    netmask 255.255.255.0
+    gateway 10.10.10.1
+    dns-nameservers 8.8.8.8 1.1.1.1
+
+- khởi động lại:
+sudo ifdown eth0 && sudo ifup eth0
+
+- Tiến hành kiểm tra:
+
+ip addr
+
+ip route
+
+- ping đến gateway: 
+ping 10.10.10.1
+
+- nếu reply thì ok.
+- Tại sao lại ping đến gateway 10.10.10.1 vì địa chỉ của FirewallVM  
+
+-------------------------------------------------------------------------------------------
+RemoteServerVM
+
+# Loopback interface
+auto lo
+iface lo inet loopback
+
+# Card nối với eth1 của FirewallVM
+auto eth0
+iface eth0 inet static
+    address 192.168.100.100
+    netmask 255.255.255.0
+    gateway 192.168.100.1
+    dns-nameservers 8.8.8.8 1.1.1.1
+
+Kiểm tra:
+ip addr
+ping 192.168.100.1   # ping eth1 của FirewallVM
+
+-------------------------------------------------------------------------------------------
+Bật IP Forwarding và thiết lập trên FirewallVM
+
+Để FirewallVM làm “router” giữa hai mạng 10.10.10.0/24 và 192.168.100.0/24
+
+- có thể sửa file /etc/sysctl.conf
+bỏ dấu # trước dòng net.ipv4.ip_forward = 1 là được
+- sau đó áp dụng thay đổi: 
+sudo sysctl -p
+
+- Để kiểm tra:
+cat /proc/sys/net/ipv4/ip_forward
+- Kết quả hiện 1 nghĩa là IP Forwarding đã được đặt
+
+-------------------------------------------------------------------------------------------
+
+THỰC HIỆN CẤU HÌNH IPTABLES — TRÊN MÁY FirewallVM
+
+BƯỚC 1: Reset iptables và thiết lập chính sách mặc định
+
+iptables -F
+iptables -X
+iptables -t nat -F
+iptables -t nat -X
+
+iptables -P INPUT DROP
+iptables -P FORWARD DROP
+iptables -P OUTPUT ACCEPT
+Mục đích:
+
+Xoá tất cả rule cũ
+
+Đặt chính sách mặc định:
+
+INPUT và FORWARD: DROP (tức là chặn tất cả trừ khi có rule cho phép)
+
+OUTPUT: cho phép gửi ra
+
+- kiểm tra đã sạch rule chưa
+
+iptables -L -v --line-numbers
+
+Tất cả chuỗi (INPUT, FORWARD) có chính sách mặc định là DROP
+
+BƯỚC 2: Cho phép các kết nối cơ bản
+
+
+# Cho phép loopback
+iptables -A INPUT -i lo -j ACCEPT
+
+# Cho phép kết nối đã được thiết lập
+iptables -A INPUT -m state --state ESTABLISHED,RELATED -j ACCEPT
+iptables -A FORWARD -m state --state ESTABLISHED,RELATED -j ACCEPT
+
+# Nếu đang SSH vào Firewall, cho phép SSH
+iptables -A INPUT -p tcp --dport 22 -j ACCEPT
+
+
+Test 2.1 – Từ ClientVM ping đến Firewall
+ping 10.10.10.1
+- nhận phản hồi là đc
+ Test 2.2 – Từ RemoteServerVM ping đến Firewall
+
+ ping 192.168.100.1
+- nhận phản hồi là ok
+
+Test từ ClientVM ping đến RemoteServerVM
+ping 192.168.100.100
+nhận phải hồi là ok.
+-------------------------------------------------------------------------------------------
+Câu 1: Chặn tất cả các kết nối Telnet đến từ địa chỉ 10.10.10.10.
+
+
+telnet là một giao thức mạng và công cụ dòng lệnh dùng để:
+
+Kết nối đến một máy khác thông qua giao thức TCP, thường dùng để kiểm tra xem một cổng (port) trên máy đó có mở hay không.
+
+- Cú pháp:
+telnet [địa_chỉ_IP_hoặc_hostname] [port]
+
+Telnet sử dụng cổng TCP 23.
+Vì Client muốn kết nối đến RemoteServer qua Firewall, ta chặn ở FORWARD chain.
+
+iptables -A FORWARD -p tcp --dport 23 -s 10.10.10.10 -j DROP
+
+- Kiểm tra:
+Trên ClientVM:
+telnet 192.168.100.100 23
+→ Bị treo hoặc báo lỗi là đúng.
+
+-  Xem danh sách rule và đánh số dòng:
+
+sudo iptables -L -v --line-numbers
+
+- Xoá rule theo số dòng (VD: dòng 1 trong chain FORWARD)
+
+sudo iptables -D FORWARD 1
+
+-------------------------------------------------------------------------------------------
+Câu 2: Thiết lập chặn các yêu cầu TCP đến không tạo kết nối mới và không thuộc về bất kỳ kết nối hiện có nào.
+
+
+Chặn các gói TCP đến:
+
+Không thuộc về một kết nối hiện có
+
+Không khởi tạo kết nối mới một cách hợp lệ
+
+Hoặc thuộc trạng thái INVALID
+

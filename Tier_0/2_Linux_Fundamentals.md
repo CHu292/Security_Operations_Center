@@ -1,14 +1,29 @@
 ## Table of Contents
 
 1. [Introduction](#1-introduction)
+
 1.1. [Linux Structure](#11-linux-structure)
+
 1.2. [Linux Distributions](#12-linux-distributions)
+
 1.3. [Introduction to Shell](#13-introduction-to-shell)
+
+---
+
+2. [The Shell](#2-the-shell)
+
+2.1. [Prompt Description](#21-prompt-description)
+
+2.2. [Getting Help](#22-getting-help)
+
+2.3. [System Information](#23-system-information)
+
 
 
 # 1. Introduction
 ## 1.1. Linux Structure
 **Cấu trúc Linux**
+
 
 Linux, như bạn có thể đã biết, là một hệ điều hành được sử dụng cho máy tính cá nhân, máy chủ, và thậm chí cả thiết bị di động. Tuy nhiên, Linux đóng vai trò như một trụ cột nền tảng trong an ninh mạng, nổi tiếng với độ ổn định, tính linh hoạt và mã nguồn mở. Trong phần này, chúng ta sẽ tìm hiểu về cấu trúc Linux, lịch sử, triết lý, kiến trúc, và hệ thống phân cấp tệp — những kiến thức thiết yếu đối với bất kỳ chuyên gia an ninh mạng nào. Bạn có thể coi đây như buổi học lái xe đầu tiên với một chiếc xe mới, để hiểu cơ bản về phương tiện, nó gồm những gì, và tại sao nó lại có hình thức như hiện tại.
 
@@ -176,4 +191,427 @@ Shell được sử dụng phổ biến nhất trong Linux là **Bourne-Again Sh
 Ngoài ra, nhiều tiến trình có thể được tự động hóa một cách dễ dàng thông qua các script nhỏ hoặc lớn, giúp công việc thủ công trở nên đơn giản hơn nhiều.
 
 Bên cạnh Bash, còn có nhiều loại shell khác như **Tcsh/Csh**, **Ksh**, **Zsh**, **Fish** và các shell khác.
+
+---
+
+# 2. The Shell
+## 2.1. Prompt Description
+**Mô tả về Prompt**
+
+Prompt trong bash rất dễ hiểu. Theo mặc định, nó hiển thị thông tin như tên người dùng (username – bạn là ai), tên máy tính (hostname), và thư mục/directory mà bạn đang làm việc. Đây là một dòng văn bản xuất hiện trên màn hình để cho bạn biết rằng hệ thống đã sẵn sàng. Prompt xuất hiện trên một dòng mới, và con trỏ (dấu nhấp nháy hoặc ô vuông) sẽ nằm ngay sau đó, chờ bạn nhập lệnh.
+
+Prompt có thể được tùy chỉnh để hiển thị thông tin hữu ích cho người dùng. Cấu trúc có thể trông như sau:
+
+```
+<username>@<hostname>:<current working directory>$
+```
+
+Thư mục chính (home directory) của một người dùng được đánh dấu bằng dấu ngã `~` và là thư mục mặc định khi đăng nhập.
+Ví dụ:
+
+```
+<username>@<hostname>:~$
+```
+
+Ký hiệu `$` ở đây thể hiện cho người dùng thông thường.
+
+Khi đăng nhập với quyền **root**, ký tự này sẽ đổi thành dấu `#` và có dạng:
+
+```
+root@htb:[/htb]#
+```
+
+Ví dụ, khi chúng ta tải và chạy shell trên máy mục tiêu, có thể sẽ không thấy tên người dùng, hostname và thư mục hiện tại. Điều này có thể do biến môi trường `PS1` không được đặt đúng. Trong trường hợp này, prompt có thể hiển thị như sau:
+
+* **Prompt của User (không đặc quyền)**
+
+```
+$
+```
+
+* **Prompt của Root (có đặc quyền)**
+
+```
+#
+```
+
+Tùy chỉnh prompt có thể là một cách hữu ích để khiến trải nghiệm terminal của bạn trở nên cá nhân hóa và hiệu quả hơn. Nó cũng có thể là một công cụ hỗ trợ tốt cho việc khắc phục sự cố và giải quyết vấn đề, vì nó có thể cung cấp thông tin quan trọng về trạng thái của hệ thống tại bất kỳ thời điểm nào.
+
+Ngoài việc tùy chỉnh prompt, chúng ta còn có thể tùy chỉnh môi trường terminal với các bảng màu khác nhau, phông chữ, và các thiết lập khác để khiến môi trường làm việc trở nên trực quan và dễ sử dụng hơn.
+
+Tuy nhiên, chúng ta cũng thấy sự tương đồng với khi làm việc trên giao diện đồ họa Windows (GUI). Chúng ta đăng nhập với tư cách một người dùng trên một máy tính có tên cụ thể, và biết mình đang ở thư mục nào khi điều hướng trong hệ thống. Bash prompt cũng có thể được tùy chỉnh và thay đổi theo nhu cầu của chúng ta. Việc điều chỉnh bash prompt không nằm trong phạm vi của mô-đun này. Tuy nhiên, chúng ta có thể tham khảo **bash-prompt-generator** và **powerline**, giúp chúng ta có thể điều chỉnh prompt phù hợp với nhu cầu.
+
+---
+
+## 2.2. Getting Help
+
+Khi đã có nền tảng vững chắc về cấu trúc Linux, các bản phân phối khác nhau và mục đích của shell, giờ đây chúng ta có thể bắt đầu áp dụng kiến thức này vào thực tế. Đã đến lúc làm việc trực tiếp với terminal, cũng như học cách tìm kiếm sự trợ giúp khi gặp phải những công cụ không quen thuộc.
+
+Chúng ta sẽ luôn bắt gặp những công cụ hoặc tham số tùy chọn mà mình không nhớ rõ hoặc chưa từng thấy bao giờ. Vì vậy, điều quan trọng là phải biết cách tự tìm hiểu để làm quen với những công cụ đó. Hai cách đầu tiên là **man pages** và **help functions**. Luôn là một ý tưởng tốt khi làm quen với công cụ trước khi sử dụng. Chúng ta cũng sẽ học một số mẹo hay với những công cụ tưởng như không thể làm được. Trong **man pages**, chúng ta sẽ tìm thấy các tài liệu hướng dẫn chi tiết kèm giải thích cụ thể.
+
+---
+
+**Lệnh đầu tiên:**
+
+```bash
+Chloe9902@htb[/htb]$ ls
+```
+
+Kết quả:
+
+```
+cacert.der  Documents  Music  Public  Videos
+Desktop     Downloads  Pictures  Templates
+```
+
+Lệnh **`ls`** trong Linux và Unix được dùng để liệt kê các tệp và thư mục trong thư mục hiện tại hoặc thư mục được chỉ định, giúp bạn xem bên trong và quản lý tệp hiệu quả hơn. Giống như hầu hết các lệnh Linux khác, **`ls`** có thêm nhiều tùy chọn và tính năng hỗ trợ lọc hoặc định dạng đầu ra theo ý muốn.
+
+Để biết công cụ hoặc lệnh nào có những tùy chọn gì, có nhiều cách để nhận trợ giúp. Một trong số đó là dùng lệnh **`man`**, hiển thị các trang hướng dẫn sử dụng chi tiết cho lệnh đó.
+
+---
+
+**Cú pháp:**
+
+```bash
+Chloe9902@htb[/htb]$ man <tool>
+```
+
+---
+
+**Ví dụ:**
+
+```bash
+Chloe9902@htb[/htb]$ man ls
+```
+
+```bash
+LS(1)                            User Commands                           LS(1)
+
+NAME
+       ls - list directory contents
+
+SYNOPSIS
+       ls [OPTION]... [FILE]...
+
+DESCRIPTION
+       List  information  about  the FILEs (the current directory by default).
+       Sort entries alphabetically if none of -cftuvSUX nor --sort  is  speci‐
+       fied.
+
+       Mandatory  arguments  to  long  options are mandatory for short options
+       too.
+
+       -a, --all
+              do not ignore entries starting with .
+
+       -A, --almost-all
+              do not list implied . and ..
+
+       --author
+ Manual page ls(1) line 1 (press h for help or q to quit)
+
+```
+
+Sau khi xem qua một số ví dụ, chúng ta cũng có thể nhanh chóng xem các tham số tùy chọn mà không cần đọc toàn bộ tài liệu hướng dẫn. Có nhiều cách để làm điều đó.
+
+---
+
+**Cú pháp:**
+
+```bash
+Chloe9902@htb[/htb]$ <tool> --help
+```
+
+---
+**Ví dụ:**
+
+```bash
+Chloe9902@htb[/htb]$ ls --help
+```
+
+**Kết quả:**
+
+```
+Usage: ls [OPTION]... [FILE]...
+List information about the FILEs (the current directory by default).
+Sort entries alphabetically if none of -cftuvSUX nor --sort is specified.
+
+Mandatory arguments to long options are mandatory for short options too.
+  -a, --all                  do not ignore entries starting with .
+  -A, --almost-all           do not list implied . and ..
+      --author               with -l, print the author of each file
+  -b, --escape               print C-style escapes for nongraphic characters
+      --block-size=SIZE      with -l, scale sizes by SIZE when printing them;
+                             e.g., '--block-size=M'; see SIZE format below
+  -B, --ignore-backups       do not list implied entries ending with ~
+  -c                         with -lt: sort by, and show, ctime (time of last
+                             modification of file status information);
+                             with -l: show ctime and sort by name;
+                             otherwise: sort by ctime, newest first
+  -C                         list entries by columns
+<...>
+```
+
+---
+
+Một số công cụ hoặc lệnh như `curl` có thể hiển thị phiên bản rút gọn của phần trợ giúp bằng cách dùng tùy chọn `-h` thay vì `--help`:
+
+---
+
+**Cú pháp:**
+
+```bash
+Chloe9902@htb[/htb]$ <tool> -h
+```
+
+**Ví dụ:**
+
+```bash
+Chloe9902@htb[/htb]$ curl -h
+
+Usage: curl [options...] <url>
+     --abstract-unix-socket <path> Connect via abstract Unix domain socket
+     --anyauth       Pick any authentication method
+ -a, --append        Append to target file when uploading
+     --basic         Use HTTP Basic Authentication
+     --cacert <file> CA certificate to verify peer against
+     --capath <dir>  CA directory to verify peer against
+ -E, --cert <certificate[:password]> Client certificate file and password
+<SNIP>
+```
+
+Như chúng ta có thể thấy, kết quả của mỗi lệnh trong ví dụ này không khác nhau nhiều.
+Một công cụ khác có thể hữu ích cho người mới bắt đầu là **`apropos`**.
+Mỗi trang hướng dẫn (manual page) có một mô tả ngắn bên trong. Công cụ này tìm kiếm các mô tả đó để tìm những mục có chứa từ khóa đã cho.
+
+---
+
+**Cú pháp:**
+
+```bash
+Chloe9902@htb[/htb]$ apropos <từ_khóa>
+```
+
+---
+
+**Ví dụ:**
+
+```bash
+Chloe9902@htb[/htb]$ apropos sudo
+```
+
+Kết quả:
+
+```
+sudo (8)         - execute a command as another user
+sudo.conf (5)    - configuration for sudo front end
+sudo_plugin (8)  - Sudo Plugin API
+sudo_root (8)    - How to run administrative commands
+sudoedit (8)     - execute a command as another user
+sudoers (5)      - default sudo security policy plugin
+sudoreplay (8)   - replay sudo session logs
+visudo (8)       - edit the sudoers file
+```
+
+---
+
+Một nguồn tài nguyên khác hữu ích để nhận trợ giúp nếu chúng ta gặp khó khăn trong việc hiểu một lệnh dài là:
+🔗 [https://explainshell.com/](https://explainshell.com/)
+
+---
+
+Tiếp theo, chúng ta sẽ tìm hiểu nhiều lệnh, trong đó có thể có những lệnh mới đối với bạn.
+Tuy nhiên, bây giờ bạn đã biết cách tìm kiếm trợ giúp với bất kỳ lệnh nào mà bạn chưa quen hoặc không chắc về các tùy chọn của nó.
+Chúng tôi khuyến khích bạn hãy khám phá sự tò mò của mình, dành thời gian để thử nghiệm và tìm hiểu các công cụ được giới thiệu. Điều này luôn là thời gian xứng đáng để đầu tư.
+
+---
+
+## 2.3. System Information
+**Thông tin Hệ thống**
+
+Bây giờ, hãy cùng thực hành một số lệnh cơ bản để làm quen với terminal và shell.
+Hãy nhớ rằng bạn luôn có thể sử dụng các lệnh **`-h`**, **`--help`**, hoặc **`man`** để nhận trợ giúp khi cần.
+
+Vì chúng ta sẽ làm việc với nhiều hệ thống Linux khác nhau, việc hiểu cấu trúc của chúng bao gồm thông tin hệ thống, tiến trình, cấu hình mạng, cài đặt người dùng/thư mục và các tham số liên quan là rất quan trọng.
+Dưới đây là danh sách các công cụ thiết yếu giúp thu thập thông tin này. Hầu hết các công cụ này đều được cài đặt sẵn.
+Kiến thức này không chỉ cần cho các tác vụ Linux thường ngày mà còn đóng vai trò quan trọng trong việc đánh giá cấu hình bảo mật, xác định lỗ hổng hoặc ngăn ngừa rủi ro bảo mật tiềm ẩn trong hệ điều hành Linux.
+
+| Lệnh         | Mô tả                                                                                        |
+| ------------ | -------------------------------------------------------------------------------------------- |
+| **whoami**   | Hiển thị tên người dùng hiện tại.                                                            |
+| **id**       | Trả về thông tin nhận dạng của người dùng.                                                   |
+| **hostname** | Thiết lập hoặc in tên của máy chủ hiện tại.                                                  |
+| **uname**    | In thông tin cơ bản về tên hệ điều hành và phần cứng hệ thống.                               |
+| **pwd**      | Trả về tên thư mục làm việc hiện tại.                                                        |
+| **ifconfig** | Dùng để gán hoặc xem địa chỉ của giao diện mạng và/hoặc cấu hình các tham số giao diện mạng. |
+| **ip**       | Hiển thị hoặc thao tác định tuyến, thiết bị mạng, giao diện và đường hầm.                    |
+| **netstat**  | Hiển thị trạng thái mạng.                                                                    |
+| **ss**       | Một công cụ khác để kiểm tra socket.                                                         |
+| **ps**       | Hiển thị trạng thái các tiến trình.                                                          |
+| **who**      | Hiển thị ai đang đăng nhập.                                                                  |
+| **env**      | In biến môi trường hoặc thiết lập và thực thi lệnh.                                          |
+| **lsblk**    | Liệt kê các thiết bị khối (block devices).                                                   |
+| **lsusb**    | Liệt kê các thiết bị USB.                                                                    |
+| **lsof**     | Liệt kê các tệp đang mở.                                                                     |
+| **lspci**    | Liệt kê các thiết bị PCI.                                                                    |
+
+---
+
+Cuối cùng, hãy cuộn xuống cuối trang, khởi chạy máy mục tiêu, kết nối với nó bằng SSH, sau đó cố gắng làm theo và thực hiện lại càng nhiều ví dụ trong phần này càng tốt.
+
+### Đăng nhập qua SSH
+
+**Secure Shell (SSH)** là một giao thức cho phép các máy khách truy cập và thực thi lệnh hoặc hành động trên máy tính từ xa.
+Trên các máy chủ và hệ điều hành dựa trên Unix (bao gồm Linux), SSH là một công cụ tiêu chuẩn được cài đặt sẵn và thường được quản trị viên ưa chuộng để cấu hình, quản lý máy tính từ xa.
+
+SSH là một giao thức lâu đời, đáng tin cậy, không yêu cầu hoặc cung cấp giao diện đồ họa (GUI), hoạt động rất hiệu quả và tiêu tốn ít tài nguyên.
+Vì lý do này, nó thường được dùng trong các bài thực hành để bạn có thể thử nghiệm các lệnh và thao tác trong một môi trường an toàn.
+
+Cú pháp kết nối tới máy mục tiêu:
+
+```bash
+ssh htb-student@[IP address]
+```
+
+---
+
+**Hostname**
+
+Lệnh **`hostname`** sẽ in ra tên của máy tính mà chúng ta đang đăng nhập:
+
+```bash
+hostname
+```
+
+Ví dụ đầu ra:
+
+```
+nixfund
+```
+
+---
+
+**Whoami**
+
+Lệnh **`whoami`** cho biết tên người dùng hiện tại.
+Điều này rất hữu ích trong kiểm thử bảo mật hoặc khi có quyền truy cập shell đảo ngược, giúp ta biết mình đang chạy với tư cách người dùng nào và liệu người đó có đặc quyền gì không.
+
+```bash
+whoami
+```
+
+Ví dụ đầu ra:
+
+```
+cry0l1t3
+```
+
+**Id**
+
+Lệnh **`id`** mở rộng chức năng của `whoami` bằng cách in ra thông tin **ID người dùng (UID)**, **ID nhóm (GID)** và danh sách **các nhóm** mà người dùng thuộc về.
+
+Điều này hữu ích cho cả kiểm thử xâm nhập (pentest) và quản trị viên hệ thống khi cần kiểm tra quyền truy cập và quyền thành viên nhóm.
+Ví dụ, trong kết quả dưới đây:
+
+* **Nhóm `hackthebox`**: là nhóm không tiêu chuẩn, có thể cho thấy quyền truy cập đặc biệt.
+* **Nhóm `adm`**: cho phép đọc log hệ thống trong `/var/log`, có thể tiết lộ thông tin nhạy cảm.
+* **Nhóm `sudo`**: cho phép chạy một số hoặc tất cả lệnh với quyền **root**, giúp leo thang đặc quyền.
+
+```bash
+id
+```
+
+Kết quả mẫu:
+
+```
+uid=1000(cry0l1t3) gid=1000(cry0l1t3) groups=1000(cry0l1t3),1337(hackthebox),4(adm),24(cdrom),27(sudo),30(dip),46(plugdev),116(lpadmin),126(sambashare)
+```
+
+---
+
+**Uname**
+
+Lệnh **`uname`** hiển thị thông tin cơ bản về hệ điều hành và phần cứng.
+Bạn có thể gõ:
+
+```bash
+man uname
+```
+
+để xem tài liệu hướng dẫn và các tùy chọn khả dụng của lệnh này.
+
+```bash
+UNAME(1)                                    User Commands                                   UNAME(1)
+
+NAME
+       uname - print system information
+
+SYNOPSIS
+       uname [OPTION]...
+
+DESCRIPTION
+       Print certain system information.  With no OPTION, same as -s.
+
+       -a, --all
+              print all information, in the following order, except omit -p and -i if unknown:
+
+       -s, --kernel-name
+              print the kernel name
+
+       -n, --nodename
+              print the network node hostname
+
+       -r, --kernel-release
+              print the kernel release
+
+       -v, --kernel-version
+              print the kernel version
+
+       -m, --machine
+              print the machine hardware name
+
+       -p, --processor
+              print the processor type (non-portable)
+
+       -i, --hardware-platform
+              print the hardware platform (non-portable)
+
+       -o, --operating-system
+
+```
+
+Chạy `uname -a` sẽ in ra tất cả thông tin về máy theo một thứ tự cụ thể: tên kernel, tên máy chủ, bản phát hành kernel, phiên bản kernel, tên phần cứng của máy, và hệ điều hành. Tùy chọn `-a` sẽ bỏ qua `-p` (loại bộ xử lý) và `-i` (nền tảng phần cứng) nếu chúng không xác định được.
+
+```
+cry0l1t3@htb[/htb]$ uname -a
+
+Linux box 4.15.0-99-generic #100-Ubuntu SMP Wed Apr 22 20:32:56 UTC 2020 x86_64 x86_64 x86_64 GNU/Linux
+```
+
+Từ lệnh trên, ta có thể thấy tên kernel là **Linux**, tên máy chủ là **box**, bản phát hành kernel là **4.15.0-99-generic**, phiên bản kernel là **#100-Ubuntu SMP Wed Apr 22 20:32:56 UTC 2020**, v.v. Chạy bất kỳ tùy chọn nào riêng lẻ sẽ cho ta phần thông tin cụ thể mà ta quan tâm.
+
+---
+
+### Sử dụng uname để lấy bản phát hành kernel
+
+Giả sử ta muốn in ra bản phát hành kernel để nhanh chóng tìm kiếm các khai thác kernel tiềm năng. Ta có thể gõ `uname -r` để lấy thông tin này.
+
+```
+cry0l1t3@htb[/htb]$ uname -r
+
+4.15.0-99-generic
+```
+
+Với thông tin này, ta có thể tìm kiếm `"4.15.0-99-generic exploit"`, và kết quả đầu tiên lập tức sẽ xuất hiện hữu ích cho chúng ta.
+
+Chúng ta nên nghiên cứu kỹ các lệnh và hiểu chúng dùng để làm gì và cung cấp thông tin gì. Dù có hơi tốn thời gian, nhưng việc nghiên cứu trang hướng dẫn (manpages) của các lệnh thông dụng sẽ giúp chúng ta học được nhiều điều mà có thể trước đây ta không nghĩ là có thể làm với một lệnh. Thông tin này không chỉ được dùng để làm việc với Linux mà còn được sử dụng sau này để phát hiện lỗ hổng và cấu hình sai trên hệ thống Linux có thể dẫn đến leo thang đặc quyền. Dưới đây là một vài bài tập tùy chọn mà chúng ta có thể giải cho mục đích thực hành, giúp chúng ta làm quen hơn với một số lệnh.
+
+
+### Về các bài tập Linux
+
+Các bài tập được cung cấp để học hệ điều hành Linux và các lệnh của nó có thể không phải lúc nào cũng rõ ràng ngay về những gì bạn cần làm, và điều đó hoàn toàn bình thường — thậm chí còn là điều không thể tránh khỏi. Như bạn đã học từ phần “Quá trình học tập”, việc học một điều mới có thể khiến bạn thấy không thoải mái và có thể gây căng thẳng. Bạn có thể hình dung điều đó giống như lần đầu tiên bạn ngồi sau tay lái và phải tự lái xe. Khi đó rất căng thẳng vì có quá nhiều thứ bạn phải tập trung cùng lúc. Nhưng bây giờ, khi đã có kinh nghiệm, việc lái xe trở nên dễ dàng hơn, dù rằng bạn không còn học được nhiều như trước. Tương tự, trong phần học này, bạn có thể thấy mình ở trong những tình huống không chắc nên làm gì, nhưng điều đó cũng không sao. Trên hành trình an ninh mạng, bạn sẽ thường xuyên gặp những khoảnh khắc như vậy, và đó là dấu hiệu tích cực cho thấy bạn đang học điều gì đó mới. Vượt qua những thử thách này sẽ giúp bạn tiến bộ, ngay cả khi bạn chưa hoàn toàn giải xong bài tập. Đó mới là mục tiêu cuối cùng — tiến bộ thông qua việc học.
+
+Các bài tập được thiết kế có chủ đích nhằm dần dần đưa bạn ra khỏi vùng kiến thức hiện tại và bước vào lĩnh vực chưa quen thuộc. Tiến trình này được sắp đặt cẩn thận để đảm bảo rằng khi bạn tiếp tục luyện tập, kinh nghiệm và kiến thức của bạn sẽ tự nhiên mở rộng. Dù đôi khi có thể cảm thấy không thoải mái, quá trình này là cần thiết cho sự phát triển. Với mỗi thử thách mới, bạn sẽ vượt ra ngoài những gì mình đã biết, và với nỗ lực đều đặn, bạn sẽ thấy sự hiểu biết và kỹ năng của mình gần như tự động phát triển. Hãy tiếp tục luyện tập, và bạn sẽ dần tự tin hơn cũng như thành thạo hơn trong việc điều hướng những điều chưa biết.
+
+## Các câu hỏi
 
