@@ -23,7 +23,7 @@
 3. [Workflow](#3-workflow)
 
 3.1 [Navigation](#31-navigation)
-
+3.2 [Working with Files and Directories](#32-working-with-files-and-directories)
 
 # 1. Introduction
 ## 1.1. Linux Structure
@@ -881,3 +881,228 @@ Chúng ta cũng có thể dùng các phím mũi tên (**↑ hoặc ↓**) để 
 ![](./img/2_Linux_Fundamentals/3.1.1.png)
 
 ---
+
+## 3.2 Working with Files and Directories
+>Làm việc với Tệp và Thư mục
+
+Sự khác biệt chính giữa làm việc với tệp trong Linux so với Windows nằm ở cách chúng ta truy cập và quản lý các tệp đó. Trong Windows, chúng ta thường dùng công cụ đồ họa như Explorer để tìm, mở và chỉnh sửa tệp. Tuy nhiên, trong Linux, terminal mang lại một giải pháp mạnh mẽ hơn, nơi các tệp có thể được truy cập và chỉnh sửa trực tiếp bằng lệnh. Cách này không chỉ nhanh hơn mà còn hiệu quả hơn, vì nó cho phép bạn chỉnh sửa tệp một cách tương tác mà không cần đến các trình soạn thảo như **vim** hoặc **nano**.
+
+Hiệu quả của terminal xuất phát từ khả năng truy cập vào các tệp chỉ với vài lệnh đơn giản, và nó cho phép bạn chỉnh sửa chọn lọc các tệp bằng **biểu thức chính quy (regex)**. Ngoài ra, bạn có thể chạy nhiều lệnh cùng lúc, chuyển hướng đầu ra tới tệp và tự động hóa các tác vụ lặp đi lặp lại, đây là lợi thế lớn khi phải xử lý nhiều tệp cùng lúc. Cách tiếp cận bằng dòng lệnh này giúp quy trình làm việc trở nên gọn gàng, là công cụ vô giá cho những tác vụ vốn sẽ tốn nhiều thời gian hơn nếu làm qua giao diện đồ họa.
+
+Tiếp theo, chúng ta sẽ khám phá cách làm việc với tệp và thư mục để quản lý hiệu quả nội dung trên hệ điều hành.
+
+---
+
+### Tạo, Di chuyển và Sao chép
+
+Bắt đầu bằng việc học cách thực hiện các thao tác chính như tạo, đổi tên, di chuyển, sao chép và xóa tệp. Trước khi thực hiện các lệnh này, trước hết chúng ta cần SSH vào mục tiêu. Bây giờ, giả sử ta muốn tạo một tệp hoặc thư mục mới. Cú pháp như sau:
+
+---
+
+Cú pháp - **touch**
+
+```bash
+Ch10ce9902@htb[/htb]$ touch <name>
+```
+
+Cú pháp - **mkdir**
+
+```bash
+Ch10ce9902@htb[/htb]$ mkdir <name>
+```
+
+---
+
+Trong ví dụ tiếp theo, chúng ta sẽ tạo một tệp có tên **info.txt** và một thư mục có tên **Storage**. Để tạo chúng, chúng ta làm theo lệnh và cú pháp như trên.
+
+---
+
+Tạo một tệp rỗng
+
+```bash
+Ch10ce9902@htb[/htb]$ touch info.txt
+```
+
+Tạo một thư mục
+
+```bash
+Ch10ce9902@htb[/htb]$ mkdir Storage
+```
+
+Khi tổ chức hệ thống, đôi khi bạn cần tạo nhiều thư mục lồng nhau. Việc chạy lệnh `mkdir` cho từng thư mục sẽ tốn thời gian. Rất may, lệnh `mkdir` có tùy chọn **-p (parents)** cho phép bạn tạo các thư mục cha tự động.
+
+---
+
+Ví dụ:
+
+```bash
+Ch10ce9902@htb[/htb]$ mkdir -p Storage/local/user/documents
+```
+
+---
+
+Chúng ta có thể xem toàn bộ cấu trúc sau khi tạo các thư mục cha bằng công cụ **tree**.
+
+Ví dụ:
+
+```bash
+Ch10ce9902@htb[/htb]$ tree .
+.
+├── info.txt
+└── Storage
+    └── Local
+        └── user
+            └── documents
+
+4 directories, 1 file
+```
+
+---
+
+Bạn có thể tạo tệp trực tiếp bên trong các thư mục cụ thể bằng cách chỉ định đường dẫn nơi tệp sẽ được lưu, và có thể dùng dấu chấm (`.`) để chỉ ra rằng bạn muốn bắt đầu từ thư mục hiện tại. Đây là cách thuận tiện để làm việc trong vị trí hiện tại mà không cần nhập toàn bộ đường dẫn.
+
+Ví dụ, để tạo thêm một tệp rỗng khác:
+
+---
+
+Tạo **userinfo.txt**
+
+```bash
+Ch10ce9902@htb[/htb]$ touch ./Storage/Local/user/userinfo.txt
+```
+
+---
+
+ Kiểm tra lại cấu trúc:
+
+```bash
+Ch10ce9902@htb[/htb]$ tree .
+.
+├── info.txt
+└── Storage
+    └── Local
+        └── user
+            ├── documents
+            └── userinfo.txt
+
+4 directories, 2 files
+```
+
+---
+
+Với lệnh **mv**, chúng ta có thể di chuyển và cũng có thể đổi tên tệp hoặc thư mục. Cú pháp của lệnh này như sau:
+
+ Cú pháp - **mv**
+
+```bash
+Ch10ce9902@htb[/htb]$ mv <tệp/thư mục> <tệp/thư mục mới>
+```
+
+---
+
+Trước hết, hãy đổi tên tệp **info.txt** thành **information.txt** và sau đó di chuyển nó vào thư mục **Storage**.
+
+Đổi tên tệp
+
+```bash
+Ch10ce9902@htb[/htb]$ mv info.txt information.txt
+```
+
+---
+
+Tiếp theo, chúng ta sẽ tạo một tệp có tên **readme.txt** trong thư mục hiện tại, rồi sao chép cả hai tệp **information.txt** và **readme.txt** vào thư mục **Storage/**.
+
+Tạo tệp **readme.txt**
+
+```bash
+Ch10ce9902@htb[/htb]$ touch readme.txt
+```
+
+---
+
+Di chuyển tệp vào thư mục cụ thể
+
+```bash
+Ch10ce9902@htb[/htb]$ mv information.txt readme.txt Storage/
+```
+
+---
+
+Kiểm tra lại cấu trúc
+
+```bash
+Ch10ce9902@htb[/htb]$ tree .
+.
+└── Storage
+    ├── information.txt
+    ├── Local
+    │   └── user
+    │       ├── documents
+    │       └── userinfo.txt
+    └── readme.txt
+
+4 directories, 3 files
+```
+
+Giả sử chúng ta muốn có tệp **readme.txt** trong thư mục **Local/**. Khi đó, ta có thể sao chép nó đến đó bằng cách chỉ định đường dẫn:
+
+---
+
+Sao chép **readme.txt**
+
+```bash
+Ch10ce9902@htb[/htb]$ cp Storage/readme.txt Storage/local/
+```
+
+---
+
+Bây giờ chúng ta có thể kiểm tra xem tệp đã có trong đó chưa bằng cách sử dụng lại công cụ **tree**.
+
+Kiểm tra cấu trúc
+
+```bash
+Ch10ce9902@htb[/htb]$ tree .
+.
+└── Storage
+    ├── information.txt
+    ├── local
+    │   └── readme.txt
+    └── user
+        ├── documents
+        └── userinfo.txt
+└── readme.txt
+
+4 directories, 4 files
+```
+
+---
+
+Ngoài các lệnh quản lý tệp cơ bản, còn có nhiều cách mạnh mẽ khác để làm việc với tệp trong Linux, chẳng hạn như dùng **chuyển hướng (redirection)** và **trình soạn thảo văn bản**.
+
+* **Chuyển hướng** cho phép bạn điều khiển luồng dữ liệu đầu vào và đầu ra giữa các lệnh và tệp, giúp việc tạo hoặc chỉnh sửa tệp nhanh hơn và hiệu quả hơn.
+* Bạn cũng có thể dùng các trình soạn thảo phổ biến như **vim** hoặc **nano** để chỉnh sửa tương tác.
+
+Chúng ta sẽ khám phá và thảo luận chi tiết hơn về các phương pháp này trong những phần sau. Khi bạn đã quen thuộc với chúng, bạn sẽ có nhiều sự linh hoạt hơn trong việc tạo, chỉnh sửa và quản lý tệp trên hệ thống của mình.
+
+---
+
+💡 **Bài tập tùy chọn:**
+Hãy dùng các công cụ đã học để tìm cách xóa tệp và thư mục.
+Lưu ý rằng việc tự tìm kiếm thông tin trên mạng là một phần quan trọng của quá trình học tập — điều này không phải gian lận. Bạn không bị kiểm tra ngay bây giờ, mà là đang xây dựng kiến thức cho bản thân. Việc tìm kiếm giải pháp trực tuyến sẽ giúp bạn tiếp xúc với nhiều cách tiếp cận khác nhau, có cái nhìn rộng hơn về cách mọi thứ vận hành, và giúp bạn khám phá ra những phương pháp hiệu quả nhất để giải quyết vấn đề.
+
+### Trả lời các câu hỏi
+
+**1. What is the name of the last modified file in the "/var/backups" directory?**
+
+Dùng lệnh : ```ls -t /var/backups | head -n 1```
+
+Hoặc ```ls -lt /var/backups```
+
+---
+
+**2. What is the inode number of the "shadow.bak" file in the "/var/backups" directory?**
+
+```bash
+ls -i /var/backups/shadow.bak
+```
+
