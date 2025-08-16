@@ -18,6 +18,11 @@
 
 2.3. [System Information](#23-system-information)
 
+---
+
+3. [Workflow](#3-workflow)
+
+3.1 [Navigation](#31-navigation)
 
 
 # 1. Introduction
@@ -615,3 +620,264 @@ Các bài tập được thiết kế có chủ đích nhằm dần dần đưa 
 
 ## Các câu hỏi
 
+**1. Find out the machine hardware name and submit it as the answer.**
+
+>x86_64
+
+![](./img/2_Linux_Fundamentals/2.3.1.png)
+
+---
+
+**2. What is the path to htb-student's home directory?**
+
+>/home/htb-student
+
+![](./img/2_Linux_Fundamentals/2.3.2.png)
+
+---
+
+**3.  What is the path to the htb-student's mail?** 
+
+>/var/mail/htb-student
+
+![](./img/2_Linux_Fundamentals/2.3.3.png)
+
+---
+
+**4.  Which shell is specified for the htb-student user?**
+
+>/bin/bash
+
+![](./img/2_Linux_Fundamentals/2.3.4.png)
+
+Trường cuối cùng (/bin/bash) chính là shell được chỉ định cho user htb-student 
+
+---
+
+**5. Which kernel release is installed on the system? (Format: 1.22.3)**
+
+Sử dụng các câu lệnh sau:
+
+```uname -r
+```
+
+Hoặc
+
+```hostnamectl
+```
+
+---
+
+**6.  What is the name of the network interface that MTU is set to 1500?**
+
+
+![](./img/2_Linux_Fundamentals/2.3.5.png)
+
+---
+
+# 3. Workflow
+
+## 3.1 Navigation
+>Điều hướng
+
+Điều hướng là cần thiết, giống như làm việc với chuột như một người dùng Windows thông thường. Với nó, chúng ta di chuyển khắp hệ thống và làm việc trong các thư mục và với các tệp mà chúng ta cần và muốn. Do đó, chúng ta sử dụng các lệnh và công cụ khác nhau để in ra thông tin về một thư mục hoặc một tệp và có thể sử dụng các tùy chọn nâng cao để tối ưu hóa đầu ra theo nhu cầu của chúng ta.
+
+Một trong những cách tốt nhất để học điều gì đó mới là thử nghiệm với nó. Ở đây, chúng ta sẽ đề cập đến các phần về điều hướng trong Linux, tạo, di chuyển, chỉnh sửa và xóa tệp cũng như thư mục, tìm chúng trong hệ điều hành, các loại tiến trình khác nhau và các bộ mô tả tệp là gì. Chúng ta cũng sẽ tìm các phím tắt để làm việc với shell dễ dàng và thoải mái hơn. Chúng tôi khuyên bạn nên thử nghiệm trên máy ảo (VM) đã cài đặt sẵn. Hãy đảm bảo rằng chúng ta đã tạo một snapshot cho VM để phòng trường hợp hệ thống của chúng ta bị hỏng bất ngờ.
+
+Hãy bắt đầu với phần điều hướng. Trước khi chúng ta di chuyển trong hệ thống, chúng ta cần biết mình đang ở thư mục nào. Chúng ta có thể tìm ra vị trí hiện tại với lệnh `pwd`.
+
+---
+
+Ví dụ:
+
+```bash
+cry0l1t3@htb[-]$ pwd
+/home/cry0l1t3
+```
+
+---
+
+Chỉ cần lệnh `ls` là có thể liệt kê tất cả nội dung bên trong một thư mục. Nó có nhiều tùy chọn bổ sung có thể làm cho việc hiển thị nội dung trong thư mục hiện tại đầy đủ hơn.
+
+---
+
+Ví dụ:
+
+```bash
+cry0l1t3@htb[-]$ ls
+Desktop  Documents  Downloads  Music  Pictures  Public  Templates  Videos
+```
+
+---
+
+Sử dụng nó mà không thêm tùy chọn nào sẽ chỉ hiển thị các thư mục và tệp. Tuy nhiên, chúng ta cũng có thể thêm tùy chọn `-l` để hiển thị nhiều thông tin hơn về các thư mục và tệp đó.
+
+---
+
+Ví dụ:
+
+```bash
+cry0l1t3@htb[-]$ ls -l
+total 32
+drwxr-xr-x 2 cry0l1t3 htbacademy 4096 Nov 13 17:37 Desktop
+drwxr-xr-x 2 cry0l1t3 htbacademy 4096 Nov 13 17:34 Documents
+drwxr-xr-x 3 cry0l1t3 htbacademy 4096 Nov 13 17:34 Downloads
+drwxr-xr-x 2 cry0l1t3 htbacademy 4096 Nov 13 17:34 Music
+drwxr-xr-x 2 cry0l1t3 htbacademy 4096 Nov 13 17:34 Pictures
+drwxr-xr-x 2 cry0l1t3 htbacademy 4096 Nov 13 17:34 Public
+drwxr-xr-x 2 cry0l1t3 htbacademy 4096 Nov 13 17:34 Templates
+drwxr-xr-x 2 cry0l1t3 htbacademy 4096 Nov 13 17:34 Videos
+```
+
+Trước tiên, chúng ta thấy tổng số block (1024 byte) được các tệp và thư mục trong thư mục hiện tại sử dụng, điều này cho biết tổng dung lượng đã dùng. Điều đó có nghĩa là nó đã sử dụng 32 block \* 1024 byte/block = 32.768 byte (hay 32 KB) dung lượng đĩa. Tiếp theo, chúng ta thấy một vài cột được cấu trúc như sau:
+
+| Nội dung cột     | Mô tả                                                                   |
+| ---------------- | ----------------------------------------------------------------------- |
+| **drwxr-xr-x**   | Kiểu và quyền                                                           |
+| **2**            | Số lượng hard link đến tệp/thư mục                                      |
+| **cry0l1t3**     | Chủ sở hữu của tệp/thư mục                                              |
+| **htbacademy**   | Nhóm sở hữu của tệp/thư mục                                             |
+| **4096**         | Kích thước của tệp hoặc số block được dùng để lưu trữ thông tin thư mục |
+| **Nov 13 17:37** | Ngày và giờ                                                             |
+| **Desktop**      | Tên thư mục                                                             |
+
+---
+
+Tuy nhiên, chúng ta sẽ không thấy tất cả những gì có trong thư mục này. Một thư mục cũng có thể chứa các tệp ẩn bắt đầu bằng dấu chấm ở đầu tên của nó (ví dụ: `.bashrc` hoặc `.bash_history`).
+
+Do đó, chúng ta cần sử dụng lệnh `ls -la` để liệt kê **tất cả** các tệp trong một thư mục:
+
+---
+
+Ví dụ:
+
+```bash
+cry0l1t3@htb[-]$ ls -la
+total 403188
+drwxr-xr-x  2 cry0l1t3 htbacademy 4096 Nov 13 17:37 .bash_history
+drwxr-xr-x  2 cry0l1t3 htbacademy 4096 Nov 13 17:37 .bashrc
+...SNIP...
+drwxr-xr-x  2 cry0l1t3 htbacademy 4096 Nov 13 17:37 Desktop
+drwxr-xr-x  2 cry0l1t3 htbacademy 4096 Nov 13 17:34 Documents
+drwxr-xr-x  3 cry0l1t3 htbacademy 4096 Nov 13 03:26 Downloads
+drwxr-xr-x  2 cry0l1t3 htbacademy 4096 Nov 13 17:34 Music
+drwxr-xr-x  2 cry0l1t3 htbacademy 4096 Nov 13 17:34 Pictures
+drwxr-xr-x  2 cry0l1t3 htbacademy 4096 Nov 13 17:34 Public
+drwxr-xr-x  2 cry0l1t3 htbacademy 4096 Nov 13 17:34 Templates
+drwxr-xr-x  2 cry0l1t3 htbacademy 4096 Nov 13 17:34 Videos
+```
+Để liệt kê nội dung của một thư mục, chúng ta không nhất thiết phải điều hướng vào đó trước. Chúng ta cũng có thể dùng lệnh `ls` để chỉ định đường dẫn nơi chúng ta muốn biết nội dung.
+
+---
+
+Ví dụ:
+
+```bash
+cry0l1t3@htb[-]$ ls -l /var/
+
+total 52
+drwxr-xr-x  2 root root   4096 Mai 15 18:54 backups
+drwxr-xr-x 18 root root   4096 Nov 15 16:55 cache
+drwxrwsrwt  2 root whoopsie 4096 Jul 25  2018 crash
+drwxr-xr-x 66 root root   4096 Mai  1 03:08 lib
+drwxrwsr-x  2 root staff  4096 Nov 24  2018 local
+<SNIP>
+```
+
+---
+
+Chúng ta cũng có thể làm điều tương tự để điều hướng đến thư mục. Để di chuyển qua các thư mục, chúng ta sử dụng lệnh `cd`. Hãy thử chuyển sang thư mục `/dev/shm`. Tất nhiên, chúng ta có thể vào thư mục `/dev` trước rồi mới đến `/shm`. Tuy nhiên, chúng ta cũng có thể nhập đầy đủ đường dẫn và nhảy trực tiếp đến đó.
+
+---
+
+Ví dụ:
+
+```bash
+cry0l1t3@htb[-]$ cd /dev/shm
+cry0l1t3@htb[/dev/shm]$
+```
+
+---
+
+Vì trước đó chúng ta ở trong thư mục home, nên có thể nhanh chóng quay lại thư mục vừa rồi bằng lệnh:
+
+---
+
+Ví dụ:
+
+```bash
+cry0l1t3@htb[/dev/shm]$ cd -
+cry0l1t3@htb[-]$
+```
+
+---
+
+Shell cũng cung cấp cho chúng ta chức năng tự động hoàn thành (auto-complete), giúp việc điều hướng dễ dàng hơn. Nếu bây giờ chúng ta gõ `cd /dev/s` và nhấn `[TAB]` hai lần, chúng ta sẽ nhận được tất cả các mục bắt đầu bằng chữ "s" trong thư mục `/dev/`.
+
+---
+
+Ví dụ:
+
+```bash
+cry0l1t3@htb[-]$ cd /dev/s [TAB 2x]
+shm/  snd/
+```
+
+Nếu chúng ta thêm chữ **“h”** vào sau chữ **“s”**, shell sẽ tự động hoàn thành đầu vào bởi vì sẽ không có thư mục nào trong đường dẫn này bắt đầu bằng chữ “sh” ngoài `/shm`. Nếu bây giờ hiển thị tất cả nội dung của thư mục, chúng ta sẽ chỉ thấy những nội dung sau:
+
+---
+
+Ví dụ:
+
+```bash
+cry0l1t3@htb[/dev/shm]$ ls -la /dev/shm
+total 0
+drwxrwxrwt  2 root root   40 Mai 15 18:31 .
+drwxr-xr-x 17 root root 4000 Mai 14 20:45 ..
+```
+
+---
+
+Mục đầu tiên với dấu chấm đơn (`.`) biểu thị thư mục hiện tại mà chúng ta đang đứng. Mục thứ hai với hai dấu chấm (`..`) biểu thị thư mục cha (`/dev`). Điều này có nghĩa là chúng ta có thể quay lại thư mục cha bằng lệnh:
+
+---
+
+Ví dụ:
+
+```bash
+cry0l1t3@htb[/dev/shm]$ cd ..
+cry0l1t3@htb[/dev]$
+```
+
+---
+
+Vì shell của chúng ta đã chứa khá nhiều lệnh, chúng ta có thể dọn dẹp màn hình bằng lệnh `clear`. Trước hết, hãy quay lại thư mục `/dev/shm` rồi thực thi lệnh `clear` để làm sạch terminal.
+
+---
+
+Ví dụ:
+
+```bash
+cry0l1t3@htb[/dev]$ cd shm && clear
+```
+
+---
+
+Một cách khác để làm sạch terminal là sử dụng tổ hợp phím **\[Ctrl] + \[L]**.
+Chúng ta cũng có thể dùng các phím mũi tên (**↑ hoặc ↓**) để cuộn qua lịch sử các lệnh đã dùng trước đó. Ngoài ra, chúng ta có thể tìm kiếm trong lịch sử lệnh bằng cách dùng phím tắt **\[Ctrl] + \[R]** và nhập một phần nội dung của lệnh mà chúng ta muốn tìm.
+
+---
+
+### Trả lời các câu hỏi
+
+**What is the name of the hidden "history" file in the htb-user's home directory?**
+
+>Sử dụng lệnh `ls -a` hoặc tìm ```find ~ -type f -name "*history"```
+
+---
+
+**What is the index number of the "sudoers" file in the "/etc" directory?**
+
+![](./img/2_Linux_Fundamentals/3.1.1.png)
+
+---
