@@ -1,0 +1,111 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard{% endblock %}
+
+{% block content %}
+<h2>Welcome to the Dashboard</h2>
+<p><strong>Logged in as:</strong> {{ username }} ({{ role }})</p>
+
+<!-- Thông báo phân quyền -->
+{% if role == "role_manager" %}
+<p style="color: green;">You can execute SELECT, INSERT, UPDATE, DELETE queries on Orders, Product, and Customer.</p>
+{% elif role == "role_staff" %}
+<p style="color: blue;">You can only execute SELECT queries on views: sales_employee_view and customer_view.</p>
+{% endif %}
+
+<!-- Hiển thị lỗi nếu có -->
+{% if error %}
+<p style="color: red; font-weight: bold;">{{ error }}</p>
+{% endif %}
+
+<!-- Hiển thị kết quả nếu có -->
+{% if result and result|length > 0 %}
+<h3>Query Result:</h3>
+<p><strong>Total Results:</strong> {{ total_rows }} rows, {{ result[0].keys() | length }} columns</p>
+<p><strong>Execution Time:</strong> {{ execution_time }}</p>
+
+<!-- Bảng hiển thị dữ liệu -->
+<div id="result-table-container" style="overflow-x: auto; margin-top: 20px;">
+    <table id="result-table" border="1" style="border-collapse: collapse; width: 100%; margin-top: 10px;">
+        <thead>
+            <tr>
+                {% for column in result[0].keys() %}
+                <th style="border: 1px solid black; padding: 8px; text-align: left;">{{ column }}</th>
+                {% endfor %}
+            </tr>
+        </thead>
+        <tbody>
+            {% for row in result %}
+            <tr>
+                {% for value in row.values() %}
+                <td style="border: 1px solid black; padding: 8px;">{{ value }}</td>
+                {% endfor %}
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% elif result %}
+<p style="color: gray;">No results found.</p>
+{% endif %}
+
+<!-- Form thực hiện truy vấn -->
+<h3>Execute SQL Query</h3>
+<p><em>Enter your SQL query below. For Staff, only SELECT queries on views are allowed. For Managers, SELECT, INSERT, UPDATE, DELETE queries on permitted tables are allowed.</em></p>
+<form action="/query/" method="post" style="margin-top: 10px;">
+    <label for="query">SQL Query:</label><br>
+    <textarea id="query" name="query" placeholder="Enter your SQL query here" required style="width: 100%; height: 100px; margin-top: 10px;">{% if last_query %}{{ last_query }}{% endif %}</textarea><br>
+
+    <button type="submit" style="margin-top: 10px;">Run Query</button>
+    <button type="button" onclick="clearResult()" style="margin-top: 10px; margin-left: 10px;">Clear</button>
+    <button type="button" onclick="refreshPage()" style="margin-top: 10px; margin-left: 10px;">Refresh</button>
+</form>
+
+<!-- Bộ lọc nhanh truy vấn -->
+<h3>Quick Queries</h3>
+<ul style="list-style-type: none; padding: 0;">
+    {% if role == "role_manager" %}
+    <li><button onclick="setQuery('SELECT * FROM Orders;')">View All Orders</button></li>
+    <li><button onclick="setQuery('SELECT * FROM Product;')">View All Product</button></li>
+    <li><button onclick="setQuery('SELECT * FROM Customer;')">View All Customer</button></li>
+    {% elif role == "role_staff" %}
+    <li><button onclick="setQuery('SELECT * FROM sales_employee_view;')">View Sales Employee Data</button></li>
+    <li><button onclick="setQuery('SELECT * FROM customer_view;')">View Customer Data</button></li>
+    {% endif %}
+</ul>
+
+<!-- Hiển thị lịch sử truy vấn nếu có -->
+{% if history and history|length > 0 %}
+<h3>Query History</h3>
+<ul style="list-style-type: none; padding: 0;">
+    {% for past_query in history %}
+    <li>
+        <form action="/query/" method="post" style="display: inline;">
+            <input type="hidden" name="query" value="{{ past_query }}">
+            <button type="submit" style="margin: 5px;">{{ past_query }}</button>
+        </form>
+    </li>
+    {% endfor %}
+</ul>
+{% endif %}
+
+<!-- Script để xử lý giao diện -->
+<script>
+function clearResult() {
+    document.getElementById("query").value = "";
+    const table = document.querySelector("table");
+    if (table) table.remove();
+    const error = document.querySelector("p[style='color: red;']");
+    if (error) error.remove();
+}
+
+function refreshPage() {
+    window.location.reload();
+}
+
+function setQuery(query) {
+    document.getElementById("query").value = query;
+}
+</script>
+
+{% endblock %}

@@ -1,0 +1,17 @@
+project/
+├── app/
+│   ├── __init__.py
+│   ├── database.py
+│   ├── models.py
+│   ├── main.py
+│   ├── routers/
+│   │   ├── __init__.py
+│   │   ├── auth.py
+│   │   ├── query.py
+│   └── templates/
+│       ├── base.html
+│       ├── login.html
+│       ├── register.html
+│       ├── dashboard.html
+├── requirements.txt
+└── README.md

@@ -1,0 +1,30 @@
+********************************************************************************
+***              Micro-Cap 12.0.2.1 (32 bit) Evaluation Version              ***
+***                                                                          ***
+***                                                                          ***
+***                           DC Analysis of lab1                            ***
+***                           25/09/2024 20:59:22                            ***
+********************************************************************************
+Limits
+======
+Variable 1 Method        Auto
+Variable 1 Name          R1
+Variable 1 Range         10,0,.5
+Variable 2 Method        None
+Variable 2 Name          
+Variable 2 Range         
+Temperature              Linear 27
+Number of Points         51
+Maximum Change %         5
+Run Options              Normal
+Auto Scale Ranges        On
+Accumulate Plots         Off
+Ignore Expression Errors Off
+
+
+*****************************************************
+***                Temperature=27                 ***
+*****************************************************
+
+Temperature=27
+

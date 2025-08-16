@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Coffee Shop{% endblock %}</title>
+    <!-- Liên kết CSS -->
+    <link rel="stylesheet" href="/static/styles.css">
+    <!-- Liên kết JavaScript -->
+    <script src="/static/scripts.js" defer></script>
+</head>
+<body>
+    <header>
+        <nav>
+            <div style="display: flex; align-items: center; justify-content: space-between;">
+                <!-- Logo -->
+                <div style="display: flex; align-items: center;">
+                    <img src="/static/images/coffee.jpg" alt="Coffee Logo" style="height: 50px; margin-right: 15px;">
+                    <a href="/" class="nav-link">Home</a>
+                </div>
+
+                <!-- User Links -->
+                <div style="display: flex; align-items: center;">
+                    {% if request.session.get("username") %}
+                        <span class="welcome-box">
+                            <strong>Welcome,</strong>
+                            <span class="username">{{ request.session.get("username") }}</span>
+                        </span>
+                        <a href="/auth/logout" class="nav-link">Logout</a>
+                    {% else %}
+                        <a href="/auth/login" class="nav-link">Login</a>
+                        <a href="/auth/register" class="nav-link">Register</a>
+                    {% endif %}
+                </div>
+            </div>
+        </nav>
+    </header>
+    <main class="main-container">
+        {% block content %}
+        <!-- Nội dung của mỗi trang sẽ được chèn vào đây -->
+        {% endblock %}
+    </main>
+    <footer class="footer">
+        <p>&copy; 2024 Coffee Shop Management</p>
+    </footer>
+</body>
+</html>
