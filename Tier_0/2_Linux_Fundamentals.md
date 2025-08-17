@@ -30,6 +30,12 @@
 
 3.4 [Find Files and Directories](#34-find-files-and-directories)
 
+3. 5 [File Descriptors and Redirections](#35-file-descriptors-and-redirections)
+
+
+
+
+
 # 1. Introduction
 ## 1.1. Linux Structure
 **Cấu trúc Linux**
@@ -1401,8 +1407,6 @@ Hãy thử dùng các công cụ khác nhau và tìm tất cả mọi thứ liê
 
 **1. What is the name of the config file that has been created after 2020-03-03 and is smaller than 28k but larger than 25k?**
 
-Ok 👍 mình sẽ phân tích chi tiết từng thành phần trong lệnh bạn đưa ra:
-
 ```bash
 find / -type f -name *.conf -user root -size +25k -size -28k -newermt 2020-03-03 -exec ls -al {} \; 2>/dev/null
 ```
@@ -1463,4 +1467,212 @@ Giải thích:
 ![](./img/2_Linux_Fundamentals/3.4.1.png)
 
 ---
+
+## 3.5 File Descriptors and Redirections
+> Bộ mô tả tệp và Chuyển hướng
+
+Một **bộ mô tả tệp (FD)** trong hệ điều hành Unix/Linux là một tham chiếu do kernel quản lý, cho phép hệ thống quản lý các hoạt động **Input/Output (I/O)**. Nó hoạt động như một định danh duy nhất cho một tệp mở, socket, hoặc bất kỳ tài nguyên I/O nào khác. Trong hệ điều hành Windows, điều này được gọi là **file handle**. Về cơ bản, bộ mô tả tệp là cách hệ thống theo dõi các kết nối I/O đang hoạt động, chẳng hạn như đọc hoặc ghi vào một tệp.
+
+Hãy hình dung nó giống như một **phiếu gửi đồ** mà bạn nhận được khi gửi áo khoác ở phòng giữ đồ. Phiếu (bộ mô tả tệp) đại diện cho kết nối của bạn với áo khoác (tệp hoặc tài nguyên), và bất cứ khi nào bạn cần lấy lại áo (thực hiện I/O), bạn đưa phiếu cho nhân viên (hệ điều hành), người biết chính xác áo của bạn ở đâu (tài nguyên mà bộ mô tả tệp tham chiếu tới). Nếu không có phiếu, bạn sẽ không thể dễ dàng tìm lại áo trong số nhiều áo được lưu trữ, cũng giống như hệ điều hành sẽ không biết cần tương tác với tài nguyên nào nếu không có bộ mô tả tệp.
+
+Đây là lý do tại sao bộ mô tả tệp lại quan trọng và việc hiểu chúng là rất cần thiết khi đi vào các ví dụ sắp tới.
+
+---
+
+ Mặc định, ba bộ mô tả tệp đầu tiên trong Linux là:
+
+1. **Luồng dữ liệu cho đầu vào**
+
+   * **STDIN = 0**
+
+2. **Luồng dữ liệu cho đầu ra**
+
+   * **STDOUT = 1**
+
+3. **Luồng dữ liệu cho đầu ra liên quan đến lỗi xảy ra**
+
+   * **STDERR = 2**
+
+---
+
+### STDIN và STDOUT
+
+Hãy xem một ví dụ với **cat**.
+Khi chạy **cat**, chúng ta đưa cho chương trình đang chạy đầu vào chuẩn (**STDIN - FD 0**), được đánh dấu màu xanh lá, trong trường hợp này là “SOME INPUT”. Ngay khi chúng ta xác nhận đầu vào bằng **\[ENTER]**, nó sẽ được trả về cho terminal dưới dạng đầu ra chuẩn (**STDOUT - FD 1**), được đánh dấu màu đỏ.
+
+![](./img/2_Linux_Fundamentals/3.5.1.webp)
+
+### STDOUT và STDERR
+
+Trong ví dụ tiếp theo, bằng cách sử dụng lệnh **find**, chúng ta sẽ thấy đầu ra chuẩn (**STDOUT - FD 1**) được đánh dấu **màu xanh lá**, và lỗi chuẩn (**STDERR - FD 2**) được đánh dấu **màu đỏ**.
+
+```bash
+Ch10ce9902@htb[/htb]$ find /etc/ -name shadow
+```
+
+![](./img/2_Linux_Fundamentals/3.5.2.webp)
+
+Trong trường hợp này, lỗi sẽ được đánh dấu và hiển thị với thông báo **"Permission denied"**.
+Chúng ta có thể xử lý điều này bằng cách **chuyển hướng bộ mô tả tệp cho lỗi (FD 2 - STDERR) đến `/dev/null`**.
+Theo cách này, các lỗi phát sinh sẽ được chuyển vào "thiết bị null", nơi sẽ loại bỏ toàn bộ dữ liệu.
+
+```bash
+Ch10ce9902@htb[/htb]$ find /etc/ -name shadow 2>/dev/null
+```
+
+![](./img/2_Linux_Fundamentals/3.5.3.webp)
+
+Ở ví dụ này, tất cả lỗi (**STDERR**) trước đó được hiển thị với thông báo **"Permission denied"** đã không còn xuất hiện nữa.
+Kết quả duy nhất chúng ta thấy bây giờ là **standard output (STDOUT)**, và ta cũng có thể **chuyển hướng đầu ra này vào một file** (ví dụ `results.txt`).
+
+Như vậy, file `results.txt` sẽ chỉ chứa kết quả đầu ra chuẩn mà không bao gồm lỗi.
+
+```bash
+Ch10ce9902@htb[/htb]$ find /etc/ -name shadow 2>/dev/null > results.txt
+```
+![](./img/2_Linux_Fundamentals/3.5.4.webp)
+
+### Chuyển hướng STDOUT và STDERR sang các tệp riêng biệt
+
+Chúng ta nên để ý rằng chúng ta đã không sử dụng một số trước dấu lớn hơn (`>`) trong ví dụ trước. Đó là bởi vì khi đó chúng ta đã chuyển hướng tất cả các lỗi chuẩn đến **"null device"**, và đầu ra duy nhất chúng ta nhận được là đầu ra chuẩn (**FD 1 – STDOUT**).
+
+Để chính xác hơn, chúng ta sẽ chuyển hướng lỗi chuẩn (**FD 2 – STDERR**) và đầu ra chuẩn (**FD 1 – STDOUT**) sang các tệp khác nhau.
+
+```bash
+Ch10ce9902@htb[/htb]$ find /etc/ -name shadow 2> stderr.txt 1> stdout.txt
+```
+![](./img/2_Linux_Fundamentals/3.5.5.webp)
+
+### Chuyển hướng STDIN
+
+Như chúng ta đã thấy, kết hợp với các bộ mô tả tệp, chúng ta có thể chuyển hướng lỗi và đầu ra bằng ký tự dấu lớn hơn (`>`). Điều này cũng hoạt động với dấu nhỏ hơn (`<`). Tuy nhiên, dấu nhỏ hơn phục vụ như là đầu vào chuẩn (**FD 0 – STDIN**).
+
+Các ký tự này có thể được xem như “hướng” dưới dạng một mũi tên cho chúng ta biết **“từ đâu”** và **“đến đâu”** dữ liệu sẽ được chuyển hướng.
+
+Chúng ta sử dụng lệnh `cat` để dùng nội dung của tệp **stdout.txt** làm **STDIN**.
+
+```bash
+Ch10ce9902@htb[/htb]$ cat < stdout.txt
+```
+
+![](./img/2_Linux_Fundamentals/3.5.6.webp)
+
+### Chuyển hướng STDOUT và ghi thêm vào một tệp
+
+Khi chúng ta dùng dấu lớn hơn (`>`) để chuyển hướng **STDOUT**, một tệp mới sẽ tự động được tạo nếu nó chưa tồn tại. Nếu tệp này đã tồn tại, nó sẽ bị ghi đè mà không cần hỏi xác nhận.
+
+Nếu chúng ta muốn **ghi thêm** (append) **STDOUT** vào tệp hiện có, ta có thể dùng dấu lớn hơn kép (`>>`).
+
+```bash
+Ch10ce9902@htb[/htb]$ find /etc/ -name passwd >> stdout.txt 2>/dev/null
+```
+
+![](./img/2_Linux_Fundamentals/3.5.7.webp)
+
+### Chuyển hướng luồng STDIN vào một tệp
+
+Chúng ta cũng có thể dùng ký hiệu nhỏ hơn kép (`<<`) để thêm dữ liệu từ **STDIN** thông qua một luồng. Ta có thể dùng chức năng gọi là **End-Of-File (EOF)** trong hệ thống Linux, nó xác định điểm kết thúc của đầu vào.
+
+Trong ví dụ tiếp theo, ta sẽ dùng lệnh `cat` để đọc dữ liệu từ luồng và chuyển nó vào một tệp gọi là **stream.txt**.
+
+```bash
+Ch10ce9902@htb[/htb]$ cat << EOF > stream.txt
+```
+
+![](./img/2_Linux_Fundamentals/3.5.8.webp)
+
+### Pipes
+
+Một cách khác để chuyển hướng **STDOUT** là dùng **pipes (`|`)**. Pipes rất hữu ích khi ta muốn dùng đầu ra (**STDOUT**) của một chương trình làm đầu vào (**STDIN**) cho chương trình khác.
+
+Một trong những công cụ thường dùng nhất là **`grep`**, được dùng để lọc **STDOUT** theo mẫu mà ta định nghĩa.
+
+Trong ví dụ dưới đây, ta dùng lệnh **`find`** để tìm tất cả các tệp trong thư mục `/etc/` có phần mở rộng là `.conf`. Bất kỳ lỗi nào cũng được chuyển hướng đến **"null device"** (`/dev/null`). Sau đó, với **`grep`**, ta lọc kết quả và chỉ hiển thị những dòng có chứa chuỗi **"systemd"**.
+
+```bash
+Ch10ce9902@htb[/htb]$ find /etc/ -name *.conf 2>/dev/null | grep systemd
+```
+
+![](./img/2_Linux_Fundamentals/3.5.9.webp)
+
+Các chuyển hướng hoạt động không chỉ một lần. Ta có thể dùng kết quả đã thu được để chuyển tiếp đến một chương trình khác.
+
+Trong ví dụ sau, ta sẽ dùng công cụ gọi là **`wc`**, công cụ này sẽ đếm tổng số kết quả thu được.
+
+```bash
+Ch10ce9902@htb[/htb]$ find /etc/ -name *.conf 2>/dev/null | grep systemd | wc -l
+```
+
+![](./img/2_Linux_Fundamentals/3.5.10.webp)
+
+Giờ đây, khi đã có hiểu biết cơ bản về mô tả tệp, chuyển hướng và đường ống, chúng ta có thể cấu trúc các lệnh hiệu quả hơn để trích xuất chính xác thông tin cần thiết. Kiến thức này cho phép chúng ta điều khiển luồng dữ liệu đầu vào và đầu ra giữa các tệp, quy trình và hệ thống, giúp chúng ta xử lý dữ liệu hiệu quả hơn. Bằng cách tận dụng các công cụ này, chúng ta có thể sắp xếp hợp lý các tác vụ, tránh các bước không cần thiết và làm việc với tệp và tài nguyên hệ thống một cách có tổ chức và hiệu quả hơn nhiều, từ đó nâng cao năng suất và độ chính xác trong việc quản lý vận hành.
+
+### Trả lời các câu hỏi
+
+**1. How many files exist on the system that have the ".log" file extension?**
+
+
+```bash
+find / -type f -name *.log 2>/dev/null | nl
+```
+
+Giải thích chi tiết từng phần:
+
+1. **`find /`**
+
+   * Bắt đầu tìm kiếm từ thư mục gốc (`/`).
+
+2. **`-type f`**
+
+   * Chỉ tìm các tệp thường (file), bỏ qua thư mục, link, thiết bị,…
+
+3. **`-name *.log`**
+
+   * Lọc các file có tên khớp với mẫu `*.log` (tức là tất cả file có phần mở rộng `.log`).
+
+4. **`2>/dev/null`**
+
+   * Chuyển hướng (redirect) toàn bộ thông báo lỗi (luồng **stderr**, tức là số 2) vào `/dev/null` để bỏ qua chúng.
+   * Điều này giúp tránh hiện ra các lỗi "Permission denied" khi `find` đi vào những thư mục không có quyền đọc.
+
+5. **`| nl`**
+
+   * Kết quả danh sách các file `.log` tìm được sẽ được truyền qua (`|`) cho lệnh `nl`.
+   * Lệnh `nl` (number lines) sẽ **đánh số dòng** cho từng kết quả hiển thị.
+
+---
+
+**2.  How many total packages are installed on the target system?**
+
+
+```bash
+apt list --installed | grep -c "installed"
+```
+
+Giải thích chi tiết:
+
+1. **`apt list --installed`**
+
+   * Hiển thị danh sách tất cả các gói đã được cài đặt trên hệ thống bằng `apt`.
+   * Mỗi dòng trong kết quả thường có dạng:
+
+     ```
+     tên-gói/phiên-bản trạng-thái
+     ```
+
+     ví dụ:
+
+     ```
+     bash/focal,now 5.0-6ubuntu1.2 amd64 [installed]
+     ```
+
+2. **`| grep -c "installed"`**
+
+   * `grep "installed"` lọc ra những dòng có chứa chữ `"installed"`.
+   * Tùy chọn `-c` (count) sẽ **đếm số dòng** khớp với mẫu.
+   * Do tất cả các gói đã cài đặt đều có chữ `"installed"`, nên kết quả sẽ là **tổng số gói đã cài**.
+
+---
+
+
 
