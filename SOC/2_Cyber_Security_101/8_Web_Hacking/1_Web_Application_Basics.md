@@ -108,7 +108,7 @@ Có nhiều thành phần tham gia vào việc triển khai một ứng dụng w
 
 ---
 
-### Cấu trúc của một URL (Anatomy of a URL)
+## Cấu trúc của một URL (Anatomy of a URL)
 
 Ví dụ:
 
@@ -166,7 +166,7 @@ Query string là phần của URL bắt đầu bằng dấu hỏi chấm (?). N�
 **Fragment**
 Fragment bắt đầu bằng ký hiệu thăng (#) và giúp chỉ đến một phần cụ thể của trang web — ví dụ như nhảy trực tiếp đến một tiêu đề hoặc bảng. Người dùng cũng có thể chỉnh sửa fragment, nên tương tự như query string, cần kiểm tra và làm sạch dữ liệu tại đây để tránh các vấn đề như tấn công injection.
 
-### Câu hỏi
+## Câu hỏi
 
 **Trả lời các câu hỏi dưới đây**
 
@@ -222,13 +222,13 @@ Body là nơi chứa dữ liệu thực tế. Trong một request, body có th�
 
 ---
 
-### Tại sao việc hiểu các thông điệp HTTP lại quan trọng
+## Tại sao việc hiểu các thông điệp HTTP lại quan trọng
 
 * Đây là nền tảng của cách các ứng dụng web giao tiếp. Nếu được cấu trúc đúng, mọi thứ sẽ vận hành trơn tru.
 * Hiểu cách chúng hoạt động sẽ giúp bạn chẩn đoán các vấn đề trong giao tiếp web, có nghĩa là cải thiện hiệu năng và độ tin cậy của ứng dụng web.
 * Nó cũng rất quan trọng cho bảo mật. Hiểu các thông điệp HTTP giúp bạn triển khai các biện pháp bảo mật mạnh mẽ để bảo vệ dữ liệu trong quá trình truyền tải.
 
-### Câu hỏi
+## Câu hỏi
 
 **Trả lời các câu hỏi dưới đây**
 
@@ -248,6 +248,8 @@ Body là nơi chứa dữ liệu thực tế. Trong một request, body có th�
 **HTTP request** là những gì một người dùng gửi đến máy chủ web để tương tác với một ứng dụng web và thực hiện một hành động nào đó. Vì những yêu cầu này thường là điểm tiếp xúc đầu tiên giữa người dùng và máy chủ web, nên việc hiểu cách chúng hoạt động là vô cùng quan trọng — đặc biệt nếu bạn quan tâm đến an ninh mạng.
 
 ---
+
+![](./img/1_Web_Application_Basics/5.1.png)
 
 Ví dụ về một HTTP request:
 
@@ -274,3 +276,115 @@ Hãy tưởng tượng một HTTP request hiển thị các phần chính như:
 * **Version** (ví dụ: HTTP/1.1)
 
 Những thành phần này tạo nên những yếu tố cơ bản về cách một client (người dùng) giao tiếp với máy chủ.
+
+## Request Line
+
+Request Line (hoặc dòng bắt đầu) là phần đầu tiên của một yêu cầu HTTP và cho máy chủ biết nó đang xử lý loại yêu cầu nào. Nó có ba phần chính: phương thức **HTTP**, đường dẫn **URL**, và phiên bản **HTTP**.
+
+**Ví dụ:**
+
+```
+METHOD /path HTTP/version
+```
+
+---
+
+## HTTP Methods
+
+HTTP Methods cho máy chủ biết hành động mà người dùng muốn thực hiện trên tài nguyên được xác định bởi đường dẫn URL. Dưới đây là một số phương thức phổ biến nhất và các vấn đề bảo mật có thể gặp phải:
+
+* **GET**
+  Được sử dụng để lấy dữ liệu từ máy chủ mà không thực hiện bất kỳ thay đổi nào. *Nhắc nhở!* Đảm bảo rằng bạn chỉ hiển thị dữ liệu mà người dùng được phép xem. Tránh đưa thông tin nhạy cảm như token hoặc mật khẩu trong các yêu cầu GET vì chúng có thể hiển thị dưới dạng văn bản thuần.
+
+* **POST**
+  Gửi dữ liệu đến máy chủ, thường là để tạo hoặc cập nhật một cái gì đó. *Nhắc nhở!* Luôn xác thực và làm sạch dữ liệu đầu vào để tránh các cuộc tấn công như SQL injection hoặc XSS.
+
+* **PUT**
+  Thay thế hoặc cập nhật một cái gì đó trên máy chủ. *Nhắc nhở!* Đảm bảo rằng người dùng được ủy quyền để thực hiện thay đổi trước khi chấp nhận yêu cầu.
+
+* **DELETE**
+  Xóa một cái gì đó khỏi máy chủ. *Nhắc nhở!* Cũng giống như với PUT, hãy đảm bảo rằng chỉ những người dùng được ủy quyền mới có thể xóa tài nguyên.
+
+---
+
+Ngoài những phương thức phổ biến này, còn có một vài phương thức khác được sử dụng trong các trường hợp cụ thể:
+
+* **PATCH**
+  Cập nhật một phần của tài nguyên. Nó hữu ích để thực hiện những thay đổi nhỏ mà không thay thế toàn bộ, nhưng luôn xác thực dữ liệu để tránh sự không nhất quán.
+
+* **HEAD**
+  Hoạt động giống như GET nhưng chỉ lấy header, không phải toàn bộ nội dung. Nó hữu ích để kiểm tra metadata mà không cần tải toàn bộ phản hồi.
+
+* **OPTIONS**
+  Cho bạn biết những phương thức nào có sẵn cho một tài nguyên cụ thể, giúp client hiểu được họ có thể làm gì với máy chủ.
+
+* **TRACE**
+  Tương tự như OPTIONS, nó cho thấy những phương thức nào được cho phép, thường dùng để gỡ lỗi. Nhiều máy chủ vô hiệu hóa nó vì lý do bảo mật.
+
+* **CONNECT**
+  Được sử dụng để tạo một kết nối an toàn, như cho HTTPS. Nó không phổ biến nhưng rất quan trọng cho giao tiếp được mã hóa.
+
+---
+
+Mỗi phương thức này đều có tập hợp các quy tắc bảo mật riêng. Ví dụ, các yêu cầu PATCH phải được xác thực để tránh sự không nhất quán, và OPTIONS cũng như TRACE nên được tắt nếu không cần để tránh các rủi ro bảo mật có thể xảy ra.
+
+## Đường dẫn URL (URL Path)
+
+**URL path** cho máy chủ biết nơi tìm tài nguyên mà người dùng đang yêu cầu. Ví dụ, trong URL
+
+```
+https://tryhackme.com/api/users/123
+```
+
+đường dẫn **/api/users/123** xác định một người dùng cụ thể.
+
+Kẻ tấn công thường cố gắng thao túng đường dẫn URL để khai thác lỗ hổng, vì vậy điều quan trọng là phải:
+
+* Xác thực đường dẫn URL để ngăn truy cập trái phép.
+* Làm sạch đường dẫn để tránh các cuộc tấn công injection.
+* Bảo vệ dữ liệu nhạy cảm bằng cách thực hiện các đánh giá rủi ro và quyền riêng tư.
+
+Tuân theo các thực hành này sẽ giúp bảo vệ ứng dụng web của bạn khỏi các cuộc tấn công phổ biến.
+
+---
+
+## Phiên bản HTTP (HTTP Version)
+
+**HTTP version** cho thấy phiên bản giao thức được sử dụng để giao tiếp giữa client và server. Sau đây là tóm tắt nhanh về những phiên bản phổ biến nhất:
+
+* **HTTP/0.9** (1991)
+  Phiên bản đầu tiên, chỉ hỗ trợ các yêu cầu GET.
+
+* **HTTP/1.0** (1996)
+  Thêm header và hỗ trợ tốt hơn cho các loại nội dung khác nhau, cải thiện caching.
+
+* **HTTP/1.1** (1997)
+  Giới thiệu kết nối lâu dài, truyền dữ liệu theo từng khối, và caching tốt hơn. Vẫn còn được sử dụng phổ biến hiện nay.
+
+* **HTTP/2** (2015)
+  Giới thiệu các tính năng như multiplexing, nén header, và ưu tiên hóa để cải thiện tốc độ.
+
+* **HTTP/3** (2022)
+  Xây dựng dựa trên HTTP/2, nhưng sử dụng giao thức mới QUIC để tăng tốc độ và bảo mật cho các kết nối.
+
+Mặc dù **HTTP/2** và **HTTP/3** mang lại tốc độ và bảo mật tốt hơn, nhưng nhiều hệ thống vẫn sử dụng **HTTP/1.1** vì nó được hỗ trợ rộng rãi và tương thích với hầu hết các thiết lập hiện có. Tuy nhiên, việc nâng cấp lên HTTP/2 hoặc HTTP/3 có thể mang lại những cải thiện đáng kể về hiệu năng và bảo mật khi các hệ thống dần áp dụng chúng.
+
+---
+
+## Câu hỏi
+
+**Trả lời các câu hỏi dưới đây**
+
+1. Phiên bản giao thức HTTP nào đã được áp dụng rộng rãi và vẫn là phiên bản được sử dụng phổ biến nhất cho giao tiếp web, nổi tiếng với việc giới thiệu các tính năng như kết nối lâu dài và truyền dữ liệu theo từng khối?
+
+   → **HTTP/1.1** 
+
+2. Phương thức yêu cầu HTTP nào mô tả các tùy chọn giao tiếp cho tài nguyên đích, cho phép client xác định những phương thức HTTP nào được máy chủ web hỗ trợ?
+
+   → **OPTIONS** 
+
+3. Trong một yêu cầu HTTP, thành phần nào chỉ định tài nguyên hoặc endpoint cụ thể trên máy chủ web mà client đang yêu cầu, thường xuất hiện sau tên miền trong URL?
+
+   → **URL Path** 
+
+---
