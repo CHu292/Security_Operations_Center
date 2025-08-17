@@ -2088,13 +2088,15 @@ Ngoài những chức năng khác, **regex** còn cho phép chúng ta nhóm các
 
 #### Grouping Operators
 
-| Operators  | Description                                                                                                                                                |                                                                               |
-| ---------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------- |
-| **(a)**    | Dấu ngoặc tròn được dùng để nhóm các phần của regex. Bên trong ngoặc, bạn có thể định nghĩa thêm các mẫu cần được xử lý cùng nhau.                         |                                                                               |
-| **\[a-z]** | Dấu ngoặc vuông được dùng để định nghĩa lớp ký tự. Bên trong, bạn có thể chỉ định danh sách ký tự cần tìm.                                                 |                                                                               |
-| **{1,10}** | Dấu ngoặc nhọn được dùng để định nghĩa số lần lặp. Bên trong, bạn có thể chỉ định một số hoặc một khoảng, cho biết mẫu trước đó cần lặp lại bao nhiêu lần. |                                                                               |
-| \*\*       | \*\*                                                                                                                                                       | Còn được gọi là toán tử **OR**, cho kết quả khi một trong hai biểu thức khớp. |
-| \**.* \*\* | Hoạt động gần giống toán tử **AND** bằng cách chỉ hiển thị kết quả khi cả hai biểu thức cùng xuất hiện và khớp theo thứ tự được chỉ định.                  |                                                                               |
+
+| Toán tử    | Mô tả |
+|------------|-------|
+| **(a)**    | Dấu ngoặc tròn được dùng để nhóm các phần của regex. Bên trong dấu ngoặc, bạn có thể định nghĩa các mẫu bổ sung cần được xử lý cùng nhau. |
+| **[a-z]**  | Dấu ngoặc vuông được dùng để định nghĩa lớp ký tự. Bên trong dấu ngoặc, bạn có thể chỉ định danh sách các ký tự cần tìm. |
+| **{1,10}** | Dấu ngoặc nhọn được dùng để định nghĩa số lần lặp. Bên trong dấu ngoặc, bạn có thể chỉ định một số hoặc một phạm vi, cho biết mẫu trước đó cần lặp lại bao nhiêu lần. |
+| **|**      | Còn gọi là toán tử **OR**, cho kết quả khi một trong hai biểu thức khớp. |
+| **.* **    | Hoạt động tương tự toán tử **AND** bằng cách chỉ hiển thị kết quả khi cả hai biểu thức đều có mặt và khớp theo thứ tự được chỉ định. |
+               |                                                                               |
 
 ---
 
