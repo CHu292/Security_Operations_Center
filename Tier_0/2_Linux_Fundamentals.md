@@ -48,6 +48,11 @@
 
 4.3 [Service and Process Management](#43-service-and-process-management)
 
+4.4 [Task Scheduling](#44-task-scheduling)
+
+
+
+
 
 # 1. Introduction
 ## 1.1. Linux Structure
@@ -3005,4 +3010,167 @@ Giải thích:
 
 ---
 
+## 4.4 Task Scheduling
+**Lập lịch tác vụ (Task Scheduling)**
+
+Lập lịch tác vụ là một tính năng quan trọng trong hệ thống Linux, cho phép người dùng và quản trị viên tự động hóa các tác vụ bằng cách chạy chúng tại các thời điểm cụ thể hoặc theo khoảng thời gian định kỳ, loại bỏ nhu cầu khởi chạy thủ công. Có sẵn trong các bản phân phối như Ubuntu, Red Hat Linux và Solaris, tính năng này quản lý nhiều loại tác vụ như cập nhật phần mềm tự động, thực thi script, bảo trì cơ sở dữ liệu và tự động sao lưu. Bằng cách lập lịch cho các tác vụ và script, nó đảm bảo chúng được thực hiện một cách nhất quán và đáng tin cậy. Ngoài ra, có thể cấu hình cảnh báo để thông báo cho quản trị viên hoặc người dùng khi một sự kiện cụ thể xảy ra. Trong khi có nhiều ứng dụng cho dạng tự động hóa này, những ví dụ này đại diện cho các trường hợp sử dụng phổ biến nhất.
+
+Lập lịch tác vụ nói chung giống như việc đặt máy pha cà phê hoặc máy pha trà để tự động hoạt động mỗi sáng. Một khi đã được lập trình, nó sẽ chuẩn bị cà phê hoặc trà tại thời điểm mong muốn mà không cần can thiệp thêm, đảm bảo rằng một ly nóng hổi luôn sẵn sàng khi bạn cần.
+
+Việc hiểu cách lập lịch tác vụ trong Linux rất cần thiết cho cả chuyên gia an ninh mạng lẫn người kiểm thử thâm nhập vì nó vừa có thể là một công cụ quản trị hợp pháp vừa có thể trở thành kênh cho hoạt động độc hại. Kiến thức về cách các tác vụ được tự động hóa cũng cho phép bạn xác định các rủi ro bảo mật tiềm ẩn, chẳng hạn như cron job trái phép chạy các script độc hại hoặc duy trì backdoor ở các khoảng thời gian định sẵn. Bằng cách hiểu chi tiết việc lập lịch tác vụ, bạn có thể phát hiện và phân tích các mối đe dọa ẩn này, tăng cường kiểm toán hệ thống, thậm chí tận dụng các tác vụ đã lập lịch để mô phỏng kịch bản tấn công trong quá trình kiểm thử xâm nhập.
+
+---
+
+**Systemd**
+
+Systemd là một dịch vụ được sử dụng trong các hệ thống Linux như Ubuntu, RedHat Linux và Solaris để khởi động tiến trình và script tại một thời điểm cụ thể. Với nó, chúng ta có thể thiết lập các tiến trình và script chạy vào một thời điểm hoặc khoảng thời gian nhất định và cũng có thể chỉ định các sự kiện và trigger cụ thể sẽ kích hoạt một tác vụ cụ thể. Để làm được điều này, chúng ta cần thực hiện một số bước và biện pháp phòng ngừa trước khi script hoặc tiến trình của chúng ta được hệ thống tự động thực thi.
+
+1. Tạo một **timer** (lập lịch khi nào `mytimer.service` sẽ chạy)
+2. Tạo một **service** (thực thi các lệnh hoặc script)
+3. Kích hoạt **timer**
+
+---
+
+**Tạo một Timer**
+
+Để tạo timer cho systemd, chúng ta cần tạo một thư mục nơi timer script sẽ được lưu trữ.
+
+```bash
+Chloe9902@htb[/htb]$ sudo mkdir /etc/systemd/system/mytimer.timer.d
+Chloe9902@htb[/htb]$ sudo vim /etc/systemd/system/mytimer.timer
+```
+
+Tiếp theo, chúng ta cần tạo một script cấu hình timer. Script này phải chứa các tùy chọn sau: **Unit**, **Timer** và **Install**.
+
+* Tùy chọn **Unit**: chỉ định mô tả cho timer.
+* Tùy chọn **Timer**: chỉ định khi nào bắt đầu timer và khi nào kích hoạt nó.
+* Tùy chọn **Install**: chỉ định cài đặt timer ở đâu.
+
+**Mytimer.timer**
+
+```txt
+[Unit]
+Description=My Timer
+
+[Timer]
+OnBootSec=3min
+OnUnitActiveSec=1hour
+
+[Install]
+WantedBy=timers.target
+```
+
+Ở đây tùy thuộc vào cách chúng ta muốn sử dụng script. Ví dụ, nếu chúng ta muốn chạy script chỉ một lần sau khi hệ thống khởi động, ta nên dùng thiết lập **OnBootSec** trong **Timer**. Tuy nhiên, nếu muốn script chạy định kỳ, ta nên dùng **OnUnitActiveSec** để hệ thống chạy script theo khoảng thời gian đều đặn. Tiếp theo, chúng ta cần tạo **service**.
+
+---
+
+**Tạo một Service**
+
+```bash
+Chloe9902@htb[/htb]$ sudo vim /etc/systemd/system/mytimer.service
+```
+
+Ở đây chúng ta đặt mô tả và chỉ định đường dẫn đầy đủ đến script muốn chạy. **multi-user.target** là đơn vị hệ thống được kích hoạt khi khởi động ở chế độ nhiều người dùng bình thường. Nó định nghĩa các dịch vụ sẽ được khởi động trong trạng thái hệ thống thông thường.
+
+```txt
+[Unit]
+Description=My Service
+
+[Service]
+ExecStart=/full/path/to/my/script.sh
+
+[Install]
+WantedBy=multi-user.target
+```
+
+Sau đó, chúng ta phải để **systemd** đọc lại các thư mục để bao gồm những thay đổi.
+
+**Tải lại Systemd**
+
+```bash
+Chloe9902@htb[/htb]$ sudo systemctl daemon-reload
+```
+
+Sau đó, chúng ta có thể dùng **systemctl** để khởi động service thủ công và **enable** tính năng tự khởi động.
+
+---
+
+**Khởi động Timer & Service**
+
+```bash
+Chloe9902@htb[/htb]$ sudo systemctl start mytimer.timer
+Chloe9902@htb[/htb]$ sudo systemctl enable mytimer.timer
+```
+
+Theo cách này, **mytimer.service** sẽ được khởi chạy tự động theo các khoảng thời gian (hoặc độ trễ) bạn đã thiết lập trong **mytimer.timer**.
+
+---
+
+**Cron**
+
+Cron là một công cụ khác có thể được dùng trong hệ thống Linux để lập lịch và tự động hóa tiến trình. Nó cho phép người dùng và quản trị viên thực thi tác vụ tại một thời điểm cụ thể hoặc trong các khoảng thời gian nhất định.
+
+Với các ví dụ trên, chúng ta cũng có thể dùng Cron để tự động hóa các tác vụ tương tự. Chúng ta chỉ cần tạo một script rồi cho cron daemon gọi nó tại thời điểm cụ thể.
+
+Với Cron, chúng ta có thể tự động hóa cùng tác vụ, nhưng quá trình thiết lập cron daemon hơi khác với Systemd. Để thiết lập cron daemon, chúng ta cần lưu các tác vụ vào một tệp gọi là **crontab** rồi báo cho daemon khi nào chạy tác vụ đó. Sau đó, ta có thể lập lịch và tự động hóa các tác vụ bằng cách cấu hình cron daemon cho phù hợp. Cấu trúc của Cron bao gồm các thành phần sau:
+
+| Thời gian               | Mô tả                                                  |
+| ----------------------- | ------------------------------------------------------ |
+| Phút (0-59)             | Xác định phút nào trong giờ tác vụ sẽ được thực thi.   |
+| Giờ (0-23)              | Xác định giờ nào trong ngày tác vụ sẽ được thực thi.   |
+| Ngày trong tháng (1-31) | Xác định ngày nào trong tháng tác vụ sẽ được thực thi. |
+| Tháng (1-12)            | Xác định tháng nào trong năm tác vụ sẽ được thực thi.  |
+| Ngày trong tuần (0-7)   | Xác định ngày nào trong tuần tác vụ sẽ được thực thi.  |
+
+
+Ví dụ, một tệp **crontab** có thể trông như thế này:
+
+```txt
+# System Update
+0 */6 * * * /path/to/update_software.sh
+
+# Execute Scripts
+0 0 1 * * /path/to/scripts/run_scripts.sh
+
+# Cleanup DB
+0 0 * * 0 /path/to/scripts/clean_database.sh
+
+# Backups
+0 0 * * 7 /path/to/scripts/backup.sh
+```
+
+Tác vụ đầu tiên, **System Update**, sẽ được thực thi mỗi 6 giờ. Điều này được biểu thị bởi mục nhập `0 */6` trong cột giờ. Tác vụ được thực thi bởi script **update\_software.sh**, với đường dẫn được ghi ở cột cuối cùng.
+
+Tác vụ thứ hai, **Execute Scripts**, sẽ được thực thi vào ngày đầu tiên của mỗi tháng lúc nửa đêm. Điều này được biểu thị bởi các mục nhập `0` và `0` trong cột phút và giờ, và `1` trong cột ngày của tháng. Tác vụ được thực thi bởi script **run\_scripts.sh**, với đường dẫn được ghi ở cột cuối cùng.
+
+Tác vụ thứ ba, **Cleanup DB**, sẽ được thực thi mỗi Chủ Nhật lúc nửa đêm. Điều này được chỉ định bởi các mục nhập `0` và `0` trong cột phút và giờ, và `0` trong cột ngày của tuần. Tác vụ được thực thi bởi script **clean\_database.sh**, với đường dẫn được ghi ở cột cuối cùng.
+
+Tác vụ thứ tư, **Backups**, sẽ được thực thi mỗi Chủ Nhật lúc nửa đêm. Điều này được chỉ định bởi các mục nhập `0` và `0` trong cột phút và giờ, và `7` trong cột ngày của tuần. Tác vụ được thực thi bởi script **backup.sh**, với đường dẫn được ghi ở cột cuối cùng.
+
+Ngoài ra, cũng có thể nhận thông báo khi một tác vụ được thực thi thành công hoặc thất bại. Thêm nữa, chúng ta có thể tạo log để theo dõi quá trình thực thi tác vụ.
+
+---
+
+**Systemd vs. Cron**
+
+Systemd và Cron đều là các công cụ có thể được dùng trong hệ thống Linux để lập lịch và tự động hóa tiến trình. Sự khác biệt chính giữa hai công cụ này nằm ở cách chúng được cấu hình. Với **Systemd**, bạn cần tạo một timer và service script để báo cho hệ điều hành khi nào chạy tác vụ. Trong khi đó, với **Cron**, bạn cần tạo một tệp **crontab** để báo cho cron daemon khi nào chạy tác vụ.
+
+
+**Trả lời câu hỏi sau: What is the type of the service of the “syslog.service”?**
+
+![](./img/2_Linux_Fundamentals/4.4.1.webp)
+
+```bash
+systemctl show syslog.service
+```
+
+Giải thích:
+
+* `systemctl` : công cụ quản lý **systemd** (quản lý dịch vụ, tiến trình, unit trong Linux).
+* `show` : hiển thị **tất cả các thuộc tính chi tiết** (properties) của một unit.
+* `syslog.service` : đây là unit dịch vụ **syslog** (hệ thống ghi log).
+
+  * Tùy bản phân phối Linux, `syslog.service` có thể trỏ đến `rsyslog`, `syslog-ng`, hoặc dịch vụ quản lý log khác.
+
+---
 
