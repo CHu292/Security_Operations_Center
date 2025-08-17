@@ -38,9 +38,15 @@
 
 3.8 [Permission Management](#38-permission-management)
 
+---
 
+4. [System Management](#4-system-management)
 
+4.1 [User Management](#41-user-management)
 
+4.2 [Package Management](#42-package-management)
+
+4.3 [Service and Process Management](#43-service-and-process-management)
 
 
 # 1. Introduction
@@ -2096,7 +2102,6 @@ Ngoài những chức năng khác, **regex** còn cho phép chúng ta nhóm các
 | **{1,10}** | Dấu ngoặc nhọn được dùng để định nghĩa số lần lặp. Bên trong dấu ngoặc, bạn có thể chỉ định một số hoặc một phạm vi, cho biết mẫu trước đó cần lặp lại bao nhiêu lần. |
 | <code>&#124;</code>     | Còn gọi là toán tử **OR**, cho kết quả khi một trong hai biểu thức khớp. |
 | `.*`    | Hoạt động tương tự toán tử **AND** bằng cách chỉ hiển thị kết quả khi cả hai biểu thức đều có mặt và khớp theo thứ tự được chỉ định. |
-               |                                                                               |
 
 ---
 
@@ -2313,3 +2318,691 @@ drw-rw-r-T 3 cry0l1t3 cry0l1t3 4096 Jan 12 12:32 reports
 Trong ví dụ này, chúng ta thấy cả hai thư mục đều có sticky bit được đặt. Tuy nhiên, thư mục **reports** có chữ **T** viết hoa, còn thư mục **scripts** có chữ **t** viết thường.
 
 Nếu sticky bit là **T** viết hoa, điều này có nghĩa là tất cả người dùng khác không có quyền **execute (x)** và do đó, không thể xem nội dung của thư mục cũng như chạy bất kỳ chương trình nào từ nó. Sticky bit chữ thường **t** là sticky bit khi quyền **execute (x)** đã được cấp.
+
+---
+
+# 4. System Management
+## 4.1 User Management
+>Quản lý người dùng
+
+Quản lý người dùng hiệu quả là một khía cạnh cơ bản của quản trị hệ thống Linux. Quản trị viên thường xuyên cần tạo các tài khoản người dùng mới hoặc gán người dùng hiện tại vào các nhóm cụ thể để thực thi các kiểm soát truy cập phù hợp. Ngoài ra, thực thi lệnh với tư cách một người dùng khác thường cần thiết cho các tác vụ đòi hỏi các quyền khác nhau. Ví dụ, một số nhóm nhất định có thể có các quyền riêng để xem hoặc chỉnh sửa các tệp hoặc thư mục cụ thể, điều này rất cần thiết để duy trì an ninh và tính toàn vẹn của hệ thống. Khả năng này cho phép chúng ta thu thập thông tin chi tiết hơn tại chỗ trên máy, điều này đặc biệt quan trọng cho việc khắc phục sự cố hoặc mục đích kiểm tra.
+
+Ví dụ, hãy tưởng tượng một nhân viên mới tên là Alex gia nhập công ty của bạn và được cung cấp một máy trạm dựa trên Linux để thực hiện công việc của họ. Với tư cách là quản trị viên hệ thống, bạn cần tạo tài khoản người dùng cho Alex và thêm họ vào các nhóm phù hợp giúp cấp quyền truy cập đến các tài nguyên cần thiết, chẳng hạn như tệp dự án hoặc công cụ phát triển. Ngoài ra, có thể có những tình huống mà Alex cần thực hiện các lệnh với đặc quyền nâng cao hoặc với tư cách là một người dùng khác để hoàn thành các nhiệm vụ nhất định.
+
+---
+
+### Thực thi với tư cách người dùng
+
+```bash
+Chloe9920@htb[/htb]$ cat /etc/shadow
+cat: /etc/shadow: Permission denied
+```
+
+Tệp **/etc/shadow** là một tệp hệ thống quan trọng lưu trữ thông tin mật khẩu được mã hóa cho tất cả các tài khoản người dùng. Vì lý do bảo mật, nó chỉ có thể được đọc và ghi bởi người dùng root để ngăn chặn truy cập trái phép vào dữ liệu xác thực nhạy cảm.
+
+Để thực hiện các tác vụ đòi hỏi quyền nâng cao, người dùng có thể sử dụng lệnh **sudo**. Lệnh **sudo**, viết tắt của "superuser do", cho phép những người dùng được cấp phép thực thi các lệnh với các đặc quyền bảo mật của một người dùng khác, thường là superuser hoặc root. Điều này cho phép người dùng thực hiện các tác vụ quản trị mà không cần đăng nhập trực tiếp với tư cách root, đây là một thực hành tốt nhất để duy trì an ninh hệ thống. Chúng ta sẽ tìm hiểu kỹ hơn về quyền sudo trong phần **Linux Security**.
+
+### Thực thi với quyền root
+
+```bash
+Chloe9920@htb[/htb]$ sudo cat /etc/shadow
+
+root:<SNIP>:18395:0:99999:7:::
+daemon:*:17737:0:99999:7:::
+bin:*:17737:0:99999:7:::
+<SNIP>
+```
+
+---
+
+Dưới đây là danh sách các lệnh giúp chúng ta hiểu rõ hơn và xử lý việc quản lý người dùng:
+
+| Command      | Description                                                                                                                                                                      |
+| ------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **sudo**     | Thực thi lệnh với tư cách một người dùng khác.                                                                                                                                   |
+| **su**       | Tiện ích `su` yêu cầu thông tin xác thực người dùng phù hợp thông qua PAM và chuyển sang ID người dùng đó (người dùng mặc định là superuser). Sau đó một shell sẽ được thực thi. |
+| **useradd**  | Tạo một người dùng mới hoặc cập nhật thông tin mặc định cho người dùng mới.                                                                                                      |
+| **userdel**  | Xóa một tài khoản người dùng và các tệp liên quan.                                                                                                                               |
+| **usermod**  | Sửa đổi một tài khoản người dùng.                                                                                                                                                |
+| **addgroup** | Thêm một nhóm vào hệ thống.                                                                                                                                                      |
+| **delgroup** | Xóa một nhóm khỏi hệ thống.                                                                                                                                                      |
+| **passwd**   | Thay đổi mật khẩu người dùng.                                                                                                                                                    |
+
+---
+
+Hiểu được cách mà tài khoản người dùng, quyền và cơ chế xác thực hoạt động cho phép chúng ta xác định các lỗ hổng, khai thác lỗi cấu hình, và đánh giá tư thế bảo mật của hệ thống một cách hiệu quả. Cách hiệu quả nhất để thành thạo quản lý người dùng là thực hành bằng cách sử dụng các lệnh riêng lẻ cùng với nhiều tùy chọn khác nhau trong một môi trường kiểm soát.
+
+Hãy thoải mái thử nghiệm với các lệnh khác nhau và khám phá chức năng của chúng. Điều quan trọng là để sự sáng tạo dẫn dắt bạn trong việc quyết định mình muốn đạt được điều gì. Bằng cách kết hợp các công cụ quản lý người dùng với kiến thức đã học từ các phần trước, bạn sẽ nhận ra mình đã học được nhiều đến mức nào. Áp dụng sự hiểu biết về hệ thống Linux: tạo các tài khoản người dùng mới, thiết lập tệp và thư mục cho những người dùng đó, chọn tệp, đọc và lọc các phần tử cụ thể, và chuyển hướng chúng đến các tệp và thư mục của những người dùng mới mà bạn đã tạo.
+
+Hãy thoải mái khám phá một cách toàn diện. Trên hệ thống mục tiêu của bạn, không có gì là không thể khắc phục được, và ngay cả khi có sự cố xảy ra, bạn có thể đặt lại mục tiêu và bắt đầu lại cho đến khi bạn cảm thấy tự tin.
+
+---
+
+### Trả lời các câu hỏi sau
+
+**1.  Which option needs to be set to create a home directory for a new user using "useradd" command?**
+
+>-m
+
+Lệnh:
+
+```bash
+useradd -m
+```
+
+Giải thích:
+
+* `useradd` : dùng để tạo một tài khoản người dùng mới trên hệ thống Linux.
+* Tùy chọn `-m` : khi tạo user, nó sẽ tự động tạo luôn thư mục **home directory** cho user đó (theo mặc định nằm trong `/home/tên_user`).
+
+  * Ví dụ: nếu bạn chạy `useradd -m chloe`, hệ thống sẽ:
+
+    * Tạo user `chloe`.
+    * Tạo thư mục `/home/chloe`.
+    * Copy các file mặc định từ `/etc/skel` vào `/home/chloe` để làm cấu hình ban đầu (bashrc, profile,…).
+
+Nếu không có `-m`, trong nhiều bản Linux thì user vẫn được tạo nhưng có thể **không có thư mục home**, dẫn đến việc đăng nhập bị hạn chế hoặc bất tiện.
+
+---
+
+**2. Which option needs to be set to lock a user account using the “usermod” command? (long version of the option)**
+
+>--lock
+
+Lệnh:
+
+```bash
+usermod --lock <tên_user>
+```
+
+Giải thích:
+
+* `usermod` : dùng để thay đổi thông tin của một tài khoản người dùng hiện có.
+* Tùy chọn `--lock` : khóa tài khoản người dùng.
+
+  * Cụ thể: nó sẽ thêm ký tự `!` vào trước chuỗi mật khẩu được lưu trong file `/etc/shadow`.
+  * Khi đó người dùng sẽ **không thể đăng nhập bằng mật khẩu** nữa.
+* Lưu ý:
+
+  * Tài khoản vẫn tồn tại, file/thư mục và quyền sở hữu không thay đổi.
+  * Nếu user đăng nhập bằng các phương thức khác (ví dụ: SSH key, service không dùng mật khẩu), có thể vẫn vào được.
+
+Ví dụ:
+
+```bash
+usermod --lock chloe
+```
+
+→ Khóa tài khoản `chloe`, không cho đăng nhập bằng mật khẩu.
+
+---
+
+**3. Which option needs to be set to execute a command as a different user using the “su” command? (long version of the option)**
+
+Lệnh:
+
+```bash
+su --command <lệnh> <tên_user>
+```
+
+Giải thích:
+
+* `su` (substitute user) : dùng để chuyển sang một tài khoản người dùng khác (mặc định là root).
+* Tùy chọn `--command` hoặc `-c` : cho phép chạy một lệnh cụ thể dưới quyền của user đó, thay vì mở hẳn một shell.
+
+  * Sau khi lệnh được chạy xong, `su` sẽ thoát.
+
+Ví dụ:
+
+```bash
+su --command "whoami" chloe
+```
+
+* Chạy lệnh `whoami` với quyền của user `chloe`.
+* Kết quả sẽ in ra:
+
+  ```
+  chloe
+  ```
+
+Nếu bạn chỉ gõ `su chloe` thì nó sẽ mở một shell đăng nhập dưới user `chloe`.
+Còn với `su --command`, nó chỉ thực thi **một lệnh duy nhất** rồi quay lại user ban đầu.
+
+---
+
+## 4.2 Package Management
+>Quản lý gói (Package Management)
+
+Dù là khi làm việc với tư cách quản trị viên hệ thống, duy trì máy Linux của riêng chúng ta tại nhà, hay xây dựng/nâng cấp/duy trì bản phân phối kiểm thử xâm nhập theo lựa chọn, điều quan trọng là phải nắm vững các **trình quản lý gói** khả dụng trên Linux và các cách khác nhau để sử dụng chúng để cài đặt, cập nhật hoặc xóa gói.
+
+Các gói là những tệp nén chứa nhị phân phần mềm, tệp cấu hình, thông tin về phụ thuộc và theo dõi các bản cập nhật/nâng cấp. Các tính năng mà hầu hết hệ thống quản lý gói cung cấp bao gồm:
+
+* Tải xuống gói phần mềm
+* Giải quyết phụ thuộc
+* Định dạng gói nhị phân tiêu chuẩn
+* Vị trí cài đặt và cấu hình chung
+* Cấu hình và chức năng liên quan đến hệ thống bổ sung
+* Kiểm soát chất lượng
+
+Chúng ta có thể sử dụng nhiều hệ thống quản lý gói khác nhau, bao phủ các loại tệp khác nhau như **.deb**, **.rpm**, và những loại khác. Yêu cầu của quản lý gói là phần mềm cần cài đặt phải có sẵn dưới dạng một gói tương ứng. Thông thường, gói này được tạo, cung cấp và duy trì tập trung trong các bản phân phối Linux.
+
+Theo cách này, phần mềm được tích hợp trực tiếp vào hệ thống và các thư mục khác nhau của nó được phân phối khắp hệ thống. Phần mềm quản lý gói sẽ truy xuất các thay đổi cần thiết để cài đặt từ gói và sau đó thực hiện những thay đổi này để cài đặt thành công. Nếu phần mềm quản lý gói phát hiện cần có thêm gói phụ để phần mềm hoạt động đúng, phụ thuộc đó sẽ được thêm vào và quản trị viên được cảnh báo hoặc hệ thống sẽ tải lại phần mềm còn thiếu từ kho lưu trữ và cài đặt trước.
+
+Nếu một phần mềm đã cài đặt bị xóa, phần mềm quản lý gói sẽ lấy lại thông tin của gói, điều chỉnh nó dựa trên cấu hình và xóa tệp. Có nhiều chương trình quản lý gói khác nhau mà chúng ta có thể sử dụng. Sau đây là một số ví dụ phổ biến:
+
+---
+
+| Command      | Description                                                                                                                                                                                                                                                                     |
+| ------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **dpkg**     | `dpkg` là công cụ để cài đặt, gỡ bỏ và quản lý các gói Debian. Công cụ giao diện chính và thân thiện hơn cho `dpkg` là **aptitude**.                                                                                                                                            |
+| **apt**      | Cung cấp giao diện dòng lệnh cấp cao cho hệ thống quản lý gói.                                                                                                                                                                                                                  |
+| **aptitude** | Là một lựa chọn thay thế cho apt và là giao diện dòng lệnh cấp cao cho hệ thống quản lý gói.                                                                                                                                                                                    |
+| **snap**     | Cài đặt, cấu hình, làm mới và gỡ bỏ các gói snap. Các gói snap đảm bảo phân phối phiên bản mới nhất của các ứng dụng và tiện ích cho cloud, máy chủ, máy tính để bàn và Internet of Things.                                                                                     |
+| **gem**      | `gem` là giao diện của RubyGems, hệ thống quản lý gói tiêu chuẩn cho Ruby.                                                                                                                                                                                                      |
+| **pip**      | `pip` là công cụ quản lý gói Python được khuyến nghị để cài đặt các gói Python không có trong Debian archive. Nó có thể làm việc với các kho lưu trữ kiểm soát phiên bản (Git, Mercurial, Bazaar), xuất nhật ký chi tiết, và kiểm tra tất cả yêu cầu trước khi bắt đầu cài đặt. |
+| **git**      | `git` là hệ thống kiểm soát phiên bản phân tán nhanh chóng, có thể mở rộng, cung cấp cả thao tác cấp cao và quyền truy cập đầy đủ vào bên trong.                                                                                                                                |
+
+---
+
+Rất khuyến nghị thiết lập một máy ảo (VM) cục bộ để thử nghiệm. Hãy thử một chút trong VM cục bộ và mở rộng nó bằng một vài gói bổ sung. Ví dụ: hãy cài đặt **git** bằng cách sử dụng **apt**.
+
+### Trình quản lý gói nâng cao (APT)
+
+Các bản phân phối Linux dựa trên Debian sử dụng trình quản lý gói **APT**. Một gói là một tệp lưu trữ chứa nhiều tệp **“.deb”**. Tiện ích **dpkg** được sử dụng để cài đặt các chương trình từ tệp **“.deb”** liên kết. **APT** giúp việc cập nhật và cài đặt chương trình trở nên dễ dàng hơn vì nhiều chương trình có các phụ thuộc. Khi cài đặt một chương trình từ một tệp **“.deb”** độc lập, chúng ta có thể gặp sự cố về phụ thuộc và cần tải xuống cũng như cài đặt một hoặc nhiều gói bổ sung. **APT** giúp việc này trở nên dễ dàng và hiệu quả hơn bằng cách đóng gói cùng nhau tất cả các phụ thuộc cần thiết để cài đặt một chương trình.
+
+Mỗi bản phân phối Linux sử dụng các kho phần mềm được cập nhật thường xuyên. Khi chúng ta nâng cấp một chương trình hoặc cài đặt một chương trình mới, hệ thống sẽ truy vấn các kho này để tìm gói mong muốn. Các kho có thể được gắn nhãn là stable, testing, hoặc unstable. Hầu hết các bản phân phối Linux sử dụng kho ổn định hoặc **“main”**. Điều này có thể được kiểm tra bằng cách xem nội dung của tệp:
+
+```
+/etc/apt/sources.list
+```
+
+Danh sách kho cho Parrot OS nằm ở:
+
+```
+/etc/apt/sources.list.d/parrot.list
+```
+
+---
+
+```bash
+Ch1oe9902@htb[/htb]$ cat /etc/apt/sources.list.d/parrot.list
+```
+
+```
+# parrot repository
+# this file was automatically generated by parrot-mirror-selector
+deb http://htb.deb.parrot.sh/parrot/ rolling main contrib non-free
+#deb-src https://deb.parrot.sh/parrot/ rolling main contrib non-free
+deb http://htb.deb.parrot.sh/parrot/ rolling-security main contrib non-free
+#deb-src https://deb.parrot.sh/parrot/ rolling-security main contrib non-free
+```
+
+---
+
+APT sử dụng một cơ sở dữ liệu gọi là bộ nhớ đệm APT. Cái này được sử dụng để cung cấp thông tin về các gói đã được cài đặt trên hệ thống của chúng ta ở chế độ ngoại tuyến. Chúng ta có thể tìm kiếm bộ nhớ đệm APT, ví dụ, để tìm tất cả các gói liên quan đến **Impacket**.
+
+```bash
+Ch1oe9902@htb[/htb]$ apt-cache search impacket
+```
+
+```
+impacket-scripts - Links to useful impacket scripts examples
+polemum - Extracts the password policy from a Windows system
+python-pcapy - Python interface to the libpcap packet capture library (Python 2)
+python3-impacket - Python3 module to easily build and dissect network protocols
+python3-pcapy - Python interface to the libpcap packet capture library (Python 3)
+```
+
+Chúng ta có thể xem thông tin bổ sung về một gói.
+
+```bash
+Ch1oe9902@htb[/htb]$ apt-cache show impacket-scripts
+```
+
+```
+Package: impacket-scripts
+Version: 1.4
+Architecture: all
+Maintainer: Kali Developers <devel@kali.org>
+Installed-Size: 13
+Depends: python3-impacket (>= 0.9.20), python3-ldap3 (>= 2.5.0), python3-ldapdomaindump
+Breaks: python-impacket (<< 0.9.18)
+Replaces: python-impacket (<< 0.9.18)
+Priority: optional
+Section: misc
+Filename: pool/main/i/impacket-scripts/impacket-scripts_1.4_all.deb
+Size: 2080
+<SNIP>
+```
+
+---
+
+Chúng ta cũng có thể liệt kê tất cả các gói đã được cài đặt.
+
+```bash
+Ch1oe9902@htb[/htb]$ apt list --installed
+```
+
+```
+Listing... Done
+accountsservice/rolling,now 0.6.55-2 amd64 [installed,automatic]
+adapta-gtk-theme/rolling,now 3.95.0.11-1 all [installed]
+adduser/rolling,now 3.118 all [installed]
+adwaita-icon-theme/rolling,now 3.36.1-2 all [installed,automatic]
+aircrack-ng/rolling,now 1:1.6-4 amd64 [installed,automatic]
+<SNIP>
+```
+
+---
+
+Nếu chúng ta thiếu một số gói, chúng ta có thể tìm kiếm và cài đặt chúng bằng cách sử dụng lệnh sau:
+
+```bash
+Ch1oe9902@htb[/htb]$ sudo apt install impacket-scripts -y
+```
+
+```
+Reading package lists... Done
+Building dependency tree       
+Reading state information... Done
+The following NEW packages will be installed:
+  impacket-scripts
+0 upgraded, 1 newly installed, 0 to remove and 0 not upgraded.
+Need to get 2,080 B of archives.
+After this operation, 13.3 kB of additional disk space will be used.
+Get:1 https://eur02-emea-mirror.parrot.sh/mirrors/parrot rolling/main amd64 impacket-scripts all 1.4 [2,080 B]
+Fetched 2,080 B in 0s (152 kB/s)
+Selecting previously unselected package impacket-scripts.
+(Reading database ... 378459 files and directories currently installed.)
+Preparing to unpack .../impacket-scripts_1.4_all.deb ...
+Unpacking impacket-scripts (1.4) ...
+Setting up impacket-scripts (1.4) ...
+Scanning application launchers
+Removing duplicate launchers from Debian
+Launchers are updated
+```
+
+### Git
+
+Bây giờ chúng ta đã cài đặt **git**, ta có thể sử dụng nó để tải về các công cụ hữu ích từ GitHub. Một dự án như vậy có tên là **Nishang**. Chúng ta sẽ xử lý và làm việc với dự án này sau. Trước tiên, chúng ta cần điều hướng đến **repository của dự án** và sao chép liên kết GitHub trước khi sử dụng git để tải nó xuống.
+
+![](./img/2_Linux_Fundamentals/4.2.1.webp)
+
+Tuy nhiên, trước khi tải xuống dự án cùng các tập lệnh và danh sách của nó, chúng ta nên tạo một thư mục cụ thể.
+
+```bash
+Chloe9902@htb[/htb]$ mkdir ~/nishang/ && git clone https://github.com/samratashok/nishang.git ~/nishang
+
+Cloning into '/opt/nishang/'...
+remote: Enumerating objects: 15, done.
+remote: Counting objects: 100% (15/15), done.
+remote: Compressing objects: 100% (13/13), done.
+remote: Total 1691 (delta 4), reused 6 (delta 2), pack-reused 1676
+Receiving objects: 100% (1691/1691), 7.84 MiB | 4.86 MiB/s, done.
+Resolving deltas: 100% (1055/1055), done.
+```
+
+### DPKG
+
+Chúng ta cũng có thể tải xuống các chương trình và công cụ riêng biệt từ kho lưu trữ. Trong ví dụ này, chúng ta tải xuống 'strace' cho Ubuntu 18.04 LTS.
+
+```bash
+Chloe9902@htb[/htb]$ wget http://archive.ubuntu.com/ubuntu/pool/main/s/strace/strace_4.21-1ubuntu1_amd64.deb
+
+--2020-05-15 03:27:17--  http://archive.ubuntu.com/ubuntu/pool/main/s/strace/strace_4.21-1ubuntu1_amd64.deb
+Resolving archive.ubuntu.com (archive.ubuntu.com)... 91.189.88.142, 91.189.88.152, 2001:67c:1562::18, ...
+Connecting to archive.ubuntu.com (archive.ubuntu.com)|91.189.88.142|:80... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: 333388 (326K) [application/x-debian-package]
+Saving to: ‘strace_4.21-1ubuntu1_amd64.deb’
+
+strace_4.21-1ubuntu1_amd64.deb       100%[===================================================================>] 325,57K  --.-KB/s    in 0,1s    
+
+2020-05-15 03:27:18 (2,69 MB/s) - ‘strace_4.21-1ubuntu1_amd64.deb’ saved [333388/333388]
+```
+
+Hơn nữa, bây giờ chúng ta có thể sử dụng cả apt và dpkg để cài đặt gói. Vì chúng ta đã làm việc với apt, chúng ta sẽ chuyển sang dpkg trong ví dụ tiếp theo.
+
+```bash
+Chloe9902@htb[/htb]$ sudo dpkg -i strace_4.21-1ubuntu1_amd64.deb 
+
+(Reading database ... 154680 files and directories currently installed.)
+Preparing to unpack strace_4.21-1ubuntu1_amd64.deb ...
+Unpacking strace (4.21-1ubuntu1) over (4.21-1ubuntu1) ...
+Setting up strace (4.21-1ubuntu1) ...
+Processing triggers for man-db (2.8.3-2ubuntu0.1) ...
+```
+
+Với điều này, chúng ta đã cài đặt xong công cụ và có thể kiểm tra xem nó có hoạt động bình thường không.
+
+```bash
+Chloe9902@htb[/htb]$ strace -h
+
+usage: strace [-CdffhiqrtttTvVwxxy] [-I n] [-e expr]...
+              [-a column] [-o file] [-s strsize] [-P path]...
+              -p pid... / [-D] [-E var=val]... [-u username] PROG [ARGS]
+   or: strace -c[dfw] [-I n] [-e expr]... [-O overhead] [-S sortby]
+              -p pid... / [-D] [-E var=val]... [-u username] PROG [ARGS]
+
+Output format:
+  -a column      alignment COLUMN for printing syscall results (default 40)
+  -i             print instruction pointer at time of syscall
+```
+
+## 4.3 Service and Process Management
+>Quản lý Dịch vụ và Tiến trình
+
+Các dịch vụ, còn được gọi là **daemon**, là những thành phần cơ bản của hệ thống Linux luôn chạy trong nền “mà không cần sự tương tác trực tiếp của người dùng”. Chúng thực hiện các tác vụ quan trọng để giữ cho hệ thống hoạt động và cung cấp thêm các chức năng bổ sung. Nói chung, dịch vụ có thể được phân thành hai loại:
+
+---
+
+#### **Dịch vụ Hệ thống**
+
+Đây là các dịch vụ nội bộ cần thiết trong quá trình khởi động hệ thống. Chúng thực hiện các tác vụ liên quan đến phần cứng và khởi tạo các thành phần hệ thống cần thiết để hệ điều hành hoạt động bình thường. Tương tự như hệ thống động cơ và hộp số trên ô tô: chúng bắt đầu hoạt động khi bạn bật chìa khóa và cần thiết để xe chạy. Nếu không có chúng, xe sẽ không thể di chuyển.
+
+---
+
+#### **Dịch vụ do Người dùng Cài đặt**
+
+Các dịch vụ này được người dùng thêm vào và thường bao gồm các ứng dụng máy chủ và tiến trình cung cấp các tính năng hoặc khả năng cụ thể. Những dịch vụ này giống như hệ thống điều hòa hoặc định vị GPS trên ô tô: không cần thiết để xe chạy, nhưng nâng cao chức năng và cung cấp tính năng bổ sung theo sở thích của người lái.
+
+Daemon thường được nhận diện bằng chữ **d** ở cuối tên chương trình, ví dụ như **sshd** (daemon SSH) hoặc **systemd**. Cũng như ô tô cần cả thành phần cốt lõi và tùy chọn bổ sung để hoạt động hiệu quả, Linux cũng cần cả dịch vụ hệ thống và dịch vụ người dùng để đáp ứng nhu cầu người dùng.
+
+---
+
+#### **Mục tiêu chính khi quản lý dịch vụ/tiến trình**
+
+1. Khởi động/Khởi động lại một dịch vụ/tiến trình
+2. Dừng một dịch vụ/tiến trình
+3. Kiểm tra trạng thái hiện tại hoặc trước đó của dịch vụ/tiến trình
+4. Bật/Tắt dịch vụ/tiến trình khi khởi động
+5. Tìm một dịch vụ/tiến trình
+
+---
+
+#### **systemd và PID**
+
+Hầu hết các bản phân phối Linux hiện đại đã áp dụng **systemd** làm hệ thống khởi tạo (init system). Đây là tiến trình đầu tiên bắt đầu trong quá trình khởi động và được gán **Process ID (PID)**.
+Mọi tiến trình trong Linux đều được gán **PID** và có thể được xem trong thư mục `/proc/`, nơi chứa thông tin về từng tiến trình. Một tiến trình cũng có thể có **Parent Process ID (PPID)**, cho biết nó được khởi động bởi một tiến trình khác (tiến trình cha), khiến nó trở thành tiến trình con.
+
+---
+
+### **Systemctl**
+
+Sau khi cài đặt **OpenSSH** trên máy ảo, chúng ta có thể khởi động dịch vụ bằng lệnh sau:
+
+```bash
+systemctl start ssh
+```
+
+Sau khi chúng ta đã khởi động dịch vụ, chúng ta có thể kiểm tra nếu nó chạy mà không có lỗi.
+
+```
+Chloe9902@htb[/htb]$ systemctl status ssh
+```
+
+```
+● ssh.service - OpenBSD Secure Shell server
+     Loaded: loaded (/lib/systemd/system/ssh.service; enabled; vendor preset: enabled)
+     Active: active (running) since Thu 2020-05-14 15:08:23 CEST; 24h ago
+   Main PID: 846 (sshd)
+      Tasks: 1 (limit: 4681)
+     CGroup: /system.slice/ssh.service
+             └─846 /usr/sbin/sshd -D
+
+Mai 14 15:08:22 inLane systemd[1]: Starting OpenBSD Secure Shell server...
+Mai 14 15:08:23 inLane sshd[846]: Server listening on 0.0.0.0 port 22.
+Mai 14 15:08:23 inLane sshd[846]: Server listening on :: port 22.
+Mai 14 15:08:23 inLane systemd[1]: Started OpenBSD Secure Shell server.
+Mai 14 15:08:30 inLane systemd[1]: Reloading OpenBSD Secure Shell server.
+Mai 14 15:08:31 inLane sshd[846]: Received SIGHUP; restarting.
+Mai 14 15:08:31 inLane sshd[846]: Server listening on 0.0.0.0 port 22.
+Mai 14 15:08:31 inLane sshd[846]: Server listening on :: port 22.
+```
+
+Để thêm OpenSSH vào script SysV để báo cho hệ thống chạy dịch vụ này sau khi khởi động, chúng ta có thể liên kết nó với lệnh sau:
+
+```
+Chloe9902@htb[/htb]$ systemctl enable ssh
+```
+
+```
+Synchronizing state of ssh.service with SysV service script with /lib/systemd/systemd-sysv-install.
+Executing: /lib/systemd/systemd-sysv-install enable ssh
+```
+
+Khi chúng ta khởi động lại hệ thống, máy chủ OpenSSH sẽ tự động chạy. Chúng ta có thể kiểm tra điều này với một công cụ gọi là ps.
+
+```
+Chloe9902@htb[/htb]$ ps -aux | grep ssh
+```
+
+```
+root       846  0.0  0.1  72300  5660 ?  Ss   Mai14   0:00 /usr/sbin/sshd -D
+```
+
+Chúng ta cũng có thể sử dụng **systemctl** để liệt kê tất cả các dịch vụ.
+
+```
+Chloe9902@htb[/htb]$ systemctl list-units --type=service
+```
+
+```
+UNIT                    LOAD   ACTIVE SUB     DESCRIPTION
+accounts-daemon.service loaded active running Accounts Service
+acpid.service           loaded active running ACPI event daemon
+apache2.service         loaded active running The Apache HTTP Server
+apparmor.service        loaded exited AppArmor initialization
+apport.service          loaded exited LSB: automatic crash repor
+avahi-daemon.service    loaded active running Avahi mDNS/DNS-SD Stack
+bolt.service            loaded active running Thunderbolt system service
+```
+
+Rất có thể các dịch vụ không khởi động được do lỗi. Để xem vấn đề, chúng ta có thể sử dụng công cụ **journalctl** để xem nhật ký.
+
+```
+Chloe9902@htb[/htb]$ journalctl -u ssh.service --no-pager
+```
+
+```
+-- Logs begin at Wed 2020-05-13 17:30:52 CEST, end at Fri 2020-05-15 16:00:14 CEST. --
+Mai 13 20:38:44 inLane systemd[1]: Starting OpenBSD Secure Shell server...
+Mai 13 20:38:44 inLane sshd[2722]: Server listening on 0.0.0.0 port 22.
+Mai 13 20:38:44 inLane sshd[2722]: Server listening on :: port 22.
+Mai 13 20:38:44 inLane systemd[1]: Started OpenBSD Secure Shell server.
+Mai 13 20:39:06 inLane sshd[3593]: Connection closed by 10.22.2.1 port 36444 [preauth]
+Mai 13 20:39:27 inLane sshd[3942]: Accepted password for master from 10.22.2.1 port 36452 ssh2
+Mai 13 20:39:27 inLane sshd[3942]: pam_unix(sshd:session): session opened for user master by (uid=0)
+Mai 14 02:04:49 inLane sshd[2722]: Received signal 15; terminating.
+Mai 14 02:04:49 inLane systemd[1]: Stopping OpenBSD Secure Shell server...
+Mai 14 02:04:49 inLane systemd[1]: Stopped OpenBSD Secure Shell server.
+-- Reboot --
+```
+
+### Kill a Process
+
+Một tiến trình có thể ở trong các trạng thái sau:
+
+* **Running** (Đang chạy)
+* **Waiting** (Đang chờ một sự kiện hoặc tài nguyên hệ thống)
+* **Stopped** (Đã dừng)
+* **Zombie** (Đã dừng nhưng vẫn còn một mục trong bảng tiến trình)
+
+Tiến trình có thể được điều khiển bằng cách sử dụng `kill`, `pkill`, `pgrep`, và `killall`. Để tương tác với một tiến trình, chúng ta phải gửi một tín hiệu đến nó. Chúng ta có thể xem tất cả các tín hiệu với lệnh sau:
+
+```
+Chloe9902@htb[/htb]$ kill -l
+```
+
+```
+ 1) SIGHUP     2) SIGINT      3) SIGQUIT    4) SIGILL     5) SIGTRAP
+ 6) SIGABRT    7) SIGBUS      8) SIGFPE     9) SIGKILL   10) SIGUSR1
+11) SIGSEGV   12) SIGUSR2    13) SIGPIPE   14) SIGALRM   15) SIGTERM
+16) SIGSTKFLT 17) SIGCHLD    18) SIGCONT   19) SIGSTOP   20) SIGTSTP
+21) SIGTTIN   22) SIGTTOU    23) SIGURG    24) SIGXCPU   25) SIGXFSZ
+26) SIGVTALRM 27) SIGPROF    28) SIGWINCH  29) SIGIO     30) SIGPWR
+31) SIGSYS    34) SIGRTMIN   35) SIGRTMIN+1 36) SIGRTMIN+2 37) SIGRTMIN+3
+38) SIGRTMIN+4 39) SIGRTMIN+5 40) SIGRTMIN+6 41) SIGRTMIN+7 42) SIGRTMIN+8
+43) SIGRTMIN+9 44) SIGRTMIN+10 45) SIGRTMIN+11 46) SIGRTMIN+12 47) SIGRTMIN+13
+48) SIGRTMIN+14 49) SIGRTMIN+15 50) SIGRTMAX-14 51) SIGRTMAX-13
+52) SIGRTMAX-12 53) SIGRTMAX-11 54) SIGRTMAX-10 55) SIGRTMAX-9
+56) SIGRTMAX-8 57) SIGRTMAX-7 58) SIGRTMAX-6 59) SIGRTMAX-5
+60) SIGRTMAX-4 61) SIGRTMAX-3 62) SIGRTMAX-2 63) SIGRTMAX-1
+64) SIGRTMAX
+```
+
+---
+
+### Các tín hiệu được sử dụng phổ biến nhất:
+
+| **Signal**     | **Description**                                                                                           |
+| -------------- | --------------------------------------------------------------------------------------------------------- |
+| **1 SIGHUP**   | Gửi đến tiến trình khi terminal điều khiển nó bị đóng.                                                    |
+| **2 SIGINT**   | Gửi khi người dùng nhấn **Ctrl + C** để ngắt tiến trình.                                                  |
+| **3 SIGQUIT**  | Gửi khi người dùng nhấn **Ctrl + D** để thoát.                                                            |
+| **9 SIGKILL**  | Ngay lập tức kết thúc một tiến trình mà không dọn dẹp.                                                    |
+| **15 SIGTERM** | Kết thúc tiến trình (có thể xử lý được).                                                                  |
+| **19 SIGSTOP** | Dừng tiến trình. Không thể xử lý được nữa.                                                                |
+| **20 SIGTSTP** | Gửi khi người dùng nhấn **Ctrl + Z** để yêu cầu dừng tiến trình tạm thời. Người dùng có thể xử lý sau đó. |
+
+### Kill a Process
+
+Ví dụ, nếu một chương trình bị treo, ta có thể buộc dừng nó bằng lệnh sau:
+
+```
+Chloe9902@htb[/htb]$ kill 9 <PID>
+```
+
+---
+
+### Background a Process
+
+Đôi khi cần phải đưa một tiến trình vừa khởi chạy vào nền để tiếp tục dùng phiên hiện tại tương tác với hệ thống hoặc khởi chạy tiến trình khác.
+Như đã thấy, ta có thể làm điều này bằng tổ hợp phím **\[Ctrl + Z]**. Khi đó, tín hiệu **SIGTSTP** được gửi đến kernel để tạm dừng tiến trình.
+
+```
+Chloe9902@htb[/htb]$ ping -c 10 www.hackthebox.eu
+Chloe9902@htb[/htb]$ vim tmpfile
+[Ctrl + Z]
+[2]+  Stopped                 vim tmpfile
+```
+
+---
+
+Bây giờ, tất cả tiến trình chạy nền có thể được hiển thị bằng lệnh sau:
+
+```
+Chloe9902@htb[/htb]$ jobs
+[1]+  Stopped                 ping -c 10 www.hackthebox.eu
+[2]+  Stopped                 vim tmpfile
+```
+
+---
+
+Tổ hợp **\[Ctrl + Z]** chỉ tạm dừng tiến trình, chúng sẽ không được thực thi thêm.
+Để giữ cho chúng tiếp tục chạy nền, ta dùng lệnh `bg`:
+
+```
+Chloe9902@htb[/htb]$ bg
+Chloe9902@htb[/htb]$ 
+--- www.hackthebox.eu ping statistics ---
+10 packets transmitted, 0 received, 100% packet loss, time 113428ms
+
+[ENTER]
+[1]+  Exit 1                  ping -c 10 www.hackthebox.eu
+```
+Một lựa chọn khác là tự động đặt tiến trình chạy bằng dấu **AND (&)** ở cuối lệnh.
+
+```bash
+Chloe9902@htb[/htb]$ ping -c 10 www.hackthebox.eu &
+[1] 10825
+PING www.hackthebox.eu (172.67.1.1) 56(84) bytes of data.
+```
+
+Khi tiến trình kết thúc, chúng ta sẽ thấy kết quả.
+
+```bash
+Chloe9902@htb[/htb]$ 
+--- www.hackthebox.eu ping statistics ---
+10 packets transmitted, 0 received, 100% packet loss, time 9210ms
+
+[ENTER]
+[1]+  Exit 1   ping -c 10 www.hackthebox.eu
+```
+
+---
+
+### Đưa tiến trình ra chạy nền trước
+
+Sau đó, chúng ta có thể dùng lệnh **jobs** để liệt kê tất cả tiến trình chạy nền. Các tiến trình chạy nền không yêu cầu sự tương tác từ người dùng, và chúng ta có thể dùng cùng một phiên shell mà không cần chờ tiến trình kết thúc trước. Khi quá trình quét hoặc tiến trình hoàn tất công việc, chúng ta sẽ được thông báo tại terminal rằng tiến trình đã xong.
+
+```bash
+Chloe9902@htb[/htb]$ jobs
+[1]+  Running   ping -c 10 www.hackthebox.eu &
+```
+
+Nếu chúng ta muốn đưa tiến trình chạy nền ra chạy tiền tuyến và tương tác lại với nó, ta có thể dùng lệnh **fg \<ID>**.
+
+```bash
+Chloe9902@htb[/htb]$ fg 1
+ping -c 10 www.hackthebox.eu
+--- www.hackthebox.eu ping statistics ---
+10 packets transmitted, 0 received, 100% packet loss, time 9206ms
+```
+
+Thực thi nhiều lệnh
+
+Có ba cách để chạy nhiều lệnh, lần lượt từng cái một. Chúng được phân tách bởi:
+
+* Dấu chấm phẩy (;)
+* Ký tự double ampersand (&&)
+* Pipes (|)
+
+Sự khác biệt giữa chúng nằm ở cách xử lý tiến trình trước đó và phụ thuộc vào việc tiến trình trước hoàn thành thành công hay gặp lỗi. Dấu chấm phẩy (;) là một dấu phân tách lệnh và thực thi các lệnh bằng cách bỏ qua kết quả và lỗi của lệnh trước đó.
+
+```bash
+Chloe9902@htb[/htb]$ echo '1'; echo '2'; echo '3'
+1
+2
+3
+```
+
+Ví dụ, nếu chúng ta thực thi cùng lệnh nhưng thay thế lệnh thứ hai bằng một tệp không tồn tại, lệnh `ls` với tệp đó sẽ báo lỗi, và lệnh thứ ba vẫn sẽ được thực thi.
+
+```bash
+Chloe9902@htb[/htb]$ echo '1'; ls MISSING_FILE; echo '3'
+1
+ls: cannot access 'MISSING_FILE': No such file or directory
+3
+```
+
+Tuy nhiên, sẽ khác nếu chúng ta dùng ký tự double AND (&&) để chạy các lệnh lần lượt. Nếu có lỗi ở một trong các lệnh, các lệnh sau sẽ không được thực thi nữa, và toàn bộ quá trình sẽ bị dừng lại.
+
+```bash
+Chloe9902@htb[/htb]$ echo '1' && ls MISSING_FILE && echo '3'
+1
+ls: cannot access 'MISSING_FILE': No such file or directory
+```
+
+**Trả lời câu hỏi sau:**
+
+**Use the “systemctl” command to list all units of services and submit the unit name with the description “Load AppArmor profiles managed internally by snapd” as the answer.**
+
+```bash
+systemctl | grep "Load AppArmor profiles managed internally by snapd"
+```
+
+Giải thích:
+
+* `systemctl` : lệnh quản lý systemd, thường được dùng để liệt kê và điều khiển các dịch vụ.
+
+  * Khi chạy không có tham số, nó sẽ in ra danh sách các unit đang hoạt động, trạng thái, mô tả,…
+
+* `| grep "Load AppArmor profiles managed internally by snapd"` :
+
+  * Lọc kết quả từ `systemctl`, chỉ giữ lại dòng có chứa chuỗi `"Load AppArmor profiles managed internally by snapd"`.
+  * Đây là thông báo liên quan đến việc **nạp các profile bảo mật AppArmor** được quản lý bởi **snapd** (dịch vụ quản lý gói Snap trên Ubuntu).
+
+---
+
+
