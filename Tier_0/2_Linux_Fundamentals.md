@@ -32,7 +32,7 @@
 
 3. 5 [File Descriptors and Redirections](#35-file-descriptors-and-redirections)
 
-
+3.6 [Filter Contents](#36-filter-contents)
 
 
 
@@ -1673,6 +1673,398 @@ Giải thích chi tiết:
    * Do tất cả các gói đã cài đặt đều có chữ `"installed"`, nên kết quả sẽ là **tổng số gói đã cài**.
 
 ---
+
+## 3.6 Filter Contents
+>Lọc Nội Dung
+
+Trong phần trước, chúng ta đã khám phá cách sử dụng chuyển hướng để gửi đầu ra của một chương trình sang một chương trình khác để xử lý tiếp. Bây giờ, hãy nói về việc đọc tệp trực tiếp từ dòng lệnh, mà không cần mở trình soạn thảo văn bản.
+
+Có hai công cụ mạnh mẽ cho việc này – **more** và **less**. Chúng được gọi là **pager**, và cho phép bạn xem nội dung của một tệp theo cách tương tác, từng màn hình một. Mặc dù cả hai công cụ có mục đích tương tự, nhưng chúng có một số khác biệt trong chức năng, sẽ được đề cập sau.
+
+Với **more** và **less**, bạn có thể dễ dàng cuộn qua các tệp lớn, tìm kiếm văn bản, và điều hướng tiến hoặc lùi mà không làm thay đổi chính tệp. Điều này đặc biệt hữu ích khi bạn làm việc với log lớn hoặc các tệp văn bản không gói gọn vừa trong một màn hình.
+
+Mục tiêu của phần này là học cách lọc nội dung và xử lý đầu ra được chuyển hướng từ các lệnh trước đó. Nhưng trước khi đi sâu vào lọc, ta cần làm quen với một số công cụ và lệnh cơ bản, được thiết kế đặc biệt để làm việc với dữ liệu văn bản một cách hiệu quả và mạnh mẽ.
+
+Trước khi bắt đầu lọc đầu ra, hãy xem qua một số công cụ nền tảng sẽ giúp bạn lọc và xử lý văn bản. Các công cụ này rất quan trọng khi làm việc với lượng dữ liệu lớn hoặc khi cần tự động hóa các tác vụ như tìm kiếm, sắp xếp, hay xử lý thông tin.
+
+Hãy cùng xem một số ví dụ để hiểu rõ hơn cách các công cụ này hoạt động trên thực tế.
+
+---
+
+### More
+
+```bash
+Ch10ce9902@htb[/htb]$ cat /etc/passwd | more
+```
+
+Tệp **/etc/passwd** trong Linux giống như một danh bạ điện thoại cho người dùng trên hệ thống. Nó chứa chi tiết như:
+
+* tên người dùng,
+* ID người dùng,
+* ID nhóm,
+* thư mục home,
+* shell mặc định họ sử dụng.
+
+Sau khi đọc nội dung tệp bằng lệnh `cat` và chuyển hướng nó sang `more`, **pager** sẽ mở ra và ta sẽ bắt đầu ngay từ đầu của tệp.
+
+Ví dụ hiển thị:
+
+```
+root:x:0:0:root:/root:/bin/bash
+daemon:x:1:1:daemon:/usr/sbin:/usr/sbin/nologin
+bin:x:2:2:bin:/bin:/usr/sbin/nologin
+sys:x:3:3:sys:/dev:/usr/sbin/nologin
+sync:x:4:65534:sync:/bin:/bin/sync
+<SNIP>
+--More--
+```
+
+Với phím **\[q]**, bạn có thể thoát khỏi **pager**. Lưu ý rằng đầu ra vẫn còn trong terminal.
+
+### Less
+
+Nếu ta xem công cụ **less**, ta sẽ nhận thấy trong trang hướng dẫn rằng nó có nhiều tính năng hơn **more**.
+
+```bash
+Ch10ce9902@htb[/htb]$ less /etc/passwd
+```
+
+Cách hiển thị gần giống với **more**.
+
+Ví dụ:
+
+```
+root:x:0:0:root:/root:/bin/bash
+daemon:x:1:1:daemon:/usr/sbin:/usr/sbin/nologin
+bin:x:2:2:bin:/bin:/usr/sbin/nologin
+sys:x:3:3:sys:/dev:/usr/sbin/nologin
+sync:x:4:65534:sync:/bin:/bin/sync
+<SNIP>
+:
+```
+
+Khi đóng **less** bằng phím **\[q]**, ta sẽ thấy rằng đầu ra mà ta vừa xem **không còn hiển thị lại** trong terminal, khác với **more**.
+
+---
+
+### Head
+
+Đôi khi, ta chỉ muốn xem những dòng đầu tiên hoặc cuối cùng của tệp. Nếu chỉ muốn lấy **một số dòng đầu tiên** của tệp, ta có thể dùng công cụ **head**.
+Mặc định, **head** sẽ in ra 10 dòng đầu tiên của tệp (hoặc input), trừ khi được chỉ định số dòng khác.
+
+```bash
+Ch10ce9902@htb[/htb]$ head /etc/passwd
+```
+
+Kết quả:
+
+```
+root:x:0:0:root:/root:/bin/bash
+daemon:x:1:1:daemon:/usr/sbin:/usr/sbin/nologin
+bin:x:2:2:bin:/bin:/usr/sbin/nologin
+sys:x:3:3:sys:/dev:/usr/sbin/nologin
+sync:x:4:65534:sync:/bin:/bin/sync
+games:x:5:60:games:/usr/games:/usr/sbin/nologin
+man:x:6:12:man:/var/cache/man:/usr/sbin/nologin
+lp:x:7:7:lp:/var/spool/lpd:/usr/sbin/nologin
+mail:x:8:8:mail:/var/mail:/usr/sbin/nologin
+news:x:9:9:news:/var/spool/news:/usr/sbin/nologin
+```
+
+### Tail
+
+Nếu chúng ta chỉ muốn xem phần cuối cùng của một tệp hoặc kết quả, ta có thể sử dụng công cụ tương tự với `head` gọi là `tail`, công cụ này sẽ trả về **mười** dòng cuối cùng.
+
+```bash
+Chloe9920@htb[/htb]$ tail /etc/passwd
+miredo:x:115:65534::/var/run/miredo:/usr/sbin/nologin
+usbmux:x:116:46:usbmux daemon,,,:/var/lib/usbmux:/usr/sbin/nologin
+rtkit:x:117:119:RealtimeKit,,,:/proc:/usr/sbin/nologin
+nm-openvpn:x:118:120:NetworkManager OpenVPN,,,:/var/lib/NetworkManager:/usr/sbin/nologin
+nm-openconnect:x:119:121:NetworkManager OpenConnect plugin,,,:/var/lib/NetworkManager:/usr/sbin/nologin
+pulse:x:120:122:PulseAudio daemon,,,:/var/run/pulse:/usr/sbin/nologin
+beef-xss:x:121:124::/var/lib/beef-xss:/usr/sbin/nologin
+lightdm:x:122:125:Light Display Manager:/var/lib/lightdm:/bin/false
+ioda-agent:x:999:998::/home/ioda-agent:/bin/false
+user6:x:1000:1000::/home/user6:/bin/bash
+```
+
+Sẽ rất hữu ích nếu chúng ta khám phá các tùy chọn có sẵn mà những công cụ này cung cấp và thử nghiệm với chúng.
+
+---
+
+### Sort
+
+Tùy thuộc vào kết quả và tệp nào được xử lý, chúng hiếm khi được sắp xếp. Thông thường cần phải sắp xếp kết quả mong muốn theo thứ tự **chữ cái** hoặc **số** để có cái nhìn tổng quan hơn. Để làm điều này, ta có thể sử dụng công cụ gọi là `sort`.
+
+```bash
+Chloe9920@htb[/htb]$ cat /etc/passwd | sort
+_apt:x:104:65534::/nonexistent:/usr/sbin/nologin
+backup:x:34:34:backup:/var/backups:/usr/sbin/nologin
+bin:x:2:2:bin:/bin:/usr/sbin/nologin
+crypt1blk3:x:1001:1001::/home/crypt1blk3:/bin/bash
+daemon:x:1:1:daemon:/usr/sbin:/usr/sbin/nologin
+dnsmasq:x:107:65534:dnsmasq,,,:/var/lib/misc:/usr/sbin/nologin
+dovecot:x:111:117:Dovecot mail server,,,:/usr/lib/dovecot:/usr/sbin/nologin
+dovenull:x:115:118:Dovecot login user,,,:/nonexistent:/usr/sbin/nologin
+ftp:x:113:65534::/srv/ftp:/usr/sbin/nologin
+games:x:5:60:games:/usr/games:/usr/sbin/nologin
+gnats:x:41:41:Gnats Bug-Reporting System (admin):/var/lib/gnats:/usr/sbin/nologin
+htb-student:x:1002:1002:/home/htb-student:/bin/bash
+<SNIP>
+```
+
+Như chúng ta có thể thấy, đầu ra giờ đây không còn bắt đầu với `root` nữa mà đã được sắp xếp theo thứ tự bảng chữ cái.
+
+### Grep
+
+Trong nhiều trường hợp, chúng ta sẽ cần tìm kiếm các kết quả cụ thể khớp với mẫu mà mình định nghĩa. Một trong những công cụ phổ biến nhất cho mục đích này là **grep**, công cụ này cung cấp nhiều tính năng mạnh mẽ để tìm kiếm theo mẫu.
+
+Ví dụ, chúng ta có thể dùng `grep` để tìm những người dùng có **shell mặc định** được đặt là `/bin/bash`.
+
+```bash
+Chloe9920@htb[/htb]$ cat /etc/passwd | grep "/bin/bash"
+
+root:x:0:0:root:/root:/bin/bash
+mrb3n:x:1000:1000:mrb3n:/home/mrb3n:/bin/bash
+cry0l1t3:x:1001:1001::/home/cry0l1t3:/bin/bash
+htb-student:x:1002:1002::/home/htb-student:/bin/bash
+```
+
+Đây chỉ là một ví dụ về cách `grep` có thể được sử dụng để lọc dữ liệu một cách hiệu quả dựa trên các mẫu được định sẵn. Một khả năng khác là **loại trừ** các kết quả cụ thể. Để làm điều này, ta dùng tùy chọn `-v` với `grep`.
+
+Trong ví dụ tiếp theo, ta loại bỏ tất cả người dùng đã vô hiệu hóa shell mặc định bằng `/bin/false` hoặc `/usr/sbin/nologin`.
+
+```bash
+Chloe9920@htb[/htb]$ cat /etc/passwd | grep -v "false\|nologin"
+
+root:x:0:0:root:/root:/bin/bash
+sync:x:4:65534:sync:/bin:/bin/sync
+postgres:x:111:117:PostgreSQL administrator,,,:/var/lib/postgresql:/bin/bash
+user6:x:1000:1000::/home/user6:/bin/bash
+```
+
+---
+
+### Cut
+
+Một số kết quả cụ thể có thể được phân tách bởi các ký tự khác nhau gọi là **dấu phân cách (delimiter)**. Trong trường hợp này, ta cần biết cách loại bỏ dấu phân cách và chỉ hiển thị các từ ở vị trí được chỉ định. Một trong những công cụ có thể dùng cho việc này là **cut**.
+
+Ở ví dụ dưới đây, ta sử dụng tùy chọn `-d` để đặt dấu phân cách là dấu hai chấm `:` và dùng tùy chọn `-f` để xác định vị trí trên dòng muốn hiển thị trong kết quả.
+
+```bash
+Chloe9920@htb[/htb]$ cat /etc/passwd | grep -v "false\|nologin" | cut -d":" -f1
+
+root
+sync
+postgres
+mrb3n
+cry0l1t3
+htb-student
+```
+
+Kết quả trả về là danh sách tên người dùng đã được lọc ra.
+
+### Tr
+
+Một khả năng khác để thay thế các ký tự nhất định trong một dòng bằng những ký tự do chúng ta chỉ định là công cụ **tr**.
+Ở tùy chọn đầu tiên, ta xác định ký tự cần thay thế, và ở tùy chọn thứ hai, ta định nghĩa ký tự muốn thay thế bằng.
+
+Trong ví dụ tiếp theo, ta thay thế dấu hai chấm `:` bằng khoảng trắng.
+
+```bash
+Chloe9920@htb[/htb]$ cat /etc/passwd | grep -v "false\|nologin" | tr ":" " "
+
+root x 0 0 root /root /bin/bash
+sync x 4 65534 sync /bin /bin/sync
+postgres x 111 117 PostgreSQL administrator,,, /var/lib/postgresql /bin/bash
+mrb3n x 1000 1000 mrb3n /home/mrb3n /bin/bash
+cry0l1t3 x 1001 1001 /home/cry0l1t3 /bin/bash
+htb-student x 1002 1002 /home/htb-student /bin/bash
+```
+
+---
+
+### Column
+
+Vì kết quả tìm kiếm thường khó nhìn, công cụ **column** rất phù hợp để hiển thị kết quả dưới dạng bảng, sử dụng tùy chọn `-t`.
+
+```bash
+Chloe9920@htb[/htb]$ cat /etc/passwd | grep -v "false\|nologin" | tr ":" " " | column -t
+
+root        x   0     0     root          /root             /bin/bash
+sync        x   4     65534 sync          /bin              /bin/sync
+postgres    x   111   117   PostgreSQL    administrator,,,  /var/lib/postgresql  /bin/bash
+mrb3n       x   1000  1000  mrb3n         /home/mrb3n       /bin/bash
+cry0l1t3    x   1001  1001                 /home/cry0l1t3   /bin/bash
+htb-student x   1002  1002                 /home/htb-student /bin/bash
+```
+
+---
+
+### Awk
+
+Như ta có thể thấy, dòng của người dùng **postgres** có nhiều cột hơn bình thường.
+Để đơn giản hóa việc sắp xếp kết quả này, lập trình với **(g)awk** rất hữu ích, vì nó cho phép ta hiển thị cột đầu tiên (`$1`) và cột cuối cùng (`$NF`) của mỗi dòng.
+
+```bash
+Chloe9920@htb[/htb]$ cat /etc/passwd | grep -v "false\|nologin" | tr ":" " " | awk '{print $1, $NF}'
+
+root        /bin/bash
+sync        /bin/sync
+postgres    /bin/bash
+mrb3n       /bin/bash
+cry0l1t3    /bin/bash
+htb-student /bin/bash
+```
+
+### Sed
+
+Sẽ có những lúc chúng ta muốn thay đổi các tên cụ thể trong toàn bộ tệp hoặc đầu vào chuẩn. Một trong những công cụ chúng ta có thể sử dụng cho việc này là trình chỉnh sửa luồng gọi là **sed**. Một trong những cách sử dụng phổ biến nhất là thay thế văn bản. Ở đây, **sed** tìm các mẫu mà chúng ta đã định nghĩa dưới dạng biểu thức chính quy (regex) và thay thế chúng bằng một mẫu khác mà chúng ta cũng đã định nghĩa.
+
+Hãy gắn bó với kết quả cuối cùng và giả sử chúng ta muốn thay thế từ **"bin"** bằng **"HTB"**.
+
+Cờ **"s"** ở đầu dùng cho lệnh thay thế. Sau đó, chúng ta chỉ định mẫu mà ta muốn thay thế. Sau dấu gạch chéo `/`, chúng ta nhập mẫu mà ta muốn dùng làm thay thế ở vị trí thứ ba. Cuối cùng, chúng ta dùng cờ **"g"**, có nghĩa là thay thế tất cả các lần khớp.
+
+```bash
+Chloe9920@htb[/htb]$ cat /etc/passwd | grep -v "false\|nologin" | tr ":" " " | awk '{print $1, $NF}' | sed 's/bin/HTB/g'
+
+root        /HTB/bash
+sync        /HTB/sync
+postgres    /HTB/bash
+mrb3n       /HTB/bash
+cry0l1t3    /HTB/bash
+htb-student /HTB/bash
+```
+
+---
+
+### Wc
+
+Cuối cùng nhưng không kém phần quan trọng, sẽ thường hữu ích khi biết có bao nhiêu kết quả khớp thành công. Để tránh đếm thủ công các dòng hoặc ký tự, chúng ta có thể sử dụng công cụ **wc**. Với tùy chọn **"-l"**, chúng ta chỉ định rằng chỉ các dòng được đếm.
+
+```bash
+Chloe9920@htb[/htb]$ cat /etc/passwd | grep -v "false\|nologin" | tr ":" " " | awk '{print $1, $NF}' | wc -l
+
+6
+```
+
+### Practice
+
+Hãy nhớ rằng có rất nhiều công cụ khác mà bạn có thể sử dụng và kết hợp trong suốt quá trình học tập. Rất khuyến khích bạn khám phá các công cụ thay thế cho những tác vụ cụ thể để mở rộng kỹ năng, vì có thể bạn sẽ tìm thấy những lựa chọn phù hợp hơn với sở thích và quy trình làm việc của mình. Không có giới hạn cứng nhắc, vì vậy hãy thoải mái khám phá những khả năng khác nhau và tận dụng kho tài nguyên phong phú được chia sẻ trong cộng đồng.
+
+Ban đầu, có thể sẽ hơi choáng ngợp khi phải làm việc với quá nhiều công cụ và chức năng khác nhau nếu ta chưa quen với chúng. Hãy dành thời gian và thử nghiệm với các công cụ. Xem qua trang **man** (`man <tool>`) hoặc gọi phần trợ giúp (`<tool> -h` hoặc `<tool> --help`). Cách tốt nhất để làm quen với tất cả các công cụ là thực hành. Hãy cố gắng sử dụng chúng càng nhiều càng tốt, và chúng ta sẽ có thể lọc nhiều thứ một cách trực quan chỉ sau một thời gian ngắn.
+
+Dưới đây là một số bài tập tùy chọn chúng ta có thể dùng để cải thiện kỹ năng lọc dữ liệu và làm quen hơn với terminal và các lệnh.
+Tệp mà chúng ta sẽ cần làm việc là tệp **/etc/passwd** trên máy **target** và ta có thể dùng bất kỳ lệnh nào đã được trình bày ở trên.
+Mục tiêu là lọc và hiển thị **chỉ những nội dung cụ thể**. Hãy đọc tệp và lọc nội dung sao cho chúng ta chỉ thấy:
+
+1. Một dòng có tên người dùng **cry0l1t3**.
+2. Các tên người dùng.
+3. Tên người dùng **cry0l1t3** và UID của anh ta.
+4. Tên người dùng **cry0l1t3** và UID của anh ta, phân tách bằng dấu **phẩy (,)**.
+5. Tên người dùng **cry0l1t3**, UID, và shell mặc định, tất cả phân tách bằng dấu **phẩy (,)**.
+6. Tất cả người dùng cùng với UID và shell mặc định, tất cả phân tách bằng dấu **phẩy (,)**.
+7. Tất cả người dùng cùng với UID và shell mặc định, tất cả phân tách bằng dấu **phẩy (,)**, và loại bỏ những dòng chứa **nologin** hoặc **false**.
+8. Tất cả người dùng cùng với UID và shell mặc định, tất cả phân tách bằng dấu **phẩy (,)**, loại bỏ những dòng chứa **nologin**, và **đếm số dòng** trong kết quả đã lọc.
+
+
+### Trả lời các câu hỏi
+
+**1. How many services are listening on the target system on all interfaces? (Not on localhost and IPv4 only)**
+
+```bash
+netstat -ln4 | grep LISTEN | grep -v 127 | wc -l
+```
+
+Giải thích chi tiết từng phần:
+
+1. **`netstat -ln4`**
+
+   * `netstat`: hiển thị các kết nối mạng, socket, cổng đang mở.
+   * `-l` : chỉ hiển thị các socket đang **LISTEN** (đang chờ kết nối đến).
+   * `-n` : hiển thị địa chỉ và cổng ở dạng số (không dịch sang tên dịch vụ).
+   * `-4` : chỉ hiển thị địa chỉ IPv4 (bỏ qua IPv6).
+
+    Kết quả ở bước này: danh sách các cổng IPv4 đang lắng nghe.
+
+2. **`| grep LISTEN`**
+
+   * Lọc ra các dòng có trạng thái **LISTEN** (thường để chắc chắn chỉ lấy socket đang mở chờ kết nối).
+
+3. **`| grep -v 127`**
+
+   * `-v` nghĩa là **loại bỏ** những dòng khớp mẫu.
+   * Ở đây loại bỏ các dòng chứa `127` (tức là loại bỏ cổng chỉ lắng nghe trên **localhost 127.0.0.1**).
+   * Như vậy chỉ giữ lại các cổng **nghe trên địa chỉ IP bên ngoài** (có thể truy cập từ mạng khác).
+
+4. **`| wc -l`**
+
+   * Đếm số dòng còn lại, tức là **số lượng cổng đang mở và lắng nghe từ bên ngoài (không phải chỉ nội bộ localhost)**.
+
+---
+
+**2. Determine what user the ProFTPd server is running under. Submit the username as the answer.**
+
+```bash
+ps aux | grep "proftpd"
+```
+
+Giải thích từng phần:
+
+1. **`ps aux`**
+
+   * `ps`: hiển thị các tiến trình đang chạy.
+   * `a`: hiển thị tiến trình của tất cả người dùng.
+   * `u`: hiển thị chi tiết dưới dạng “user-oriented” (có cột user, CPU, RAM, thời gian, lệnh).
+   * `x`: hiển thị cả các tiến trình **không gắn với terminal** (daemon, service).
+
+    Kết quả: danh sách toàn bộ tiến trình đang chạy kèm thông tin.
+
+2. **`| grep "proftpd"`**
+
+   * Lọc ra các dòng chứa từ khóa `"proftpd"`.
+   * `proftpd` là một **FTP server daemon** (ProFTPD).
+
+    Kết quả: chỉ hiện các tiến trình liên quan đến dịch vụ **ProFTPD**.
+
+---
+
+**3.  Use cURL from your Pwnbox (not the target machine) to obtain the source code of the "https://www.inlanefreight.com" website and filter all unique paths (https://www.inlanefreight.com/directory" or "/another/directory") of that domain. Submit the number of these paths as the answer.**
+
+```bash
+curl https://www.inlanefreight.com/ | grep -Po "https://www\.inlanefreight\.com/[^\"]*" | sort -u | wc -l
+```
+
+Giải thích chi tiết:
+
+1. **`curl https://www.inlanefreight.com/`**
+
+   * Tải nội dung HTML của trang web `https://www.inlanefreight.com/`.
+   * Mặc định `curl` sẽ in toàn bộ HTML ra stdout (màn hình).
+
+2. **`| grep -Po "https://www\.inlanefreight\.com/[^\"]*"`**
+
+   * `grep` lọc ra các chuỗi phù hợp với regex.
+   * `-P`: dùng Perl regex.
+   * `-o`: chỉ in phần khớp regex, không in cả dòng.
+   * Biểu thức regex `"https://www\.inlanefreight\.com/[^\"]*"` nghĩa là:
+
+     * Bắt đầu bằng chuỗi `https://www.inlanefreight.com/`.
+     * Sau đó là mọi ký tự **không phải dấu `"`** (`[^\"]*`).
+   * Tóm lại: trích xuất **các đường link nội bộ (internal links) thuộc domain inlanefreight.com** từ HTML.
+
+3. **`| sort -u`**
+
+   * Sắp xếp kết quả theo thứ tự và loại bỏ trùng lặp (`-u` = unique).
+
+4. **`| wc -l`**
+
+   * Đếm số dòng còn lại, tức là **số lượng link nội bộ duy nhất được tìm thấy trên trang web**.
+
+---
+
+
 
 
 
