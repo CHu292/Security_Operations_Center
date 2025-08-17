@@ -34,6 +34,13 @@
 
 3.6 [Filter Contents](#36-filter-contents)
 
+3.7 [Regular Expressions](#37-regular-expressions)
+
+3.8 [Permission Management](#38-permission-management)
+
+
+
+
 
 
 # 1. Introduction
@@ -2064,7 +2071,243 @@ Giải thích chi tiết:
 
 ---
 
+## 3.7 Regular Expressions
+
+Biểu thức chính quy (**RegEx**) giống như nghệ thuật tạo ra các bản thiết kế chính xác để tìm kiếm mẫu trong văn bản hoặc tệp. Chúng cho phép bạn tìm, thay thế và thao tác dữ liệu với độ chính xác đáng kinh ngạc.
+Hãy nghĩ về RegEx như một bộ lọc có thể tùy chỉnh cao, giúp bạn sàng lọc qua các chuỗi văn bản, tìm chính xác những gì bạn cần — dù là phân tích dữ liệu, xác thực đầu vào, hay thực hiện các thao tác tìm kiếm nâng cao.
+
+Cốt lõi của biểu thức chính quy là một chuỗi ký tự và ký hiệu kết hợp với nhau để tạo thành một mẫu tìm kiếm. Các mẫu này thường bao gồm những ký hiệu đặc biệt gọi là **metacharacter**, dùng để xác định cấu trúc của việc tìm kiếm thay vì chỉ biểu diễn văn bản thuần túy. Ví dụ, metacharacter cho phép bạn chỉ định rằng mình đang tìm chữ số, chữ cái, hay bất kỳ ký tự nào khớp với một mẫu nhất định.
+
+RegEx có mặt trong nhiều ngôn ngữ lập trình và công cụ, chẳng hạn như **grep** hay **sed**, khiến nó trở thành một công cụ mạnh mẽ và đa năng trong bộ công cụ của chúng ta.
+
+---
+
+### Grouping
+
+Ngoài những chức năng khác, **regex** còn cho phép chúng ta nhóm các mẫu tìm kiếm mong muốn. Về cơ bản, regex tuân theo ba khái niệm khác nhau, được phân biệt bằng ba loại dấu ngoặc khác nhau:
+
+#### Grouping Operators
+
+| Operators  | Description                                                                                                                                                |                                                                               |
+| ---------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------- |
+| **(a)**    | Dấu ngoặc tròn được dùng để nhóm các phần của regex. Bên trong ngoặc, bạn có thể định nghĩa thêm các mẫu cần được xử lý cùng nhau.                         |                                                                               |
+| **\[a-z]** | Dấu ngoặc vuông được dùng để định nghĩa lớp ký tự. Bên trong, bạn có thể chỉ định danh sách ký tự cần tìm.                                                 |                                                                               |
+| **{1,10}** | Dấu ngoặc nhọn được dùng để định nghĩa số lần lặp. Bên trong, bạn có thể chỉ định một số hoặc một khoảng, cho biết mẫu trước đó cần lặp lại bao nhiêu lần. |                                                                               |
+| \*\*       | \*\*                                                                                                                                                       | Còn được gọi là toán tử **OR**, cho kết quả khi một trong hai biểu thức khớp. |
+| \**.* \*\* | Hoạt động gần giống toán tử **AND** bằng cách chỉ hiển thị kết quả khi cả hai biểu thức cùng xuất hiện và khớp theo thứ tự được chỉ định.                  |                                                                               |
+
+---
+
+Giả sử chúng ta sử dụng toán tử **OR (|)**. Regex sẽ tìm kiếm một trong các tham số tìm kiếm được đưa ra.
+Trong ví dụ tiếp theo, chúng ta tìm các dòng chứa từ **my** hoặc **false**. Để sử dụng các toán tử này, bạn cần áp dụng regex mở rộng bằng tùy chọn **-E** trong **grep**.
+
+### OR operator
+
+```bash
+cry0l1t3@htb:~$ grep -E "(my|false)" /etc/passwd
+lxd:x:105:65534::/var/lib/lxd/:/bin/false
+pollinate:x:110:1::/var/cache/pollinate:/bin/false
+mysql:x:116:120:MySQL Server,,,:/nonexistent:/bin/false
+```
+
+Vì một trong hai tham số tìm kiếm luôn xuất hiện trong ba dòng này, nên cả ba dòng đều được hiển thị. Tuy nhiên, nếu chúng ta sử dụng toán tử **AND**, chúng ta sẽ nhận được kết quả khác cho cùng các tham số tìm kiếm.
+
+---
+
+### AND operator
+
+```bash
+cry0l1t3@htb:~$ grep -E "(my.*false)" /etc/passwd
+mysql:x:116:120:MySQL Server,,,:/nonexistent:/bin/false
+```
+
+Về cơ bản, những gì lệnh này nói là chúng ta đang tìm một dòng có cả **my** và **false**.
+Một ví dụ đơn giản hơn là sử dụng `grep` hai lần, như sau:
+
+```bash
+cry0l1t3@htb:~$ grep -E "my" /etc/passwd | grep -E "false"
+mysql:x:116:120:MySQL Server,,,:/nonexistent:/bin/false
+```
+
+---
+
+### Một số bài tập tùy chọn để luyện tập RegEx
+
+Dưới đây là một số tác vụ tùy chọn để giúp bạn luyện tập RegEx và cải thiện khả năng xử lý chúng hiệu quả hơn. Những bài tập này sẽ sử dụng tệp **/etc/ssh/sshd\_config** trên máy **Pwnbox**, cho phép bạn khám phá các ứng dụng thực tế của RegEx trong một tệp cấu hình.
+
+Bằng cách hoàn thành các tác vụ này, bạn sẽ có kinh nghiệm thực hành trong việc làm việc với các mẫu, tìm kiếm và thao tác văn bản trong các tình huống thực tế.
+
+1. Hiển thị tất cả các dòng **không chứa** ký tự `#`.
+2. Tìm tất cả các dòng có chứa một từ bắt đầu bằng **Permit**.
+3. Tìm tất cả các dòng có chứa một từ **kết thúc** bằng **Authentication**.
+4. Tìm tất cả các dòng có chứa từ **Key**.
+5. Tìm tất cả các dòng bắt đầu bằng **Password** và chứa từ **yes**.
+6. Tìm tất cả các dòng **kết thúc** bằng **yes**.
+
+---
+
+## 3.8 Permission Management
+
+Trong Linux, quyền (permissions) giống như những chiếc chìa khóa kiểm soát quyền truy cập vào tệp và thư mục. Các quyền này được gán cho cả người dùng và nhóm, giống như việc phân phát chìa khóa cho những cá nhân và nhóm cụ thể trong một tổ chức. Mỗi người dùng có thể thuộc về nhiều nhóm, và việc là thành viên của một nhóm sẽ cấp thêm quyền truy cập, cho phép người dùng thực hiện các hành động cụ thể trên tệp và thư mục.
+
+Mỗi tệp và thư mục đều có một **chủ sở hữu (user)** và được gắn với một **nhóm (group)**. Quyền đối với các tệp này được định nghĩa cho cả chủ sở hữu và nhóm, quyết định những hành động nào — như đọc, ghi, hay thực thi — được cho phép. Khi bạn tạo một tệp hoặc thư mục mới, nó sẽ tự động trở thành “của bạn” và được gắn với nhóm mà bạn thuộc về, tương tự như cách một dự án trong công ty mặc định thuộc về quyền giám sát của nhóm bạn.
+
+Về bản chất, quyền trong Linux hoạt động như một tập hợp các quy tắc hoặc chìa khóa để xác định ai có thể truy cập hoặc sửa đổi các tài nguyên nhất định, đảm bảo an ninh và sự hợp tác đúng đắn trong toàn hệ thống.
+
+Khi một người dùng muốn truy cập nội dung của một thư mục Linux, nó giống như việc mở một cánh cửa trước khi bước vào. Để **“traverse”** hoặc đi vào trong thư mục, người dùng trước tiên phải có đúng chìa khóa — đó là quyền **execute** đối với thư mục. Nếu không có quyền này, ngay cả khi nội dung của thư mục hiển thị với người dùng, họ cũng sẽ không thể vào hoặc di chuyển trong đó.
+
+Nói cách khác, có quyền **execute** trên một thư mục giống như có quyền đi qua hành lang để tiếp cận các phòng bên trong. Nó không cho phép bạn xem hoặc chỉnh sửa những gì bên trong, nhưng nó cho phép bạn bước vào và khám phá cấu trúc của thư mục. Không có quyền này, người dùng không thể truy cập nội dung của thư mục và sẽ gặp thông báo lỗi **“Permission Denied”**.
+
+---
+
+```bash
+cry0l1t3@htb[/htb]$ ls -l
+
+drw-rw-r-- 3 cry0l1t3 cry0l1t3 4096 Jan 12 12:30 scripts
+```
+
+```bash
+cry0l1t3@htb[/htb]$ ls -al mydirectory/
+
+ls: cannot access 'mydirectory/script.sh': Permission denied
+ls: cannot access 'mydirectory/..': Permission denied
+ls: cannot access 'mydirectory/subdirectory': Permission denied
+ls: cannot access 'mydirectory/.': Permission denied
+total 0
+d????????? ? ? ? ?            .  
+d????????? ? ? ? ?            ..  
+-????????? ? ? ? ?   script.sh  
+d????????? ? ? ? ?   subdirectory
+```
 
 
+Điều quan trọng cần lưu ý là quyền **execute** là cần thiết để đi qua một thư mục, bất kể mức truy cập của người dùng là gì. Ngoài ra, quyền **execute** trên một thư mục không cho phép người dùng thực thi hoặc sửa đổi bất kỳ tệp hoặc nội dung nào trong thư mục, mà chỉ để đi qua và truy cập nội dung của thư mục.
 
+Để thực thi các tệp trong thư mục, người dùng cần quyền **execute** trên tệp tương ứng. Để sửa đổi nội dung của một thư mục (tạo, xóa hoặc đổi tên tệp và thư mục con), người dùng cần quyền **write** trên thư mục.
 
+Toàn bộ hệ thống phân quyền trên Linux dựa trên hệ bát phân, và về cơ bản, có ba loại quyền khác nhau mà một tệp hoặc thư mục có thể được gán:
+
+* **(r)** – Read
+* **(w)** – Write
+* **(x)** – Execute
+
+Các quyền có thể được đặt cho **owner**, **group**, và **others** như được trình bày trong ví dụ tiếp theo với các quyền tương ứng của chúng.
+
+```bash
+cry0l1t3@htb[/htb]$ ls -l /etc/passwd
+
+- rwx rw- r--   1 root root 1641 May  4 23:42 /etc/passwd
+- --- --- ---   |  |    |    |   |__________|
+|  |   |   |    |  |    |    |        |_ Date
+|  |   |   |    |  |    |    |__________ File Size
+|  |   |   |    |  |    |_______________ Group
+|  |   |   |    |  |____________________ User
+|  |   |   |    |_______________________ Number of hard links
+|  |   |   |_ Permission of others (read)
+|  |   |_____ Permissions of the group (read, write)
+|  |_________ Permissions of the owner (read, write, execute)
+|____________ File type (- = File, d = Directory, l = Link, ... )
+
+```
+
+### Change Permissions
+
+Chúng ta có thể thay đổi quyền bằng cách sử dụng lệnh **chmod**, các tham chiếu nhóm quyền (u - owner, g - Group, o - others, a - All users), và hoặc là a $+$ hoặc a $-$ để thêm hoặc xóa các quyền được chỉ định. Trong ví dụ sau, giả sử chúng ta có một tệp gọi là **shell** và chúng ta muốn thay đổi quyền của nó để script này thuộc sở hữu của người dùng đó, không còn khả năng thực thi, và được đặt với quyền đọc/ghi cho tất cả người dùng.
+
+---
+
+```bash
+cry0l1t3@htb[/htb]$ ls -l shell
+
+-rwxr-x--x 1 cry0l1t3 htbteam 0 May  4 22:12 shell
+```
+
+---
+
+Sau đó chúng ta có thể áp dụng quyền **read** cho tất cả người dùng và xem kết quả:
+
+```bash
+cry0l1t3@htb[/htb]$ chmod a+r shell && ls -l shell
+
+-rwxr-xr-x 1 cry0l1t3 htbteam 0 May  4 22:12 shell
+```
+
+---
+
+Chúng ta cũng có thể đặt quyền cho tất cả những người dùng khác thành **read only** bằng cách sử dụng gán giá trị bát phân (octal value assignment).
+
+```bash
+cry0l1t3@htb[/htb]$ chmod 754 shell && ls -l shell
+
+-rwxr-xr-- 1 cry0l1t3 htbteam 0 May  4 22:12 shell
+```
+
+---
+
+Hãy cùng xem tất cả các biểu diễn liên quan đến nó để hiểu rõ hơn cách phân quyền được tính toán.
+
+```
+Binary Notation:          4 2 1 | 4 2 1 | 4 2 1
+
+Binary Representation:    1 1 1 | 1 0 1 | 1 0 0
+
+Octal Value:                7   |   5   |   4
+-------------------------------------------------
+Permission Representation: rwx | r-x | r--
+```
+
+Nếu chúng ta cộng các bit từ **Binary Representation** được gán cho các giá trị từ **Binary Notation** lại với nhau, chúng ta sẽ có được **Octal Value**. **Permission Representation** biểu thị các bit được đặt trong **Binary Representation** bằng cách sử dụng ba ký tự, điều này chỉ công nhận các quyền đã được thiết lập và làm cho việc nhận biết quyền dễ dàng hơn.
+
+### Change Owner
+
+Để thay đổi **chủ sở hữu** và/hoặc **gán nhóm** của một tệp hoặc thư mục, chúng ta có thể sử dụng lệnh **chown**. Cú pháp như sau:
+
+---
+
+#### Syntax - chown
+
+```bash
+cry0l1t3@htb[/htb]$ chown <user>:<group> <file/directory>
+```
+
+Trong ví dụ này, “shell” có thể được thay thế bằng bất kỳ tệp hoặc thư mục nào.
+
+---
+
+```bash
+cry0l1t3@htb[/htb]$ chown root:root shell && ls -l shell
+
+-rwxr-xr-- 1 root root 0 May  4 22:12 shell
+```
+
+### SUID & SGID
+
+Ngoài các quyền người dùng và nhóm tiêu chuẩn, Linux cho phép chúng ta cấu hình các quyền đặc biệt trên tệp thông qua **Set User ID (SUID)** và **Set Group ID (SGID)**. Các bit này hoạt động giống như thẻ truy cập tạm thời, cho phép người dùng chạy một số chương trình nhất định với quyền của một người dùng hoặc nhóm khác.
+
+Ví dụ, quản trị viên có thể dùng **SUID** hoặc **SGID** để cấp cho người dùng quyền nâng cao đối với các ứng dụng cụ thể, cho phép thực hiện các tác vụ với các quyền cần thiết, ngay cả khi người dùng bình thường không có các quyền này.
+
+Sự hiện diện của các quyền này được biểu thị bằng **s** thay cho **x** thông thường trong phần quyền của tệp. Khi một chương trình có bit SUID hoặc SGID được thực thi, nó sẽ chạy với quyền của **chủ sở hữu tệp hoặc nhóm**, thay vì quyền của người dùng chạy chương trình đó. Điều này hữu ích trong một số tác vụ hệ thống, nhưng cũng tiềm ẩn rủi ro bảo mật nếu không được sử dụng cẩn thận.
+
+Một rủi ro phổ biến là khi quản trị viên, không quen thuộc với đầy đủ chức năng của ứng dụng, gán bit **SUID** hoặc **SGID** một cách bừa bãi. Ví dụ, nếu bit **SUID** được áp dụng cho một chương trình như **journalctl**, chương trình này bao gồm chức năng khởi chạy một shell từ trong giao diện của nó, thì bất kỳ người dùng nào chạy chương trình này cũng có thể thực thi một shell với quyền root. Điều này cấp cho họ quyền kiểm soát hoàn toàn hệ thống, gây ra lỗ hổng bảo mật nghiêm trọng. Thông tin chi tiết hơn về điều này và các ứng dụng khác có thể tìm thấy tại **GTFOBins**.
+
+---
+
+### Sticky Bit
+
+Sticky bit trong Linux giống như một chiếc khóa đối với các tệp trong không gian dùng chung. Khi được đặt trên một thư mục, sticky bit thêm một lớp bảo mật bổ sung, đảm bảo rằng chỉ những cá nhân nhất định mới có thể sửa hoặc xóa tệp, ngay cả khi người khác có quyền truy cập vào thư mục.
+
+Hãy tưởng tượng một không gian làm việc chung, nơi nhiều người có thể vào và sử dụng cùng một công cụ, nhưng mỗi người có một ngăn kéo riêng mà chỉ họ (hoặc quản lý) có thể mở. Sticky bit giống như cái khóa trên các ngăn kéo này, ngăn không cho người khác can thiệp vào nội dung. Trong một thư mục dùng chung, điều này có nghĩa là chỉ **chủ sở hữu tệp**, **chủ sở hữu thư mục**, hoặc **người dùng root** (quản trị viên hệ thống) mới có thể xóa hoặc đổi tên tệp. Những người dùng khác vẫn có thể truy cập thư mục nhưng không thể sửa đổi các tệp mà họ không sở hữu.
+
+Tính năng này đặc biệt hữu ích trong môi trường chia sẻ, như thư mục công cộng, nơi nhiều người dùng cùng làm việc. Bằng cách đặt sticky bit, bạn đảm bảo rằng các tệp quan trọng không bị thay đổi vô tình hoặc cố ý bởi ai đó không có thẩm quyền, bổ sung một lớp bảo vệ quan trọng cho các không gian làm việc cộng tác.
+
+---
+
+```bash
+cry0l1t3@htb[/htb]$ ls -l
+drw-rw-r-t 3 cry0l1t3 cry0l1t3 4096 Jan 12 12:30 scripts
+drw-rw-r-T 3 cry0l1t3 cry0l1t3 4096 Jan 12 12:32 reports
+```
+
+Trong ví dụ này, chúng ta thấy cả hai thư mục đều có sticky bit được đặt. Tuy nhiên, thư mục **reports** có chữ **T** viết hoa, còn thư mục **scripts** có chữ **t** viết thường.
+
+Nếu sticky bit là **T** viết hoa, điều này có nghĩa là tất cả người dùng khác không có quyền **execute (x)** và do đó, không thể xem nội dung của thư mục cũng như chạy bất kỳ chương trình nào từ nó. Sticky bit chữ thường **t** là sticky bit khi quyền **execute (x)** đã được cấp.
