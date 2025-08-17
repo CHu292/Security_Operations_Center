@@ -1399,3 +1399,68 @@ Tuy nhiên, công cụ này không có nhiều tùy chọn lọc như **find**. 
 
 Hãy thử dùng các công cụ khác nhau và tìm tất cả mọi thứ liên quan đến công cụ **netcat / nc**.
 
+**1. What is the name of the config file that has been created after 2020-03-03 and is smaller than 28k but larger than 25k?**
+
+Ok 👍 mình sẽ phân tích chi tiết từng thành phần trong lệnh bạn đưa ra:
+
+```bash
+find / -type f -name *.conf -user root -size +25k -size -28k -newermt 2020-03-03 -exec ls -al {} \; 2>/dev/null
+```
+
+1. **`find /`**
+   → Bắt đầu tìm kiếm từ thư mục gốc `/` (toàn bộ hệ thống).
+
+2. **`-type f`**
+   → Chỉ tìm file thường (không phải thư mục, link, device...).
+
+3. **`-name *.conf`**
+   → Lọc các file có tên kết thúc bằng `.conf` (file cấu hình).
+   *(Lưu ý: nên viết `-name "*.conf"` để tránh shell tự expand tên file trước khi chạy `find`.)*
+
+4. **`-user root`**
+   → Chỉ lấy các file có chủ sở hữu (owner) là `root`.
+
+5. **`-size +25k`**
+   → Kích thước file **lớn hơn 25 KB**.
+
+6. **`-size -28k`**
+   → Kích thước file **nhỏ hơn 28 KB**.
+   ⇒ Kết hợp hai cái lại → lấy file có size **từ 25 KB đến 28 KB**.
+
+7. **`-newermt 2020-03-03`**
+   → Chỉ lấy các file có **ngày sửa đổi (modification time) sau 2020-03-03**.
+   (`mt` = modification time, `newer` = mới hơn).
+
+8. **`-exec ls -al {} \;`**
+   → Với mỗi file tìm được, thực thi lệnh `ls -al` để hiển thị chi tiết: quyền, owner, group, dung lượng, ngày giờ sửa đổi, và tên file.
+
+   * `{}` → đại diện cho đường dẫn file tìm được.
+   * `\;` → kết thúc lệnh `-exec`.
+
+9. **`2>/dev/null`**
+   → Chuyển hướng toàn bộ thông báo lỗi (stderr, file descriptor 2) vào `/dev/null`, để tránh hiện ra màn hình (ví dụ: lỗi "Permission denied" khi `find` quét các thư mục bị hạn chế).
+
+---
+
+
+**2. How many files exist on the system that have the ".bak" extension?**
+
+
+```bash
+find / -type f -name *.bak 2>/dev/null | nl
+```
+
+Giải thích:
+
+* `find / -type f -name *.bak` → tìm tất cả file có đuôi `.bak` trong toàn hệ thống.
+* `2>/dev/null` → bỏ qua các thông báo lỗi (ví dụ `Permission denied`).
+* `| nl` → đánh số dòng đầu ra (number lines).
+
+---
+
+**3.  Submit the full path of the "xxd" binary.**
+
+![](./img/2_Linux_Fundamentals/3.4.1.png)
+
+---
+
