@@ -23,7 +23,12 @@
 3. [Workflow](#3-workflow)
 
 3.1 [Navigation](#31-navigation)
+
 3.2 [Working with Files and Directories](#32-working-with-files-and-directories)
+
+3.3 [Editing Files](#33-editing-files)
+
+3.4 [Find Files and Directories](#34-find-files-and-directories)
 
 # 1. Introduction
 ## 1.1. Linux Structure
@@ -1105,4 +1110,292 @@ Hoặc ```ls -lt /var/backups```
 ```bash
 ls -i /var/backups/shadow.bak
 ```
+
+---
+
+## 3.3 Editing Files
+>Chỉnh sửa tệp
+
+Sau khi học cách tạo tệp và thư mục, hãy tiếp tục với việc chỉnh sửa các tệp này. Có nhiều cách để chỉnh sửa tệp trong Linux, với một số trình soạn thảo văn bản phổ biến nhất là **Vi** và **Vim**. Tuy nhiên, chúng ta sẽ bắt đầu với **Nano**, một trình soạn thảo ít được dùng hơn nhưng dễ hiểu hơn.
+
+Để tạo và chỉnh sửa tệp bằng Nano, bạn có thể chỉ định tên tệp trực tiếp làm tham số đầu tiên khi mở trình soạn thảo. Ví dụ, để tạo và mở một tệp mới có tên **notes.txt**, bạn sẽ dùng lệnh sau:
+
+```bash
+Ch10ce9902@htb[/htb]$ nano notes.txt
+```
+
+Lệnh này sẽ mở trình soạn thảo **Nano**, cho phép bạn bắt đầu chỉnh sửa tệp **notes.txt** ngay lập tức. Giao diện đơn giản của Nano (còn gọi là *pager*) khiến nó trở thành lựa chọn tuyệt vời để nhanh chóng chỉnh sửa tệp văn bản, đặc biệt khi bạn mới bắt đầu.
+
+---
+
+### Trình soạn thảo Nano
+
+```
+GNU nano 2.9.3                 notes.txt
+
+Here we can type everything we want and make our notes.
+```
+
+Bên dưới chúng ta thấy hai dòng với mô tả ngắn. Dấu mũ (^) đại diện cho phím **\[CTRL]**. Ví dụ, nếu chúng ta nhấn **\[CTRL] + \[W]**, một dòng **"Search:"** sẽ xuất hiện ở cuối trình soạn thảo, nơi chúng ta có thể nhập từ hoặc cụm từ muốn tìm. Nếu bây giờ tìm từ **"we"** và nhấn **\[ENTER]**, con trỏ sẽ chuyển đến từ khớp đầu tiên.
+
+---
+
+```
+GNU nano 2.9.3                 notes.txt
+
+Here we can type everything we want and make our notes.
+
+Search:      notes
+```
+
+---
+
+```
+GNU nano 2.9.3                 notes.txt
+
+Here we can type everything we want and make our notes.
+
+Search [we]:
+```
+
+---
+
+Bây giờ chúng ta có thể lưu tệp bằng cách nhấn **\[CTRL] + \[O]** và xác nhận tên tệp bằng **\[ENTER]**.
+
+```
+GNU nano 2.9.3                 notes.txt
+
+Here we can type everything we want and make our notes.
+
+File Name to Write: notes.txt
+```
+
+---
+
+Sau khi đã lưu tệp, chúng ta có thể thoát khỏi trình soạn thảo bằng **\[CTRL] + \[X]**.
+
+### Quay lại với Shell
+
+Để xem nội dung của tệp, chúng ta có thể dùng lệnh **cat**.
+
+```bash
+Ch10ce9902@htb[/htb]$ cat notes.txt
+
+Here we can type everything we want and make our notes.
+```
+
+---
+
+Trên các hệ thống Linux, có một số tệp có thể cực kỳ hữu ích cho những người kiểm thử xâm nhập, do quyền bị cấu hình sai hoặc do quản trị viên thiết lập bảo mật không đủ chặt chẽ.
+Một tệp quan trọng như vậy là **/etc/passwd**. Tệp này chứa thông tin cơ bản về người dùng trên hệ thống, chẳng hạn như tên người dùng, ID người dùng (**UIDs**), ID nhóm (**GIDs**), và thư mục home.
+
+Trước đây, tệp **/etc/passwd** cũng lưu trữ các hash mật khẩu, nhưng hiện nay các hash đó thường được lưu trong **/etc/shadow**, vốn có quyền truy cập nghiêm ngặt hơn. Tuy nhiên, nếu quyền truy cập trên **/etc/passwd** hoặc các tệp quan trọng khác không được cấu hình đúng, nó có thể làm lộ thông tin nhạy cảm hoặc dẫn đến cơ hội leo thang đặc quyền.
+
+Đối với các kiểm thử viên xâm nhập, việc xác định các tệp có quyền truy cập hoặc quyền hạn không đúng có thể mang lại thông tin quan trọng về các lỗ hổng tiềm ẩn có thể bị khai thác, chẳng hạn như tài khoản người dùng yếu hoặc quyền truy cập tệp bị cấu hình sai mà lẽ ra phải bị hạn chế. Hiểu rõ các tệp này là điều rất quan trọng khi đánh giá tình trạng bảo mật của một hệ thống.
+
+### VIM
+
+**Vim** là một trình soạn thảo mã nguồn mở cho mọi loại văn bản ASCII, giống như **Nano**. Nó là một bản sao cải tiến của **Vi** trước đó. Vim là một trình soạn thảo cực kỳ mạnh mẽ tập trung vào những điều cốt lõi, cụ thể là chỉnh sửa văn bản.
+
+Đối với các tác vụ vượt xa hơn, Vim cung cấp giao diện với các chương trình bên ngoài như **grep**, **awk**, **sed**, v.v... có thể xử lý các tác vụ cụ thể của chúng tốt hơn nhiều so với khi chức năng đó được triển khai trực tiếp trong một trình soạn thảo. Điều này khiến Vim trở nên nhỏ gọn, nhanh, mạnh mẽ, linh hoạt và ít lỗi hơn.
+
+Vim tuân theo nguyên tắc của Unix: nhiều chương trình chuyên biệt nhỏ được kiểm thử và chứng minh hiệu quả, khi được kết hợp và giao tiếp với nhau sẽ tạo ra một hệ thống linh hoạt và mạnh mẽ.
+
+---
+
+```bash
+Ch10ce9902@htb[/htb]$ vim
+```
+
+---
+
+Khi mở, Vim hiển thị màn hình mặc định:
+
+```
+VIM - Vi IMproved
+version 8.0.1453
+by Bram Moolenaar et al.
+Modified by pkg-vim-maintainers@lists.alioth.debian.org
+Vim is open source and freely distributable
+
+Sponsor Vim development!
+type  :help sponsor<Enter>    for information
+
+type  :q<Enter>               to exit
+type  :help<Enter>  or  <F1>  for on-line help
+type  :help version<Enter>    for version info
+```
+
+Trái ngược với **Nano**, **Vim** là một trình soạn thảo dạng *modal*, có thể phân biệt giữa đầu vào văn bản và đầu vào lệnh. Vim cung cấp tổng cộng sáu chế độ cơ bản giúp công việc của chúng ta dễ dàng hơn và khiến nó trở thành một trình soạn thảo mạnh mẽ:
+
+| **Chế độ**  | **Mô tả**                                                                                                                                                                                                                   |
+| ----------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Normal**  | Trong chế độ bình thường, tất cả đầu vào được xem là lệnh của trình soạn thảo. Không có sự chèn ký tự đã nhập vào bộ nhớ đệm, như với hầu hết các trình soạn thảo khác. Khi khởi động Vim, chúng ta thường ở chế độ này.    |
+| **Insert**  | Ngoại trừ một số trường hợp, tất cả ký tự được nhập sẽ được chèn vào bộ nhớ đệm.                                                                                                                                            |
+| **Visual**  | Được dùng để đánh dấu một vùng văn bản liền kề, sẽ được hiển thị nổi bật. Bằng cách di chuyển con trỏ, ta thay đổi vùng đã chọn. Vùng được đánh dấu có thể được chỉnh sửa theo nhiều cách, như xóa, sao chép hoặc thay thế. |
+| **Command** | Cho phép nhập lệnh một dòng ở cuối trình soạn thảo. Có thể dùng để sắp xếp, thay thế đoạn văn bản, hoặc xóa chúng.                                                                                                          |
+| **Replace** | Trong chế độ thay thế, văn bản mới nhập sẽ ghi đè lên ký tự hiện có tại vị trí con trỏ cho đến khi không còn ký tự cũ nào. Sau đó văn bản mới sẽ được thêm vào.                                                             |
+| **Ex**      | Mô phỏng hành vi của trình soạn thảo **Ex**, một trong những tiền nhiệm của Vim. Cung cấp chế độ nơi ta có thể thực thi nhiều lệnh liên tiếp mà không cần quay lại chế độ Normal sau mỗi lệnh.                              |
+
+---
+
+Khi đang mở Vim, ta có thể vào chế độ lệnh bằng cách gõ dấu **":"** rồi gõ **"q"** để thoát Vim.
+
+Ví dụ:
+
+```
+:q
+```
+
+---
+
+Vim còn cung cấp một công cụ học tuyệt vời gọi là **vimtutor** để luyện tập và làm quen với trình soạn thảo. Ban đầu có thể thấy rất khó và phức tạp, nhưng cảm giác đó sẽ nhanh chóng qua đi.
+
+Hiệu quả mà chúng ta nhận được từ Vim sau khi đã quen thuộc là vô cùng lớn. Việc vào chế độ hướng dẫn trong Vim có thể thực hiện bằng **:Tutor** trong chế độ Command hoặc gõ lệnh **vimtutor** trong shell.
+
+### VimTutor
+
+```bash
+Ch10ce9902@htb[/htb]$ vimtutor
+```
+
+---
+
+```
+=============================================================
+=  Welcome to the VIM Tutor  -  Version 1.7                  =
+=============================================================
+
+Vim is a very powerful editor that has many commands, too many to
+explain in a tutor such as this.  This tutor is designed to describe
+enough of the commands that you will be able to easily use Vim as
+an all-purpose editor.
+
+The approximate time required to complete the tutor is 25-30 minutes,
+depending upon how much time is spent with experimentation.
+
+ATTENTION:
+The commands in the lessons will modify the text.  Make a copy of this
+file to practice on (if you started "vimtutor" this is already a copy).
+
+It is important to remember that this tutor is set up to teach by
+use.  That means that you need to execute the commands to learn them
+properly.  If you only read the text, you will forget the commands!
+
+Now, make sure that your Caps-Lock key is NOT depressed and press
+the  j  key enough times to move the cursor so that Lesson 1.1
+completely fills the screen.
+=============================================================
+```
+
+---
+
+### Bài tập tùy chọn
+
+Hãy thử sử dụng **vimtutor**. Làm quen với trình soạn thảo và thực nghiệm với các tính năng của nó.
+
+---
+## 3.4 Find Files and Directories
+>Tìm tệp và thư mục
+
+Việc tìm được các tệp và thư mục mà chúng ta cần là rất quan trọng. Khi đã có quyền truy cập vào một hệ thống dựa trên Linux, việc tìm các tệp cấu hình, các script do người dùng hoặc quản trị viên tạo ra, và các tệp hay thư mục khác sẽ rất cần thiết. Chúng ta không cần phải duyệt thủ công từng thư mục để kiểm tra lần chỉnh sửa cuối cùng, vì có một số công cụ hỗ trợ để làm việc này dễ dàng hơn.
+
+---
+
+### Which
+
+Một trong những công cụ phổ biến là **which**. Công cụ này trả về đường dẫn đến tệp hoặc liên kết sẽ được thực thi. Điều này giúp chúng ta xác định các chương trình cụ thể như **cURL, netcat, wget, python, gcc** có sẵn trên hệ điều hành hay không.
+
+Ví dụ, hãy tìm **Python**:
+
+```bash
+Ch10ce9902@htb[/htb]$ which python
+
+/usr/bin/python
+```
+
+Nếu chương trình cần tìm không tồn tại, sẽ không hiển thị kết quả nào.
+
+---
+
+### Find
+
+Một công cụ hữu ích khác là **find**. Ngoài chức năng tìm tệp và thư mục, công cụ này còn có khả năng lọc kết quả. Chúng ta có thể sử dụng các tham số lọc như kích thước tệp hoặc ngày tháng. Ta cũng có thể chỉ định tìm riêng tệp hoặc thư mục.
+
+ Cú pháp - find
+
+```bash
+Ch10ce9902@htb[/htb]$ find <location> <options>
+```
+
+Tiếp theo, chúng ta sẽ xem một ví dụ về lệnh như vậy với nhiều tùy chọn khác nhau.
+
+Hãy xem ví dụ về một lệnh **find** với nhiều tùy chọn cùng lúc sẽ trông như thế nào:
+
+```bash
+Ch10ce9902@htb[/htb]$ find / -type f -name *.conf -user root -size +20k -newermt 2020-03-03 -exec ls -al {} \; 2>/dev/null
+```
+
+Kết quả:
+
+```
+-rw-r--r--  1 root root 136392 Apr 25 20:29 /usr/src/linux-headers-5.5.0-1parrot1-amd64/include/config/auto.conf
+-rw-r--r--  1 root root  82290 Apr 25 20:29 /usr/src/linux-headers-5.5.0-1parrot1-amd64/include/config/tristate.conf
+-rw-r--r--  1 root root  98513 May  7 14:33 /usr/share/metasploit-framework/data/jtr/repeats32.conf
+-rw-r--r--  1 root root  66346 May  7 14:33 /usr/share/metasploit-framework/data/jtr/dynamic.conf
+-rw-r--r--  1 root root  69249 May  7 14:33 /usr/share/metasploit-framework/data/jtr/dumb32.conf
+-rw-r--r--  1 root root  24255 May  7 14:33 /usr/share/metasploit-framework/data/jtr/repeats16.conf
+-rw-r--r--  1 root root  24255 May  7 14:33 /usr/share/metasploit-framework/data/jtr/korelogic.conf
+-rwxr-xr-x  1 root root 108534 May  7 14:33 /usr/share/metasploit-framework/data/jtr/john.conf
+-rw-r--r--  1 root root  55285 May  7 14:33 /usr/share/metasploit-framework/data/jtr/dumb16.conf
+-rw-r--r--  1 root root  21254 May  2 11:59 /usr/share/doc/sqlmap/examples/sqlmap.conf
+-rw-r--r--  1 root root  25086 Mar  4 22:04 /etc/dnsmasq.conf
+-rw-r--r--  1 root root  21254 May  2 11:59 /etc/sqlmap/sqlmap.conf
+```
+
+---
+
+Giải thích các tùy chọn trong lệnh trên
+
+| **Tùy chọn**          | **Mô tả**                                                                                                                                                                                   |
+| --------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `-type f`             | Xác định loại đối tượng cần tìm. Ở đây `f` nghĩa là *file*.                                                                                                                                 |
+| `-name *.conf`        | Với `-name`, ta chỉ định tên tệp cần tìm. Dấu `*` đại diện cho “tất cả” các tệp có phần mở rộng `.conf`.                                                                                    |
+| `-user root`          | Chỉ lọc ra các tệp mà người sở hữu là `root`.                                                                                                                                               |
+| `-size +20k`          | Lọc các tệp có dung lượng lớn hơn 20 KB.                                                                                                                                                    |
+| `-newermt 2020-03-03` | Chỉ hiển thị các tệp mới hơn ngày đã chỉ định.                                                                                                                                              |
+| `-exec ls -al {} \;`  | Thực thi lệnh được chỉ định (ở đây là `ls -al`) cho mỗi kết quả tìm được. `{}` là placeholder cho kết quả. Dấu gạch chéo ngược `\;` để thoát ký tự `;`, nhằm tránh shell kết thúc lệnh sớm. |
+| `2>/dev/null`         | Chuyển hướng **STDERR** đến `null device`, đảm bảo rằng lỗi sẽ không hiển thị trên terminal. (Không phải là một tùy chọn của lệnh `find`, mà là của shell).                                 |
+
+### Locate
+
+Việc tìm kiếm toàn bộ hệ thống để xác định tệp và thư mục sẽ mất rất nhiều thời gian. Lệnh **locate** cung cấp cho chúng ta cách nhanh hơn để tìm kiếm trong hệ thống. Khác với lệnh **find**, **locate** làm việc với một cơ sở dữ liệu cục bộ chứa tất cả thông tin về các tệp và thư mục hiện có. Chúng ta có thể cập nhật cơ sở dữ liệu này bằng lệnh sau:
+
+```bash
+Ch10ce9902@htb[/htb]$ sudo updatedb
+```
+
+---
+
+Nếu bây giờ chúng ta tìm tất cả các tệp có phần mở rộng **".conf"**, bạn sẽ thấy rằng kết quả được trả về nhanh hơn nhiều so với khi dùng **find**.
+
+```bash
+Ch10ce9902@htb[/htb]$ locate *.conf
+
+/etc/GeoIP.conf
+/etc/NetworkManager/NetworkManager.conf
+/etc/UPower/UPower.conf
+/etc/adduser.conf
+<SNIP>
+```
+
+---
+
+Tuy nhiên, công cụ này không có nhiều tùy chọn lọc như **find**. Vì vậy, chúng ta cần cân nhắc khi nào nên dùng **locate** và khi nào nên dùng **find**. Điều đó luôn phụ thuộc vào mục tiêu tìm kiếm của chúng ta.
+
+---
+
+### Bài tập tùy chọn
+
+Hãy thử dùng các công cụ khác nhau và tìm tất cả mọi thứ liên quan đến công cụ **netcat / nc**.
 
