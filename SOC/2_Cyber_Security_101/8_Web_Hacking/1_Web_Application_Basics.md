@@ -5,6 +5,12 @@
 
 1. [Task 1: Introduction](#task-1-introduction)
 2. [Task 2: Web Application Overview](#task-2-web-application-overview)
+3. [Task 3: Uniform Resource Locator](#task-3-uniform-resource-locator)
+4. [Task 4: HTTP Messages](#task-4-http-messages)
+5. [Task 5: HTTP Request - Request Line and Methods](#task-5-http-request---request-line-and-methods)
+
+
+---
 
 ## Nội dung
 
@@ -91,3 +97,180 @@ Có nhiều thành phần tham gia vào việc triển khai một ứng dụng w
 3. Thành phần nào hoạt động như một lớp bảo vệ, lọc lưu lượng truy cập đến để chặn các cuộc tấn công độc hại và đảm bảo an ninh cho ứng dụng web?
 
    → **web application firewall** (tường lửa ứng dụng web)
+
+---
+
+# Task 3: Uniform Resource Locator
+
+>Bộ định vị tài nguyên thống nhất (Uniform Resource Locator - URL)
+
+**Uniform Resource Locator (URL)** là một địa chỉ web cho phép bạn truy cập tất cả các loại nội dung trực tuyến — cho dù đó là một trang web, một video, một bức ảnh, hay phương tiện khác. Nó hướng dẫn trình duyệt của bạn đến đúng vị trí trên Internet.
+
+---
+
+### Cấu trúc của một URL (Anatomy of a URL)
+
+Ví dụ:
+
+![](./img/1_Web_Application_Basics/3.1.png)
+
+* **Scheme** (Giao thức): `http://`
+* **User** (Người dùng): `user:password`
+* **Host/Domain** (Máy chủ/Tên miền): `tryhackme.com`
+* **Port** (Cổng): `:80`
+* **Path** (Đường dẫn): `/view-room`
+* **Query String** (Chuỗi truy vấn): `?id=1`
+* **Fragment** (Đoạn/Thẻ): `#task3`
+
+---
+
+Hãy nghĩ một URL được tạo thành từ nhiều phần, mỗi phần đóng vai trò khác nhau trong việc giúp bạn tìm đúng tài nguyên. Hiểu cách các phần này kết hợp với nhau rất quan trọng cho việc duyệt web, phát triển ứng dụng web, và thậm chí khắc phục sự cố.
+
+Dưới đây là phần phân tích các thành phần chính:
+
+---
+
+**Scheme**
+Scheme là giao thức được dùng để truy cập trang web. Phổ biến nhất là **HTTP** (HyperText Transfer Protocol) và **HTTPS** (Hypertext Transfer Protocol Secure). HTTPS an toàn hơn vì nó mã hóa kết nối, đó là lý do các trình duyệt và chuyên gia bảo mật khuyên dùng. Các trang web thường bắt buộc dùng HTTPS để tăng cường bảo vệ.
+
+---
+
+**User**
+Một số URL có thể chứa thông tin đăng nhập của người dùng (thường là tên đăng nhập) cho các trang yêu cầu xác thực. Điều này thường xuất hiện trong URL cần thông tin để truy cập một số tài nguyên. Tuy nhiên, ngày nay điều này hiếm gặp vì đặt thông tin đăng nhập trong URL không an toàn — nó có thể làm lộ dữ liệu nhạy cảm, gây rủi ro bảo mật.
+
+---
+
+**Host/Domain**
+Host hoặc domain là phần quan trọng nhất của URL vì nó cho bạn biết đang truy cập website nào. Mỗi tên miền phải là duy nhất và được đăng ký thông qua nhà đăng ký tên miền. Từ góc độ bảo mật, cần chú ý đến các tên miền gần giống thật nhưng có khác biệt nhỏ (gọi là **typosquatting**). Các tên miền giả này thường được dùng trong tấn công **phishing** để lừa người dùng cung cấp thông tin nhạy cảm.
+
+---
+
+**Port**
+Số cổng (port number) giúp trình duyệt kết nối đúng dịch vụ trên máy chủ web. Nó giống như việc cho máy chủ biết nên dùng “cửa” nào để giao tiếp. Số cổng có thể từ 1 đến 65.535, nhưng phổ biến nhất là:
+
+* **80** cho HTTP
+* **443** cho HTTPS
+
+---
+
+**Path**
+Path (đường dẫn) chỉ đến tệp hoặc trang cụ thể trên máy chủ mà bạn muốn truy cập. Nó giống như bản đồ hướng dẫn trình duyệt đi đâu. Các website cần bảo mật đường dẫn này để đảm bảo chỉ người dùng được ủy quyền mới có thể truy cập tài nguyên nhạy cảm.
+
+---
+
+**Query String**
+Query string là phần của URL bắt đầu bằng dấu hỏi chấm (?). Nó thường được dùng cho các thuật ngữ tìm kiếm hoặc dữ liệu nhập từ biểu mẫu. Vì người dùng có thể chỉnh sửa query string, nên cần xử lý an toàn để tránh các cuộc tấn công như **injection**, nơi mã độc có thể được thêm vào.
+
+---
+
+**Fragment**
+Fragment bắt đầu bằng ký hiệu thăng (#) và giúp chỉ đến một phần cụ thể của trang web — ví dụ như nhảy trực tiếp đến một tiêu đề hoặc bảng. Người dùng cũng có thể chỉnh sửa fragment, nên tương tự như query string, cần kiểm tra và làm sạch dữ liệu tại đây để tránh các vấn đề như tấn công injection.
+
+### Câu hỏi
+
+**Trả lời các câu hỏi dưới đây**
+
+1. Giao thức nào cung cấp truyền thông được mã hóa để đảm bảo việc truyền dữ liệu an toàn giữa trình duyệt web và máy chủ web?
+  
+   → **HTTPS** 
+
+2. Thuật ngữ nào mô tả việc đăng ký tên miền là các biến thể viết sai chính tả của những website phổ biến nhằm khai thác lỗi người dùng và có thể tham gia vào các hoạt động gian lận?
+ 
+   → **Typosquatting** 
+
+3. Phần nào của URL được dùng để truyền thêm thông tin, chẳng hạn như từ khóa tìm kiếm hoặc dữ liệu nhập vào biểu mẫu, đến máy chủ web?
+
+  → **Query String** 
+
+---
+
+# Task 4: HTTP Messages
+>Thông điệp HTTP
+
+Thông điệp HTTP là các gói dữ liệu được trao đổi giữa người dùng (client) và máy chủ web. Những thông điệp này rất quan trọng để hiểu cách các ứng dụng web hoạt động vì chúng cho thấy cách yêu cầu của người dùng và phản hồi của máy chủ được truyền đạt.
+
+Hãy tưởng tượng một ví dụ về một **HTTP Request** và một **HTTP Response**, nơi bạn có thể thấy các phần chính như phương thức (method), URL, header và mã trạng thái (status code). Đây chính là những yếu tố làm cho sự tương tác client–server trở nên khả thi.
+
+Có hai loại thông điệp **HTTP**:
+
+* **HTTP Requests**: Được gửi bởi người dùng để kích hoạt các hành động trên ứng dụng web.
+* **HTTP Responses**: Được gửi bởi máy chủ để phản hồi lại yêu cầu của người dùng.
+
+![](./img/1_Web_Application_Basics/4.1.png)
+
+Mỗi thông điệp tuân theo một định dạng cụ thể giúp cả người dùng và máy chủ giao tiếp trơn tru.
+
+---
+
+**Start Line**
+Dòng bắt đầu giống như phần mở đầu của thông điệp. Nó cho biết loại thông điệp đang được gửi — liệu đó là một yêu cầu từ người dùng hay một phản hồi từ máy chủ. Dòng này cũng đưa ra các chi tiết quan trọng về cách thông điệp cần được xử lý.
+
+---
+
+**Headers**
+Header được tạo thành từ các cặp khóa-giá trị cung cấp thông tin bổ sung về thông điệp HTTP. Chúng đưa ra chỉ dẫn cho cả client và server khi xử lý yêu cầu hoặc phản hồi. Các header này bao quát nhiều thứ, như bảo mật, loại nội dung, và nhiều thông tin khác, giúp cho việc giao tiếp diễn ra mượt mà.
+
+---
+
+**Empty Line**
+Dòng trống là một vạch ngăn cách nhỏ chia header và body. Nó rất quan trọng vì cho biết header kết thúc ở đâu và nội dung thực sự của thông điệp bắt đầu từ đâu. Nếu không có dòng trống này, thông điệp có thể bị rối loạn và client hoặc server có thể hiểu sai, gây ra lỗi.
+
+---
+
+**Body**
+Body là nơi chứa dữ liệu thực tế. Trong một request, body có thể bao gồm dữ liệu mà người dùng muốn gửi đến server (như dữ liệu từ form). Trong một response, đây là nơi server đưa nội dung mà người dùng yêu cầu (ví dụ: một trang web hoặc dữ liệu API).
+
+---
+
+### Tại sao việc hiểu các thông điệp HTTP lại quan trọng
+
+* Đây là nền tảng của cách các ứng dụng web giao tiếp. Nếu được cấu trúc đúng, mọi thứ sẽ vận hành trơn tru.
+* Hiểu cách chúng hoạt động sẽ giúp bạn chẩn đoán các vấn đề trong giao tiếp web, có nghĩa là cải thiện hiệu năng và độ tin cậy của ứng dụng web.
+* Nó cũng rất quan trọng cho bảo mật. Hiểu các thông điệp HTTP giúp bạn triển khai các biện pháp bảo mật mạnh mẽ để bảo vệ dữ liệu trong quá trình truyền tải.
+
+### Câu hỏi
+
+**Trả lời các câu hỏi dưới đây**
+
+1. Thông điệp HTTP nào được máy chủ web trả về sau khi xử lý yêu cầu của client?
+
+   → **HTTP response**
+
+2. Trong một thông điệp HTTP, phần nào đi sau headers?
+
+   → **Empty Line** (dòng trống)
+
+---
+
+# Task 5: HTTP Request - Request Line and Methods
+>Yêu cầu HTTP: Dòng yêu cầu và các phương thức
+
+**HTTP request** là những gì một người dùng gửi đến máy chủ web để tương tác với một ứng dụng web và thực hiện một hành động nào đó. Vì những yêu cầu này thường là điểm tiếp xúc đầu tiên giữa người dùng và máy chủ web, nên việc hiểu cách chúng hoạt động là vô cùng quan trọng — đặc biệt nếu bạn quan tâm đến an ninh mạng.
+
+---
+
+Ví dụ về một HTTP request:
+
+* **HTTP Method**: `GET`
+* **Path**: `/user/login.html`
+* **HTTP Version**: `HTTP/1.1`
+
+**HTTP Headers**:
+
+```
+Host: tryhackme.com
+User-Agent: Mozilla/5.0
+Accept: */*
+Accept-Language: en-US,en;q=0.5
+Connection: keep-alive
+```
+
+---
+
+Hãy tưởng tượng một HTTP request hiển thị các phần chính như:
+
+* **Method** (ví dụ: GET hoặc POST)
+* **Path** (ví dụ: /login)
+* **Version** (ví dụ: HTTP/1.1)
+
+Những thành phần này tạo nên những yếu tố cơ bản về cách một client (người dùng) giao tiếp với máy chủ.
