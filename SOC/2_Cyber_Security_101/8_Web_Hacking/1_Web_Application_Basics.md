@@ -10,7 +10,7 @@
 5. [Task 5: HTTP Request - Request Line and Methods](#task-5-http-request---request-line-and-methods)
 6. [Task 6: HTTP Request - Headers and Body](#task-6-http-request---headers-and-body)
 7. [Task 7: HTTP Response: Status Line and Status Codes](#task-7-http-response-status-line-and-status-codes)
-
+8. [Task 8: HTTP Response: Headers and Body](#task-8-http-response-headers-and-body)
 
 ---
 
@@ -573,3 +573,67 @@ Máy chủ không thể tìm thấy tài nguyên tại URL đã cho. Hãy kiểm
 
 **500 (Internal Server Error)**
 Có sự cố xảy ra ở phía máy chủ và nó không thể xử lý yêu cầu của bạn.
+
+## Câu hỏi
+
+**1. Phần nào của phản hồi HTTP cung cấp phiên bản HTTP, mã trạng thái và một giải thích ngắn gọn về kết quả của phản hồi?**
+>Dòng Trạng Thái (Status Line)
+
+**2. Loại mã phản hồi HTTP nào cho biết máy chủ web gặp sự cố nội bộ hoặc không thể hoàn thành yêu cầu của máy khách?**
+>Phản hồi Lỗi Máy chủ (Server Error Responses)
+
+**3. Mã trạng thái HTTP nào cho biết tài nguyên được yêu cầu không thể tìm thấy trên máy chủ web?**
+>404
+
+---
+
+# Task 8: HTTP Response: Headers and Body
+
+## Tiêu đề Phản hồi (Response Headers)
+
+Khi một máy chủ web phản hồi một yêu cầu HTTP, nó bao gồm **HTTP response headers**, vốn về cơ bản là các cặp khóa-giá trị. Các tiêu đề này cung cấp thông tin quan trọng về phản hồi và cho máy khách (thường là trình duyệt) biết cách xử lý nó.
+
+Hãy hình dung một ví dụ về phản hồi HTTP với các tiêu đề được làm nổi bật. Các tiêu đề chính như **Content-Type**, **Content-Length**, và **Date** cung cấp cho chúng ta những chi tiết quan trọng về phản hồi mà máy chủ gửi lại.
+
+![](./img/1_Web_Application_Basics/8.1.svg)
+
+## Các Tiêu đề Phản hồi Bắt buộc (Required Response Headers)
+
+Một số tiêu đề phản hồi rất quan trọng để đảm bảo phản hồi HTTP hoạt động đúng cách. Chúng cung cấp thông tin thiết yếu mà cả máy khách và máy chủ cần để xử lý mọi thứ chính xác. Dưới đây là một vài tiêu đề quan trọng:
+
+* **Date:**
+  *Ví dụ:* `Date: Fri, 23 Aug 2024 10:43:21 GMT`
+  Tiêu đề này cho biết chính xác ngày và giờ khi phản hồi được tạo ra bởi máy chủ.
+
+* **Content-Type:**
+  *Ví dụ:* `Content-Type: text/html; charset=utf-8`
+  Nó cho máy khách biết loại nội dung nào đang nhận, ví dụ như HTML, JSON hay thứ khác. Nó cũng bao gồm bộ ký tự (như UTF-8) để giúp trình duyệt hiển thị đúng.
+
+* **Server:**
+  *Ví dụ:* `Server: nginx`
+  Tiêu đề này cho thấy loại phần mềm máy chủ nào đang xử lý yêu cầu. Nó hữu ích cho việc gỡ lỗi, nhưng cũng có thể tiết lộ thông tin về máy chủ có thể hữu ích cho kẻ tấn công, vì vậy nhiều người thường xóa hoặc ẩn tiêu đề này.
+
+---
+
+## Các Tiêu đề Phản hồi Thông dụng Khác (Other Common Response Headers)
+
+Ngoài các tiêu đề thiết yếu, còn có một số tiêu đề thông dụng khác cung cấp thêm hướng dẫn cho máy khách hoặc trình duyệt và giúp kiểm soát cách phản hồi nên được xử lý.
+
+* **Set-Cookie:**
+  *Ví dụ:* `Set-Cookie: sessionId=38af1337es7a8`
+  Gửi cookie từ máy chủ đến máy khách, sau đó máy khách lưu trữ và gửi lại trong các yêu cầu tương lai. Để bảo mật, cookie nên được đặt với cờ **HttpOnly** (ngăn truy cập bằng JavaScript) và cờ **Secure** (chỉ gửi qua HTTPS).
+
+* **Cache-Control:**
+  *Ví dụ:* `Cache-Control: max-age=600`
+  Tiêu đề này cho máy khách biết trong bao lâu nó có thể lưu trữ (cache) phản hồi trước khi cần kiểm tra lại với máy chủ. Nó cũng có thể ngăn thông tin nhạy cảm bị lưu trữ nếu cần (sử dụng `no-cache`).
+
+* **Location:**
+  *Ví dụ:* `Location: /index.html`
+  Được sử dụng trong các phản hồi chuyển hướng (3xx). Nó cho máy khách biết cần đến đâu tiếp theo nếu tài nguyên đã được di chuyển. Nếu người dùng có thể chỉnh sửa tiêu đề này trong khi gửi yêu cầu, cần kiểm tra và làm sạch để tránh lỗ hổng chuyển hướng mở, nơi kẻ tấn công có thể chuyển hướng người dùng đến các trang web độc hại.
+
+## Thân Phản hồi (Response Body)
+
+**HTTP response body** là nơi chứa dữ liệu thực tế — những thứ như HTML, JSON, hình ảnh, v.v. mà máy chủ gửi lại cho máy khách.
+
+Để ngăn **các cuộc tấn công chèn mã (injection attacks)** như **Cross-Site Scripting (XSS)**, luôn luôn cần làm sạch (sanitise) và thoát (escape) mọi dữ liệu (đặc biệt là nội dung do người dùng tạo ra) trước khi đưa nó vào phản hồi.
+
