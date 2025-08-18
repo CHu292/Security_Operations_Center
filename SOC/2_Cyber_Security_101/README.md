@@ -137,7 +137,7 @@ Lộ trình này được thiết kế thân thiện với người mới bắt 
 ## [Section 8: Web Hacking](./8_Web_Hacking/)
 >Tìm hiểu về các ứng dụng web, JavaScript và SQL. Khám phá BurpSuite, một nền tảng kiểm thử bảo mật ứng dụng web, và OWASP Top Ten.
 
-- Web Application Basics
+1. [Web Application Basics](./8_Web_Hacking/1_Web_Application_Basics.md)
 >Học những kiến thức cơ bản về ứng dụng web: HTTP, URL, phương thức request, mã phản hồi và header.
 
 - JavaScript Essentials  

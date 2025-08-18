@@ -8,6 +8,8 @@
 3. [Task 3: Uniform Resource Locator](#task-3-uniform-resource-locator)
 4. [Task 4: HTTP Messages](#task-4-http-messages)
 5. [Task 5: HTTP Request - Request Line and Methods](#task-5-http-request---request-line-and-methods)
+6. [Task 6: HTTP Request - Headers and Body](#task-6-http-request---headers-and-body)
+7. [Task 7: HTTP Response: Status Line and Status Codes](#task-7-http-response-status-line-and-status-codes)
 
 
 ---
@@ -388,3 +390,186 @@ Mặc dù **HTTP/2** và **HTTP/3** mang lại tốc độ và bảo mật tốt
    → **URL Path** 
 
 ---
+
+# Task 6: HTTP Request - Headers and Body
+>Header yêu cầu (Request Headers)
+
+Request Headers cho phép truyền thêm thông tin đến máy chủ web về yêu cầu. Một số header phổ biến như sau:
+
+---
+
+**Các Request Header phổ biến**
+
+| Request Header   | Ví dụ                                                                            | Mô tả                                                                          |
+| ---------------- | -------------------------------------------------------------------------------- | ------------------------------------------------------------------------------ |
+| **Host**         | `Host: tryhackme.com`                                                            | Chỉ định tên của máy chủ web mà yêu cầu hướng đến.                             |
+| **User-Agent**   | `User-Agent: Mozilla/5.0`                                                        | Chia sẻ thông tin về trình duyệt web mà yêu cầu được gửi từ đó.                |
+| **Referer**      | `Referer: https://www.google.com/`                                               | Chỉ ra URL mà yêu cầu được gửi từ đó.                                          |
+| **Cookie**       | `Cookie: user_type=student; room=introtowebapplication; room_status=in_progress` | Thông tin mà máy chủ web trước đó đã yêu cầu trình duyệt lưu trữ trong cookie. |
+| **Content-Type** | `Content-Type: application/json`                                                 | Mô tả loại hoặc định dạng dữ liệu trong yêu cầu.                               |
+
+## Request Body
+
+Trong các yêu cầu HTTP như **POST** và **PUT**, khi dữ liệu được gửi tới máy chủ web thay vì được yêu cầu từ máy chủ web, dữ liệu đó nằm trong **HTTP Request Body**.
+Định dạng của dữ liệu có thể có nhiều hình thức khác nhau, nhưng một số dạng phổ biến là: **URL Encoded, Form Data, JSON, hoặc XML**.
+
+---
+
+* **URL Encoded (application/x-www-form-urlencoded)**
+  Một định dạng trong đó dữ liệu được cấu trúc thành các cặp **key=value**.
+  Nhiều cặp được phân tách bằng ký hiệu **&**, ví dụ:
+
+  ```
+  key1=value1&key2=value2
+  ```
+
+  Các ký tự đặc biệt sẽ được mã hóa theo chuẩn percent-encoded.
+
+- Ví dụ:
+
+```bash
+POST /profile HTTP/1.1
+Host: tryhackme.com
+User-Agent: Mozilla/5.0
+Content-Type: application/x-www-form-urlencoded
+Content-Length: 33
+
+name=Aleksandra&age=27&country=US
+```
+
+* **Form Data (multipart/form-data)**
+  Cho phép nhiều khối dữ liệu được gửi đi, trong đó mỗi khối được phân tách bằng một chuỗi ranh giới (*boundary string*). Chuỗi ranh giới này được định nghĩa trong chính header của yêu cầu.
+  Kiểu định dạng này có thể được dùng để gửi dữ liệu nhị phân, chẳng hạn như khi tải tệp hoặc hình ảnh lên máy chủ web.
+
+- Ví dụ: 
+
+```bash
+POST /upload HTTP/1.1
+Host: tryhackme.com
+User-Agent: Mozilla/5.0
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
+
+----WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="username"
+
+aleksandra
+----WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="profile_pic"; filename="aleksandra.jpg"
+Content-Type: image/jpeg
+
+[Binary Data Here representing the image]
+----WebKitFormBoundary7MA4YWxkTrZu0gW--
+```
+
+* **JSON (application/json)**
+  Trong định dạng này, dữ liệu có thể được gửi bằng cách sử dụng cấu trúc **JSON** (JavaScript Object Notation).
+  Dữ liệu được định dạng theo cặp *tên\:giá trị*.
+  Nhiều cặp được phân tách bằng dấu phẩy, tất cả nằm trong dấu ngoặc nhọn `{ }`.
+
+- Ví dụ:
+
+```bash
+POST /api/user HTTP/1.1
+Host: tryhackme.com
+User-Agent: Mozilla/5.0
+Content-Type: application/json
+Content-Length: 62
+
+{
+    "name": "Aleksandra",
+    "age": 27,
+    "country": "US"
+}
+```
+
+* **XML (application/xml)**
+  Trong định dạng **XML**, dữ liệu được cấu trúc bên trong các nhãn gọi là *tags*, có thẻ mở và thẻ đóng.
+  Các nhãn này có thể được lồng vào nhau.
+  Bạn có thể thấy trong ví dụ bên dưới phần mở và đóng của thẻ để gửi thông tin về một người dùng tên là **Aleksandra**.
+
+- Ví dụ:
+
+```bash
+POST /api/user HTTP/1.1
+Host: tryhackme.com
+User-Agent: Mozilla/5.0
+Content-Type: application/xml
+Content-Length: 124
+
+<user>
+    <name>Aleksandra</name>
+    <age>27</age>
+    <country>US</country>
+</user>
+```
+
+---
+
+## Trả lời câu hỏi
+
+**Trả lời các câu hỏi bên dưới**
+
+1. **HTTP request header nào chỉ định tên miền của máy chủ web mà request đang được gửi đến?**
+   
+   >Host
+
+2. **Kiểu nội dung (content type) mặc định cho việc gửi form trong một HTTP request, nơi dữ liệu được mã hóa dưới dạng cặp key=value trong chuỗi query là gì?**
+   
+   >application/x-www-form-urlencoded
+
+3. **Phần nào của một HTTP request chứa thông tin bổ sung như host, user agent, và content type, hướng dẫn máy chủ web cách xử lý request?**
+  
+   >Request Headers
+
+---
+
+# Task 7: HTTP Response: Status Line and Status Codes
+Khi bạn tương tác với một ứng dụng web, máy chủ sẽ gửi lại một **HTTP response** để cho bạn biết liệu yêu cầu của bạn có thành công hay có điều gì đó sai. Các phản hồi này bao gồm một **status code** và một giải thích ngắn (gọi là **Reason Phrase**) cung cấp cái nhìn sâu hơn về cách máy chủ xử lý yêu cầu của bạn.
+
+## Dòng Trạng Thái
+
+Dòng đầu tiên trong mỗi HTTP response được gọi là **Status Line**. Nó cung cấp cho bạn ba thông tin chính:
+
+1. **HTTP Version**: Điều này cho bạn biết phiên bản HTTP nào đang được sử dụng.
+2. **Status Code**: Một số gồm ba chữ số cho thấy kết quả của yêu cầu của bạn.
+3. **Reason Phrase**: Một thông điệp ngắn giải thích mã trạng thái bằng ngôn ngữ dễ hiểu.
+
+Vì chúng ta đã đề cập đến các Phiên bản HTTP trong Task 5, hãy tập trung vào **Status Codes** và **Reason Phrases** ở đây.
+
+## Mã Trạng Thái và Cụm Từ Giải Thích
+
+**Status Code** là con số cho bạn biết yêu cầu có thành công hay thất bại, trong khi **Reason Phrase** giải thích điều gì đã xảy ra. Những mã này chia thành năm loại chính:
+
+* **Informational Responses (100–199)**
+  Những mã này có nghĩa là máy chủ đã nhận được một phần của yêu cầu và đang chờ phần còn lại. Đây là tín hiệu “tiếp tục”.
+
+* **Successful Responses (200–299)**
+  Những mã này có nghĩa là mọi thứ đã hoạt động như mong đợi. Máy chủ đã xử lý yêu cầu và gửi lại dữ liệu được yêu cầu.
+
+* **Redirection Messages (300–399)**
+  Những mã này cho bạn biết rằng tài nguyên bạn yêu cầu đã được chuyển đến một vị trí khác, thường cung cấp URL mới.
+
+* **Client Error Responses (400–499)**
+  Những mã này cho thấy có sự cố với yêu cầu. Có thể URL sai, hoặc bạn thiếu một số thông tin cần thiết, như xác thực.
+
+* **Server Error Responses (500–599)**
+  Những mã này có nghĩa là máy chủ đã gặp sự cố khi cố gắng thực hiện yêu cầu. Đây thường là vấn đề phía máy chủ và không phải lỗi của client.
+
+## Các Mã Trạng Thái Phổ Biến
+
+Dưới đây là một số mã trạng thái thường gặp nhất:
+
+**100 (Continue)**
+Máy chủ đã nhận được phần đầu tiên của yêu cầu và sẵn sàng nhận phần còn lại.
+
+**200 (OK)**
+Yêu cầu đã thành công và máy chủ đang gửi lại tài nguyên được yêu cầu.
+
+**301 (Moved Permanently)**
+Tài nguyên bạn yêu cầu đã được di chuyển vĩnh viễn đến một URL mới. Hãy sử dụng URL mới từ bây giờ.
+
+**404 (Not Found)**
+Máy chủ không thể tìm thấy tài nguyên tại URL đã cho. Hãy kiểm tra lại địa chỉ bạn nhập.
+
+**500 (Internal Server Error)**
+Có sự cố xảy ra ở phía máy chủ và nó không thể xử lý yêu cầu của bạn.

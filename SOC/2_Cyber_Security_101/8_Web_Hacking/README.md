@@ -1,7 +1,7 @@
 # Section 8: Web Hacking
 >Tìm hiểu về các ứng dụng web, JavaScript và SQL. Khám phá BurpSuite, một nền tảng kiểm thử bảo mật ứng dụng web, và OWASP Top Ten.
 
-- Web Application Basics
+- [Web Application Basics](./1_Web_Application_Basics.md)
 >Học những kiến thức cơ bản về ứng dụng web: HTTP, URL, phương thức request, mã phản hồi và header.
 
 - JavaScript Essentials  
