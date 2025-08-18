@@ -11,7 +11,7 @@
 6. [Task 6: HTTP Request - Headers and Body](#task-6-http-request---headers-and-body)
 7. [Task 7: HTTP Response: Status Line and Status Codes](#task-7-http-response-status-line-and-status-codes)
 8. [Task 8: HTTP Response: Headers and Body](#task-8-http-response-headers-and-body)
-
+9. [ Task 9: Security Headers](#task-9-security-headers)
 ---
 
 ## Nội dung
@@ -637,3 +637,129 @@ Ngoài các tiêu đề thiết yếu, còn có một số tiêu đề thông d�
 
 Để ngăn **các cuộc tấn công chèn mã (injection attacks)** như **Cross-Site Scripting (XSS)**, luôn luôn cần làm sạch (sanitise) và thoát (escape) mọi dữ liệu (đặc biệt là nội dung do người dùng tạo ra) trước khi đưa nó vào phản hồi.
 
+## Câu hỏi
+
+
+**Câu 1:** HTTP response header nào có thể tiết lộ thông tin về phần mềm và phiên bản của máy chủ web, có thể khiến nó gặp rủi ro bảo mật nếu không được xóa?
+**Server**
+
+
+**Câu 2:** Cờ (flag) nào nên được thêm vào cookie trong Set-Cookie HTTP response header để đảm bảo chúng chỉ được truyền qua HTTPS, bảo vệ chúng khỏi bị lộ trong quá trình truyền không mã hóa?
+
+**Secure**
+
+**Câu 3:** Cờ (flag) nào nên được thêm vào cookie trong Set-Cookie HTTP response header để ngăn chúng bị truy cập qua JavaScript, nhờ đó tăng cường bảo mật chống lại các cuộc tấn công XSS?
+
+**HttpOnly**
+
+---
+
+# Task 9: Security Headers
+
+## Header Bảo mật
+
+**HTTP Security Headers** giúp cải thiện tính bảo mật tổng thể của ứng dụng web bằng cách cung cấp biện pháp giảm thiểu chống lại các cuộc tấn công như Cross-Site Scripting (XSS), clickjacking và các kiểu tấn công khác. Chúng ta sẽ tìm hiểu sâu hơn về các header bảo mật sau:
+
+* Content-Security-Policy (CSP)
+* Strict-Transport-Security (HSTS)
+* X-Content-Type-Options
+* Referrer-Policy
+
+Bạn có thể sử dụng một trang như [https://securityheaders.io/](https://securityheaders.io/) để phân tích các header bảo mật của bất kỳ website nào. Sau khi thảo luận trong phần này, bạn sẽ có một sự hiểu biết tốt hơn về những gì nó báo cáo.
+
+---
+
+## Content-Security-Policy (CSP)
+
+Một **CSP header** là một lớp bảo mật bổ sung có thể giúp giảm thiểu các cuộc tấn công phổ biến như **Cross-Site Scripting (XSS)**. Mã độc hại có thể được lưu trữ trên một trang web hoặc tên miền khác và được chèn vào trang web dễ bị tấn công. **CSP** cung cấp cách để quản trị viên xác định những tên miền hoặc nguồn nào được coi là an toàn và thêm một lớp giảm thiểu chống lại những cuộc tấn công như vậy.
+
+Trong chính header, bạn có thể thấy các thuộc tính như **default-src** hoặc **script-src** được định nghĩa cùng nhiều cái khác. Mỗi thuộc tính này cung cấp tùy chọn cho quản trị viên để xác định chi tiết ở các mức độ khác nhau, những tên miền nào được phép cho loại nội dung nào. Việc sử dụng **self** là một từ khóa đặc biệt phản ánh cùng một tên miền mà website được lưu trữ.
+
+Ví dụ một header **CSP**:
+
+```
+Content-Security-Policy: default-src 'self'; script-src 'self' https://cdn.tryhackme.com; style-src 'self'
+```
+
+Chúng ta thấy việc sử dụng:
+
+* **default-src**
+
+  * Chỉ định chính sách mặc định là self, nghĩa là chỉ website hiện tại.
+
+* **script-src**
+
+  * Chỉ định chính sách cho nơi các script có thể được tải, bao gồm self cùng với các script được lưu trữ trên **[https://cdn.tryhackme.com](https://cdn.tryhackme.com)**
+
+* **style-src**
+
+  * Chỉ định chính sách cho nơi các CSS style sheet có thể được tải từ website hiện tại (self).
+
+## Strict-Transport-Security (HSTS)
+
+Header HSTS đảm bảo rằng trình duyệt web sẽ luôn kết nối qua HTTPS. Hãy xem một ví dụ về HSTS:
+
+```
+Strict-Transport-Security: max-age=63072000; includeSubDomains; preload
+```
+
+Phân tích ví dụ header HSTS theo từng chỉ thị:
+
+* **max-age**
+
+  * Đây là thời gian hết hạn tính bằng giây cho cài đặt này.
+
+* **includeSubDomains**
+
+  * Một tùy chọn cho phép trình duyệt áp dụng cài đặt này cho tất cả các tên miền con.
+
+* **preload**
+
+  * Tùy chọn này cho phép website được đưa vào danh sách preload. Trình duyệt có thể sử dụng danh sách preload để áp dụng HSTS ngay cả trước khi người dùng truy cập lần đầu vào website.
+
+---
+
+## X-Content-Type-Options
+
+Header **X-Content-Type-Options** có thể được sử dụng để hướng dẫn trình duyệt không đoán loại **MIME** của tài nguyên mà chỉ sử dụng giá trị trong header **Content-Type**. Ví dụ:
+
+```
+X-Content-Type-Options: nosniff
+```
+
+Phân tích header **X-Content-Type-Options** theo chỉ thị:
+
+* **nosniff**
+
+  * Chỉ thị này hướng dẫn trình duyệt không sniff (đoán) hoặc suy đoán loại MIME.
+
+## Referrer-Policy
+
+Header này kiểm soát lượng thông tin được gửi đến máy chủ web đích khi người dùng được chuyển hướng từ máy chủ web nguồn, ví dụ khi họ nhấp vào một hyperlink. Header này cho phép quản trị viên web kiểm soát thông tin nào sẽ được chia sẻ.
+
+Một số ví dụ về **Referrer-Policy**:
+
+* `Referrer-Policy: no-referrer`
+* `Referrer-Policy: same-origin`
+* `Referrer-Policy: strict-origin`
+* `Referrer-Policy: strict-origin-when-cross-origin`
+
+---
+
+- Giải thích các chỉ thị của Referrer-Policy:
+
+* **no-referrer**
+
+  * Hoàn toàn vô hiệu hóa việc gửi bất kỳ thông tin nào về referrer.
+
+* **same-origin**
+
+  * Chỉ gửi thông tin referrer khi đích đến thuộc cùng một origin. Hữu ích khi muốn gửi referrer trong cùng một website nhưng không gửi ra ngoài các website khác.
+
+* **strict-origin**
+
+  * Chỉ gửi referrer là origin khi giao thức giữ nguyên. Ví dụ: referrer được gửi khi một kết nối HTTPS đi tới một kết nối HTTPS khác.
+
+* **strict-origin-when-cross-origin**
+
+  * Giống như strict-origin, ngoại trừ với các request cùng origin thì sẽ gửi cả đường dẫn URL đầy đủ trong header referrer.
