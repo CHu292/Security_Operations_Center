@@ -631,7 +631,7 @@ Ngoài các tiêu đề thiết yếu, còn có một số tiêu đề thông d�
   *Ví dụ:* `Location: /index.html`
   Được sử dụng trong các phản hồi chuyển hướng (3xx). Nó cho máy khách biết cần đến đâu tiếp theo nếu tài nguyên đã được di chuyển. Nếu người dùng có thể chỉnh sửa tiêu đề này trong khi gửi yêu cầu, cần kiểm tra và làm sạch để tránh lỗ hổng chuyển hướng mở, nơi kẻ tấn công có thể chuyển hướng người dùng đến các trang web độc hại.
 
-## Thân Phản hồi (Response Body)
+## Response Body
 
 **HTTP response body** là nơi chứa dữ liệu thực tế — những thứ như HTML, JSON, hình ảnh, v.v. mà máy chủ gửi lại cho máy khách.
 
