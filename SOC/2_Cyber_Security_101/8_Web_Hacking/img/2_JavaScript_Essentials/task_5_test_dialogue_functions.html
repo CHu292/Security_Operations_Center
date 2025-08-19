@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>JS Demo</title>
+</head>
+<body>
+    <script>
+        alert("Warning: You are entering a secure area."); // Simple alert box
+        let userName = prompt("Please enter your name:");
+        if (userName) {
+            alert("Welcome, " + userName);
+        }
+        let confirmAction = confirm("Do you agree to the terms?");
+        if (confirmAction) {
+            alert("Thank you for agreeing.");
+        } else {
+            alert("You did not agree.");
+        }
+    </script>
+</body>
+</html>
