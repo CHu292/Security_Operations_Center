@@ -140,7 +140,7 @@ Lộ trình này được thiết kế thân thiện với người mới bắt 
 1. [Web Application Basics](./8_Web_Hacking/1_Web_Application_Basics.md)
 >Học những kiến thức cơ bản về ứng dụng web: HTTP, URL, phương thức request, mã phản hồi và header.
 
-- JavaScript Essentials  
+2. [JavaScript Essentials](./8_Web_Hacking/2_JavaScript_Essentials.md)  
 >Học cách sử dụng JavaScript để thêm tính tương tác vào một website và hiểu các lỗ hổng liên quan.
 
 - SQL Fundamentals  

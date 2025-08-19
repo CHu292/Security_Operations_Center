@@ -4,7 +4,7 @@
 - [Web Application Basics](./1_Web_Application_Basics.md)
 >Học những kiến thức cơ bản về ứng dụng web: HTTP, URL, phương thức request, mã phản hồi và header.
 
-- JavaScript Essentials  
+- [JavaScript Essentials](./2_JavaScript_Essentials.md)  
 >Học cách sử dụng JavaScript để thêm tính tương tác vào một website và hiểu các lỗ hổng liên quan.
 
 - SQL Fundamentals  
