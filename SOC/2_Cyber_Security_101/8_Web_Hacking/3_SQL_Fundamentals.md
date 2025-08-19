@@ -5,7 +5,7 @@
 2. [Task 2: Databases 101](#task-2-databases-101)
 3. [Task 3: SQL](#task-3-sql)
 4. [Task 4: Database and Table Statements](#task-4-database-and-table-statements)
-
+5. [Task 5: CRUD Operations](#task-5-crud-operations)
 
 ## Nội dung
 
@@ -227,4 +227,134 @@ ALTER TABLE book_inventory ADD page_count INT;
   `DROP TABLE table_name;`
 
 ---
+
+# Task 5: CRUD Operations
+**Các thao tác CRUD**
+
+Trong thế giới **cơ sở dữ liệu**, **CRUD** là vua! Bộ tứ quyền lực — **Tạo (Create), Đọc (Read), Cập nhật (Update), Xóa (Delete)** — chính là “cơm ăn áo mặc” của quản lý dữ liệu. Dưới đây là phần tóm tắt từng thao tác, sử dụng bảng *books* của **MySQL** để minh họa trong thực tế. Sẵn sàng chưa? Bắt đầu thôi!
+
+Đầu tiên chúng ta tạo một bảng như sau:
+
+```sql
+mysql> create table books(
+    -> id int auto_increment primary key,
+    -> name varchar(255) not null,
+    -> published_date date,
+    -> description varchar(255));
+Query OK, 0 rows affected (0,02 sec)
+
+mysql> describe books;
++----------------+--------------+------+-----+---------+----------------+
+| Field          | Type         | Null | Key | Default | Extra          |
++----------------+--------------+------+-----+---------+----------------+
+| id             | int          | NO   | PRI | NULL    | auto_increment |
+| name           | varchar(255) | NO   |     | NULL    |                |
+| published_date | date         | YES  |     | NULL    |                |
+| description    | varchar(255) | YES  |     | NULL    |                |
++----------------+--------------+------+-----+---------+----------------+
+4 rows in set (0,00 sec)
+
+```
+
+## Tạo (INSERT)
+
+Tạo bản ghi giống như thêm nguyên liệu tươi mới vào nồi dữ liệu của bạn. Cần một mục nhập mới? `INSERT INTO` sẽ giúp bạn:
+
+```sql
+INSERT INTO books (id, name, published_date, description)
+VALUES (1, "Android Security Internals", "2014–10–14", "An In-Depth Guide to Android's Security Architecture");
+```
+
+```sql
+mysql> INSERT INTO books (id, name, published_date, description) VALUES (1, "Android Security Internals", "2014-10-14", "An In-Depth Guide to
+ Android's Security Architecture");
+Query OK, 1 row affected (0,01 sec
+```
+
+Cứ như vậy, một cuốn sách có tên “Android Security Internals” đã được lưu vào bảng sách của chúng ta. Vậy là xong! Dữ liệu mới đã được thêm vào.
+
+## Đọc (SELECT)
+
+Đọc dữ liệu giống như ta vào vai thám tử và khám phá những bí ẩn trong dữ liệu. Câu lệnh **SELECT** cho phép bạn nhìn vào “tâm hồn” của bảng:
+
+```sql
+SELECT * FROM books;
+```
+```sql
+mysql> select * from books;
++----+----------------------------+----------------+------------------------------------------------------+
+| id | name                       | published_date | description                                          |
++----+----------------------------+----------------+------------------------------------------------------+
+|  1 | Android Security Internals | 2014-10-14     | An In-Depth Guide to Android's Security Architecture |
++----+----------------------------+----------------+------------------------------------------------------+
+1 row in set (0,00 sec)
+
+```
+
+
+Lệnh này sẽ lấy **tất cả** các cột, nhưng nếu bạn chỉ muốn lấy chi tiết cụ thể như *name* và *description*, hãy dùng:
+
+```sql
+SELECT name, description FROM books;
+```
+
+```sql
+mysql> select name, description from books;
++----------------------------+------------------------------------------------------+
+| name                       | description                                          |
++----------------------------+------------------------------------------------------+
+| Android Security Internals | An In-Depth Guide to Android's Security Architecture |
++----------------------------+------------------------------------------------------+
+1 row in set (0,00 sec)
+```
+
+Hoàn hảo khi bạn chỉ cần phần thông tin nổi bật!
+
+---
+
+## Cập nhật (UPDATE)
+
+Đôi khi dữ liệu thay đổi, và chúng ta phải cập nhật theo! Lệnh **UPDATE** giống như việc chỉnh lại một lỗi chính tả trong câu chuyện:
+
+```sql
+UPDATE books
+SET description = "An In-Depth Guide to Android's Security Architecture."
+WHERE id = 1;
+```
+
+Lệnh này sẽ cập nhật phần mô tả cho cuốn sách có **id = 1**. Hãy nhớ chỉ định bản ghi nào cần cập nhật bằng **WHERE**, nếu không thì SQL sẽ “nhiệt tình quá mức” và cập nhật **tất cả mọi thứ**.
+
+```sql
+mysql> UPDATE books
+    -> SET description = "An In-Depth Guide to Android's Security Architecture."
+    -> WHERE id = 1;
+Query OK, 1 row affected (0,00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select * from books;
++----+----------------------------+----------------+-------------------------------------------------------+
+| id | name                       | published_date | description                                           |
++----+----------------------------+----------------+-------------------------------------------------------+
+|  1 | Android Security Internals | 2014-10-14     | An In-Depth Guide to Android's Security Architecture. |
++----+----------------------------+----------------+-------------------------------------------------------+
+1 row in set (0,00 sec)
+```
+
+## Xóa (DELETE)
+
+Xóa dữ liệu giống như việc dọn dẹp bàn của bạn — loại bỏ những gì không còn “mang lại niềm vui”.
+
+```sql
+DELETE FROM books WHERE id = 1;
+```
+
+Lệnh này sẽ xóa bản ghi có **id = 1** khỏi bảng **books**. Hãy sử dụng **WHERE** một cách cẩn thận ở đây, nếu không bạn có thể phải nói lời tạm biệt với **toàn bộ dữ liệu** của mình!
+
+```sql
+mysql> DELETE FROM books WHERE id = 1;
+Query OK, 1 row affected (0,01 sec)
+
+mysql> select * from books;
+Empty set (0,00 sec)
+```
 
