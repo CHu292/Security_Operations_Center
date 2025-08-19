@@ -12,6 +12,8 @@
 7. [Task 7: HTTP Response: Status Line and Status Codes](#task-7-http-response-status-line-and-status-codes)
 8. [Task 8: HTTP Response: Headers and Body](#task-8-http-response-headers-and-body)
 9. [ Task 9: Security Headers](#task-9-security-headers)
+10. [Task 10: Practical Task: Making HTTP Requests](#task-10-practical-task-making-http-requests)
+
 ---
 
 ## Nội dung
@@ -763,3 +765,53 @@ Một số ví dụ về **Referrer-Policy**:
 * **strict-origin-when-cross-origin**
 
   * Giống như strict-origin, ngoại trừ với các request cùng origin thì sẽ gửi cả đường dẫn URL đầy đủ trong header referrer.
+
+## Câu hỏi
+
+**Trả lời các câu hỏi dưới đây**
+
+**1.** Trong cấu hình Content Security Policy (CSP), thuộc tính nào có thể được thiết lập để xác định nơi các script có thể được tải từ đâu?
+ 
+ `script-src` 
+
+**2.** Khi cấu hình Strict-Transport-Security (HSTS) header để đảm bảo rằng tất cả các subdomain của một trang web cũng sử dụng HTTPS, chỉ thị nào nên được thêm vào để áp dụng chính sách bảo mật cho cả domain chính và các subdomain của nó?
+ 
+ `includeSubDomains` 
+
+**3.** Chỉ thị HTTP header nào được sử dụng để ngăn trình duyệt diễn giải tệp dưới dạng một MIME type khác với loại được máy chủ chỉ định, từ đó giảm thiểu tấn công sniffing loại nội dung?
+ 
+ `nosniff` 
+
+---
+
+# Task 10: Practical Task: Making HTTP Requests
+
+
+Trả lời các câu hỏi dưới đây
+
+**Thực hiện một yêu cầu GET tới `/api/users`. Cờ là gì?**
+
+>THM{YOU\_HAVE\_JUST\_FOUND\_THE\_USER\_LIST}
+
+![](./img/1_Web_Application_Basics/10.1.png)
+
+---
+
+**Thực hiện một yêu cầu POST tới `/api/user/2` và cập nhật country của Bob từ UK sang US. Cờ là gì?**
+
+>THM{YOU\_HAVE\_MODIFIED\_THE\_USER\_DATA}
+
+![](./img/1_Web_Application_Basics/10.2.png)
+
+![](./img/1_Web_Application_Basics/10.3.png)
+
+---
+
+**Thực hiện một yêu cầu DELETE tới `/api/user/1` để xóa người dùng. Cờ là gì?**
+
+>THM{YOU\_HAVE\_JUST\_DELETED\_A\_USER}
+
+![](./img/1_Web_Application_Basics/10.4.png)
+
+---
+
