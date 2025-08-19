@@ -6,6 +6,10 @@
 3. [Task 3: SQL](#task-3-sql)
 4. [Task 4: Database and Table Statements](#task-4-database-and-table-statements)
 5. [Task 5: CRUD Operations](#task-5-crud-operations)
+6. [Task 6: Clauses](#task-6-clauses)
+7. [Task 7: Operators](#task-7-operators)
+8. [Task 8: Functions](#task-8-functions)
+9. [Task 9: Conclusion](#task-9-conclusion)
 
 ## Nội dung
 
@@ -358,3 +362,362 @@ mysql> select * from books;
 Empty set (0,00 sec)
 ```
 
+---
+
+# Task 6: Clauses
+**Mệnh đề (Clauses)**
+
+Hãy cùng xem một số mệnh đề **SQL** giúp bạn kiểm soát, cho phép cơ sở dữ liệu trả về kết quả theo cách **bạn** muốn. Gặp gỡ **DISTINCT, GROUP BY, ORDER BY, và HAVING** — “biệt đội” giữ cho dữ liệu của bạn sạch sẽ, ngăn nắp và chính xác!
+
+## DISTINCT: Không cho phép trùng lặp!
+
+Có vài dữ liệu bị trùng lặp? **DISTINCT** sẽ giúp bạn lọc chúng ra! Hãy xem ví dụ này:
+
+```sql
+SELECT DISTINCT name FROM books;
+```
+
+Nếu bạn có hai bản ghi “Ethical Hacking” trong bảng **books**, thì **DISTINCT** sẽ đảm bảo bạn chỉ thấy nó **một lần**. Nó giống như một bảo vệ ngăn không cho dữ liệu trùng lặp vào “câu lạc bộ dữ liệu”!
+
+```sql
+mysql> SELECT DISTINCT name FROM books;
++----------------------------+
+| name                       |
++----------------------------+
+| Android Security Internals |
++----------------------------+
+1 row in set (0,00 sec)
+```
+
+## GROUP BY: Nhóm dữ liệu
+
+Khi bạn cần tổng hợp dữ liệu, **GROUP BY** là lựa chọn số một. Nó là bí quyết để đếm, tính tổng và nhiều hơn nữa:
+
+```sql
+SELECT name, COUNT(*) FROM books GROUP BY name;
+```
+
+Với câu lệnh này, bạn sẽ thấy mỗi cuốn sách xuất hiện bao nhiêu lần. Nó giống như việc bạn gom tất cả đôi tất theo màu, để biết chính xác mình có bao nhiêu đôi!
+
+---
+
+## ORDER BY: Sắp xếp theo thứ tự hoàn hảo
+
+Muốn sắp xếp dữ liệu? **ORDER BY** sẽ giúp bạn. Bạn có thể dùng nó để sắp xếp theo thứ tự tăng dần (**ASC**) hoặc giảm dần (**DESC**):
+
+```sql
+SELECT * FROM books ORDER BY published_date ASC;
+```
+
+Giờ thì sách của bạn sẽ được sắp xếp theo ngày xuất bản, rất hoàn hảo nếu bạn muốn đọc theo thứ tự thời gian! Muốn ngược lại ư? Chỉ cần đổi sang **DESC**.
+
+## HAVING: Bộ lọc cho các nhóm
+
+Khi bạn muốn lọc các nhóm **sau khi** đã nhóm chúng lại, **HAVING** sẽ xuất hiện. Nó giống như “người anh em ngầu” của **WHERE**:
+
+```sql
+SELECT name, COUNT(*) FROM books GROUP BY name HAVING name LIKE '%Hack%';
+```
+
+Câu lệnh này lọc kết quả của dữ liệu đã nhóm để chỉ hiển thị những cuốn sách có từ “Hack” trong tiêu đề — cho bạn một cái nhìn được lọc theo tiêu chí nhóm.
+
+---
+
+**Tóm tắt nhanh**
+
+* **DISTINCT** — Lọc bỏ dữ liệu trùng lặp.
+* **GROUP BY** — Nhóm dữ liệu của bạn để tạo bản tóm tắt.
+* **ORDER BY** — Sắp xếp dữ liệu, giống như Netflix sắp xếp “phim mới phát hành”.
+* **HAVING** — Lọc dữ liệu đã nhóm dựa trên điều kiện.
+
+---
+
+# Task 7: Operators
+**Toán tử**
+
+Các toán tử SQL giống như các nút điều khiển của một bộ lọc dữ liệu mạnh mẽ. Dưới đây là phân tích về các toán tử chính có thể giúp bạn xây dựng các truy vấn trong **SQL** chính xác và hiệu quả hơn.
+
+---
+
+## Toán tử logic
+
+### LIKE:
+
+* Dùng để tìm kiếm một mẫu cụ thể trong một cột.
+
+```sql
+SELECT * FROM books WHERE description LIKE "%guide%";
+```
+
+* Câu lệnh này trả về các bản ghi có mô tả chứa từ **“guide”**.
+
+### AND:
+
+* Kết hợp nhiều điều kiện và trả về kết quả khi **tất cả** các điều kiện đều đúng.
+
+```sql
+SELECT * FROM books WHERE category = "Offensive Security" AND name = "Bug Bounty";
+```
+
+* Câu lệnh này tìm các sách trong danh mục **“Offensive Security”** mà có tên chính xác là **“Bug Bounty”**.
+
+---
+
+### OR:
+
+* Kết hợp các điều kiện và trả về kết quả khi **ít nhất một** điều kiện đúng.
+
+```sql
+SELECT * FROM books WHERE name LIKE "%Android%" OR name LIKE "%iOS%";
+```
+
+* Câu lệnh này lấy ra các bản ghi có tên chứa **“Android”** hoặc **“iOS”**.
+
+---
+
+## NOT:
+
+* Loại bỏ các điều kiện cụ thể.
+
+```sql
+SELECT * FROM books WHERE NOT description LIKE "%guide%";
+```
+
+* Lệnh này loại bỏ các kết quả mà phần mô tả có chứa từ **“guide”**.
+
+---
+
+## BETWEEN:
+
+* Kiểm tra xem một giá trị có nằm trong một khoảng xác định hay không.
+
+```sql
+SELECT * FROM books WHERE id BETWEEN 2 AND 4;
+```
+
+* Lệnh này chọn các sách có **ID từ 2 đến 4**.
+
+---
+
+## Toán tử so sánh
+
+### Equal To (=):
+
+* Tìm các giá trị **chính xác**.
+
+```sql
+SELECT * FROM books WHERE name = "Designing Secure Software";
+```
+
+* Lệnh này tìm các bản ghi có tên chính xác là **“Designing Secure Software.”**
+
+---
+
+### Not Equal To (!=):
+
+* **Loại bỏ** các giá trị cụ thể.
+
+```sql
+SELECT * FROM books WHERE category != "Offensive Security";
+```
+
+* Lệnh này chọn các bản ghi mà **category** khác với **“Offensive Security.”**
+
+### Less Than (<)
+
+* Tìm các giá trị **nhỏ hơn** một giá trị xác định.
+
+```sql
+SELECT * FROM books WHERE published_date < "2020-01-01";
+```
+
+* Lệnh này lấy các sách được xuất bản **trước ngày 1 tháng 1 năm 2020**.
+
+---
+
+###  Greater Than (>):
+
+
+* Tìm các giá trị **lớn hơn** một giá trị xác định.
+
+```sql
+SELECT * FROM books WHERE published_date > "2020-01-01";
+```
+
+* Lệnh này lấy các sách được xuất bản **sau ngày 1 tháng 1 năm 2020**.
+
+### Less Than or Equal To (<=):
+
+* Chọn các giá trị **nhỏ hơn hoặc bằng** một giá trị xác định.
+
+```sql
+SELECT * FROM books WHERE published_date <= "2021-11-15";
+```
+
+* Câu lệnh này trả về các sách được xuất bản **vào hoặc trước ngày 15 tháng 11 năm 2021**.
+
+---
+
+### Greater Than or Equal To (>=):
+
+* Chọn các giá trị **lớn hơn hoặc bằng** một giá trị xác định.
+
+```sql
+SELECT * FROM books WHERE published_date >= "2021-11-02";
+```
+
+* Câu lệnh này hiển thị các sách được xuất bản **vào hoặc sau ngày 2 tháng 11 năm 2021**.
+
+ **Tóm tắt nhanh (Quick Recap):**
+
+* **LIKE** → Lọc dữ liệu theo mẫu trong chuỗi.
+* **AND / OR** → Kết hợp nhiều điều kiện.
+* **NOT** → Loại trừ những điều kiện cụ thể.
+* **BETWEEN** → Tìm giá trị trong một khoảng.
+* **Comparison Operators (=, !=, <, >, <=, >=)** → So sánh giá trị chính xác.
+
+ Với các toán tử này trong **SQL toolkit**, bạn có thể lọc dữ liệu chính xác theo nhu cầu, giúp truy vấn mạnh mẽ và chính xác hơn.
+
+---
+
+# Task 8: Functions
+
+Các hàm SQL là những công cụ mạnh mẽ để thao tác dữ liệu, cho phép chúng ta đơn giản hóa truy vấn, biến đổi dữ liệu và thu được thông tin. Đây là hướng dẫn về một số hàm SQL thiết yếu.
+
+## Hàm chuỗi
+
+### CONCAT():
+
+* Nối nhiều chuỗi thành một.
+
+```sql
+SELECT CONCAT(name, " is a type of ", category, " book.") AS book_info FROM books;
+```
+
+* Câu lệnh này nối tên sách và thể loại sách thành một câu hoàn chỉnh.
+
+### GROUP_CONCAT():
+
+* Nối các giá trị từ nhiều hàng thành một trường duy nhất, hữu ích cho việc nhóm.
+
+```sql
+SELECT category, GROUP_CONCAT(name SEPARATOR ", ") AS books FROM books GROUP BY category;
+```
+
+* Câu lệnh này nhóm sách theo thể loại, liệt kê các tựa sách trong một chuỗi duy nhất cho mỗi thể loại.
+
+### SUBSTRING():
+
+* Trích xuất một phần của chuỗi bắt đầu tại vị trí được chỉ định.
+
+```sql
+SELECT SUBSTRING(published_date, 1, 4) AS published_year FROM books;
+```
+
+* Câu lệnh này trích xuất năm từ `published_date`, lưu nó dưới dạng `published_year`.
+
+---
+
+### LENGTH():
+
+* Trả về số lượng ký tự trong một chuỗi (bao gồm cả khoảng trắng và dấu câu).
+
+```sql
+SELECT LENGTH(name) AS name_length FROM books;
+```
+
+* Câu lệnh này tính toán và hiển thị độ dài của từng tiêu đề sách.
+
+## Hàm tổng hợp
+
+### COUNT():
+
+* Đếm số hàng thỏa mãn điều kiện.
+
+```sql
+SELECT COUNT(*) AS total_books FROM books;
+```
+
+* Câu lệnh này đếm tổng số sách trong bảng, hiển thị dưới tên `total_books`.
+
+---
+
+### SUM():
+
+* Cộng tất cả các giá trị trong một cột.
+
+```sql
+SELECT SUM(price) AS total_price FROM books;
+```
+
+* Câu lệnh này tính tổng giá của tất cả các sách.
+
+### MAX():
+
+* Tìm giá trị lớn nhất trong một cột.
+
+```sql
+SELECT MAX(published_date) AS latest_book FROM books;
+```
+
+* Câu lệnh này lấy ngày xuất bản mới nhất.
+
+---
+
+### MIN():
+
+* Tìm giá trị nhỏ nhất trong một cột.
+
+```sql
+SELECT MIN(published_date) AS earliest_book FROM books;
+```
+
+* Câu lệnh này lấy ngày xuất bản sớm nhất.
+
+**Tóm tắt**
+
+* **Hàm chuỗi** (*CONCAT, GROUP\_CONCAT, SUBSTRING, LENGTH*): Dùng để thao tác và biến đổi văn bản.
+
+* **Hàm tổng hợp** (*COUNT, SUM, MAX, MIN*): Thực hiện các phép tính trên nhiều hàng, cung cấp cái nhìn tổng quan về dữ liệu.
+
+Với các hàm này, bạn có thể tối ưu hóa các truy vấn SQL để thực hiện biến đổi và tổng hợp dữ liệu một cách hiệu quả.
+
+---
+
+# Task 9: Conclusion
+
+**Cơ sở dữ liệu**
+
+* Tập hợp dữ liệu có tổ chức, có thể truy cập và phân tích. Cơ sở dữ liệu rất quan trọng trong tin học và có tính ứng dụng cao trong đời sống hàng ngày, đặc biệt với các chuyên gia an ninh mạng.
+
+**Các loại cơ sở dữ liệu**
+
+* **Cơ sở dữ liệu quan hệ (Relational Databases):** Lưu trữ dữ liệu dạng bảng có cấu trúc, được tổ chức thành các bảng.
+* **Cơ sở dữ liệu phi quan hệ (Non-Relational Databases):** Lưu trữ dữ liệu ở định dạng phi bảng, phù hợp cho dữ liệu phi cấu trúc hoặc bán cấu trúc.
+
+**Cấu trúc cơ sở dữ liệu quan hệ**
+
+* **Bảng, Cột và Hàng:** Thành phần cốt lõi của cơ sở dữ liệu quan hệ.
+* **Khóa chính (Primary Keys):** Đảm bảo mỗi bản ghi là duy nhất trong bảng.
+* **Khóa ngoại (Foreign Keys):** Thiết lập quan hệ giữa các bảng.
+* **Ngôn ngữ SQL:** Một ngôn ngữ đơn giản, mạnh mẽ để tương tác với cơ sở dữ liệu quan hệ.
+
+**Câu lệnh cơ sở dữ liệu và bảng**
+
+* Cho phép tạo và chỉnh sửa cơ sở dữ liệu cũng như bảng.
+
+**Các thao tác CRUD**
+
+* **INSERT:** Thêm bản ghi mới.
+* **SELECT:** Truy xuất bản ghi.
+* **UPDATE:** Chỉnh sửa bản ghi hiện có.
+* **DELETE:** Xóa bản ghi.
+
+**Mệnh đề (Clauses)**
+
+* Dùng để truy xuất, lọc, sắp xếp và nhóm dữ liệu.
+
+**Toán tử và Hàm**
+
+* **Toán tử (Operators):** Cho phép lọc và so sánh dữ liệu.
+* **Hàm (Functions):** Hỗ trợ các thao tác, xử lý chuỗi và tính toán tổng hợp giá trị.
