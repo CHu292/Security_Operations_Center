@@ -542,3 +542,22 @@ age=0x1*0x247e+0x35*-0x2e+-0x1ae3;
 
 ---
 
+**Thực hành tốt nhất**
+
+Thực hiện các thực hành tốt nhất trong JavaScript có thể ngăn ngừa các lỗ hổng bảo mật phổ biến và cải thiện chất lượng mã:
+
+* **Xác thực phía máy chủ (Server–Side Validation):** Tránh chỉ dựa vào xác thực phía client để ngăn chặn việc giả mạo dữ liệu.
+* **Làm sạch đầu vào người dùng (Sanitize User Inputs):** Điều này rất cần thiết để tránh các cuộc tấn công XSS (Cross-Site Scripting).
+* **Sử dụng thư viện ngoài an toàn (Use Secure External Libraries):** Chỉ bao gồm những thư viện đáng tin cậy và thường xuyên được cập nhật.
+* **Rút gọn & làm rối mã (Minification & Obfuscation):** Với môi trường sản xuất, hãy rút gọn và làm rối mã để tăng hiệu suất và bảo mật.
+* **Không hardcode dữ liệu nhạy cảm (Do Not Hardcode Sensitive Data):** Giữ các API keys, secrets hoặc dữ liệu nhạy cảm khác ngoài mã công khai.
+
+**Ví dụ tránh hardcode dữ liệu nhạy cảm:**
+
+```js
+// Thay vì hardcode API keys trong JavaScript:
+const API_KEY = "your-api-key"; // Tránh thực hành này
+// Hãy cân nhắc lưu trữ chúng một cách an toàn trên phía máy chủ
+```
+
+---
