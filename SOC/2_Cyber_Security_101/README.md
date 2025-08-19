@@ -143,7 +143,7 @@ Lộ trình này được thiết kế thân thiện với người mới bắt 
 2. [JavaScript Essentials](./8_Web_Hacking/2_JavaScript_Essentials.md)  
 >Học cách sử dụng JavaScript để thêm tính tương tác vào một website và hiểu các lỗ hổng liên quan.
 
-- SQL Fundamentals  
+3. [SQL Fundamentals](./8_Web_Hacking/3_SQL_Fundamentals.md)  
 >Học cách thực hiện các truy vấn SQL cơ bản để truy xuất và quản lý dữ liệu trong cơ sở dữ liệu.
 
 - Burp Suite: The Basics  
