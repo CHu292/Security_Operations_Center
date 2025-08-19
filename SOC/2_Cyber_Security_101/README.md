@@ -146,7 +146,7 @@ Lộ trình này được thiết kế thân thiện với người mới bắt 
 3. [SQL Fundamentals](./8_Web_Hacking/3_SQL_Fundamentals.md)  
 >Học cách thực hiện các truy vấn SQL cơ bản để truy xuất và quản lý dữ liệu trong cơ sở dữ liệu.
 
-- Burp Suite: The Basics  
+4. [Burp Suite: The Basics](./8_Web_Hacking/4_Burp_Suite_The_Basics.md)  
 >Giới thiệu cách sử dụng Burp Suite cho việc kiểm thử bảo mật ứng dụng web.
 
 - OWASP Top 10 - 2021  

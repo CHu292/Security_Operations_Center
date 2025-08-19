@@ -10,7 +10,7 @@
 - [SQL Fundamentals](./3_SQL_Fundamentals.md)  
 >Học cách thực hiện các truy vấn SQL cơ bản để truy xuất và quản lý dữ liệu trong cơ sở dữ liệu.
 
-- Burp Suite: The Basics  
+- [Burp Suite: The Basics](./4_Burp_Suite_The_Basics.md)  
 >Giới thiệu cách sử dụng Burp Suite cho việc kiểm thử bảo mật ứng dụng web.
 
 - OWASP Top 10 - 2021  
