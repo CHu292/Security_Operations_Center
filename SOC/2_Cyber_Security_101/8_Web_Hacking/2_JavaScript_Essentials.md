@@ -5,7 +5,7 @@
 1. [Task 1: Introduction](#task-1-introduction)
 2. [Task 2: Essential Concepts](#task-2-essential-concepts)
 3. [Task 3: JavaScript Overview](#task-3-javascript-overview)
-
+4. [Task 4: Integrating JavaScript in HTML](#task-4-integrating-javascript-in-html)
 
 ## Nội dung
 
@@ -164,3 +164,148 @@ Trả lời các câu hỏi dưới đây
 **Câu hỏi:** JavaScript là ngôn ngữ biên dịch hay thông dịch?
 
 **Trả lời:** Thông dịch
+
+# Task 4: Integrating JavaScript in HTML
+>Tích hợp JavaScript vào HTML
+
+JavaScript có thể được tích hợp vào HTML để thêm tính tương tác trực tiếp vào các trang web, bằng cách sử dụng:
+
+* **JavaScript nội bộ (Internal JavaScript):** Đặt bên trong thẻ `<script>` trong tệp HTML.
+* **JavaScript bên ngoài (External JavaScript):** Liên kết dưới dạng một tệp `.js` riêng biệt, giúp cải thiện khả năng tổ chức và bảo trì mã.
+
+## Internal JavaScript 
+
+Được viết trực tiếp bên trong các thẻ `<script>` trong tài liệu HTML.
+
+Để tạo một tài liệu HTML với JS nội bộ, tạo tệp `internal.html`.
+
+Thêm nội dung code như sau:
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Internal JS</title>
+</head>
+<body>
+    <h1>Addition of Two Numbers</h1>
+    <p id="result"></p>
+<script>
+        let x = 5;
+        let y = 10;
+        let result = x + y;
+        document.getElementById("result").innerHTML = "The result is: " + result;
+    </script>
+</body>
+</html>
+```
+Sau đó nhấn đúp chuột
+
+![](./img/2_JavaScript_Essentials/4.1.png)
+
+
+Trong tài liệu HTML này, chúng ta đang sử dụng **JS nội bộ**, nghĩa là mã được đặt trực tiếp bên trong tệp HTML trong thẻ `<script>`. Script thực hiện một tác vụ đơn giản: nó cộng hai số (x và y) rồi hiển thị kết quả trên trang web.
+
+JS tương tác với HTML bằng cách chọn một phần tử (`<p> with id="result"`) và cập nhật nội dung của nó bằng lệnh:
+
+```js
+document.getElementById("result").innerHTML
+```
+
+JS nội bộ này được thực thi khi trình duyệt tải tệp HTML.
+
+---
+
+## JavaScript bên ngoài (External JavaScript):
+
+Được đặt trong một tệp `.js` riêng và liên kết trong HTML bằng cách sử dụng thuộc tính `src` trong thẻ `<script>`.
+
+Chúng ta sẽ sử dụng cùng ví dụ trên cho JS bên ngoài nhưng tách mã JS ra một tệp khác.
+
+Đầu tiên, hãy tạo một tệp mới có tên **script.js** và lưu nó trên **Desktop** với đoạn mã sau:
+
+```js
+let x = 5;
+let y = 10;
+let result = x + y;
+document.getElementById("result").innerHTML = "The result is: " + result;
+```
+
+Tiếp theo, tạo một tệp mới có tên **external.html** và dán đoạn mã sau (lưu ý rằng mã HTML giống hệt như ví dụ trước):
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>External JS</title>
+</head>
+<body>
+    <h1>Addition of Two Numbers</h1>
+    <p id="result"></p>
+    <!-- Link to the external JS file -->
+    <script src="script.js"></script>
+</body>
+</html>
+```
+
+
+Bây giờ, hãy nhấp đúp vào tệp **external.html** và kiểm tra kết quả. Bạn có thấy sự khác biệt nào không? Không, kết quả vẫn giống như trong ví dụ trước.
+
+![](./img/2_JavaScript_Essentials/4.2.png)
+
+## Ví dụ Internal JavaScript:
+
+```html
+<!DOCTYPE html>
+<html>
+<body>
+    <h1>Result of Addition</h1>
+    <p id="result"></p>
+    <script>
+        let x = 5, y = 10;
+        document.getElementById("result").innerHTML = "The result is: " + (x + y);
+    </script>
+</body>
+</html>
+```
+
+---
+
+**Xác minh Internal hay External JS**
+
+Khi kiểm thử bảo mật một ứng dụng web, việc kiểm tra xem trang web sử dụng Internal hay External JS là rất quan trọng. Điều này có thể dễ dàng xác minh bằng cách xem mã nguồn của trang.
+Để làm điều này, mở trang **external\_test.html** nằm trong thư mục **exercise** bằng **Chrome**, nhấp chuột phải vào bất kỳ đâu trên trang, và chọn **View Page Source**.
+
+![](./img/2_JavaScript_Essentials/4.3.webp)
+
+Điều này sẽ hiển thị mã HTML của trang đã render. Bên trong mã nguồn, bất kỳ JS nào được viết trực tiếp trên trang sẽ xuất hiện giữa các thẻ `<script>` mà không có thuộc tính `src`. Nếu bạn thấy thẻ `<script>` có thuộc tính `src`, điều đó cho biết trang đang tải External JS từ một file riêng biệt.
+
+![](./img/2_JavaScript_Essentials/4.4.webp)
+
+Để biết ví dụ thực tế, hãy truy cập https://tryhackme.com trên trình duyệt của bạn và kiểm tra mã nguồn để xác định cách trang web tải JS nội bộ và từ các nguồn bên ngoài.
+
+![](./img/2_JavaScript_Essentials/4.5.webp)
+
+## Câu hỏi
+
+**Trả lời các câu hỏi dưới đây**
+
+**Loại tích hợp JavaScript nào đặt mã trực tiếp trong tài liệu HTML?**
+
+Trả lời: Internal
+
+**Phương pháp nào tốt hơn để tái sử dụng JS trên nhiều trang web?**
+
+Trả lời: External
+
+**Tên của file JS bên ngoài được gọi bởi *external\_test.html* là gì?**
+
+Trả lời: thm\_external.js
+
+**Thuộc tính nào liên kết một file JS bên ngoài trong thẻ `<script>`?**
+
+Trả lời: src
+
+---
