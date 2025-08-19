@@ -3,6 +3,8 @@
 ## Mục lục
 1. [Task 1: Introduction](#task-1-introduction)
 2. [Task 2: Databases 101](#task-2-databases-101)
+3. [Task 3: SQL](#task-3-sql)
+4. [Task 4: Database and Table Statements](#task-4-database-and-table-statements)
 
 
 ## Nội dung
@@ -78,8 +80,151 @@ Vậy là xong! Cơ sở dữ liệu chính là “chất keo” giữ cho dữ 
 
 **Trả lời:** Khóa chính (primary key)
 
+---
+
+# Task 3: SQL
+
+Vậy, cơ sở dữ liệu rất tuyệt, nhưng làm thế nào chúng ta **thực sự** làm việc với chúng?
+Hãy gặp **SQL — Structured Query Language**, hay như tôi gọi nó là, “Nói chuyện với Cơ sở dữ liệu 101.” SQL cho phép bạn nói cho cơ sở dữ liệu biết phải làm gì: tạo bảng, chèn dữ liệu, cập nhật thông tin, và chạy đủ loại truy vấn. Về cơ bản, **SQL** giống như câu thần chú ma thuật cho các phù thủy dữ liệu!
+
+Trước hết, bạn cần một **Hệ quản trị cơ sở dữ liệu (DBMS)**, đây là phần mềm kết nối giữa bạn và cơ sở dữ liệu. Các **DBMS** phổ biến gồm **MySQL, MongoDB** và **Oracle Database**. Với **SQL** trong bộ công cụ DBMS của bạn, bạn có thể truy vấn, quản lý và thao tác dữ liệu như một chuyên gia.
+
+Vì sao SQL “tuyệt vời”
+
+* **Nhanh như chớp**: SQL có thể kéo ra một lượng dữ liệu khổng lồ chỉ trong vài giây. Không phải chờ lâu, không phiền phức.
+* **Siêu đơn giản**: SQL gần như là tiếng Anh thuần túy! Vì vậy, bạn sẽ dành nhiều thời gian hơn cho việc truy vấn dữ liệu thay vì vật lộn với cú pháp.
+* **Độ chính xác cao**: Cơ sở dữ liệu quan hệ có cấu trúc nghiêm ngặt, nghĩa là dữ liệu luôn chính xác và dễ quản lý.
+* **Linh hoạt tối đa**: Từ tra cứu nhanh cho đến phân tích dữ liệu chuyên sâu, **SQL** đều xử lý được mà không tốn nhiều công sức.
+
+Bắt tay vào làm việc với SQL
+
+Hãy khởi động máy, mở terminal, và gõ:
+
+```bash
+sudo apt update
+sudo apt --fix-broken install
+sudo apt install mysql-server -y
+sudo systemctl start mysql
+mysql -u root -p
+```
+
+```bash
+sudo mysql -u root -p
+Enter password: 
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 9
+Server version: 8.0.43-0ubuntu0.24.04.1 (Ubuntu)
+
+Copyright (c) 2000, 2025, Oracle and/or its affiliates.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> 
+
+```
 
 ---
 
+## Câu hỏi
 
+**Câu hỏi:** Cái gì đóng vai trò như giao diện giữa cơ sở dữ liệu và người dùng cuối?
+
+**Trả lời:** DBMS
+
+**Câu hỏi:** Ngôn ngữ truy vấn nào có thể được sử dụng để tương tác với cơ sở dữ liệu quan hệ?
+
+**Trả lời:** SQL
+
+---
+
+# Task 4: Database and Table Statements
+
+Được rồi, đã đến lúc đi sâu vào các câu lệnh SQL và biến cơ sở dữ liệu từ lý thuyết thành sức mạnh thực tế. Hãy nghĩ về các câu lệnh SQL như những khối xây dựng của một đế chế kiến trúc sư cơ sở dữ liệu — từng câu lệnh “CREATE,” “SHOW,” và “DROP” một.
+
+## Các câu lệnh Database
+
+* **CREATE DATABASE**: Muốn tạo cơ sở dữ liệu mới? Chỉ cần lịch sự yêu cầu SQL với `CREATE DATABASE your_database_name;` Ví dụ:
+
+  ```sql
+  CREATE DATABASE thm_bookmarket_db;
+  ```
+
+  → thiết lập một thế giới dữ liệu nhỏ mới.
+
+* **SHOW DATABASES**: Muốn biết có những cơ sở dữ liệu nào trên server? `SHOW DATABASES;` sẽ liệt kê tất cả những cái có sẵn, bao gồm cả những cái bí ẩn được cài sẵn như `mysql` và `sys` — giống như “bạn cùng phòng” mặc định của server.
+
+![](./img/3_SQL_Fundamentals/4.1.png)
+
+* **USE DATABASE**: Khi đã có cơ sở dữ liệu, bạn cần nói với SQL, “Này, hãy làm việc với cái này nhé” bằng `USE your_database_name;`.
+
+* **DROP DATABASE**: Không còn cần cơ sở dữ liệu đó nữa? `DROP DATABASE` sẽ xóa nó cho bạn (nhưng hãy nhớ kiểm tra kỹ trước khi nhấn Enter).
+
+---
+
+## Các câu lệnh Table
+
+Giờ chúng ta đã có một **database**, hãy lấp đầy nó bằng các **bảng (tables)!**
+Bảng giống như các thư mục nơi dữ liệu của bạn được lưu trữ — mọi cơ sở dữ liệu đều có bảng.
+
+**CREATE TABLE:**
+
+* Để thêm một bảng mới, bạn dùng `CREATE TABLE` theo sau bởi tên bảng và chi tiết từng cột. Ví dụ:
+
+```sql
+CREATE TABLE book_inventory (
+    book_id INT AUTO_INCREMENT PRIMARY KEY,
+    book_name VARCHAR(255) NOT NULL,
+    publication_date DATE
+);
+```
+
+* Ở đây, chúng ta đang tạo bảng **book\_inventory** với ba cột.
+* `AUTO_INCREMENT` có nghĩa là SQL sẽ tự động tăng số ID cho mỗi cuốn sách.
+
+![](./img/3_SQL_Fundamentals/4.2.png)
+
+---
+
+**SHOW TABLES:**
+
+* Muốn xem tất cả các bảng trong cơ sở dữ liệu? Dùng `SHOW TABLES;` — nó sẽ liệt kê ra tất cả. Đây là danh sách điểm danh của bảng.
+
+![](./img/3_SQL_Fundamentals/4.3.png)
+
+---
+
+**DESCRIBE:**
+
+* Nếu muốn xem nhanh các cột và kiểu dữ liệu trong một bảng, dùng:
+  `DESCRIBE your_table_name;`
+  → Giống như chụp X-quang để thấy cấu trúc bảng.
+
+![](./img/3_SQL_Fundamentals/4.4.png)
+
+---
+
+**Chỉnh sửa bảng (Modifying Tables):**
+**ALTER:**
+
+* Muốn thay đổi bảng? `ALTER TABLE` cho phép thêm, xóa hoặc đổi tên cột.
+* Ví dụ, nếu bạn nhận ra mình cần thêm số trang cho mỗi cuốn sách, chỉ cần thêm:
+
+```sql
+ALTER TABLE book_inventory ADD page_count INT;
+```
+
+![](./img/3_SQL_Fundamentals/4.5.png)
+
+---
+
+**DROP TABLE:**
+
+* Xong việc với bảng? Xóa nó bằng:
+  `DROP TABLE table_name;`
+
+---
 
