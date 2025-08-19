@@ -656,7 +656,7 @@ Ngoài các tiêu đề thiết yếu, còn có một số tiêu đề thông d�
 
 # Task 9: Security Headers
 
-## Header Bảo mật
+## Security Headers
 
 **HTTP Security Headers** giúp cải thiện tính bảo mật tổng thể của ứng dụng web bằng cách cung cấp biện pháp giảm thiểu chống lại các cuộc tấn công như Cross-Site Scripting (XSS), clickjacking và các kiểu tấn công khác. Chúng ta sẽ tìm hiểu sâu hơn về các header bảo mật sau:
 
