@@ -7,7 +7,7 @@
 2. [Task 2: What is Burp Suite](#task-2-what-is-burp-suite)
 3. [Task 3: Features of Burp Community](#task-3-features-of-burp-community)
 4. [Task 4: Installation](#task-4-installation)
-
+5. [Task 5: The Dashboard](#task-5-the-dashboard)
 
 ## Nội dung
 
@@ -72,9 +72,11 @@ Do yêu cầu cần có bản quyền đối với các phiên bản Professiona
 **Trả lời các câu hỏi bên dưới**
 
 **2.1** Phiên bản nào của Burp Suite chạy trên máy chủ và cung cấp khả năng quét liên tục cho các ứng dụng web mục tiêu?
+
 **Trả lời:** *Burp Suite Enterprise*
 
 **2.2** Burp Suite thường được sử dụng khi tấn công các ứng dụng web và ứng dụng \_\_\_\_\_\_ .
+
 **Trả lời:** *Mobile*
 
 ---
@@ -105,9 +107,11 @@ Ngoài các tính năng tích hợp sẵn, mã nguồn Java của Burp Suite h�
 **Trả lời các câu hỏi bên dưới**
 
 **3.1** Tính năng nào của Burp Suite cho phép chúng ta chặn các yêu cầu giữa bản thân và mục tiêu?
+
 **Trả lời:** *Proxy*
 
 **3.2** Công cụ nào trong Burp được sử dụng để brute-force một form đăng nhập?
+
 **Trả lời:** *Intruder*
 
 ---
@@ -138,3 +142,45 @@ và sẽ không được thêm vào biến môi trường **PATH**.
 Trình cài đặt cung cấp hướng dẫn rõ ràng, và nhìn chung an toàn khi chấp nhận các thiết lập mặc định. Tuy nhiên, luôn khuyến nghị bạn nên kiểm tra kỹ quá trình cài đặt.
 
 Khi Burp Suite đã được cài đặt thành công, bạn có thể khởi chạy ứng dụng. Trong nhiệm vụ tiếp theo, chúng ta sẽ khám phá bước thiết lập và cấu hình ban đầu.
+
+---
+
+# Task 5: The Dashboard
+**Bảng điều khiển**
+
+
+Khi bạn khởi chạy Burp Suite và chấp nhận các điều khoản sử dụng, bạn sẽ được yêu cầu chọn loại dự án. Trong Burp Suite Community, các tùy chọn khá hạn chế, và bạn chỉ cần nhấn **Next** để tiếp tục.
+
+Cửa sổ tiếp theo cho phép bạn chọn cấu hình cho Burp Suite. Thông thường khuyến nghị giữ nguyên các thiết lập mặc định, vì chúng phù hợp với hầu hết tình huống. Nhấn **Start Burp** để mở giao diện chính của Burp Suite.
+
+Khi mở Burp Suite lần đầu tiên, bạn có thể gặp màn hình cung cấp các tùy chọn đào tạo. Rất khuyến nghị bạn nên xem qua các tài liệu đào tạo này khi có thời gian.
+
+Nếu bạn không thấy màn hình đào tạo (hoặc trong các phiên làm việc sau), bạn sẽ được đưa đến **Burp Dashboard**, nơi ban đầu có thể khiến bạn thấy rối. Tuy nhiên, bạn sẽ sớm làm quen với nó.
+
+Bảng điều khiển Burp được chia thành bốn phần, được đánh dấu theo thứ tự ngược chiều kim đồng hồ, bắt đầu từ góc trên bên trái:
+
+![](./img/4_Burp_Suite_The_Basics/5.1.webp)
+
+1. **Tasks:** Menu Tasks cho phép bạn định nghĩa các tác vụ nền mà Burp Suite sẽ thực hiện khi bạn sử dụng ứng dụng. Trong Burp Suite Community, tác vụ mặc định **“Live Passive Crawl”** (tự động ghi lại các trang đã truy cập) là đủ cho mục đích của chúng ta trong phần này. Burp Suite Professional cung cấp thêm các tính năng như quét theo yêu cầu.
+
+2. **Event log:** Event log cung cấp thông tin về các hành động mà Burp Suite thực hiện, chẳng hạn như khởi động proxy, cũng như chi tiết về các kết nối được thực hiện thông qua Burp.
+
+3. **Issue Activity:** Phần này dành riêng cho Burp Suite Professional. Nó hiển thị các lỗ hổng được phát hiện bởi công cụ quét tự động, được xếp hạng theo mức độ nghiêm trọng và có thể lọc dựa trên độ chắc chắn của lỗ hổng.
+
+4. **Advisory:** Phần Advisory cung cấp thông tin chi tiết hơn về các lỗ hổng đã được xác định, bao gồm tài liệu tham khảo và các biện pháp khắc phục được đề xuất. Thông tin này có thể được xuất ra thành báo cáo. Trong Burp Suite Community, phần này có thể sẽ không hiển thị bất kỳ lỗ hổng nào.
+
+---
+
+Trong suốt các tab và cửa sổ khác nhau của Burp Suite, bạn sẽ thấy các biểu tượng dấu hỏi **(?)**.
+
+Khi nhấp vào các biểu tượng này, một cửa sổ mới sẽ mở ra với thông tin hữu ích liên quan đến phần đó. Những biểu tượng trợ giúp này đặc biệt hữu ích khi bạn cần hỗ trợ hoặc làm rõ một tính năng cụ thể, vì vậy hãy tận dụng chúng một cách hiệu quả.
+
+![](./img/4_Burp_Suite_The_Basics/5.2.webp)
+
+## Câu hỏi
+
+**Trả lời các câu hỏi dưới đây**
+
+**Menu nào cung cấp thông tin về các hành động được thực hiện bởi Burp Suite, chẳng hạn như khởi động proxy, và chi tiết về các kết nối được thực hiện thông qua Burp?**
+
+**Trả lời:** *Event log*
